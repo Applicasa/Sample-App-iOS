@@ -1,0 +1,25 @@
+# Mac Finder artifacts
+.DS_Store
+*.swp
+*.lock
+profile
+
+# Temporary nib files
+*~.nib
+
+# XCode build files
+DerivedData/
+build/
+
+# User settings & such
+*.pbxuser
+*.model1v3
+*.model2v3
+*.perspectivev3
+!default.pbxuser
+!default.model1v3
+!default.model2v3
+xcuserdata
+
+# Workspace
+!xcshareddata
