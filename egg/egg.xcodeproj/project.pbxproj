@@ -83,6 +83,7 @@
 		C4514B2D163F0E4D0004CEA9 /* mainTabFacebookFeatures@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4514AFE163F0E4D0004CEA9 /* mainTabFacebookFeatures@2x.png */; };
 		C4514B2E163F0E4D0004CEA9 /* mainTabFindMyFriends@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4514AFF163F0E4D0004CEA9 /* mainTabFindMyFriends@2x.png */; };
 		C4514B2F163F0E4D0004CEA9 /* mainTabGameFeatures@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4514B00163F0E4D0004CEA9 /* mainTabGameFeatures@2x.png */; };
+		C48D6F15164CF98300BA7EC3 /* LiStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */; };
 		C4F1869A163F5F5A007C1514 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F18699163F5F5A007C1514 /* LoginViewController.m */; };
 		C4F1869D163FA0E7007C1514 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F1869C163FA0E7007C1514 /* StoreViewController.m */; };
 /* End PBXBuildFile section */
@@ -179,6 +180,8 @@
 		C4514AFE163F0E4D0004CEA9 /* mainTabFacebookFeatures@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mainTabFacebookFeatures@2x.png"; sourceTree = "<group>"; };
 		C4514AFF163F0E4D0004CEA9 /* mainTabFindMyFriends@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mainTabFindMyFriends@2x.png"; sourceTree = "<group>"; };
 		C4514B00163F0E4D0004CEA9 /* mainTabGameFeatures@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mainTabGameFeatures@2x.png"; sourceTree = "<group>"; };
+		C48D6F13164CF98300BA7EC3 /* LiStoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiStoreCell.h; sourceTree = "<group>"; };
+		C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiStoreCell.m; sourceTree = "<group>"; };
 		C4F18698163F5F5A007C1514 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C4F18699163F5F5A007C1514 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C4F1869B163FA0E7007C1514 /* StoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreViewController.h; sourceTree = "<group>"; };
@@ -467,6 +470,8 @@
 				C4F18699163F5F5A007C1514 /* LoginViewController.m */,
 				C4F1869B163FA0E7007C1514 /* StoreViewController.h */,
 				C4F1869C163FA0E7007C1514 /* StoreViewController.m */,
+				C48D6F13164CF98300BA7EC3 /* LiStoreCell.h */,
+				C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -605,6 +610,7 @@
 				C416C40E1648FC2F009008BB /* LiUserLocation.m in Sources */,
 				C416C40F1648FC2F009008BB /* User+Facebook.m in Sources */,
 				C416C4101648FC2F009008BB /* User.m in Sources */,
+				C48D6F15164CF98300BA7EC3 /* LiStoreCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
