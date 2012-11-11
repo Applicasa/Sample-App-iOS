@@ -1,7 +1,7 @@
 //
 // User.m
 // Created by Applicasa 
-// 11/8/2012
+// 11/11/2012
 //
 
 #import "User.h"

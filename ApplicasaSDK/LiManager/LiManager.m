@@ -34,6 +34,7 @@
 	[array addObject:[NSDictionary dictionaryWithObject:[VirtualGoodCategory getFields] forKey:[VirtualGoodCategory getClassName]]];
 	[array addObject:[NSDictionary dictionaryWithObject:[VirtualGood getFields] forKey:[VirtualGood getClassName]]];
 
+	[array addObject:[LiKitPromotions getAnalyticsFieldsDictionary]];
 	[array addObject:[LiKitPromotions getProfileSettingsFieldsDictionary]];
 	[array addObject:[LiKitPromotions getPromotionsFieldsDictionary]];
 	[array addObject:[LiKitIAP getIAPActionFieldsDictionary]];

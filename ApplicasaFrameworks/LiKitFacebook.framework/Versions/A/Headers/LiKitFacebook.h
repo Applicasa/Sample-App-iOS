@@ -2,8 +2,8 @@
 //  LiKitFacebook.h
 //  LiCore
 //
-//  Created by Benny Davidovich on 8/13/12.
-//  Copyright (c) 2012 benny@applicasa.com. All rights reserved.
+//  Created by Applicasa
+//  Copyright (c) 2012 LiCore All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
