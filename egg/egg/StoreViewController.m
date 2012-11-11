@@ -12,12 +12,16 @@
 #import "VirtualCurrency.h"
 #import "VirtualGood.h"
 #import "VirtualGoodCategory.h"
+#import "LiStoreCell.h"
 
 @implementation StoreViewController
-@synthesize collectionItems,
+@synthesize coinTotal,
+            collectionItems,
+            cachedImages,
             btnBuyCoins,
             btnMyItems,
-            btnVirtualItems;
+            btnVirtualItems,
+            storeItemView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,8 +35,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.collectionItems = [[NSMutableArray alloc] init];
-    [self.storeItemView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"storeCell"];
+    [self updateCoinTotal];
+    collectionItems = [[NSMutableArray alloc] init];
+    cachedImages = [[NSMutableDictionary alloc] init];
+    storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent@2x.png"]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -41,9 +47,81 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)updateCollectionItems:(NSArray *)newItems {
-    [collectionItems setArray:newItems];
+#pragma mark Helper methods
+- (void)loadImagesForItems {
+    // update collectionItems for storeItemView cells & cache images
+    if ([collectionItems count] != 0) {
+        [collectionItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            if (isDisplayingVirtualGoods) {
+                [self cacheImageWithRemoteURL:[obj virtualGoodImageA]];
+            }
+            else if (isDisplayingVirtualCurrency) {
+                [self cacheImageWithRemoteURL:[obj virtualCurrencyImageA]];
+            }
+            else if (isDisplayingUserInventory) {
+                [self cacheImageWithRemoteURL:[obj virtualGoodImageA]];
+            }
+        }];
+    }
 }
+
+- (void)updateCoinTotal {
+    self.coinTotal.text = [NSString stringWithFormat:@"%d", [IAP getCurrentUserMainBalance]];
+}
+
+- (void)setActiveStoreSection:(id)sender {
+    // set state of storeItemView
+    NSParameterAssert([sender isKindOfClass:[UIButton class]]);
+    if (sender == btnVirtualItems) {
+        isDisplayingVirtualGoods = YES;
+        isDisplayingVirtualCurrency = NO;
+        isDisplayingUserInventory = NO;
+        [btnVirtualItems setSelected:YES];
+        [btnMyItems setSelected:NO];
+        [btnBuyCoins setSelected:NO];
+    }
+    else if (sender == btnBuyCoins) {
+        isDisplayingVirtualGoods = NO;
+        isDisplayingVirtualCurrency = YES;
+        isDisplayingUserInventory = NO;
+        [btnVirtualItems setSelected:NO];
+        [btnMyItems setSelected:NO];
+        [btnBuyCoins setSelected:YES];
+    }
+    else if (sender == btnMyItems) {
+        isDisplayingVirtualGoods = NO;
+        isDisplayingVirtualCurrency = NO;
+        isDisplayingUserInventory = YES;
+        [btnVirtualItems setSelected:NO];
+        [btnMyItems setSelected:YES];
+        [btnBuyCoins setSelected:NO];
+    }
+}
+
+- (void)cacheImageWithRemoteURL:(NSURL*)imageURL {
+    /* 
+        PROBLEM:
+        Loading images directly via URL does not cache by default & scrolling is just awful.
+        This means that every time a reusable cell scrolls out of the collectionview visible area,
+        it is dequeued and re-downloaded the next time the images come into view. This makes for
+        rather abysmal scrolling performance (at least on the iPhone 4).
+        
+        SOLUTION: 
+        Create a custom local cache of the image objects so once they're loaded, scrolling
+        is as smooth as can be.
+    */
+    if (![cachedImages objectForKey:[imageURL absoluteString]]) {
+        // We only want to fetch & cache the image if it does not exist
+        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
+        [cachedImages setObject:image forKey:[imageURL absoluteString]];
+    }
+}
+
+- (UIImage*)getImageWithRemoteURL:(NSURL*)imageURL {
+    // Gets cached image from cachedImages dictionary
+    return [cachedImages objectForKey:[imageURL absoluteString]];
+}
+
 
 #pragma mark IBActions for Delegate
 - (IBAction)goBack:(id)sender {
@@ -54,57 +132,71 @@
 - (IBAction)changeSection:(id)sender {
     NSLog(@"delegate said changeSection. Updating button state...");
     NSParameterAssert([sender isKindOfClass:[UIButton class]]);
+    [self setActiveStoreSection:sender];
     if ([sender isKindOfClass:[UIButton class]]) {
-        NSLog(@"###### INSIDE BUTTON PRESS METHOD, CALLING IAP CLASS #######");
-        if (sender == btnVirtualItems) {
-            // virtual goods
-            [btnVirtualItems setSelected:YES];
-            [btnMyItems setSelected:NO];
-            [btnBuyCoins setSelected:NO];
+        if (isDisplayingVirtualGoods) {
             [IAP getAllVirtualGoodWithType:All WithBlock:^(NSError *error, NSArray *array) {
-                NSLog(@"set collectionItems");
                 [collectionItems setArray:array];
+                [self loadImagesForItems];
             }];
-            NSLog(@"IAP Goods count: %d", [collectionItems count]);
         }
-        else if (sender == btnMyItems) {
-            // user inventory
+        else if (isDisplayingUserInventory) {
             [btnVirtualItems setSelected:NO];
             [btnMyItems setSelected:YES];
             [btnBuyCoins setSelected:NO];
             [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:^(NSError *error, NSArray *array) {
-                NSLog(@"set collectionItems");
                 [collectionItems setArray:array];
+                [self loadImagesForItems];
             }];
-            NSLog(@"IAP Inventory Count: %d", [collectionItems count]);
         }
-        else if (sender == btnBuyCoins) {
-            // virtual currency
+        else if (isDisplayingVirtualCurrency) {
             [btnVirtualItems setSelected:NO];
             [btnMyItems setSelected:NO];
             [btnBuyCoins setSelected:YES];
             [IAP getAllVirtualCurrenciesWithBlock:^(NSError *error, NSArray *array) {
-                NSLog(@"set collectionItems");
-                [self.collectionItems setArray:array];
+                [collectionItems setArray:array];
+                [self loadImagesForItems];
             }];
-            NSLog(@"IAP currency count: %d", [collectionItems count]);
         }
     }
+    [self.delegate storeViewControllerDidChangeSection:self];
 }
 
 #pragma mark UICollectionView datasource methods
 - (NSInteger)collectionView:(UICollectionView *)storeView numberOfItemsInSection:(NSInteger)section {
     // simple count of the collectionItems
+    NSLog(@"Number of items in section: %d", [collectionItems count]);
     return [collectionItems count];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)storeView {
     // this is hard-coded because we have 3 buttons (virtual items, my items, & buy coins)
-    return 3;
+    return 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)storeView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    UICollectionViewCell *cell = [storeView dequeueReusableCellWithReuseIdentifier:@"storeCell" forIndexPath:indexPath];
+    LiStoreCell *cell = [storeView dequeueReusableCellWithReuseIdentifier:@"storeItemCell" forIndexPath:indexPath];
+    if (isDisplayingVirtualGoods) {
+        // Customize cell for displaying virtual goods
+        [cell.btnBuy setTitle:[NSString stringWithFormat:@"%d coins",
+                               [[collectionItems objectAtIndex:indexPath.row] virtualGoodMainCurrency]]
+                     forState:UIControlStateNormal];
+        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualGoodImageA]]];
+    }
+    else if (isDisplayingVirtualCurrency) {
+        // Customize cell for displaying virtual currencies
+        [cell.btnBuy setTitle:[NSString stringWithFormat:@"$%g",
+                               [[collectionItems objectAtIndex:indexPath.row] virtualCurrencyPrice]]
+                     forState:UIControlStateNormal];
+        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualCurrencyImageA]]];
+    }
+    else if (isDisplayingUserInventory) {
+        // Customize cell for displaying virtual goods
+        [cell.btnBuy setTitle:[NSString stringWithFormat:@"%d",
+                               [[collectionItems objectAtIndex:indexPath.row] virtualGoodUserInventory]]
+                     forState:UIControlStateNormal];
+        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualGoodImageA]]];
+    }
     return cell;
 }
 
@@ -119,7 +211,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)storeView layout:(UICollectionViewLayout *)layout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(200, 200);
+    return CGSizeMake(80, 125);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)storeView layout:(UICollectionViewLayout *)layout insetForSectionAtIndex:(NSInteger)section {
