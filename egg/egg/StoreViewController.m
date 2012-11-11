@@ -35,7 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self updateCoinTotal];
+    [self updateBalanceLabel];
     collectionItems = [[NSMutableArray alloc] init];
     cachedImages = [[NSMutableDictionary alloc] init];
     storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent@2x.png"]];
@@ -48,6 +48,42 @@
 }
 
 #pragma mark Helper methods
+- (void)btnBuyTapped:(id)sender {
+    UIButton *buyButton = (UIButton*)sender;
+    if (isDisplayingVirtualGoods) {
+        NSLog(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
+        [IAP buyVirtualGood:[collectionItems objectAtIndex:buyButton.tag] Quantity:1 CurrencyKind:MainCurrency WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+            if (error == nil) {
+                // purchase success
+                [self updateBalanceLabel];
+            }
+            else {
+                NSLog(@"Purchase Error: %@", error);
+            }
+        }];
+    }
+    else if (isDisplayingVirtualCurrency) {
+        NSLog(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
+        [IAP buyVirtualCurrency:[collectionItems objectAtIndex:buyButton.tag] WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+            if (error == nil) {
+                // purchase success
+                [self updateBalanceLabel];
+            }
+            else {
+                NSLog(@"Purchase Error: %@", error);
+            }
+        }];
+    }
+    else if (isDisplayingUserInventory) {
+        [IAP useVirtualGood:[collectionItems objectAtIndex:buyButton.tag] Quantity:1 WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+            if (error == nil) {
+                // used inventory item
+                NSLog(@"Used inventory item: %@", [[collectionItems objectAtIndex:buyButton.tag] virtualGoodTitle]);
+            }
+        }];
+    }
+}
+
 - (void)loadImagesForItems {
     // update collectionItems for storeItemView cells & cache images
     if ([collectionItems count] != 0) {
@@ -65,7 +101,7 @@
     }
 }
 
-- (void)updateCoinTotal {
+- (void)updateBalanceLabel {
     self.coinTotal.text = [NSString stringWithFormat:@"%d", [IAP getCurrentUserMainBalance]];
 }
 
@@ -178,24 +214,30 @@
     LiStoreCell *cell = [storeView dequeueReusableCellWithReuseIdentifier:@"storeItemCell" forIndexPath:indexPath];
     if (isDisplayingVirtualGoods) {
         // Customize cell for displaying virtual goods
+        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualGoodImageA]]];
+        [cell.btnBuy addTarget:self action:@selector(btnBuyTapped:) forControlEvents:UIControlEventTouchUpInside];
+        cell.btnBuy.tag = indexPath.row;
         [cell.btnBuy setTitle:[NSString stringWithFormat:@"%d coins",
                                [[collectionItems objectAtIndex:indexPath.row] virtualGoodMainCurrency]]
                      forState:UIControlStateNormal];
-        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualGoodImageA]]];
     }
     else if (isDisplayingVirtualCurrency) {
         // Customize cell for displaying virtual currencies
+        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualCurrencyImageA]]];
+        [cell.btnBuy addTarget:self action:@selector(btnBuyTapped:) forControlEvents:UIControlEventTouchUpInside];
+        cell.btnBuy.tag = indexPath.row;
         [cell.btnBuy setTitle:[NSString stringWithFormat:@"$%g",
                                [[collectionItems objectAtIndex:indexPath.row] virtualCurrencyPrice]]
                      forState:UIControlStateNormal];
-        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualCurrencyImageA]]];
     }
     else if (isDisplayingUserInventory) {
         // Customize cell for displaying virtual goods
+        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualGoodImageA]]];
+        [cell.btnBuy addTarget:self action:@selector(btnBuyTapped:) forControlEvents:UIControlEventTouchUpInside];
+        cell.btnBuy.tag = indexPath.row;
         [cell.btnBuy setTitle:[NSString stringWithFormat:@"%d",
                                [[collectionItems objectAtIndex:indexPath.row] virtualGoodUserInventory]]
                      forState:UIControlStateNormal];
-        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualGoodImageA]]];
     }
     return cell;
 }

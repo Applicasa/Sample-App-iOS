@@ -44,8 +44,9 @@
 - (IBAction)changeSection:(id)sender;
 
 // other actions
+- (void)btnBuyTapped:(id)sender;
 - (void)loadImagesForItems;
-- (void)updateCoinTotal;
+- (void)updateBalanceLabel;
 - (void)setActiveStoreSection:(id)sender;
 - (void)cacheImageWithRemoteURL:(NSURL*)imageURL;
 - (UIImage*)getImageWithRemoteURL:(NSURL*)imageURL;
