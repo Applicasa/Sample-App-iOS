@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <LiCore/LiCore.h>
+#import <LiKitPromotions/LiKitPromotions.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, LiCoreInitializeDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, LiCoreInitializeDelegate, LiKitPromotionsDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

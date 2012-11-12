@@ -52,6 +52,8 @@
     NSLog(@"We initialized Applicasa ... wahooo");
 };
 
+
+#pragma mark LiCore delegate methods
 - (void)liCoreHasNewUser:(User *)user {
     NSLog(@"New User!!!");
 }
@@ -72,6 +74,16 @@
         NSLog(@"VirtualCurrency item: %@, %@, %d", currentItem.virtualGoodTitle, currentItem.virtualGoodDescription, currentItem.virtualGoodQuantity);
     }
     NSLog(@"#############   END DELEGATE METHOD #############");
+}
+
+#pragma mark LiKitPromotions delegate methods
+- (void)liKitPromotionsHasPromos {
+    NSLog(@"!!! We have promotions !!!");
+    [LiKitPromotions getAllAvailblePromosWithBlock:^(NSError *error, NSArray *array) {
+        if ([array count] > 0) {
+            [(Promotion *)[array objectAtIndex:0] show];
+        }
+    }];
 }
 
 @end
