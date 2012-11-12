@@ -14,7 +14,6 @@
 
 // handles StoreViewController interactions
 - (void) storeViewControllerDidGoBack:(StoreViewController*)controller;
-- (void) storeViewControllerDidChangeSection:(StoreViewController*)controller;
 
 @end
 

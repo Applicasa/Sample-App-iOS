@@ -42,12 +42,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void) storeViewControllerDidChangeSection:(StoreViewController *)controller {
-    // Handle changing StoreViewController sections (for collection view)
-    NSLog(@"doing changeSection action");
-    [controller.storeItemView reloadData];
-}
-
 #pragma mark prepareForSegue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

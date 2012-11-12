@@ -79,6 +79,11 @@
             if (error == nil) {
                 // used inventory item
                 NSLog(@"Used inventory item: %@", [[collectionItems objectAtIndex:buyButton.tag] virtualGoodTitle]);
+                [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:^(NSError *error, NSArray *array) {
+                    [collectionItems setArray:array];
+                    [self loadImagesForItems];
+                }];
+                [self.storeItemView reloadData];
             }
         }];
     }
@@ -195,7 +200,7 @@
             }];
         }
     }
-    [self.delegate storeViewControllerDidChangeSection:self];
+    [self.storeItemView reloadData];
 }
 
 #pragma mark UICollectionView datasource methods
