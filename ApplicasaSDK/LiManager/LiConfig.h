@@ -5,7 +5,14 @@
 // Behaviors keys
 #define kEnable_Push TRUE
 #define kPush_popup_on_start TRUE
+
+// Make Applicasa Debug depend on app DEBUG
+#ifdef DEBUG
 #define kEnable_Applicasa_Debug TRUE
+#else
+#define kEnable_Applicasa_Debug FALSE
+#endif
+
 #define kEnable_Location TRUE
 #define kEnable_Offline TRUE
 #define kSandbox_Environment TRUE
