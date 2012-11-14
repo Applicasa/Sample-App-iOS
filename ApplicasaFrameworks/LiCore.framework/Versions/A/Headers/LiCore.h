@@ -60,24 +60,6 @@
 
 #pragma mark - Caching Methods
 
-/*
- Get the Image from the resources Folder
- Or from the document Folder (cached Images)
- */
-+ (UIImage *) getImageByName:(NSURL *)name;
-/*
- Cache Image From Url to document Folter
- IAP imagesA & Promotions images are cached automatically
- */
-+ (void) cahceURL:(NSURL *)url;
-/*
- Delete cached image from the documents directory
- */
-+ (void) deleteCachedImageByURL:(NSURL *)url;
-
-/*
- Clear all the cached images from the Documents directory
- */
 + (void) deleteAllCachedImages;
 
 

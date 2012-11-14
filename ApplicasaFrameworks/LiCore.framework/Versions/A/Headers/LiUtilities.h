@@ -105,3 +105,15 @@ char *NewBase64Encode(
 
 @end
 
+
+typedef void (^GetCachedImageFinished)(NSError *error, UIImage *image);
+typedef void (^GetCachedDataFinished)(NSError *error, NSData *data);
+
+@interface NSURL (LiCache)
+
+- (void) getCachedImageWithBlock:(GetCachedImageFinished)block;
+- (void) getCachedDataWithBlock:(GetCachedDataFinished)block;
+- (void) cache;
+- (void) deleteCache;
+
+@end

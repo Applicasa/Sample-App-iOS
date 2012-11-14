@@ -106,7 +106,8 @@ typedef enum {
 typedef void (^GetPromotionArrayFinished)(NSError *error, NSArray *array);
 
 typedef enum {
-    UpdatePromotion = 1
+    UpdatePromotion = 1,
+    UpdateSession = 2
 } LiAnalyticsKind;
 
 @protocol LiKitPromotionsDelegate <NSObject>
