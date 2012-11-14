@@ -142,9 +142,8 @@
 - (void)cacheImageWithRemoteURL:(NSURL*)imageURL {
     /* 
         PROBLEM:
-        Loading images directly via URL does not cache by default & scrolling is just awful.
-        This means that every time a reusable cell scrolls out of the collectionview visible area,
-        it is dequeued and re-downloaded the next time the images come into view. This makes for
+        Every time a reusable cell scrolls out of the collectionview visible area, it is
+        dequeued and re-loaded the next time the images come into view. This makes for
         rather abysmal scrolling performance (at least on the iPhone 4).
         
         SOLUTION: 
@@ -153,8 +152,10 @@
     */
     if (![cachedImages objectForKey:[imageURL absoluteString]]) {
         // We only want to fetch & cache the image if it does not exist
-        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
-        [cachedImages setObject:image forKey:[imageURL absoluteString]];
+        [imageURL getCachedImageWithBlock:^(NSError *error, UIImage *image) {
+            // getting cached image from Applicasa & storing in local cache on view controller
+            [cachedImages setObject:image forKey:[imageURL absoluteString]];
+        }];
     }
 }
 
