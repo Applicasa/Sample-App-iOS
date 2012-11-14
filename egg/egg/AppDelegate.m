@@ -14,9 +14,13 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // Override point for customization after application launch.
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    // setup Lumberjack logging
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.58 green:0.77 blue:0.49 alpha:1.0] backgroundColor:nil forFlag:LOG_FLAG_INFO];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:1.00 green:0.85 blue:0.40 alpha:1.0] backgroundColor:nil forFlag:LOG_FLAG_VERBOSE];
     return YES;
 }
 							
@@ -49,36 +53,37 @@
 
 - (void)finishedInitializeLiCoreFrameworkWithUser:(User*)user isFirstLoad:(BOOL)isFirst {
     // LiCoreInitialize
-    NSLog(@"We initialized Applicasa ... wahooo");
+    DDLogInfo(@"We initialized Applicasa ... wahooo");
 };
 
 
 #pragma mark LiCore delegate methods
 - (void)liCoreHasNewUser:(User *)user {
-    NSLog(@"New User!!!");
+    DDLogVerbose(@"New User!!!");
 }
 
 - (void)finishedIntializedLiKitIAPWithVirtualCurrencies:(NSArray *)virtualCurrencies VirtualGoods:(NSArray *)virtualGoods {
-    NSLog(@"############  FROM DELEGATE METHOD ##############");
-    
-    NSLog(@"#### VirtualCurrency count: %d ####", virtualCurrencies.count);
+#ifdef DEBUG
+    DDLogInfo(@"############  FROM DELEGATE METHOD ##############");
+    DDLogVerbose(@"#### VirtualCurrency count: %d ####", virtualCurrencies.count);
     for (VirtualCurrency *currentItem in virtualCurrencies) {
         // log out virtual currency
-        NSLog(@"VirtualCurrency item: %@, %f@, %d", currentItem.virtualCurrencyTitle, currentItem.virtualCurrencyPrice, currentItem.virtualCurrencyCredit);
+        DDLogVerbose(@"VirtualCurrency item: %@, %f@, %d", currentItem.virtualCurrencyTitle, currentItem.virtualCurrencyPrice, currentItem.virtualCurrencyCredit);
     }
     
     
-    NSLog(@"#### VirtualGoods count: %d ####", virtualGoods.count);
+    DDLogInfo(@"#### VirtualGoods count: %d ####", virtualGoods.count);
     for (VirtualGood *currentItem in virtualGoods) {
         // log out virtual goods
-        NSLog(@"VirtualCurrency item: %@, %@, %d", currentItem.virtualGoodTitle, currentItem.virtualGoodDescription, currentItem.virtualGoodQuantity);
+        DDLogVerbose(@"VirtualCurrency item: %@, %@, %d", currentItem.virtualGoodTitle, currentItem.virtualGoodDescription, currentItem.virtualGoodQuantity);
     }
-    NSLog(@"#############   END DELEGATE METHOD #############");
+    DDLogInfo(@"#############   END DELEGATE METHOD #############");
+#endif
 }
 
 #pragma mark LiKitPromotions delegate methods
 - (void)liKitPromotionsHasPromos {
-    NSLog(@"!!! We have promotions !!!");
+    DDLogInfo(@"!!! We have promotions !!!");
     [LiKitPromotions getAllAvailblePromosWithBlock:^(NSError *error, NSArray *array) {
         if ([array count] > 0) {
             [(Promotion *)[array objectAtIndex:0] show];

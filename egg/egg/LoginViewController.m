@@ -26,7 +26,7 @@
 }
 
 - (void)viewDidLoad {
-    NSLog(@"login view did load");
+    DDLogInfo(@"login view did load");
     [super viewDidLoad];
 }
 
@@ -38,12 +38,12 @@
 
 #pragma mark IBActions for Delegate
 - (IBAction)cancel:(id)sender {
-    NSLog(@"delegate said cancel. Dismissing...");
+    DDLogInfo(@"delegate said cancel. Dismissing...");
     [self.delegate loginViewControllerDidCancel:self];
 }
 
 - (IBAction)loggedIn:(id)sender {
-    NSLog(@"delegate said loggedIn. Dismissing...");
+    DDLogInfo(@"delegate said loggedIn. Dismissing...");
     [self.delegate loginViewControllerDidLogin:self];
 }
 

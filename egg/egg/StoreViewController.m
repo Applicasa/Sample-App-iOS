@@ -51,26 +51,28 @@
 - (void)btnBuyTapped:(id)sender {
     UIButton *buyButton = (UIButton*)sender;
     if (isDisplayingVirtualGoods) {
-        NSLog(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
+        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
         [IAP buyVirtualGood:[collectionItems objectAtIndex:buyButton.tag] Quantity:1 CurrencyKind:MainCurrency WithBlock:^(NSError *error, NSString *itemID, Actions action) {
             if (error == nil) {
                 // purchase success
                 [self updateBalanceLabel];
             }
             else {
-                NSLog(@"Purchase Error: %@", error);
+                // purchased failed
+                DDLogError(@"Purchase Error: %@", error);
             }
         }];
     }
     else if (isDisplayingVirtualCurrency) {
-        NSLog(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
+        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
         [IAP buyVirtualCurrency:[collectionItems objectAtIndex:buyButton.tag] WithBlock:^(NSError *error, NSString *itemID, Actions action) {
             if (error == nil) {
                 // purchase success
                 [self updateBalanceLabel];
             }
             else {
-                NSLog(@"Purchase Error: %@", error);
+                // purchase failed
+                DDLogError(@"Purchase Error: %@", error);
             }
         }];
     }
@@ -78,12 +80,16 @@
         [IAP useVirtualGood:[collectionItems objectAtIndex:buyButton.tag] Quantity:1 WithBlock:^(NSError *error, NSString *itemID, Actions action) {
             if (error == nil) {
                 // used inventory item
-                NSLog(@"Used inventory item: %@", [[collectionItems objectAtIndex:buyButton.tag] virtualGoodTitle]);
+                DDLogVerbose(@"Used inventory item: %@", [collectionItems objectAtIndex:buyButton.tag]);
                 [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:^(NSError *error, NSArray *array) {
                     [collectionItems setArray:array];
                     [self loadImagesForItems];
                 }];
                 [self.storeItemView reloadData];
+            }
+            else {
+                // use failed
+                DDLogError(@"Purchase Error: %@", error);
             }
         }];
     }
@@ -167,12 +173,12 @@
 
 #pragma mark IBActions for Delegate
 - (IBAction)goBack:(id)sender {
-    NSLog(@"delegate said goBack. Dismissing...");
+    DDLogInfo(@"delegate said goBack. Dismissing...");
     [self.delegate storeViewControllerDidGoBack:self];
 }
 
 - (IBAction)changeSection:(id)sender {
-    NSLog(@"delegate said changeSection. Updating button state...");
+    DDLogInfo(@"delegate said changeSection. Updating button state...");
     NSParameterAssert([sender isKindOfClass:[UIButton class]]);
     [self setActiveStoreSection:sender];
     if ([sender isKindOfClass:[UIButton class]]) {
@@ -207,7 +213,7 @@
 #pragma mark UICollectionView datasource methods
 - (NSInteger)collectionView:(UICollectionView *)storeView numberOfItemsInSection:(NSInteger)section {
     // simple count of the collectionItems
-    NSLog(@"Number of items in section: %d", [collectionItems count]);
+    DDLogVerbose(@"Number of items in section: %d", [collectionItems count]);
     return [collectionItems count];
 }
 
