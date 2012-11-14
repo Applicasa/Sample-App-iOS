@@ -85,6 +85,13 @@
 		C4514B2F163F0E4D0004CEA9 /* mainTabGameFeatures@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4514B00163F0E4D0004CEA9 /* mainTabGameFeatures@2x.png */; };
 		C463C722165107B9003CAA31 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C463C720165107B9003CAA31 /* Icon.png */; };
 		C463C723165107B9003CAA31 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C463C721165107B9003CAA31 /* Icon@2x.png */; };
+		C489A0D6165348540003DF91 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C489A0C8165348540003DF91 /* DDASLLogger.m */; };
+		C489A0D7165348540003DF91 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C489A0CA165348540003DF91 /* DDFileLogger.m */; };
+		C489A0D8165348540003DF91 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = C489A0CC165348540003DF91 /* DDLog.m */; };
+		C489A0D9165348540003DF91 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C489A0CE165348540003DF91 /* DDTTYLogger.m */; };
+		C489A0DA165348540003DF91 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = C489A0D1165348540003DF91 /* ContextFilterLogFormatter.m */; };
+		C489A0DB165348540003DF91 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = C489A0D3165348540003DF91 /* DispatchQueueLogFormatter.m */; };
+		C489A0DC165348540003DF91 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = C489A0D4165348540003DF91 /* README.txt */; };
 		C48D6F15164CF98300BA7EC3 /* LiStoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */; };
 		C4F1869A163F5F5A007C1514 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F18699163F5F5A007C1514 /* LoginViewController.m */; };
 		C4F1869D163FA0E7007C1514 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F1869C163FA0E7007C1514 /* StoreViewController.m */; };
@@ -184,6 +191,19 @@
 		C4514B00163F0E4D0004CEA9 /* mainTabGameFeatures@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mainTabGameFeatures@2x.png"; sourceTree = "<group>"; };
 		C463C720165107B9003CAA31 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		C463C721165107B9003CAA31 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		C489A0C7165348540003DF91 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
+		C489A0C8165348540003DF91 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
+		C489A0C9165348540003DF91 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
+		C489A0CA165348540003DF91 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
+		C489A0CB165348540003DF91 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
+		C489A0CC165348540003DF91 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
+		C489A0CD165348540003DF91 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
+		C489A0CE165348540003DF91 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
+		C489A0D0165348540003DF91 /* ContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContextFilterLogFormatter.h; sourceTree = "<group>"; };
+		C489A0D1165348540003DF91 /* ContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContextFilterLogFormatter.m; sourceTree = "<group>"; };
+		C489A0D2165348540003DF91 /* DispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchQueueLogFormatter.h; sourceTree = "<group>"; };
+		C489A0D3165348540003DF91 /* DispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchQueueLogFormatter.m; sourceTree = "<group>"; };
+		C489A0D4165348540003DF91 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		C48D6F13164CF98300BA7EC3 /* LiStoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiStoreCell.h; sourceTree = "<group>"; };
 		C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiStoreCell.m; sourceTree = "<group>"; };
 		C4F18698163F5F5A007C1514 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
@@ -464,9 +484,39 @@
 			path = main;
 			sourceTree = "<group>";
 		};
+		C489A0C4165348540003DF91 /* Lumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				C489A0C7165348540003DF91 /* DDASLLogger.h */,
+				C489A0C8165348540003DF91 /* DDASLLogger.m */,
+				C489A0C9165348540003DF91 /* DDFileLogger.h */,
+				C489A0CA165348540003DF91 /* DDFileLogger.m */,
+				C489A0CB165348540003DF91 /* DDLog.h */,
+				C489A0CC165348540003DF91 /* DDLog.m */,
+				C489A0CD165348540003DF91 /* DDTTYLogger.h */,
+				C489A0CE165348540003DF91 /* DDTTYLogger.m */,
+				C489A0CF165348540003DF91 /* Extensions */,
+			);
+			name = Lumberjack;
+			path = ../../Lumberjack;
+			sourceTree = "<group>";
+		};
+		C489A0CF165348540003DF91 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				C489A0D0165348540003DF91 /* ContextFilterLogFormatter.h */,
+				C489A0D1165348540003DF91 /* ContextFilterLogFormatter.m */,
+				C489A0D2165348540003DF91 /* DispatchQueueLogFormatter.h */,
+				C489A0D3165348540003DF91 /* DispatchQueueLogFormatter.m */,
+				C489A0D4165348540003DF91 /* README.txt */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		C4F18695163F5ED3007C1514 /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				C489A0C4165348540003DF91 /* Lumberjack */,
 				C416C3F01648FC2F009008BB /* ApplicasaSDK */,
 				C4514AB6163F09B20004CEA9 /* AppDelegate.h */,
 				C4514AB7163F09B20004CEA9 /* AppDelegate.m */,
@@ -595,6 +645,7 @@
 				C4514B2F163F0E4D0004CEA9 /* mainTabGameFeatures@2x.png in Resources */,
 				C463C722165107B9003CAA31 /* Icon.png in Resources */,
 				C463C723165107B9003CAA31 /* Icon@2x.png in Resources */,
+				C489A0DC165348540003DF91 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,6 +670,12 @@
 				C416C40F1648FC2F009008BB /* User+Facebook.m in Sources */,
 				C416C4101648FC2F009008BB /* User.m in Sources */,
 				C48D6F15164CF98300BA7EC3 /* LiStoreCell.m in Sources */,
+				C489A0D6165348540003DF91 /* DDASLLogger.m in Sources */,
+				C489A0D7165348540003DF91 /* DDFileLogger.m in Sources */,
+				C489A0D8165348540003DF91 /* DDLog.m in Sources */,
+				C489A0D9165348540003DF91 /* DDTTYLogger.m in Sources */,
+				C489A0DA165348540003DF91 /* ContextFilterLogFormatter.m in Sources */,
+				C489A0DB165348540003DF91 /* DispatchQueueLogFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,7 +768,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "38BF4017-ADAD-4B32-988C-DD1B4E22419C";
+				PROVISIONING_PROFILE = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -733,7 +790,7 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "38BF4017-ADAD-4B32-988C-DD1B4E22419C";
+				PROVISIONING_PROFILE = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
