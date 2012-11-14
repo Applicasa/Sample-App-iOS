@@ -7,14 +7,19 @@
 //
 
 #import "LiStoreCell.h"
+#import "LiStoreCellBackground.h"
 
 @implementation LiStoreCell
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
     if (self) {
-        // Initialization code
+        // set the custom selectedBackgroundView using LiStoreCellBackground
+        [self setBackgroundColor:[UIColor clearColor]];
+        [self.itemImage setBackgroundColor:[UIColor clearColor]];
+        LiStoreCellBackground *bgView = [[LiStoreCellBackground alloc] initWithFrame:CGRectZero];
+        [bgView setBackgroundColor:[UIColor clearColor]];
+        self.selectedBackgroundView = bgView;
     }
     return self;
 }
