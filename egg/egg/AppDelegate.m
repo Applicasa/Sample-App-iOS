@@ -65,7 +65,7 @@
 - (void)finishedIntializedLiKitIAPWithVirtualCurrencies:(NSArray *)virtualCurrencies VirtualGoods:(NSArray *)virtualGoods {
 #ifdef DEBUG
     DDLogInfo(@"############  FROM DELEGATE METHOD ##############");
-    DDLogVerbose(@"#### VirtualCurrency count: %d ####", virtualCurrencies.count);
+    DDLogInfo(@"#### VirtualCurrency count: %d ####", virtualCurrencies.count);
     for (VirtualCurrency *currentItem in virtualCurrencies) {
         // log out virtual currency
         DDLogVerbose(@"VirtualCurrency item: %@, %f@, %d", currentItem.virtualCurrencyTitle, currentItem.virtualCurrencyPrice, currentItem.virtualCurrencyCredit);
@@ -75,7 +75,7 @@
     DDLogInfo(@"#### VirtualGoods count: %d ####", virtualGoods.count);
     for (VirtualGood *currentItem in virtualGoods) {
         // log out virtual goods
-        DDLogVerbose(@"VirtualCurrency item: %@, %@, %d", currentItem.virtualGoodTitle, currentItem.virtualGoodDescription, currentItem.virtualGoodQuantity);
+        DDLogVerbose(@"VirtualGood item: %@, %@, %d", currentItem.virtualGoodTitle, currentItem.virtualGoodDescription, currentItem.virtualGoodQuantity);
     }
     DDLogInfo(@"#############   END DELEGATE METHOD #############");
 #endif
