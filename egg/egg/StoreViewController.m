@@ -39,6 +39,9 @@
     collectionItems = [[NSMutableArray alloc] init];
     cachedImages = [[NSMutableDictionary alloc] init];
     storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent@2x.png"]];
+    [self activateVirtualGoodsDisplay];
+    [self updateStoreItemViewData];
+    [self.storeItemView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,49 +51,24 @@
 }
 
 #pragma mark Helper methods
-- (void)btnBuyTapped:(id)sender {
-    UIButton *buyButton = (UIButton*)sender;
+- (void)updateStoreItemViewData {
+    // Checks for active store section & loads data & images for collection view
     if (isDisplayingVirtualGoods) {
-        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
-        [IAP buyVirtualGood:[collectionItems objectAtIndex:buyButton.tag] Quantity:1 CurrencyKind:MainCurrency WithBlock:^(NSError *error, NSString *itemID, Actions action) {
-            if (error == nil) {
-                // purchase success
-                [self updateBalanceLabel];
-            }
-            else {
-                // purchased failed
-                DDLogError(@"Purchase Error: %@", error);
-            }
-        }];
-    }
-    else if (isDisplayingVirtualCurrency) {
-        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
-        [IAP buyVirtualCurrency:[collectionItems objectAtIndex:buyButton.tag] WithBlock:^(NSError *error, NSString *itemID, Actions action) {
-            if (error == nil) {
-                // purchase success
-                [self updateBalanceLabel];
-            }
-            else {
-                // purchase failed
-                DDLogError(@"Purchase Error: %@", error);
-            }
+        [IAP getAllVirtualGoodWithType:All WithBlock:^(NSError *error, NSArray *array) {
+            [collectionItems setArray:array];
+            [self loadImagesForItems];
         }];
     }
     else if (isDisplayingUserInventory) {
-        [IAP useVirtualGood:[collectionItems objectAtIndex:buyButton.tag] Quantity:1 WithBlock:^(NSError *error, NSString *itemID, Actions action) {
-            if (error == nil) {
-                // used inventory item
-                DDLogVerbose(@"Used inventory item: %@", [collectionItems objectAtIndex:buyButton.tag]);
-                [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:^(NSError *error, NSArray *array) {
-                    [collectionItems setArray:array];
-                    [self loadImagesForItems];
-                }];
-                [self.storeItemView reloadData];
-            }
-            else {
-                // use failed
-                DDLogError(@"Purchase Error: %@", error);
-            }
+        [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:^(NSError *error, NSArray *array) {
+            [collectionItems setArray:array];
+            [self loadImagesForItems];
+        }];
+    }
+    else if (isDisplayingVirtualCurrency) {
+        [IAP getAllVirtualCurrenciesWithBlock:^(NSError *error, NSArray *array) {
+            [collectionItems setArray:array];
+            [self loadImagesForItems];
         }];
     }
 }
@@ -113,38 +91,107 @@
 }
 
 - (void)updateBalanceLabel {
+    // updates User's balance displayed in the top-right corner of the the view
     self.coinTotal.text = [NSString stringWithFormat:@"%d", [IAP getCurrentUserMainBalance]];
+}
+
+#pragma mark Give/Buy/Use methods
+- (void)buyVirtualGood:(id)obj {
+    // generic helper for buying virtual items
+    [IAP buyVirtualGood:obj Quantity:1 CurrencyKind:MainCurrency WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+        if (error == nil) {
+            // purchase success
+            DDLogWarn(@"Bought item: %@", [obj virtualGoodTitle]);
+            [self updateBalanceLabel];
+        }
+        else {
+            // purchased failed
+            DDLogError(@"Purchase Error: %@", error);
+        }
+    }];
+}
+
+- (void)buyVirtualCurrency:(id)obj {
+    // generic helper for buying currency
+    [IAP buyVirtualCurrency:obj WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+        if (error == nil) {
+            // purchase success
+            DDLogWarn(@"Bought item: %@; added %d to User's balance", [obj virtualCurrencyTitle], [obj virtualCurrencyCredit]);
+            [self updateBalanceLabel];
+        }
+        else {
+            // purchase failed
+            DDLogError(@"Purchase Error: %@", error);
+        }
+    }];
+}
+
+- (void)useInventoryItem:(id)obj {
+    // generic helper for using inventory
+    [IAP useVirtualGood:obj Quantity:1 WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+        if (error == nil) {
+            // used inventory item
+            DDLogVerbose(@"Used inventory item: %@", [obj virtualGoodTitle]);
+            [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:^(NSError *error, NSArray *array) {
+                [collectionItems setArray:array];
+                [self loadImagesForItems];
+            }];
+            [self.storeItemView reloadData];
+        }
+        else {
+            // use failed
+            DDLogError(@"Inventory Error: %@", error);
+        }
+    }];
+}
+
+
+
+#pragma mark UI state-handling methods
+- (void)activateVirtualGoodsDisplay {
+    // sets UI for displaying virtual goods
+    isDisplayingVirtualGoods = YES;
+    isDisplayingVirtualCurrency = NO;
+    isDisplayingUserInventory = NO;
+    [btnVirtualItems setSelected:YES];
+    [btnMyItems setSelected:NO];
+    [btnBuyCoins setSelected:NO];
+}
+
+- (void)activateVirtualCurrencyDisplay {
+    // sets UI for displaying virtual currency
+    isDisplayingVirtualGoods = NO;
+    isDisplayingVirtualCurrency = YES;
+    isDisplayingUserInventory = NO;
+    [btnVirtualItems setSelected:NO];
+    [btnMyItems setSelected:NO];
+    [btnBuyCoins setSelected:YES];
+}
+
+- (void)activateUserInventoryDisplay {
+    // sets UI for displaying inventory
+    isDisplayingVirtualGoods = NO;
+    isDisplayingVirtualCurrency = NO;
+    isDisplayingUserInventory = YES;
+    [btnVirtualItems setSelected:NO];
+    [btnMyItems setSelected:YES];
+    [btnBuyCoins setSelected:NO];
 }
 
 - (void)setActiveStoreSection:(id)sender {
     // set state of storeItemView
-    NSParameterAssert([sender isKindOfClass:[UIButton class]]);
     if (sender == btnVirtualItems) {
-        isDisplayingVirtualGoods = YES;
-        isDisplayingVirtualCurrency = NO;
-        isDisplayingUserInventory = NO;
-        [btnVirtualItems setSelected:YES];
-        [btnMyItems setSelected:NO];
-        [btnBuyCoins setSelected:NO];
+        [self activateVirtualGoodsDisplay];
     }
     else if (sender == btnBuyCoins) {
-        isDisplayingVirtualGoods = NO;
-        isDisplayingVirtualCurrency = YES;
-        isDisplayingUserInventory = NO;
-        [btnVirtualItems setSelected:NO];
-        [btnMyItems setSelected:NO];
-        [btnBuyCoins setSelected:YES];
+        [self activateVirtualCurrencyDisplay];
     }
     else if (sender == btnMyItems) {
-        isDisplayingVirtualGoods = NO;
-        isDisplayingVirtualCurrency = NO;
-        isDisplayingUserInventory = YES;
-        [btnVirtualItems setSelected:NO];
-        [btnMyItems setSelected:YES];
-        [btnBuyCoins setSelected:NO];
+        [self activateUserInventoryDisplay];
     }
 }
 
+#pragma mark Image-handling methods
 - (void)cacheImageWithRemoteURL:(NSURL*)imageURL {
     /* 
         PROBLEM:
@@ -155,6 +202,10 @@
         SOLUTION: 
         Create a custom local cache of the image objects so once they're loaded, scrolling
         is as smooth as can be.
+     
+        NOTE:
+        This isn't necessarily a recommended practice. It's only used to make things smoother
+        in the sample app. Your needs will likely vary.
     */
     if (![cachedImages objectForKey:[imageURL absoluteString]]) {
         // We only want to fetch & cache the image if it does not exist
@@ -171,41 +222,37 @@
 }
 
 
-#pragma mark IBActions for Delegate
+#pragma mark Button Action methods
+- (void)btnBuyTapped:(id)sender {
+    // Responds to blue button tap to buy/use item
+    UIButton *buyButton = (UIButton*)sender;
+    if (isDisplayingVirtualGoods) {
+        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
+        [self buyVirtualGood:[collectionItems objectAtIndex:buyButton.tag]];
+    }
+    else if (isDisplayingVirtualCurrency) {
+        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
+        [self buyVirtualCurrency:[collectionItems objectAtIndex:buyButton.tag]];
+    }
+    else if (isDisplayingUserInventory) {
+        [self useInventoryItem:[collectionItems objectAtIndex:buyButton.tag]];
+    }
+}
+
 - (IBAction)goBack:(id)sender {
-    DDLogInfo(@"delegate said goBack. Dismissing...");
+    // Responds to back arrow button tap
+    DDLogInfo(@"User said goBack. Dismissing...");
     [self.delegate storeViewControllerDidGoBack:self];
 }
 
 - (IBAction)changeSection:(id)sender {
-    DDLogInfo(@"delegate said changeSection. Updating button state...");
+    // Responds to bottom-row button taps (items, inventory, & coins)
+    // Sets active store section, fetches section data, and reloads
+    DDLogInfo(@"User changed section. Updating store state & data...");
     NSParameterAssert([sender isKindOfClass:[UIButton class]]);
     [self setActiveStoreSection:sender];
     if ([sender isKindOfClass:[UIButton class]]) {
-        if (isDisplayingVirtualGoods) {
-            [IAP getAllVirtualGoodWithType:All WithBlock:^(NSError *error, NSArray *array) {
-                [collectionItems setArray:array];
-                [self loadImagesForItems];
-            }];
-        }
-        else if (isDisplayingUserInventory) {
-            [btnVirtualItems setSelected:NO];
-            [btnMyItems setSelected:YES];
-            [btnBuyCoins setSelected:NO];
-            [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:^(NSError *error, NSArray *array) {
-                [collectionItems setArray:array];
-                [self loadImagesForItems];
-            }];
-        }
-        else if (isDisplayingVirtualCurrency) {
-            [btnVirtualItems setSelected:NO];
-            [btnMyItems setSelected:NO];
-            [btnBuyCoins setSelected:YES];
-            [IAP getAllVirtualCurrenciesWithBlock:^(NSError *error, NSArray *array) {
-                [collectionItems setArray:array];
-                [self loadImagesForItems];
-            }];
-        }
+        [self updateStoreItemViewData];
     }
     [self.storeItemView reloadData];
 }
@@ -257,11 +304,25 @@
 #pragma mark UICollectionView delegate methods
 - (void)collectionView:(UICollectionView *)storeView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // Select the item & respond
-    
+    DDLogInfo(@"Selected storeViewCell");
+    if (isDisplayingVirtualGoods) {
+        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:indexPath.row]);
+        [self buyVirtualGood:[collectionItems objectAtIndex:indexPath.row]];
+    }
+    else if (isDisplayingVirtualCurrency) {
+        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:indexPath.row]);
+        [self buyVirtualCurrency:[collectionItems objectAtIndex:indexPath.row]];
+    }
+    else if (isDisplayingUserInventory) {
+        DDLogVerbose(@"using item: %@", [collectionItems objectAtIndex:indexPath.row]);
+        [self useInventoryItem:[collectionItems objectAtIndex:indexPath.row]];
+    }
+    [self.storeItemView deselectItemAtIndexPath:indexPath animated:YES];
 }
 
 - (void)collectionView:(UICollectionView *)storeView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     // Deselect the item (might not need this for our purposes)
+    DDLogInfo(@"Deselected storeViewCell");
 }
 
 - (CGSize)collectionView:(UICollectionView *)storeView layout:(UICollectionViewLayout *)layout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
