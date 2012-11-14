@@ -25,6 +25,7 @@
 		C416C40E1648FC2F009008BB /* LiUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C416C4031648FC2F009008BB /* LiUserLocation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C416C40F1648FC2F009008BB /* User+Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = C416C4061648FC2F009008BB /* User+Facebook.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C416C4101648FC2F009008BB /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C416C4081648FC2F009008BB /* User.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C438973D1653FF1A0064BF43 /* LiStoreCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = C438973C1653FF1A0064BF43 /* LiStoreCellBackground.m */; };
 		C4514AA8163F09B20004CEA9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4514AA7163F09B20004CEA9 /* UIKit.framework */; };
 		C4514AAA163F09B20004CEA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4514AA9163F09B20004CEA9 /* Foundation.framework */; };
 		C4514AAC163F09B20004CEA9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4514AAB163F09B20004CEA9 /* CoreGraphics.framework */; };
@@ -126,6 +127,8 @@
 		C416C4061648FC2F009008BB /* User+Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+Facebook.m"; sourceTree = "<group>"; };
 		C416C4071648FC2F009008BB /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		C416C4081648FC2F009008BB /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		C438973B1653FF1A0064BF43 /* LiStoreCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiStoreCellBackground.h; sourceTree = "<group>"; };
+		C438973C1653FF1A0064BF43 /* LiStoreCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiStoreCellBackground.m; sourceTree = "<group>"; };
 		C4514AA3163F09B20004CEA9 /* egg.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = egg.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4514AA7163F09B20004CEA9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C4514AA9163F09B20004CEA9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -308,6 +311,25 @@
 				C416C4081648FC2F009008BB /* User.m */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		C438973E1653FF270064BF43 /* Egg Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C4514AB6163F09B20004CEA9 /* AppDelegate.h */,
+				C4514AB7163F09B20004CEA9 /* AppDelegate.m */,
+				C4514AC2163F09B20004CEA9 /* ViewController.h */,
+				C4514AC3163F09B20004CEA9 /* ViewController.m */,
+				C4F18698163F5F5A007C1514 /* LoginViewController.h */,
+				C4F18699163F5F5A007C1514 /* LoginViewController.m */,
+				C4F1869B163FA0E7007C1514 /* StoreViewController.h */,
+				C4F1869C163FA0E7007C1514 /* StoreViewController.m */,
+				C48D6F13164CF98300BA7EC3 /* LiStoreCell.h */,
+				C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */,
+				C438973B1653FF1A0064BF43 /* LiStoreCellBackground.h */,
+				C438973C1653FF1A0064BF43 /* LiStoreCellBackground.m */,
+			);
+			name = "Egg Classes";
 			sourceTree = "<group>";
 		};
 		C4514A98163F09B20004CEA9 = {
@@ -518,16 +540,7 @@
 			children = (
 				C489A0C4165348540003DF91 /* Lumberjack */,
 				C416C3F01648FC2F009008BB /* ApplicasaSDK */,
-				C4514AB6163F09B20004CEA9 /* AppDelegate.h */,
-				C4514AB7163F09B20004CEA9 /* AppDelegate.m */,
-				C4514AC2163F09B20004CEA9 /* ViewController.h */,
-				C4514AC3163F09B20004CEA9 /* ViewController.m */,
-				C4F18698163F5F5A007C1514 /* LoginViewController.h */,
-				C4F18699163F5F5A007C1514 /* LoginViewController.m */,
-				C4F1869B163FA0E7007C1514 /* StoreViewController.h */,
-				C4F1869C163FA0E7007C1514 /* StoreViewController.m */,
-				C48D6F13164CF98300BA7EC3 /* LiStoreCell.h */,
-				C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */,
+				C438973E1653FF270064BF43 /* Egg Classes */,
 			);
 			name = classes;
 			sourceTree = "<group>";
@@ -676,6 +689,7 @@
 				C489A0D9165348540003DF91 /* DDTTYLogger.m in Sources */,
 				C489A0DA165348540003DF91 /* ContextFilterLogFormatter.m in Sources */,
 				C489A0DB165348540003DF91 /* DispatchQueueLogFormatter.m in Sources */,
+				C438973D1653FF1A0064BF43 /* LiStoreCellBackground.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
