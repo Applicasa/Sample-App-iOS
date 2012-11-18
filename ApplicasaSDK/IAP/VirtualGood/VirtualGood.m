@@ -1,7 +1,7 @@
 //
 // VirtualGood.m
 // Created by Applicasa 
-// 11/11/2012
+// 11/18/2012
 //
 
 #import "VirtualGood.h"
@@ -690,7 +690,8 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
     } else{
         if (filter.field){
             LiFields field = [filter.field intValue];
-            filter.field = [VirtualGood getFieldName:field];
+			if (field)
+				filter.field = [VirtualGood getFieldName:field];
         }
         return filter;
     }    

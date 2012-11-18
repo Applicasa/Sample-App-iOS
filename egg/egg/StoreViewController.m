@@ -17,7 +17,6 @@
 @implementation StoreViewController
 @synthesize coinTotal,
             collectionItems,
-            cachedImages,
             btnBuyCoins,
             btnMyItems,
             btnVirtualItems,
@@ -39,9 +38,8 @@
     collectionItems = [[NSMutableArray alloc] init];
     cachedImages = [[NSMutableDictionary alloc] init];
     storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent@2x.png"]];
-    [self activateVirtualGoodsDisplay];
-    [self updateStoreItemViewData];
-    [self.storeItemView reloadData];
+    
+    [self setActiveStoreSection:btnVirtualItems];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,44 +50,20 @@
 
 #pragma mark Helper methods
 - (void)updateStoreItemViewData {
+    GetVirtualCurrencyArrayFinished block = ^(NSError *error, NSArray *array) {
+        [collectionItems setArray:array];
+        [self.storeItemView reloadData];
+    };
+    
     // Checks for active store section & loads data & images for collection view
     if (isDisplayingVirtualGoods) {
-        [IAP getAllVirtualGoodWithType:All WithBlock:^(NSError *error, NSArray *array) {
-            [collectionItems setArray:array];
-            [self loadImagesForItems];
-        }];
-    }
-    else if (isDisplayingUserInventory) {
-        [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:^(NSError *error, NSArray *array) {
-            [collectionItems setArray:array];
-            [self loadImagesForItems];
-        }];
-    }
-    else if (isDisplayingVirtualCurrency) {
-        [IAP getAllVirtualCurrenciesWithBlock:^(NSError *error, NSArray *array) {
-            [collectionItems setArray:array];
-            [self loadImagesForItems];
-        }];
+        [IAP getAllVirtualGoodWithType:All WithBlock:block];
+    } else if (isDisplayingUserInventory) {
+        [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:block];
+    } else if (isDisplayingVirtualCurrency) {
+        [IAP getAllVirtualCurrenciesWithBlock:block];
     }
 }
-
-- (void)loadImagesForItems {
-    // update collectionItems for storeItemView cells & cache images
-    if ([collectionItems count] != 0) {
-        [collectionItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            if (isDisplayingVirtualGoods) {
-                [self cacheImageWithRemoteURL:[obj virtualGoodImageA]];
-            }
-            else if (isDisplayingVirtualCurrency) {
-                [self cacheImageWithRemoteURL:[obj virtualCurrencyImageA]];
-            }
-            else if (isDisplayingUserInventory) {
-                [self cacheImageWithRemoteURL:[obj virtualGoodImageA]];
-            }
-        }];
-    }
-}
-
 - (void)updateBalanceLabel {
     // updates User's balance displayed in the top-right corner of the the view
     self.coinTotal.text = [NSString stringWithFormat:@"%d", [IAP getCurrentUserMainBalance]];
@@ -132,11 +106,7 @@
         if (error == nil) {
             // used inventory item
             DDLogVerbose(@"Used inventory item: %@", [obj virtualGoodTitle]);
-            [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:^(NSError *error, NSArray *array) {
-                [collectionItems setArray:array];
-                [self loadImagesForItems];
-            }];
-            [self.storeItemView reloadData];
+            [self setActiveStoreSection:btnMyItems];
         }
         else {
             // use failed
@@ -189,38 +159,9 @@
     else if (sender == btnMyItems) {
         [self activateUserInventoryDisplay];
     }
+    
+    [self updateStoreItemViewData];
 }
-
-#pragma mark Image-handling methods
-- (void)cacheImageWithRemoteURL:(NSURL*)imageURL {
-    /* 
-        PROBLEM:
-        Every time a reusable cell scrolls out of the collectionview visible area, it is
-        dequeued and re-loaded the next time the images come into view. This makes for
-        rather abysmal scrolling performance (at least on the iPhone 4).
-        
-        SOLUTION: 
-        Create a custom local cache of the image objects so once they're loaded, scrolling
-        is as smooth as can be.
-     
-        NOTE:
-        This isn't necessarily a recommended practice. It's only used to make things smoother
-        in the sample app. Your needs will likely vary.
-    */
-    if (![cachedImages objectForKey:[imageURL absoluteString]]) {
-        // We only want to fetch & cache the image if it does not exist
-        [imageURL getCachedImageWithBlock:^(NSError *error, UIImage *image) {
-            // getting cached image from Applicasa & storing in local cache on view controller
-            [cachedImages setObject:image forKey:[imageURL absoluteString]];
-        }];
-    }
-}
-
-- (UIImage*)getImageWithRemoteURL:(NSURL*)imageURL {
-    // Gets cached image from cachedImages dictionary
-    return [cachedImages objectForKey:[imageURL absoluteString]];
-}
-
 
 #pragma mark Button Action methods
 - (void)btnBuyTapped:(id)sender {
@@ -251,10 +192,6 @@
     DDLogInfo(@"User changed section. Updating store state & data...");
     NSParameterAssert([sender isKindOfClass:[UIButton class]]);
     [self setActiveStoreSection:sender];
-    if ([sender isKindOfClass:[UIButton class]]) {
-        [self updateStoreItemViewData];
-    }
-    [self.storeItemView reloadData];
 }
 
 #pragma mark UICollectionView datasource methods
@@ -271,33 +208,33 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)storeView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     LiStoreCell *cell = [storeView dequeueReusableCellWithReuseIdentifier:@"storeItemCell" forIndexPath:indexPath];
+    int row = indexPath.row;
+    id item = [collectionItems objectAtIndex:row];
+    NSURL *imageUrl = nil;
+    NSString *title = nil;
+    
     if (isDisplayingVirtualGoods) {
         // Customize cell for displaying virtual goods
-        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualGoodImageA]]];
-        [cell.btnBuy addTarget:self action:@selector(btnBuyTapped:) forControlEvents:UIControlEventTouchUpInside];
-        cell.btnBuy.tag = indexPath.row;
-        [cell.btnBuy setTitle:[NSString stringWithFormat:@"%d coins",
-                               [[collectionItems objectAtIndex:indexPath.row] virtualGoodMainCurrency]]
-                     forState:UIControlStateNormal];
-    }
-    else if (isDisplayingVirtualCurrency) {
+        imageUrl = [item virtualGoodImageA];
+        title = [NSString stringWithFormat:@"%d coins",[item virtualGoodMainCurrency]];
+
+    } else if (isDisplayingVirtualCurrency) {
         // Customize cell for displaying virtual currencies
-        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualCurrencyImageA]]];
-        [cell.btnBuy addTarget:self action:@selector(btnBuyTapped:) forControlEvents:UIControlEventTouchUpInside];
-        cell.btnBuy.tag = indexPath.row;
-        [cell.btnBuy setTitle:[NSString stringWithFormat:@"$%g",
-                               [[collectionItems objectAtIndex:indexPath.row] virtualCurrencyPrice]]
-                     forState:UIControlStateNormal];
-    }
-    else if (isDisplayingUserInventory) {
+        imageUrl = [item virtualCurrencyImageA];
+        title = [NSString stringWithFormat:@"$%g",[item virtualCurrencyPrice]];
+    } else if (isDisplayingUserInventory) {
         // Customize cell for displaying virtual goods
-        [cell setImage:[self getImageWithRemoteURL:[[collectionItems objectAtIndex:indexPath.row] virtualGoodImageA]]];
-        [cell.btnBuy addTarget:self action:@selector(btnBuyTapped:) forControlEvents:UIControlEventTouchUpInside];
-        cell.btnBuy.tag = indexPath.row;
-        [cell.btnBuy setTitle:[NSString stringWithFormat:@"%d",
-                               [[collectionItems objectAtIndex:indexPath.row] virtualGoodUserInventory]]
-                     forState:UIControlStateNormal];
+        imageUrl = [item virtualGoodImageA];
+        title = [NSString stringWithFormat:@"%d",[item virtualGoodUserInventory]];
     }
+    
+    [imageUrl getCachedImageWithBlock:^(NSError *error, UIImage *image) {
+        [cell setImage:image];
+    }];
+    cell.btnBuy.tag = row;
+    [cell.btnBuy addTarget:self action:@selector(btnBuyTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.btnBuy setTitle:title forState:UIControlStateNormal];
+    
     return cell;
 }
 

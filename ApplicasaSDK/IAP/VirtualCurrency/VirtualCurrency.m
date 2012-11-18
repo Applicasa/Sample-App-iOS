@@ -1,7 +1,7 @@
 //
 // VirtualCurrency.m
 // Created by Applicasa 
-// 11/11/2012
+// 11/18/2012
 //
 
 #import "VirtualCurrency.h"
@@ -522,7 +522,8 @@ static LiBlockAction actionBlock = NULL;
     } else{
         if (filter.field){
             LiFields field = [filter.field intValue];
-            filter.field = [VirtualCurrency getFieldName:field];
+			if (field)
+				filter.field = [VirtualCurrency getFieldName:field];
         }
         return filter;
     }    

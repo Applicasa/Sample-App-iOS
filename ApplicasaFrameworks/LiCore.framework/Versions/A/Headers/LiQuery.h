@@ -23,7 +23,7 @@
 - (void) addOrderByField:(LiFields)field SortType:(SortType)sortType;
 - (void) addPagerByPage:(NSUInteger)page RecordsPerPage:(NSUInteger)recordsPerPage;
 
-- (NSString *) getMongoQueryWithQueryKind:(QueryKind)queryKind;
+- (NSString *) getMongoQueryWithQueryKind:(QueryKind)queryKind ClassName:(NSString *)className;
 - (NSString *) sqlQueryDescription;
 - (NSString *) sqlOrderQuery;
 
