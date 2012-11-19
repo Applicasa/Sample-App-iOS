@@ -153,9 +153,9 @@
     isDisplayingVirtualGoods = YES;
     isDisplayingVirtualCurrency = NO;
     isDisplayingUserInventory = NO;
-    [btnVirtualItems setSelected:YES];
     [btnMyItems setSelected:NO];
     [btnBuyCoins setSelected:NO];
+    [btnVirtualItems setSelected:YES];
 }
 
 - (void)activateVirtualCurrencyDisplay {
@@ -174,8 +174,8 @@
     isDisplayingVirtualCurrency = NO;
     isDisplayingUserInventory = YES;
     [btnVirtualItems setSelected:NO];
-    [btnMyItems setSelected:YES];
     [btnBuyCoins setSelected:NO];
+    [btnMyItems setSelected:YES];
 }
 
 - (void)setActiveStoreSection:(id)sender {
