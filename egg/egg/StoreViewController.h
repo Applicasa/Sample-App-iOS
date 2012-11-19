@@ -20,7 +20,6 @@
 
 @interface StoreViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout> {
     NSMutableArray *collectionItems;
-    NSMutableDictionary *cachedImages;
     BOOL isDisplayingVirtualGoods;
     BOOL isDisplayingVirtualCurrency;
     BOOL isDisplayingUserInventory;

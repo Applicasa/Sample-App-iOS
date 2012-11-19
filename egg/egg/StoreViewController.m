@@ -36,7 +36,6 @@
     [super viewDidLoad];
     [self updateBalanceLabel];
     collectionItems = [[NSMutableArray alloc] init];
-    cachedImages = [[NSMutableDictionary alloc] init];
     storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent@2x.png"]];
     
     [self setActiveStoreSection:btnVirtualItems];
