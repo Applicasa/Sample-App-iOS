@@ -1,7 +1,7 @@
 //
 // LiBlockQuery.h
 // Created by Applicasa 
-// 11/11/2012
+// 11/18/2012
 //
 
 
@@ -32,6 +32,7 @@ typedef enum {
 	UserMainCurrencyBalance,
 	UserSecondaryCurrencyBalance,
 	UserFacebookID,
+	UserTempDate,
 	//VirtualCurrency
 	VirtualCurrency_None,
 	VirtualCurrencyID,

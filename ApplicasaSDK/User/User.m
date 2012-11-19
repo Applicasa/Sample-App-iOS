@@ -1,7 +1,7 @@
 //
 // User.m
 // Created by Applicasa 
-// 11/11/2012
+// 11/18/2012
 //
 
 #import "User.h"
@@ -27,6 +27,7 @@
 #define KEY_userMainCurrencyBalance				@"UserMainCurrencyBalance"
 #define KEY_userSecondaryCurrencyBalance				@"UserSecondaryCurrencyBalance"
 #define KEY_userFacebookID				@"UserFacebookID"
+#define KEY_userTempDate				@"UserTempDate"
 
 @interface User (privateMethods)
 
@@ -54,6 +55,7 @@
 @synthesize userMainCurrencyBalance;
 @synthesize userSecondaryCurrencyBalance;
 @synthesize userFacebookID;
+@synthesize userTempDate;
 
 enum UserIndexes {
 	UserIDIndex = 0,
@@ -73,8 +75,9 @@ enum UserIndexes {
 	UserImageIndex,
 	UserMainCurrencyBalanceIndex,
 	UserSecondaryCurrencyBalanceIndex,
-	UserFacebookIDIndex,};
-#define NUM_OF_USER_FIELDS 18
+	UserFacebookIDIndex,
+	UserTempDateIndex,};
+#define NUM_OF_USER_FIELDS 19
 
 
 
@@ -264,7 +267,8 @@ enum UserIndexes {
     } else{
         if (filter.field){
             LiFields field = [filter.field intValue];
-            filter.field = [User getFieldName:field];
+			if (field)
+				filter.field = [User getFieldName:field];
         }
         return filter;
     }    
@@ -320,6 +324,9 @@ enum UserIndexes {
 	case UserSecondaryCurrencyBalance:
 		self.userSecondaryCurrencyBalance = [value intValue];
 		break;
+	case UserTempDate:
+		self.userTempDate = value;
+		break;
 	default:
 	break;
 	}
@@ -343,6 +350,7 @@ enum UserIndexes {
 	[userLastUpdate release];
 	[userImage release];
 	[userFacebookID release];
+	[userTempDate release];
 
 
 	[super dealloc];
@@ -373,6 +381,7 @@ enum UserIndexes {
 		self.userMainCurrencyBalance				= 0;
 		self.userSecondaryCurrencyBalance				= 0;
 		userFacebookID				= [@"" retain];
+		self.userTempDate				= [[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease];
 	}
 	return self;
 }
@@ -397,6 +406,7 @@ enum UserIndexes {
 		self.userMainCurrencyBalance               = [[item objectForKey:KeyWithHeader(KEY_userMainCurrencyBalance, header)] integerValue];
 		self.userSecondaryCurrencyBalance               = [[item objectForKey:KeyWithHeader(KEY_userSecondaryCurrencyBalance, header)] integerValue];
 		userFacebookID               = [[item objectForKey:KeyWithHeader(KEY_userFacebookID, header)] retain];
+		self.userTempDate               = [item objectForKey:KeyWithHeader(KEY_userTempDate, header)];
 
 	}
 	return self;
@@ -425,6 +435,7 @@ enum UserIndexes {
 		self.userMainCurrencyBalance               = object.userMainCurrencyBalance;
 		self.userSecondaryCurrencyBalance               = object.userSecondaryCurrencyBalance;
 		userFacebookID               = [object.userFacebookID retain];
+		self.userTempDate               = object.userTempDate;
 
 	}
 	return self;
@@ -448,6 +459,7 @@ enum UserIndexes {
 	[dictionary addValue:userImage.absoluteString forKey:KEY_userImage];	[dictionary addIntValue:userMainCurrencyBalance forKey:KEY_userMainCurrencyBalance];
 	[dictionary addIntValue:userSecondaryCurrencyBalance forKey:KEY_userSecondaryCurrencyBalance];
 	[dictionary addValue:userFacebookID forKey:KEY_userFacebookID];
+	[dictionary addDateValue:userTempDate forKey:KEY_userTempDate];
 
 	return [dictionary autorelease];
 }
@@ -473,6 +485,7 @@ enum UserIndexes {
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userMainCurrencyBalance];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userSecondaryCurrencyBalance];
 	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userFacebookID];
+	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userTempDate];
 	
 	return [fieldsDic autorelease];
 }
@@ -556,6 +569,10 @@ enum UserIndexes {
 			fieldName = KEY_userSecondaryCurrencyBalance;
 			break;
 
+		case UserTempDate:
+			fieldName = KEY_userTempDate;
+			break;
+
 		default:
 			NSLog(@"Wrong LiField numerator for %@ Class",kClassName);
 			fieldName = @"";
@@ -575,6 +592,7 @@ enum UserIndexes {
 	[*request addValue:userImage.absoluteString forKey:KEY_userImage];
 	[*request addIntValue:userMainCurrencyBalance forKey:KEY_userMainCurrencyBalance];
 	[*request addIntValue:userSecondaryCurrencyBalance forKey:KEY_userSecondaryCurrencyBalance];
+	[*request addDateValue:userTempDate forKey:KEY_userTempDate];
 }
 
 
@@ -598,6 +616,7 @@ enum UserIndexes {
 			self.userMainCurrencyBalance = sqlite3_column_int(stmt, array[0][UserMainCurrencyBalanceIndex]);
 			self.userSecondaryCurrencyBalance = sqlite3_column_int(stmt, array[0][UserSecondaryCurrencyBalanceIndex]);
 			userFacebookID = [[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserFacebookIDIndex])] retain];
+			self.userTempDate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserTempDateIndex])]];
 		
 		}
 	return self;
@@ -634,6 +653,7 @@ enum UserIndexes {
 	indexes[0][UserMainCurrencyBalanceIndex] = [columnsArray indexOfObject:KEY_userMainCurrencyBalance];
 	indexes[0][UserSecondaryCurrencyBalanceIndex] = [columnsArray indexOfObject:KEY_userSecondaryCurrencyBalance];
 	indexes[0][UserFacebookIDIndex] = [columnsArray indexOfObject:KEY_userFacebookID];
+	indexes[0][UserTempDateIndex] = [columnsArray indexOfObject:KEY_userTempDate];
 
 	[columnsArray release];
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];

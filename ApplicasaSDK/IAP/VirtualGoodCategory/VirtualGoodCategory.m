@@ -1,7 +1,7 @@
 //
 // VirtualGoodCategory.m
 // Created by Applicasa 
-// 11/11/2012
+// 11/18/2012
 //
 
 #import "VirtualGoodCategory.h"
@@ -224,7 +224,8 @@ enum VirtualGoodCategoryIndexes {
     } else{
         if (filter.field){
             LiFields field = [filter.field intValue];
-            filter.field = [VirtualGoodCategory getFieldName:field];
+			if (field)
+				filter.field = [VirtualGoodCategory getFieldName:field];
         }
         return filter;
     }    

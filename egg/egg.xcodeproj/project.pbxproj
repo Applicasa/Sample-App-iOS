@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B4638F6C1659271600F0742A /* LiPromoHelperViews.m in Sources */ = {isa = PBXBuildFile; fileRef = B4638F671659271600F0742A /* LiPromoHelperViews.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		B4638F6D1659271600F0742A /* LiSession.m in Sources */ = {isa = PBXBuildFile; fileRef = B4638F691659271600F0742A /* LiSession.m */; };
+		B4638F6E1659271600F0742A /* PromoView.m in Sources */ = {isa = PBXBuildFile; fileRef = B4638F6B1659271600F0742A /* PromoView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C416C38B1648F91B009008BB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C38A1648F91B009008BB /* CoreLocation.framework */; };
 		C416C38D1648F95F009008BB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C38C1648F95F009008BB /* SystemConfiguration.framework */; };
 		C416C38F1648F96C009008BB /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C38E1648F96C009008BB /* libsqlite3.0.dylib */; };
@@ -99,6 +102,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B4638F661659271600F0742A /* LiPromoHelperViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiPromoHelperViews.h; sourceTree = "<group>"; };
+		B4638F671659271600F0742A /* LiPromoHelperViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiPromoHelperViews.m; sourceTree = "<group>"; };
+		B4638F681659271600F0742A /* LiSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiSession.h; sourceTree = "<group>"; };
+		B4638F691659271600F0742A /* LiSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiSession.m; sourceTree = "<group>"; };
+		B4638F6A1659271600F0742A /* PromoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromoView.h; sourceTree = "<group>"; };
+		B4638F6B1659271600F0742A /* PromoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromoView.m; sourceTree = "<group>"; };
 		C416C38A1648F91B009008BB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C416C38C1648F95F009008BB /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C416C38E1648F96C009008BB /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -239,9 +248,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B4638F651659271600F0742A /* Promo */ = {
+			isa = PBXGroup;
+			children = (
+				B4638F661659271600F0742A /* LiPromoHelperViews.h */,
+				B4638F671659271600F0742A /* LiPromoHelperViews.m */,
+				B4638F681659271600F0742A /* LiSession.h */,
+				B4638F691659271600F0742A /* LiSession.m */,
+				B4638F6A1659271600F0742A /* PromoView.h */,
+				B4638F6B1659271600F0742A /* PromoView.m */,
+			);
+			path = Promo;
+			sourceTree = "<group>";
+		};
 		C416C3F01648FC2F009008BB /* ApplicasaSDK */ = {
 			isa = PBXGroup;
 			children = (
+				B4638F651659271600F0742A /* Promo */,
 				C416C3F11648FC2F009008BB /* IAP */,
 				C416C3FD1648FC2F009008BB /* LiManager */,
 				C416C4041648FC2F009008BB /* User */,
@@ -690,6 +713,9 @@
 				C489A0DA165348540003DF91 /* ContextFilterLogFormatter.m in Sources */,
 				C489A0DB165348540003DF91 /* DispatchQueueLogFormatter.m in Sources */,
 				C438973D1653FF1A0064BF43 /* LiStoreCellBackground.m in Sources */,
+				B4638F6C1659271600F0742A /* LiPromoHelperViews.m in Sources */,
+				B4638F6D1659271600F0742A /* LiSession.m in Sources */,
+				B4638F6E1659271600F0742A /* PromoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -768,7 +794,7 @@
 		C4514AC8163F09B20004CEA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bob Waycott (G4CUFDE873)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
@@ -790,7 +816,7 @@
 		C4514AC9163F09B20004CEA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bob Waycott (G4CUFDE873)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",

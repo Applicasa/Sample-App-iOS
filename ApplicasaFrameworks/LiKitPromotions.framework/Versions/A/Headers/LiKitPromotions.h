@@ -28,6 +28,12 @@
 + (void) pauseSession;
 + (void) resumeSession;
 
+//Game
++ (void) startGame:(NSString *)gameName;
++ (void) pauseGame;
++ (void) resumeGame;
++ (void) finishGameWithGameResult:(BOOL)gameResult MainCurrency:(NSInteger)mainCurrency SecondaryCurrency:(NSInteger)secondaryCurrency Score:(NSInteger)score Bonus:(NSInteger)bonus;
+
 + (void) refreshProfileData;
 
 + (void) refreshPromotions;

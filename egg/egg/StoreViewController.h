@@ -29,7 +29,6 @@
 // properties
 @property (nonatomic, weak) id <StoreViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSMutableArray *collectionItems;
-@property (nonatomic, strong) NSMutableDictionary *cachedImages;
 
 // IBOutlets
 @property (nonatomic, weak) IBOutlet UICollectionView *storeItemView;

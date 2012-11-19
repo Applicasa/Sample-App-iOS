@@ -16,7 +16,7 @@
 @property (nonatomic, retain) id value;
 
 - (NSString *) sqlDescription;
-- (NSString *) mongoDescription;
+- (NSString *) mongoDescriptionByClassName:(NSString *)className;
 - (LiGeoFilter *) getGeoFilter;
 
 + (NSString *) getSQLOperatorString:(OPERATORS)oper;

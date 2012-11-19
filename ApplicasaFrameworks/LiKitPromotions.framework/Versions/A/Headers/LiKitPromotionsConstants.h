@@ -14,50 +14,47 @@ typedef enum {
 
 typedef enum {
 // App session events
-    appStart,//0
+    appStart = 1100,
     appStop,
     appPause,
     appResume,
     
-// Game events
-    gameStarted,//4
-    gameOver,
-    gameCompleted,
-    
 // User-based session events
-    userFirstSession,//7
+    userFirstSession = 1200,
     userReturnSession,
     
-// Promo events
-    promoDisplayed,//9
-    promoAccepted,
-    promoDismissed,
-    
+// Game events
+    gameStarted = 1300,
+    gameWin,
+    gameLose,
+    gamePause,
+    gameResume,
+        
 // IAP
     
 // VirtualCurrency-based events
-    virtualCurrencyBought,//12
+    virtualCurrencyBought = 1400,
     virtualCurrencyGiven,
     virtualCurrencyUsed,
     virtualCurrencyFirstPurchase,
     
 // VirtualGood-based events
-    virtualGoodBought,//16
+    virtualGoodBought = 1500,
     virtualGoodGiven,
     virtualGoodUsed,
     virtualGoodFirstPurchase,
     
 // Balance-based events
-    balanceChanged,//20
+    balanceChanged = 1600,
     balanceZero,
     balanceLow,
     
 // Inventory-based events
-    inventoryDepleted, // all inventory at zero
+    inventoryDepleted = 1700, // all inventory at zero
     inventoryItemDepleted, // a specific item depleted from inventory
     
 // Level events
-    levelStart,
+    levelStart = 1800,
     levelQuit,
     levelRestart,
     levelPause,
@@ -68,35 +65,41 @@ typedef enum {
     levelTooEasy,
     
 // Player events
-    playerDied,
+    playerDied = 1900,
     playerDidAction,
     playerAchievement,
     
+// Promo events
+    promoDisplayed = 2000,
+    promoAccepted,
+    promoDismissed,
+
+    
 // Score events
-    scoreHigh,
+    scoreHigh = 2100,
     scoreLow,
     scoreAchieved,
     
 // Choice events
-    choiceGood,
+    choiceGood = 2200,
     choiceBad,
     choiceAggressive,
     choiceDefensive,
     choiceNeutral,
     
 // Versus events
-    versusStart,
+    versusStart = 2300,
     versusEnd,
     versusQuit,
     versusWin,
     versusLoss,
     
 // Level-up events
-    levelUpCharacter,
+    levelUpCharacter = 2400,
     levelUpItem,
     
 // Unlockable events
-    unlockedCharacter,
+    unlockedCharacter = 2500,
     unlockedItem,
     unlockedLevel,
     unlockedSecret
@@ -106,8 +109,9 @@ typedef enum {
 typedef void (^GetPromotionArrayFinished)(NSError *error, NSArray *array);
 
 typedef enum {
-    UpdatePromotion = 1,
-    UpdateSession = 2
+    LiAnalyticsKindUpdatePromotion = 1,
+    LiAnalyticsKindUpdateSession = 2,
+    LiAnalyticsKindUpdateAnalytic = 3
 } LiAnalyticsKind;
 
 @protocol LiKitPromotionsDelegate <NSObject>
