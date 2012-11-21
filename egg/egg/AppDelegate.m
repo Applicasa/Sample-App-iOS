@@ -67,7 +67,7 @@
     id viewController = self.window.rootViewController.presentedViewController;
     if ([viewController isKindOfClass:[StoreViewController class]]){
         StoreViewController *storeVC = viewController;
-        [storeVC changeSection:storeVC.btnVirtualItems];
+        [storeVC viewDidLoad];
     }
 }
 
@@ -94,9 +94,12 @@
 #pragma mark LiKitPromotions delegate methods
 - (void)liKitPromotionsHasPromos {
     DDLogInfo(@"!!! We have promotions !!!");
+    UIViewController *viewController = self.window.rootViewController.presentedViewController;
     [LiKitPromotions getAllAvailblePromosWithBlock:^(NSError *error, NSArray *array) {
         if ([array count] > 0) {
-            [(Promotion *)[array objectAtIndex:0] show];
+            for (Promotion *promo in array) {
+                [promo showOnView:viewController.view];
+            }
         }
     }];
 }

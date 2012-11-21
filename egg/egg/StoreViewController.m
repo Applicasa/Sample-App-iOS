@@ -13,6 +13,7 @@
 #import "VirtualGood.h"
 #import "VirtualGoodCategory.h"
 #import "LiStoreCell.h"
+#import "LiPromoHelperViews.h"
 
 @implementation StoreViewController
 @synthesize coinTotal,
@@ -38,7 +39,14 @@
     collectionItems = [[NSMutableArray alloc] init];
     storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent@2x.png"]];
     
-    [self setActiveStoreSection:btnVirtualItems];
+    if ([LiKitIAP liKitIAPLoaded]){
+        [self setActiveStoreSection:btnVirtualItems];
+        //Remove indicator
+        LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
+        [activityView removeFromSuperview];
+    } else {
+        [LiActivityIndicator startAnimatingOnView:self.view];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,6 +76,23 @@
     self.coinTotal.text = [NSString stringWithFormat:@"%d", [IAP getCurrentUserMainBalance]];
 }
 
+- (void) showThankYouMessage{
+    UILabel *thankYouLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, 320, 100)];
+    [thankYouLabel setText:@"Purchase success!"];
+    [thankYouLabel setTextColor:[UIColor whiteColor]];
+    [thankYouLabel setBackgroundColor:[UIColor blackColor]];
+    [thankYouLabel setTextAlignment:NSTextAlignmentCenter];
+    [thankYouLabel setFont:[UIFont boldSystemFontOfSize:30]];
+    [thankYouLabel setAlpha:1];
+    [self.view addSubview:thankYouLabel];
+    
+    [UIView beginAnimations:@"removeLabel" context:nil];
+    [UIView setAnimationDuration:3];
+    [thankYouLabel setAlpha:0];
+    [UIView commitAnimations];
+    [thankYouLabel performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:3.01];
+}
+
 #pragma mark Give/Buy/Use methods
 - (void)buyVirtualGood:(id)obj {
     // generic helper for buying virtual items
@@ -86,11 +111,15 @@
 
 - (void)buyVirtualCurrency:(id)obj {
     // generic helper for buying currency
+    LiActivityIndicator *buyingActivity = [LiActivityIndicator startAnimatingOnView:self.view];
+    [buyingActivity setLabelText:@"Purchasing"];
     [IAP buyVirtualCurrency:obj WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+        [buyingActivity stopAndRemove];
         if (error == nil) {
             // purchase success
             DDLogWarn(@"Bought item: %@; added %d to User's balance", [obj virtualCurrencyTitle], [obj virtualCurrencyCredit]);
             [self updateBalanceLabel];
+            [self showThankYouMessage];
         }
         else {
             // purchase failed
@@ -211,6 +240,7 @@
     id item = [collectionItems objectAtIndex:row];
     NSURL *imageUrl = nil;
     NSString *title = nil;
+    cell.infoLabel.hidden = TRUE;
     
     if (isDisplayingVirtualGoods) {
         // Customize cell for displaying virtual goods
@@ -221,13 +251,19 @@
         // Customize cell for displaying virtual currencies
         imageUrl = [item virtualCurrencyImageA];
         title = [NSString stringWithFormat:@"$%g",[item virtualCurrencyPrice]];
+        [cell setInfoText:[NSString stringWithFormat:@"%d %@",[item virtualCurrencyCredit],([item virtualCurrencyKind]==MainCurrency)?@"Coins":@"Gems"]];
     } else if (isDisplayingUserInventory) {
         // Customize cell for displaying virtual goods
         imageUrl = [item virtualGoodImageA];
         title = [NSString stringWithFormat:@"%d",[item virtualGoodUserInventory]];
     }
     
+    LiActivityIndicator *indicator = (LiActivityIndicator *)[cell viewWithTag:kActivityViewTag];
+    if (!indicator){
+        indicator = [LiActivityIndicator startAnimatingOnView:cell];
+    }
     [imageUrl getCachedImageWithBlock:^(NSError *error, UIImage *image) {
+        [indicator stopAndRemove];
         [cell setImage:image];
     }];
     cell.btnBuy.tag = row;

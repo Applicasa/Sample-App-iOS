@@ -12,7 +12,7 @@
 
 @class LiGeoFilter;
 @interface LiFilters : NSObject
-@property (nonatomic,retain) id field;
+@property (nonatomic, retain) id field;
 @property (nonatomic, retain) id value;
 
 - (NSString *) sqlDescription;
@@ -33,7 +33,6 @@
 @end
 
 @interface LiBasicFilters: LiFilters {
-    
     OPERATORS _operator;
 }
 

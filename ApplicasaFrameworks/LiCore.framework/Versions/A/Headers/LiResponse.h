@@ -23,7 +23,7 @@
 - (void) setStatement:(void *)stmt;
 - (void *) getStatement;
 
-- (void)logResponse;
+- (void) logResponseWithRequest:(NSString *)request;
 
 
 @end

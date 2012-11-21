@@ -13,8 +13,10 @@
 @property (nonatomic, strong) IBOutlet UIImageView *itemImage;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) NSData *imgData;
+@property (nonatomic, strong) IBOutlet UILabel *infoLabel;
 @property (nonatomic, strong) IBOutlet UIButton *btnBuy;
 
 - (void)setImage:(UIImage*)image;
+- (void)setInfoText:(NSString *)text;
 
 @end

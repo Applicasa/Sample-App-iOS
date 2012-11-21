@@ -30,6 +30,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import <UIKit/UIKit.h>
 
 #define Li_INT_MIN -2147483648
@@ -40,8 +41,8 @@
 #define kDATETIME_TYPE @"DATETIME"
 #define kPRIMARY_KEY @"PRIMARY KEY"
 #define kResult @"Result"
-#define kLiTrue     @"true"
-#define kLiFalse    @"false"
+#define kLiTrue     [LiBoolean liTrueVal]
+#define kLiFalse    [LiBoolean liFalseVal]
 #define TypeAndDefaultValue(type,val) [NSString stringWithFormat:@"%@ NOT NULL DEFAULT %@ ",type,val]
 
 #define KeyWithHeader(key,header) [NSString stringWithFormat:@"%@%@",key,header]
@@ -82,6 +83,7 @@ char *NewBase64Encode(
 - (void) addFloatValue:(float)value forKey:(NSString *)key;
 - (void) addURLValue:(NSURL *)url forKey:(NSString *)key;
 - (void) addDateValue:(NSDate *)date forKey:(NSString *)key;
+- (void) addGeoValue:(CLLocation *)geo forKey:(NSString *)key;
 - (void) addForeignKeyValue:(NSDictionary *)dictionary forKey:(NSString *)key;
 
 @end
@@ -115,5 +117,16 @@ typedef void (^GetCachedDataFinished)(NSError *error, NSData *data);
 - (void) getCachedDataWithBlock:(GetCachedDataFinished)block;
 - (void) cache;
 - (void) deleteCache;
+
+@end
+
+@interface LiBoolean : NSObject{
+    BOOL val;
+}
+
++ (LiBoolean *) liTrueVal;
++ (LiBoolean *) liFalseVal;
+
+- (BOOL) value;
 
 @end

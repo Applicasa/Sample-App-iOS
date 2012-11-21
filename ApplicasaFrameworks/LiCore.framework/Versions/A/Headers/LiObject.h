@@ -5,7 +5,6 @@
 //  Created by Applicasa
 //  Copyright (c) 2012 LiCore All rights reserved.
 //
-//  SDK Classes super Class
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>

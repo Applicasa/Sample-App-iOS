@@ -31,13 +31,11 @@
     self.itemImage.image = _image;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (void)setInfoText:(NSString *)text{
+    [self.infoLabel setText:text];
+    [self.infoLabel setFont:[UIFont systemFontOfSize:13]];
+    [self.infoLabel setHidden:FALSE];
 }
-*/
+
 
 @end

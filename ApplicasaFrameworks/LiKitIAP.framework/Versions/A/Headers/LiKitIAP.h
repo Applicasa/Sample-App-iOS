@@ -17,6 +17,8 @@
 
 @interface LiKitIAP : NSObject
 
++ (BOOL) liKitIAPLoaded;
+
 + (NSDictionary *) getIAPActionFieldsDictionary;
 + (NSDictionary *) getIAPFKsDictionary;
 
@@ -49,6 +51,5 @@
 + (BOOL) purchaseVirtualGood:(VirtualGood *)product Quantity:(NSInteger)quantity CurrencyKind:(LiCurrency)currencyKind WithError:(NSError **)error;
 + (BOOL) giveVirtualGood:(VirtualGood *)product Quantity:(NSInteger)quantity WithError:(NSError **)error;
 + (BOOL) useVirtualGood:(VirtualGood *)product Quantity:(NSInteger)quantity WithError:(NSError **)error;
-
 
 @end
