@@ -1,7 +1,7 @@
 //
 // User.h
 // Created by Applicasa 
-// 11/18/2012
+// 11/21/2012
 //
 
 #import <Foundation/Foundation.h>
@@ -31,13 +31,13 @@
 @property (nonatomic, retain, readonly) NSDate *userLastLogin;
 @property (nonatomic, retain, readonly) NSDate *userRegisterDate;
 @property (nonatomic, retain) CLLocation *userLocation;
-@property (nonatomic, assign, readonly) BOOL userIsRegistered;
 @property (nonatomic, assign, readonly) BOOL userIsRegisteredFacebook;
+@property (nonatomic, assign, readonly) BOOL userIsRegistered;
 @property (nonatomic, retain, readonly) NSDate *userLastUpdate;
+@property (nonatomic, retain, readonly) NSString *userFacebookID;
 @property (nonatomic, retain) NSURL *userImage;
 @property (nonatomic, assign) int userMainCurrencyBalance;
 @property (nonatomic, assign) int userSecondaryCurrencyBalance;
-@property (nonatomic, retain, readonly) NSString *userFacebookID;
 @property (nonatomic, retain) NSDate *userTempDate;
 
 // ****

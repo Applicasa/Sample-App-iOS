@@ -1,7 +1,7 @@
 //
 // LiBlockQuery.h
 // Created by Applicasa 
-// 11/18/2012
+// 11/21/2012
 //
 
 
@@ -25,13 +25,13 @@ typedef enum {
 	UserLastLogin,
 	UserRegisterDate,
 	UserLocation,
-	UserIsRegistered,
 	UserIsRegisteredFacebook,
+	UserIsRegistered,
 	UserLastUpdate,
+	UserFacebookID,
 	UserImage,
 	UserMainCurrencyBalance,
 	UserSecondaryCurrencyBalance,
-	UserFacebookID,
 	UserTempDate,
 	//VirtualCurrency
 	VirtualCurrency_None,

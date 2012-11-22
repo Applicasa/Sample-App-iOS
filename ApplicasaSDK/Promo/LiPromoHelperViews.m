@@ -43,31 +43,54 @@
 @implementation LiActivityIndicator
 
 - (id) initWithFrame:(CGRect)frame{
-    return [super initWithFrame:frame];
+    self = [super initWithFrame:frame];
+    
+    [self setBackgroundColor:[UIColor blackColor]];
+    [self setAlpha:0.3];
+    self.tag = kActivityViewTag;
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    
+    [indicator setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    [indicator setCenter:self.center];
+    [indicator setBackgroundColor:[UIColor blackColor]];
+    [indicator startAnimating];
+
+    [self addSubview:indicator];
+    //[indicator release];
+    
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, frame.size.height*4/5, frame.size.width, frame.size.width*1/5)];
+    [loadingLabel setText:@"Loading..."];
+    [loadingLabel setTag:1];
+    [loadingLabel setFont:[UIFont systemFontOfSize:loadingLabel.frame.size.height-1]];
+    [loadingLabel setTextAlignment:NSTextAlignmentCenter];
+    [loadingLabel setBackgroundColor:[UIColor blackColor]];
+    [loadingLabel setTextColor:[UIColor whiteColor]];
+    [self addSubview:loadingLabel];
+    [loadingLabel release];
+    
+    return self;
+}
+
+- (void) setLabelText:(NSString *)text{
+    [(UILabel *)[self viewWithTag:1] setText:text];
 }
 
 + (id) startAnimatingOnView:(UIView *)view{
-    CGRect frame = view.frame;
-    float height = frame.size.height/2;
-    float width = frame.size.width/2;
-    
-    LiActivityIndicator *indicatorView = [[LiActivityIndicator alloc] initWithFrame:CGRectMake(width/2, height/2, width, height)];
-    indicatorView.tag = 3;
-    
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [indicator setFrame:CGRectMake(0, 0, 100, 100)];
-    [indicator setCenter:indicatorView.center];
-    [indicatorView addSubview:indicator];
-    [indicator release];
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(-width/2, height/10*8, width*3, height/10*2)];
-    [loadingLabel setText:@"Loading..."];
-    [loadingLabel setTextAlignment:NSTextAlignmentCenter];
-    [loadingLabel setTextColor:[UIColor blackColor]];
-    [indicatorView addSubview:loadingLabel];
-    [loadingLabel release];
+    float width = view.frame.size.width*3/4;
+    float height = view.frame.size.height*3/4;
 
+    if (width == 0)
+        width = 50;
+    
+    if (height == 0)
+        height = 50;
+    
+    LiActivityIndicator *indicatorView = [[LiActivityIndicator alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+
+    [indicatorView setCenter:[view center]];
     [view addSubview:indicatorView];
+    [view bringSubviewToFront:indicatorView];
    
     return [indicatorView autorelease];
 }

@@ -1,7 +1,7 @@
 //
 // VirtualGood.m
 // Created by Applicasa 
-// 11/18/2012
+// 11/21/2012
 //
 
 #import "VirtualGood.h"

@@ -1,7 +1,7 @@
 //
 // User.m
 // Created by Applicasa 
-// 11/18/2012
+// 11/21/2012
 //
 
 #import "User.h"
@@ -20,13 +20,13 @@
 #define KEY_userLocation				@"UserLocation"
 #define KEY_userLocationLong				@"UserLocationLong"
 #define KEY_userLocationLat				@"UserLocationLat"
-#define KEY_userIsRegistered				@"UserIsRegistered"
 #define KEY_userIsRegisteredFacebook				@"UserIsRegisteredFacebook"
+#define KEY_userIsRegistered				@"UserIsRegistered"
 #define KEY_userLastUpdate				@"UserLastUpdate"
+#define KEY_userFacebookID				@"UserFacebookID"
 #define KEY_userImage				@"UserImage"
 #define KEY_userMainCurrencyBalance				@"UserMainCurrencyBalance"
 #define KEY_userSecondaryCurrencyBalance				@"UserSecondaryCurrencyBalance"
-#define KEY_userFacebookID				@"UserFacebookID"
 #define KEY_userTempDate				@"UserTempDate"
 
 @interface User (privateMethods)
@@ -48,13 +48,13 @@
 @synthesize userLastLogin;
 @synthesize userRegisterDate;
 @synthesize userLocation;
-@synthesize userIsRegistered;
 @synthesize userIsRegisteredFacebook;
+@synthesize userIsRegistered;
 @synthesize userLastUpdate;
+@synthesize userFacebookID;
 @synthesize userImage;
 @synthesize userMainCurrencyBalance;
 @synthesize userSecondaryCurrencyBalance;
-@synthesize userFacebookID;
 @synthesize userTempDate;
 
 enum UserIndexes {
@@ -69,14 +69,15 @@ enum UserIndexes {
 	UserRegisterDateIndex,
 	UserLocationLatIndex,
 	UserLocationLongIndex,
-	UserIsRegisteredIndex,
 	UserIsRegisteredFacebookIndex,
+	UserIsRegisteredIndex,
 	UserLastUpdateIndex,
+	UserFacebookIDIndex,
 	UserImageIndex,
 	UserMainCurrencyBalanceIndex,
 	UserSecondaryCurrencyBalanceIndex,
-	UserFacebookIDIndex,
-	UserTempDateIndex,};
+	UserTempDateIndex,
+};
 #define NUM_OF_USER_FIELDS 19
 
 
@@ -348,8 +349,8 @@ enum UserIndexes {
 	[userRegisterDate release];
 	[userLocation release];
 	[userLastUpdate release];
-	[userImage release];
 	[userFacebookID release];
+	[userImage release];
 	[userTempDate release];
 
 
@@ -374,13 +375,13 @@ enum UserIndexes {
 		userLastLogin				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
 		userRegisterDate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
 		self.userLocation				=  [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease];
-		userIsRegistered				= false;
 		userIsRegisteredFacebook				= false;
+		userIsRegistered				= false;
 		userLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		userFacebookID				= [@"" retain];
 		self.userImage				= [NSURL URLWithString:@""];
 		self.userMainCurrencyBalance				= 0;
 		self.userSecondaryCurrencyBalance				= 0;
-		userFacebookID				= [@"" retain];
 		self.userTempDate				= [[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease];
 	}
 	return self;
@@ -399,13 +400,13 @@ enum UserIndexes {
 		userLastLogin               = [[item objectForKey:KeyWithHeader(KEY_userLastLogin, header)] retain];
 		userRegisterDate               = [[item objectForKey:KeyWithHeader(KEY_userRegisterDate, header)] retain];
 		self.userLocation               = [[[CLLocation alloc] initWithLatitude:[[item objectForKey:KeyWithHeader(KEY_userLocationLat, header)] floatValue] longitude:[[item objectForKey:KeyWithHeader(KEY_userLocationLong, header)] floatValue]] autorelease];
-		userIsRegistered               = [[item objectForKey:KeyWithHeader(KEY_userIsRegistered, header)] boolValue];
 		userIsRegisteredFacebook               = [[item objectForKey:KeyWithHeader(KEY_userIsRegisteredFacebook, header)] boolValue];
+		userIsRegistered               = [[item objectForKey:KeyWithHeader(KEY_userIsRegistered, header)] boolValue];
 		userLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_userLastUpdate, header)] retain];
+		userFacebookID               = [[item objectForKey:KeyWithHeader(KEY_userFacebookID, header)] retain];
 		self.userImage               = [NSURL URLWithString:[item objectForKey:KeyWithHeader(KEY_userImage, header)]];
 		self.userMainCurrencyBalance               = [[item objectForKey:KeyWithHeader(KEY_userMainCurrencyBalance, header)] integerValue];
 		self.userSecondaryCurrencyBalance               = [[item objectForKey:KeyWithHeader(KEY_userSecondaryCurrencyBalance, header)] integerValue];
-		userFacebookID               = [[item objectForKey:KeyWithHeader(KEY_userFacebookID, header)] retain];
 		self.userTempDate               = [item objectForKey:KeyWithHeader(KEY_userTempDate, header)];
 
 	}
@@ -428,13 +429,13 @@ enum UserIndexes {
 		userLastLogin               = [object.userLastLogin retain];
 		userRegisterDate               = [object.userRegisterDate retain];
 		self.userLocation               = object.userLocation;
-		userIsRegistered               = object.userIsRegistered;
 		userIsRegisteredFacebook               = object.userIsRegisteredFacebook;
+		userIsRegistered               = object.userIsRegistered;
 		userLastUpdate               = [object.userLastUpdate retain];
+		userFacebookID               = [object.userFacebookID retain];
 		self.userImage               = object.userImage;
 		self.userMainCurrencyBalance               = object.userMainCurrencyBalance;
 		self.userSecondaryCurrencyBalance               = object.userSecondaryCurrencyBalance;
-		userFacebookID               = [object.userFacebookID retain];
 		self.userTempDate               = object.userTempDate;
 
 	}
@@ -453,12 +454,12 @@ enum UserIndexes {
 	[dictionary addValue:userPassword forKey:KEY_userPassword];
 	[dictionary addDateValue:userLastLogin forKey:KEY_userLastLogin];
 	[dictionary addDateValue:userRegisterDate forKey:KEY_userRegisterDate];
-	[dictionary addBoolValue:userIsRegistered forKey:KEY_userIsRegistered];
 	[dictionary addBoolValue:userIsRegisteredFacebook forKey:KEY_userIsRegisteredFacebook];
+	[dictionary addBoolValue:userIsRegistered forKey:KEY_userIsRegistered];
 	[dictionary addDateValue:userLastUpdate forKey:KEY_userLastUpdate];
+	[dictionary addValue:userFacebookID forKey:KEY_userFacebookID];
 	[dictionary addValue:userImage.absoluteString forKey:KEY_userImage];	[dictionary addIntValue:userMainCurrencyBalance forKey:KEY_userMainCurrencyBalance];
 	[dictionary addIntValue:userSecondaryCurrencyBalance forKey:KEY_userSecondaryCurrencyBalance];
-	[dictionary addValue:userFacebookID forKey:KEY_userFacebookID];
 	[dictionary addDateValue:userTempDate forKey:KEY_userTempDate];
 
 	return [dictionary autorelease];
@@ -478,13 +479,13 @@ enum UserIndexes {
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userRegisterDate];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_userLocationLong];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_userLocationLat];
-	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userIsRegistered];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userIsRegisteredFacebook];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userIsRegistered];
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userLastUpdate];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userFacebookID];
 	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userImage];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userMainCurrencyBalance];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userSecondaryCurrencyBalance];
-	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userFacebookID];
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userTempDate];
 	
 	return [fieldsDic autorelease];
@@ -545,12 +546,12 @@ enum UserIndexes {
 			fieldName = KEY_userLocation;
 			break;
 
-		case UserIsRegistered:
-			fieldName = KEY_userIsRegistered;
-			break;
-
 		case UserIsRegisteredFacebook:
 			fieldName = KEY_userIsRegisteredFacebook;
+			break;
+
+		case UserIsRegistered:
+			fieldName = KEY_userIsRegistered;
 			break;
 
 		case UserLastUpdate:
@@ -609,13 +610,13 @@ enum UserIndexes {
 			userLastLogin = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastLoginIndex])]] retain];
 			userRegisterDate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserRegisterDateIndex])]] retain];
 			self.userLocation =  [[[CLLocation alloc] initWithLatitude:sqlite3_column_double(stmt, array[0][UserLocationLatIndex]) longitude:sqlite3_column_double(stmt, array[0][UserLocationLongIndex])] autorelease];
-			userIsRegistered = sqlite3_column_int(stmt, array[0][UserIsRegisteredIndex]);
 			userIsRegisteredFacebook = sqlite3_column_int(stmt, array[0][UserIsRegisteredFacebookIndex]);
+			userIsRegistered = sqlite3_column_int(stmt, array[0][UserIsRegisteredIndex]);
 			userLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastUpdateIndex])]] retain];
+			userFacebookID = [[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserFacebookIDIndex])] retain];
 			self.userImage = [NSURL URLWithString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserImageIndex])]];
 			self.userMainCurrencyBalance = sqlite3_column_int(stmt, array[0][UserMainCurrencyBalanceIndex]);
 			self.userSecondaryCurrencyBalance = sqlite3_column_int(stmt, array[0][UserSecondaryCurrencyBalanceIndex]);
-			userFacebookID = [[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserFacebookIDIndex])] retain];
 			self.userTempDate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserTempDateIndex])]];
 		
 		}
@@ -646,13 +647,13 @@ enum UserIndexes {
 	indexes[0][UserRegisterDateIndex] = [columnsArray indexOfObject:KEY_userRegisterDate];
 	indexes[0][UserLocationLatIndex] = [columnsArray indexOfObject:KEY_userLocationLat];
 	indexes[0][UserLocationLongIndex] = [columnsArray indexOfObject:KEY_userLocationLong];
-	indexes[0][UserIsRegisteredIndex] = [columnsArray indexOfObject:KEY_userIsRegistered];
 	indexes[0][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KEY_userIsRegisteredFacebook];
+	indexes[0][UserIsRegisteredIndex] = [columnsArray indexOfObject:KEY_userIsRegistered];
 	indexes[0][UserLastUpdateIndex] = [columnsArray indexOfObject:KEY_userLastUpdate];
+	indexes[0][UserFacebookIDIndex] = [columnsArray indexOfObject:KEY_userFacebookID];
 	indexes[0][UserImageIndex] = [columnsArray indexOfObject:KEY_userImage];
 	indexes[0][UserMainCurrencyBalanceIndex] = [columnsArray indexOfObject:KEY_userMainCurrencyBalance];
 	indexes[0][UserSecondaryCurrencyBalanceIndex] = [columnsArray indexOfObject:KEY_userSecondaryCurrencyBalance];
-	indexes[0][UserFacebookIDIndex] = [columnsArray indexOfObject:KEY_userFacebookID];
 	indexes[0][UserTempDateIndex] = [columnsArray indexOfObject:KEY_userTempDate];
 
 	[columnsArray release];
@@ -769,7 +770,7 @@ enum UserIndexes {
    
     
     LiObjRequest *request = [LiObjRequest requestWithAction:Logout ClassName:kClassName];
-    [request addValue:[[LiCore getCurrentUser] userID] forKey:@"_id"];
+    //[request addValue:[[LiCore getCurrentUser] userID] forKey:@"_id"];
     [request startSync:TRUE];
     
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Logout Block:block];

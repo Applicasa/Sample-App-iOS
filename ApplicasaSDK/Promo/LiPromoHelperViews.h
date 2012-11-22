@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#define kActivityViewTag 999
 
 @interface LiWebView : UIWebView
 
@@ -16,5 +17,6 @@
 
 + (id) startAnimatingOnView:(UIView *)view;
 - (void) stopAndRemove;
+- (void) setLabelText:(NSString *)text;
 
 @end
