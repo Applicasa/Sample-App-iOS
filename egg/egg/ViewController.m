@@ -41,7 +41,7 @@
 - (void)loginViewControllerDidRegister:(LoginViewController *)controller{
     DDLogInfo(@"doing register delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
-    [AlertShower showAlertWithMessage:@"Registerd Succesfuly" OnViewController:self];
+    [AlertShower showAlertWithMessage:@"Registered Successfully" OnViewController:self];
 }
 
 #pragma mark StoreViewControllerDelegate methods
