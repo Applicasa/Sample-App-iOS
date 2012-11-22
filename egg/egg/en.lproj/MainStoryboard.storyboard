@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="11E2620" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="11G63" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
         <!--View Controller - Main-->
@@ -141,7 +141,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Uea-O3-wnq" kind="push" id="LGG-gV-yUF"/>
+                                    <segue destination="Uea-O3-wnq" kind="modal" id="LGG-gV-yUF"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -580,13 +580,13 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="bg@2x.png" translatesAutoresizingMaskIntoConstraints="NO" id="fxD-vA-Ztu" userLabel="bgImage"/>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ON8-sG-fcS">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ON8-sG-fcS" userLabel="btnBack">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="37" id="Q5A-wA-XFX"/>
                                     <constraint firstAttribute="width" constant="37" id="mSC-F6-Ui8"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Button" image="back@2x.png">
+                                <state key="normal" backgroundImage="back@2x.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -597,13 +597,13 @@
                                     <action selector="backAction:" destination="Uea-O3-wnq" eventType="touchUpInside" id="k7B-ft-ysG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nfj-ds-gek">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nfj-ds-gek" userLabel="btnFbShare">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="42" id="HmB-ue-DhK"/>
                                     <constraint firstAttribute="width" constant="80" id="dSc-yw-cra"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Button" image="fShare@2x.png">
+                                <state key="normal" backgroundImage="fShare@2x.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -614,18 +614,18 @@
                                     <action selector="shareAction:" destination="Uea-O3-wnq" eventType="touchUpInside" id="d6v-Xw-yhA"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="bgTabs@2x.png" translatesAutoresizingMaskIntoConstraints="NO" id="guu-A6-KDr">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="bgTabs@2x.png" translatesAutoresizingMaskIntoConstraints="NO" id="guu-A6-KDr" userLabel="bgTabs">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="vGY-3s-Onf"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJu-6J-zpK">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJu-6J-zpK" userLabel="btnInvite">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="HXP-UD-1az"/>
                                     <constraint firstAttribute="width" constant="159" id="uds-Rx-Xhd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Button" image="tabInviteOn@2x.png">
+                                <state key="normal" backgroundImage="tabInviteOn@2x.png">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -636,13 +636,29 @@
                                     <action selector="inviteAction:" destination="Uea-O3-wnq" eventType="touchUpInside" id="aSO-dD-Krv"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xP2-S2-XSf">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3VI-Lj-l6k" userLabel="btnChallenge">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="159" id="ydQ-Pn-63b"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" backgroundImage="tabChallengeOn@2x.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="challengeAction:" destination="Uea-O3-wnq" eventType="touchUpInside" id="GPi-Ex-9Hw"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xP2-S2-XSf" userLabel="friendsTableView">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="352" id="n9Q-1U-Axb"/>
+                                    <constraint firstAttribute="height" constant="353" id="orU-Go-HzQ"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" id="E3v-0O-lkd" customClass="FBFriendCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="friendCell" id="E3v-0O-lkd" customClass="FBFriendCell">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -700,22 +716,6 @@
                                     <outlet property="delegate" destination="Uea-O3-wnq" id="Izz-sc-Ve8"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3VI-Lj-l6k">
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="159" id="ydQ-Pn-63b"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" image="tabChallengeOn@2x.png">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="challengeAction:" destination="Uea-O3-wnq" eventType="touchUpInside" id="GPi-Ex-9Hw"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -728,9 +728,9 @@
                             <constraint firstItem="XJu-6J-zpK" firstAttribute="top" secondItem="ON8-sG-fcS" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="WQa-XQ-E44"/>
                             <constraint firstItem="ON8-sG-fcS" firstAttribute="top" secondItem="8ah-hA-Kq5" secondAttribute="top" constant="20" symbolic="YES" type="default" id="YNG-7n-x4J"/>
                             <constraint firstItem="XJu-6J-zpK" firstAttribute="leading" secondItem="8ah-hA-Kq5" secondAttribute="leading" type="default" id="Ywb-aM-EOC"/>
-                            <constraint firstItem="nfj-ds-gek" firstAttribute="baseline" secondItem="ON8-sG-fcS" secondAttribute="baseline" type="default" id="bMh-kF-ioE"/>
                             <constraint firstItem="xP2-S2-XSf" firstAttribute="trailing" secondItem="8ah-hA-Kq5" secondAttribute="trailing" type="default" id="bz8-m3-TBD"/>
                             <constraint firstItem="xP2-S2-XSf" firstAttribute="leading" secondItem="8ah-hA-Kq5" secondAttribute="leading" type="default" id="cML-2Q-SC8"/>
+                            <constraint firstItem="nfj-ds-gek" firstAttribute="centerY" secondItem="ON8-sG-fcS" secondAttribute="centerY" type="default" id="dxP-X0-qXC"/>
                             <constraint firstItem="3VI-Lj-l6k" firstAttribute="top" secondItem="XJu-6J-zpK" secondAttribute="top" type="default" id="dz0-BI-xMH"/>
                             <constraint firstItem="fxD-vA-Ztu" firstAttribute="trailing" secondItem="8ah-hA-Kq5" secondAttribute="trailing" type="default" id="hs1-AM-2nB"/>
                             <constraint firstItem="guu-A6-KDr" firstAttribute="top" secondItem="nfj-ds-gek" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="iT1-0B-Una"/>
@@ -740,7 +740,6 @@
                             <constraint firstItem="ON8-sG-fcS" firstAttribute="leading" secondItem="8ah-hA-Kq5" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="wPc-hm-pLZ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="9Ca-fg-CCv"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="friendsTableView" destination="xP2-S2-XSf" id="J6E-6n-3H1"/>
@@ -793,6 +792,10 @@
         <class className="FindFriendsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FindFriendsViewController.h"/>
             <relationships>
+                <relationship kind="action" name="backAction:"/>
+                <relationship kind="action" name="challengeAction:"/>
+                <relationship kind="action" name="inviteAction:"/>
+                <relationship kind="action" name="shareAction:"/>
                 <relationship kind="outlet" name="friendsTableView" candidateClass="UITableView"/>
             </relationships>
         </class>
@@ -839,6 +842,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
