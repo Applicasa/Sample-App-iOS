@@ -43,20 +43,21 @@
 
 #pragma mark - IBActions
 
-- (IBAction)backAction:(id)sender{
-    [self.navigationController popToRootViewControllerAnimated:TRUE];
+- (IBAction)goBack:(id)sender{
+    DDLogInfo(@"User said goBack. Dismissing ...");
+    [self.delegate findFriendsViewControllerDidGoBack:self];
 }
 
-- (IBAction)shareAction:(id)sender{
-
+- (IBAction)shareOnFB:(id)sender{
+    DDLogInfo(@"User said shareOnFB. Sharing ...");
 }
 
-- (IBAction)challengeAction:(id)sender{
-    
+- (IBAction)challengeFriend:(id)sender{
+    DDLogInfo(@"User said challengeFriend. Challenging ...");
 }
 
-- (IBAction)inviteAction:(id)sender{
-    
+- (IBAction)inviteFriend:(id)sender{
+    DDLogInfo(@"User said inviteFriend. Inviting ...");
 }
 
 #pragma mark - UITableView Data Source

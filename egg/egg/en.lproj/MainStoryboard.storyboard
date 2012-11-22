@@ -141,7 +141,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="Uea-O3-wnq" kind="modal" id="LGG-gV-yUF"/>
+                                    <segue destination="Uea-O3-wnq" kind="modal" identifier="findFriendsSegue" id="LGG-gV-yUF"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -594,7 +594,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="backAction:" destination="Uea-O3-wnq" eventType="touchUpInside" id="k7B-ft-ysG"/>
+                                    <action selector="goBack:" destination="Uea-O3-wnq" eventType="touchUpInside" id="jqd-9e-QCI"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nfj-ds-gek" userLabel="btnFbShare">
@@ -611,7 +611,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="shareAction:" destination="Uea-O3-wnq" eventType="touchUpInside" id="d6v-Xw-yhA"/>
+                                    <action selector="shareOnFB:" destination="Uea-O3-wnq" eventType="touchUpInside" id="OoS-5T-fbD"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="bgTabs@2x.png" translatesAutoresizingMaskIntoConstraints="NO" id="guu-A6-KDr" userLabel="bgTabs">
@@ -633,7 +633,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="inviteAction:" destination="Uea-O3-wnq" eventType="touchUpInside" id="aSO-dD-Krv"/>
+                                    <action selector="inviteFriend:" destination="Uea-O3-wnq" eventType="touchUpInside" id="fNU-1C-ncY"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3VI-Lj-l6k" userLabel="btnChallenge">
@@ -649,7 +649,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="challengeAction:" destination="Uea-O3-wnq" eventType="touchUpInside" id="GPi-Ex-9Hw"/>
+                                    <action selector="challengeFriend:" destination="Uea-O3-wnq" eventType="touchUpInside" id="fC1-53-4lK"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xP2-S2-XSf" userLabel="friendsTableView">
@@ -780,76 +780,6 @@
         <image name="tabChallengeOn@2x.png" width="318" height="88"/>
         <image name="tabInviteOn@2x.png" width="318" height="88"/>
     </resources>
-    <classes>
-        <class className="FBFriendCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FBFriendCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="addButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="FindFriendsViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/FindFriendsViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="backAction:"/>
-                <relationship kind="action" name="challengeAction:"/>
-                <relationship kind="action" name="inviteAction:"/>
-                <relationship kind="action" name="shareAction:"/>
-                <relationship kind="outlet" name="friendsTableView" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="LiStoreCell" superclassName="UICollectionViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LiStoreCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="btnBuy" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="infoLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="itemImage" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="LoginViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="facebookLogin:"/>
-                <relationship kind="action" name="hideKeyboard:"/>
-                <relationship kind="action" name="loggedIn:"/>
-                <relationship kind="action" name="registerAction:"/>
-                <relationship kind="outlet" name="inputPassword" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="inputUsername" candidateClass="UITextField"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="StoreViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/StoreViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="changeSection:"/>
-                <relationship kind="action" name="goBack:"/>
-                <relationship kind="outlet" name="btnBuyCoins" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="btnMyItems" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="btnVirtualItems" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="coinTotal" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="storeItemView" candidateClass="UICollectionView"/>
-            </relationships>
-        </class>
-        <class className="UICollectionReusableView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
-        </class>
-        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
-        </class>
-        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
-        <class className="ViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
