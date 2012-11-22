@@ -3,8 +3,8 @@
 #define kApplication_ID @"705E89"
 
 // Behaviors keys
-#define kEnable_Push FALSE
-#define kPush_popup_on_start FALSE
+#define kEnable_Push TRUE
+#define kPush_popup_on_start TRUE
 #define kEnable_Applicasa_Debug TRUE
 #define kEnable_Location FALSE
 #define kEnable_Offline TRUE

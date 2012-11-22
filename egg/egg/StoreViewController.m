@@ -14,6 +14,7 @@
 #import "VirtualGoodCategory.h"
 #import "LiStoreCell.h"
 #import "LiPromoHelperViews.h"
+#import "AlertShower.h"
 
 @implementation StoreViewController
 @synthesize coinTotal,
@@ -49,12 +50,6 @@
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark Helper methods
 - (void)updateStoreItemViewData {
     GetVirtualCurrencyArrayFinished block = ^(NSError *error, NSArray *array) {
@@ -74,23 +69,6 @@
 - (void)updateBalanceLabel {
     // updates User's balance displayed in the top-right corner of the the view
     self.coinTotal.text = [NSString stringWithFormat:@"%d", [IAP getCurrentUserMainBalance]];
-}
-
-- (void) showThankYouMessage{
-    UILabel *thankYouLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, 320, 100)];
-    [thankYouLabel setText:@"Purchase success!"];
-    [thankYouLabel setTextColor:[UIColor whiteColor]];
-    [thankYouLabel setBackgroundColor:[UIColor blackColor]];
-    [thankYouLabel setTextAlignment:NSTextAlignmentCenter];
-    [thankYouLabel setFont:[UIFont boldSystemFontOfSize:30]];
-    [thankYouLabel setAlpha:1];
-    [self.view addSubview:thankYouLabel];
-    
-    [UIView beginAnimations:@"removeLabel" context:nil];
-    [UIView setAnimationDuration:3];
-    [thankYouLabel setAlpha:0];
-    [UIView commitAnimations];
-    [thankYouLabel performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:3.01];
 }
 
 #pragma mark Give/Buy/Use methods
@@ -119,7 +97,7 @@
             // purchase success
             DDLogWarn(@"Bought item: %@; added %d to User's balance", [obj virtualCurrencyTitle], [obj virtualCurrencyCredit]);
             [self updateBalanceLabel];
-            [self showThankYouMessage];
+            [AlertShower showAlertWithMessage:@"Purchase success!" OnViewController:self];
         }
         else {
             // purchase failed

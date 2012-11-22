@@ -14,6 +14,7 @@
 // delegate for handling login controller actions
 - (void) loginViewControllerDidCancel:(LoginViewController*)controller;
 - (void) loginViewControllerDidLogin:(LoginViewController*)controller;
+- (void) loginViewControllerDidRegister:(LoginViewController*)controller;
 
 @end
 

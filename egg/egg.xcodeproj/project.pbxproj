@@ -19,6 +19,10 @@
 		840E0E9F165D119D000294BF /* PromoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 840E0E91165D119D000294BF /* PromoView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		840E0EA0165D119D000294BF /* User+Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 840E0E94165D119D000294BF /* User+Facebook.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		840E0EA1165D119D000294BF /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 840E0E96165D119D000294BF /* User.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		847D4A06165E2A9000BB524D /* AlertShower.m in Sources */ = {isa = PBXBuildFile; fileRef = 847D4A05165E2A9000BB524D /* AlertShower.m */; };
+		8485D930165E8897008BD59A /* FindFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8485D92F165E8897008BD59A /* FindFriendsViewController.m */; };
+		8485D935165E8D2B008BD59A /* FBFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8485D934165E8D2B008BD59A /* FBFriendCell.m */; };
+		84949A4B165E6D090080F6B0 /* Close.png in Resources */ = {isa = PBXBuildFile; fileRef = 84949A4A165E6D060080F6B0 /* Close.png */; };
 		C416C38B1648F91B009008BB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C38A1648F91B009008BB /* CoreLocation.framework */; };
 		C416C38D1648F95F009008BB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C38C1648F95F009008BB /* SystemConfiguration.framework */; };
 		C416C38F1648F96C009008BB /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C38E1648F96C009008BB /* libsqlite3.0.dylib */; };
@@ -127,6 +131,13 @@
 		840E0E94165D119D000294BF /* User+Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+Facebook.m"; sourceTree = "<group>"; };
 		840E0E95165D119D000294BF /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		840E0E96165D119D000294BF /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		847D4A04165E2A9000BB524D /* AlertShower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertShower.h; sourceTree = "<group>"; };
+		847D4A05165E2A9000BB524D /* AlertShower.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertShower.m; sourceTree = "<group>"; };
+		8485D92E165E8897008BD59A /* FindFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindFriendsViewController.h; sourceTree = "<group>"; };
+		8485D92F165E8897008BD59A /* FindFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindFriendsViewController.m; sourceTree = "<group>"; };
+		8485D933165E8D2B008BD59A /* FBFriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFriendCell.h; sourceTree = "<group>"; };
+		8485D934165E8D2B008BD59A /* FBFriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBFriendCell.m; sourceTree = "<group>"; };
+		84949A4A165E6D060080F6B0 /* Close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Close.png; path = ../../images/Close.png; sourceTree = "<group>"; };
 		C416C38A1648F91B009008BB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C416C38C1648F95F009008BB /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C416C38E1648F96C009008BB /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
@@ -315,6 +326,7 @@
 		840E0E8B165D119D000294BF /* Promo */ = {
 			isa = PBXGroup;
 			children = (
+				84949A4A165E6D060080F6B0 /* Close.png */,
 				840E0E8C165D119D000294BF /* LiPromoHelperViews.h */,
 				840E0E8D165D119D000294BF /* LiPromoHelperViews.m */,
 				840E0E8E165D119D000294BF /* LiSession.h */,
@@ -336,21 +348,51 @@
 			path = User;
 			sourceTree = "<group>";
 		};
-		C438973E1653FF270064BF43 /* Egg Classes */ = {
+		847D4A08165E2A9700BB524D /* AlertShower */ = {
 			isa = PBXGroup;
 			children = (
-				C4514AB6163F09B20004CEA9 /* AppDelegate.h */,
-				C4514AB7163F09B20004CEA9 /* AppDelegate.m */,
+				847D4A04165E2A9000BB524D /* AlertShower.h */,
+				847D4A05165E2A9000BB524D /* AlertShower.m */,
+			);
+			name = AlertShower;
+			sourceTree = "<group>";
+		};
+		8485D932165E8D07008BD59A /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				C48D6F13164CF98300BA7EC3 /* LiStoreCell.h */,
+				C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */,
+				8485D933165E8D2B008BD59A /* FBFriendCell.h */,
+				8485D934165E8D2B008BD59A /* FBFriendCell.m */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		84949A45165E674C0080F6B0 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
 				C4514AC2163F09B20004CEA9 /* ViewController.h */,
 				C4514AC3163F09B20004CEA9 /* ViewController.m */,
 				C4F18698163F5F5A007C1514 /* LoginViewController.h */,
 				C4F18699163F5F5A007C1514 /* LoginViewController.m */,
 				C4F1869B163FA0E7007C1514 /* StoreViewController.h */,
 				C4F1869C163FA0E7007C1514 /* StoreViewController.m */,
-				C48D6F13164CF98300BA7EC3 /* LiStoreCell.h */,
-				C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */,
+				8485D92E165E8897008BD59A /* FindFriendsViewController.h */,
+				8485D92F165E8897008BD59A /* FindFriendsViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		C438973E1653FF270064BF43 /* Egg Classes */ = {
+			isa = PBXGroup;
+			children = (
+				C4514AB6163F09B20004CEA9 /* AppDelegate.h */,
+				C4514AB7163F09B20004CEA9 /* AppDelegate.m */,
+				8485D932165E8D07008BD59A /* Cells */,
+				84949A45165E674C0080F6B0 /* ViewControllers */,
 				C438973B1653FF1A0064BF43 /* LiStoreCellBackground.h */,
 				C438973C1653FF1A0064BF43 /* LiStoreCellBackground.m */,
+				847D4A08165E2A9700BB524D /* AlertShower */,
 			);
 			name = "Egg Classes";
 			sourceTree = "<group>";
@@ -682,6 +724,7 @@
 				C463C722165107B9003CAA31 /* Icon.png in Resources */,
 				C463C723165107B9003CAA31 /* Icon@2x.png in Resources */,
 				C489A0DC165348540003DF91 /* README.txt in Resources */,
+				84949A4B165E6D090080F6B0 /* Close.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -716,6 +759,9 @@
 				840E0E9F165D119D000294BF /* PromoView.m in Sources */,
 				840E0EA0165D119D000294BF /* User+Facebook.m in Sources */,
 				840E0EA1165D119D000294BF /* User.m in Sources */,
+				847D4A06165E2A9000BB524D /* AlertShower.m in Sources */,
+				8485D930165E8897008BD59A /* FindFriendsViewController.m in Sources */,
+				8485D935165E8D2B008BD59A /* FBFriendCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

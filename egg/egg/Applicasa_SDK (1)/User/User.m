@@ -76,7 +76,8 @@ enum UserIndexes {
 	UserImageIndex,
 	UserMainCurrencyBalanceIndex,
 	UserSecondaryCurrencyBalanceIndex,
-	UserTempDateIndex,};
+	UserTempDateIndex,
+};
 #define NUM_OF_USER_FIELDS 19
 
 
@@ -769,7 +770,7 @@ enum UserIndexes {
    
     
     LiObjRequest *request = [LiObjRequest requestWithAction:Logout ClassName:kClassName];
-    [request addValue:[[LiCore getCurrentUser] userID] forKey:@"_id"];
+    //[request addValue:[[LiCore getCurrentUser] userID] forKey:@"_id"];
     [request startSync:TRUE];
     
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Logout Block:block];

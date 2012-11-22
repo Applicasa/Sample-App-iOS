@@ -12,6 +12,8 @@
 #import "VirtualCurrency.h"
 #import "VirtualGood.h"
 #import "StoreViewController.h"
+#import "User+Facebook.h"
+#import <FacebookSDK/FBSession.h>
 
 @implementation AppDelegate
 
@@ -102,6 +104,26 @@
             }
         }
     }];
+}
+
+#pragma mark - Push Notification Delegate Methods
+- (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
+    [LiCore registerDeviceToken:deviceToken];
+}
+
+- (void) application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    [LiCore registerDeviceToken:[@"gilParsay" dataUsingEncoding:NSUTF8StringEncoding]];
+//    [LiCore failToRegisterDeviceToken];
+}
+
+- (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    
+}
+
+#pragma mark - Facebook Delegate Methods
+
+- (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    return [[LiKitFacebook getActiveSession] handleOpenURL:url];
 }
 
 @end

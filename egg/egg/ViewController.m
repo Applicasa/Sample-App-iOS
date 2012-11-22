@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "AlertShower.h"
 
 @implementation ViewController
 
@@ -33,6 +34,14 @@
     // Handle post-login actions & dismissal
     DDLogInfo(@"doing loggedIn delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
+    [AlertShower showAlertWithMessage:@"Logged In" OnViewController:self];
+
+}
+
+- (void)loginViewControllerDidRegister:(LoginViewController *)controller{
+    DDLogInfo(@"doing register delegate action");
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [AlertShower showAlertWithMessage:@"Registerd Succesfuly" OnViewController:self];
 }
 
 #pragma mark StoreViewControllerDelegate methods
