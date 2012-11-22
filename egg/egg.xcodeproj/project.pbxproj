@@ -28,9 +28,6 @@
 		C4514AB2163F09B20004CEA9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C4514AB0163F09B20004CEA9 /* InfoPlist.strings */; };
 		C4514AB4163F09B20004CEA9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4514AB3163F09B20004CEA9 /* main.m */; };
 		C4514AB8163F09B20004CEA9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4514AB7163F09B20004CEA9 /* AppDelegate.m */; };
-		C4514ABA163F09B20004CEA9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C4514AB9163F09B20004CEA9 /* Default.png */; };
-		C4514ABC163F09B20004CEA9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4514ABB163F09B20004CEA9 /* Default@2x.png */; };
-		C4514ABE163F09B20004CEA9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4514ABD163F09B20004CEA9 /* Default-568h@2x.png */; };
 		C4514AC1163F09B20004CEA9 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4514ABF163F09B20004CEA9 /* MainStoryboard.storyboard */; };
 		C4514AC4163F09B20004CEA9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4514AC3163F09B20004CEA9 /* ViewController.m */; };
 		C4514B01163F0E4D0004CEA9 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4514ACC163F0E4D0004CEA9 /* back@2x.png */; };
@@ -101,6 +98,9 @@
 		C4CB70E5165ECA1B00D4F8B2 /* PromoView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CB70D7165ECA1B00D4F8B2 /* PromoView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C4CB70E6165ECA1B00D4F8B2 /* User+Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CB70DA165ECA1B00D4F8B2 /* User+Facebook.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C4CB70E7165ECA1B00D4F8B2 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CB70DC165ECA1B00D4F8B2 /* User.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C4CB70E9165EDB5700D4F8B2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4CB70E8165EDB5700D4F8B2 /* Default@2x.png */; };
+		C4CB70EB165EDB6800D4F8B2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C4CB70EA165EDB6800D4F8B2 /* Default.png */; };
+		C4CB70EE165EDBED00D4F8B2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C4CB70ED165EDBED00D4F8B2 /* Default-568h@2x.png */; };
 		C4F1869A163F5F5A007C1514 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F18699163F5F5A007C1514 /* LoginViewController.m */; };
 		C4F1869D163FA0E7007C1514 /* StoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F1869C163FA0E7007C1514 /* StoreViewController.m */; };
 /* End PBXBuildFile section */
@@ -135,9 +135,6 @@
 		C4514AB5163F09B20004CEA9 /* egg-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "egg-Prefix.pch"; sourceTree = "<group>"; };
 		C4514AB6163F09B20004CEA9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C4514AB7163F09B20004CEA9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C4514AB9163F09B20004CEA9 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		C4514ABB163F09B20004CEA9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		C4514ABD163F09B20004CEA9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		C4514AC0163F09B20004CEA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		C4514AC2163F09B20004CEA9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		C4514AC3163F09B20004CEA9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
@@ -229,6 +226,9 @@
 		C4CB70DA165ECA1B00D4F8B2 /* User+Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+Facebook.m"; sourceTree = "<group>"; };
 		C4CB70DB165ECA1B00D4F8B2 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		C4CB70DC165ECA1B00D4F8B2 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		C4CB70E8165EDB5700D4F8B2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../../Default@2x.png"; sourceTree = "<group>"; };
+		C4CB70EA165EDB6800D4F8B2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../../Default.png; sourceTree = "<group>"; };
+		C4CB70ED165EDBED00D4F8B2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../Default-568h@2x.png"; sourceTree = "<group>"; };
 		C4F18698163F5F5A007C1514 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C4F18699163F5F5A007C1514 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C4F1869B163FA0E7007C1514 /* StoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreViewController.h; sourceTree = "<group>"; };
@@ -271,6 +271,8 @@
 		8485D932165E8D07008BD59A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				C438973B1653FF1A0064BF43 /* LiStoreCellBackground.h */,
+				C438973C1653FF1A0064BF43 /* LiStoreCellBackground.m */,
 				C48D6F13164CF98300BA7EC3 /* LiStoreCell.h */,
 				C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */,
 				8485D933165E8D2B008BD59A /* FBFriendCell.h */,
@@ -301,8 +303,6 @@
 				C4514AB7163F09B20004CEA9 /* AppDelegate.m */,
 				8485D932165E8D07008BD59A /* Cells */,
 				84949A45165E674C0080F6B0 /* ViewControllers */,
-				C438973B1653FF1A0064BF43 /* LiStoreCellBackground.h */,
-				C438973C1653FF1A0064BF43 /* LiStoreCellBackground.m */,
 				847D4A08165E2A9700BB524D /* AlertShower */,
 			);
 			name = "Egg Classes";
@@ -311,7 +311,6 @@
 		C4514A98163F09B20004CEA9 = {
 			isa = PBXGroup;
 			children = (
-				840E0E6D165CFA37000294BF /* LiKitIAP.framework */,
 				C4514AAD163F09B20004CEA9 /* egg */,
 				C4514AA6163F09B20004CEA9 /* Frameworks */,
 				C4514AA4163F09B20004CEA9 /* Products */,
@@ -329,6 +328,7 @@
 		C4514AA6163F09B20004CEA9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				840E0E6D165CFA37000294BF /* LiKitIAP.framework */,
 				C416C3EE1648FB83009008BB /* FacebookSDK.framework */,
 				C416C3E41648FB3C009008BB /* Li_AWSiOSSDK.framework */,
 				C416C3E51648FB3C009008BB /* LiCore.framework */,
@@ -363,9 +363,6 @@
 				C4514AB0163F09B20004CEA9 /* InfoPlist.strings */,
 				C4514AB3163F09B20004CEA9 /* main.m */,
 				C4514AB5163F09B20004CEA9 /* egg-Prefix.pch */,
-				C4514AB9163F09B20004CEA9 /* Default.png */,
-				C4514ABB163F09B20004CEA9 /* Default@2x.png */,
-				C4514ABD163F09B20004CEA9 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -381,6 +378,7 @@
 		C4514ACB163F0E4D0004CEA9 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				C4CB70EC165EDB6F00D4F8B2 /* splashScreens */,
 				84949A4A165E6D060080F6B0 /* Close.png */,
 				C463C720165107B9003CAA31 /* Icon.png */,
 				C463C721165107B9003CAA31 /* Icon@2x.png */,
@@ -600,6 +598,16 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		C4CB70EC165EDB6F00D4F8B2 /* splashScreens */ = {
+			isa = PBXGroup;
+			children = (
+				C4CB70EA165EDB6800D4F8B2 /* Default.png */,
+				C4CB70ED165EDBED00D4F8B2 /* Default-568h@2x.png */,
+				C4CB70E8165EDB5700D4F8B2 /* Default@2x.png */,
+			);
+			name = splashScreens;
+			sourceTree = "<group>";
+		};
 		C4F18695163F5ED3007C1514 /* classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -670,9 +678,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4514AB2163F09B20004CEA9 /* InfoPlist.strings in Resources */,
-				C4514ABA163F09B20004CEA9 /* Default.png in Resources */,
-				C4514ABC163F09B20004CEA9 /* Default@2x.png in Resources */,
-				C4514ABE163F09B20004CEA9 /* Default-568h@2x.png in Resources */,
 				C4514AC1163F09B20004CEA9 /* MainStoryboard.storyboard in Resources */,
 				C4514B01163F0E4D0004CEA9 /* back@2x.png in Resources */,
 				C4514B02163F0E4D0004CEA9 /* bg@2x.png in Resources */,
@@ -725,6 +730,9 @@
 				C463C723165107B9003CAA31 /* Icon@2x.png in Resources */,
 				C489A0DC165348540003DF91 /* README.txt in Resources */,
 				84949A4B165E6D090080F6B0 /* Close.png in Resources */,
+				C4CB70E9165EDB5700D4F8B2 /* Default@2x.png in Resources */,
+				C4CB70EB165EDB6800D4F8B2 /* Default.png in Resources */,
+				C4CB70EE165EDBED00D4F8B2 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -840,7 +848,7 @@
 		C4514AC8163F09B20004CEA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bob Waycott (G4CUFDE873)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
@@ -862,7 +870,7 @@
 		C4514AC9163F09B20004CEA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bob Waycott (G4CUFDE873)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
