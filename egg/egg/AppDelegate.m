@@ -65,16 +65,7 @@
     DDLogVerbose(@"New User!!!");
 }
 
-- (void) refreshStoreVC{
-    id viewController = self.window.rootViewController.presentedViewController;
-    if ([viewController isKindOfClass:[StoreViewController class]]){
-        StoreViewController *storeVC = viewController;
-        [storeVC viewDidLoad];
-    }
-}
-
 - (void)finishedIntializedLiKitIAPWithVirtualCurrencies:(NSArray *)virtualCurrencies VirtualGoods:(NSArray *)virtualGoods {
-    [self refreshStoreVC];
 #ifdef DEBUG
     DDLogInfo(@"############  FROM DELEGATE METHOD ##############");
     DDLogInfo(@"#### VirtualCurrency count: %d ####", virtualCurrencies.count);
