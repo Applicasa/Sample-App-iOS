@@ -1,7 +1,7 @@
 //
 // VirtualCurrency.m
 // Created by Applicasa 
-// 11/21/2012
+// 11/25/2012
 //
 
 #import "VirtualCurrency.h"
@@ -299,7 +299,7 @@ enum VirtualCurrencyIndexes {
 
 		default:
 			NSLog(@"Wrong LiField numerator for %@ Class",kClassName);
-			fieldName = @"";
+			fieldName = nil;
 			break;
 	}
 	
@@ -486,7 +486,7 @@ static LiBlockAction actionBlock = NULL;
 
         case GetArray:{
    			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
-            NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
+            NSArray *idsList = [responseData objectForKey:@"ids"];
             [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualCurrency getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
 			[request releaseBlock];
 
@@ -513,36 +513,6 @@ static LiBlockAction actionBlock = NULL;
     _block(error,array);
 }
 
-+ (LiFilters *) replaceFilterField:(LiFilters *)filter{
-    if ([filter isKindOfClass:[LiComplexFilters class]]){
-        LiComplexFilters *complexFilter = (LiComplexFilters *)filter;
-        complexFilter.operandA = [self replaceFilterField:complexFilter.operandA];
-        complexFilter.operandB = [self replaceFilterField:complexFilter.operandB];
-        return complexFilter;
-    } else{
-        if (filter.field){
-            LiFields field = [filter.field intValue];
-			if (field)
-				filter.field = [VirtualCurrency getFieldName:field];
-        }
-        return filter;
-    }    
-}
 
-+ (NSMutableArray *) replaceOrderArrayField:(NSMutableArray *)orderArray{
-    for (int i=0; i<orderArray.count; i++) {
-        LiObjOrder *order = [orderArray objectAtIndex:i];
-        order.sortField = [VirtualCurrency getFieldName:[order.sortField intValue]];
-        [orderArray replaceObjectAtIndex:i withObject:order];
-    }
-    return orderArray;
-}
-
-+ (LiQuery *) setFieldsNameToQuery:(LiQuery *)query{
-    query.filters = [self replaceFilterField:query.filters];
-    query.orderArray = [self replaceOrderArrayField:query.orderArray];
-	query.geoFilter = [self replaceFilterField:query.geoFilter];
-    return query;
-}
 
 @end

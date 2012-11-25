@@ -1,7 +1,7 @@
 //
 // VirtualCurrency.h
 // Created by Applicasa 
-// 11/21/2012
+// 11/25/2012
 //
 
 #import <Foundation/Foundation.h>
@@ -31,7 +31,7 @@
 @property (nonatomic, retain) NSString *virtualCurrencyDescription;
 @property (nonatomic, assign) float virtualCurrencyPrice;
 @property (nonatomic, assign) int virtualCurrencyCredit;
-@property (nonatomic, assign) LiCurrency virtualCurrencyKind;
+@property (nonatomic, assign) int virtualCurrencyKind;
 @property (nonatomic, retain) NSURL *virtualCurrencyImageA;
 @property (nonatomic, retain) NSURL *virtualCurrencyImageB;
 @property (nonatomic, retain) NSURL *virtualCurrencyImageC;

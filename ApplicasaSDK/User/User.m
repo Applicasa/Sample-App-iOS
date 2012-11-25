@@ -1,7 +1,7 @@
 //
 // User.m
 // Created by Applicasa 
-// 11/21/2012
+// 11/25/2012
 //
 
 #import "User.h"
@@ -76,8 +76,7 @@ enum UserIndexes {
 	UserImageIndex,
 	UserMainCurrencyBalanceIndex,
 	UserSecondaryCurrencyBalanceIndex,
-	UserTempDateIndex,
-};
+	UserTempDateIndex,};
 #define NUM_OF_USER_FIELDS 19
 
 
@@ -259,39 +258,6 @@ enum UserIndexes {
     _block(error,array);
 }
 
-+ (LiFilters *) replaceFilterField:(LiFilters *)filter{
-    if ([filter isKindOfClass:[LiComplexFilters class]]){
-        LiComplexFilters *complexFilter = (LiComplexFilters *)filter;
-        complexFilter.operandA = [self replaceFilterField:complexFilter.operandA];
-        complexFilter.operandB = [self replaceFilterField:complexFilter.operandB];
-        return complexFilter;
-    } else{
-        if (filter.field){
-            LiFields field = [filter.field intValue];
-			if (field)
-				filter.field = [User getFieldName:field];
-        }
-        return filter;
-    }    
-}
-
-+ (NSMutableArray *) replaceOrderArrayField:(NSMutableArray *)orderArray{
-    for (int i=0; i<orderArray.count; i++) {
-        LiObjOrder *order = [orderArray objectAtIndex:i];
-        order.sortField = [User getFieldName:[order.sortField intValue]];
-        [orderArray replaceObjectAtIndex:i withObject:order];
-    }
-    return orderArray;
-}
-
-+ (LiQuery *) setFieldsNameToQuery:(LiQuery *)query{
-    query.filters = [self replaceFilterField:query.filters];
-    query.orderArray = [self replaceOrderArrayField:query.orderArray];
-	query.geoFilter = [self replaceFilterField:query.geoFilter];
-    return query;
-}
-
-
 + (User *) getCurrentUser{
     return [LiCore getCurrentUser];
 }
@@ -454,6 +420,7 @@ enum UserIndexes {
 	[dictionary addValue:userPassword forKey:KEY_userPassword];
 	[dictionary addDateValue:userLastLogin forKey:KEY_userLastLogin];
 	[dictionary addDateValue:userRegisterDate forKey:KEY_userRegisterDate];
+	[dictionary addGeoValue:userLocation forKey:KEY_userLocation];
 	[dictionary addBoolValue:userIsRegisteredFacebook forKey:KEY_userIsRegisteredFacebook];
 	[dictionary addBoolValue:userIsRegistered forKey:KEY_userIsRegistered];
 	[dictionary addDateValue:userLastUpdate forKey:KEY_userLastUpdate];
@@ -542,10 +509,6 @@ enum UserIndexes {
 			fieldName = KEY_userRegisterDate;
 			break;
 
-		case UserLocation:
-			fieldName = KEY_userLocation;
-			break;
-
 		case UserIsRegisteredFacebook:
 			fieldName = KEY_userIsRegisteredFacebook;
 			break;
@@ -576,7 +539,7 @@ enum UserIndexes {
 
 		default:
 			NSLog(@"Wrong LiField numerator for %@ Class",kClassName);
-			fieldName = @"";
+			fieldName = nil;
 			break;
 	}
 	
@@ -770,7 +733,6 @@ enum UserIndexes {
    
     
     LiObjRequest *request = [LiObjRequest requestWithAction:Logout ClassName:kClassName];
-    //[request addValue:[[LiCore getCurrentUser] userID] forKey:@"_id"];
     [request startSync:TRUE];
     
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Logout Block:block];

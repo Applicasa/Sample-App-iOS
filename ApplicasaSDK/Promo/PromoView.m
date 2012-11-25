@@ -46,7 +46,7 @@
     [view sendSubviewToBack:bgImageView];
     
     UIButton *closeButton = [[[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-40, 20, 40, 40)] autorelease];
-    [closeButton setImage:[UIImage imageNamed:@"Close"] forState:UIControlStateNormal];
+    [closeButton setTitle:@"X" forState:UIControlStateNormal];
     [closeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [closeButton setBackgroundColor:[UIColor whiteColor]];
     [closeButton addTarget:view action:@selector(promoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];

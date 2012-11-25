@@ -1,7 +1,7 @@
 //
 // VirtualGoodCategory.m
 // Created by Applicasa 
-// 11/21/2012
+// 11/25/2012
 //
 
 #import "VirtualGoodCategory.h"
@@ -215,37 +215,7 @@ enum VirtualGoodCategoryIndexes {
     _block(error,array);
 }
 
-+ (LiFilters *) replaceFilterField:(LiFilters *)filter{
-    if ([filter isKindOfClass:[LiComplexFilters class]]){
-        LiComplexFilters *complexFilter = (LiComplexFilters *)filter;
-        complexFilter.operandA = [self replaceFilterField:complexFilter.operandA];
-        complexFilter.operandB = [self replaceFilterField:complexFilter.operandB];
-        return complexFilter;
-    } else{
-        if (filter.field){
-            LiFields field = [filter.field intValue];
-			if (field)
-				filter.field = [VirtualGoodCategory getFieldName:field];
-        }
-        return filter;
-    }    
-}
 
-+ (NSMutableArray *) replaceOrderArrayField:(NSMutableArray *)orderArray{
-    for (int i=0; i<orderArray.count; i++) {
-        LiObjOrder *order = [orderArray objectAtIndex:i];
-        order.sortField = [VirtualGoodCategory getFieldName:[order.sortField intValue]];
-        [orderArray replaceObjectAtIndex:i withObject:order];
-    }
-    return orderArray;
-}
-
-+ (LiQuery *) setFieldsNameToQuery:(LiQuery *)query{
-    query.filters = [self replaceFilterField:query.filters];
-    query.orderArray = [self replaceOrderArrayField:query.orderArray];
-	query.geoFilter = [self replaceFilterField:query.geoFilter];
-	return query;
-}
 
 - (void) setField:(LiFields)field WithValue:(id)value{
 	switch (field) {
@@ -366,7 +336,7 @@ enum VirtualGoodCategoryIndexes {
 
 		default:
 			NSLog(@"Wrong LiField numerator for %@ Class",kClassName);
-			fieldName = @"";
+			fieldName = nil;
 			break;
 	}
 	
