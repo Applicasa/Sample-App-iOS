@@ -9,13 +9,14 @@
 #import "FindFriendsViewController.h"
 #import "User+Facebook.h"
 #import "FBFriendCell.h"
+#import "AlertShower.h"
 
 @interface FindFriendsViewController ()
 
 @end
 
 @implementation FindFriendsViewController
-@synthesize fbFriendsArray;
+@synthesize fbFriendsArray,selectionsArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -54,10 +55,32 @@
 
 - (IBAction)challengeFriend:(id)sender{
     DDLogInfo(@"User said challengeFriend. Challenging ...");
+    NSMutableArray *usersArray = [[NSMutableArray alloc] init];
+    for (LiObjFBFriend *friend in fbFriendsArray)
+        if ([[friend user] userID])
+            [usersArray addObject:[friend user]];
+    
+    [LiCore sendPush:[LiObjPushNotification pushWithMessage:@"I am challanging you my friend" Sound:nil Badge:1 Tag:nil] ToUsers:usersArray WithBlock:^(NSError *error, NSString *message, LiObjPushNotification *pushObject) {
+        if (error)
+            [AlertShower showAlertWithMessage:error.localizedDescription OnViewController:self];
+        else
+            [AlertShower showAlertWithMessage:@"Challange Sent" OnViewController:self];
+    }];
 }
 
 - (IBAction)inviteFriend:(id)sender{
     DDLogInfo(@"User said inviteFriend. Inviting ...");
+    
+}
+
+- (void) friendSelected:(NSIndexPath *)indexPath{
+    if (!selectionsArray)
+        self.selectionsArray = [[NSMutableArray alloc] init];
+    [selectionsArray addObject:[fbFriendsArray objectAtIndex:indexPath.row]];
+}
+
+- (void) friendDeSelected:(NSIndexPath *)indexPath{
+    [selectionsArray removeObject:[fbFriendsArray objectAtIndex:indexPath.row]];
 }
 
 #pragma mark - UITableView Data Source
@@ -68,8 +91,7 @@
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     FBFriendCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell"];
-    if (cell == nil)
-        cell = [[FBFriendCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"friendCell" Friend:[fbFriendsArray objectAtIndex:indexPath.row]];
+    [cell configureWithFriend:[fbFriendsArray objectAtIndex:indexPath.row]];
     
     return cell;
 }

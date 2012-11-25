@@ -13,6 +13,7 @@
 #import "VirtualGood.h"
 #import "StoreViewController.h"
 #import "User+Facebook.h"
+#import "LiUserLocation.h"
 #import <FacebookSDK/FBSession.h>
 
 @implementation AppDelegate
@@ -65,8 +66,15 @@
     DDLogVerbose(@"New User!!!");
 }
 
+- (void) refreshStoreViewController{
+    UIViewController *currenctViewController = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentedViewController];
+    if ([currenctViewController isKindOfClass:[StoreViewController class]])
+        [currenctViewController viewDidLoad];
+}
+
 - (void)finishedIntializedLiKitIAPWithVirtualCurrencies:(NSArray *)virtualCurrencies VirtualGoods:(NSArray *)virtualGoods {
 #ifdef DEBUG
+    [self refreshStoreViewController];
     DDLogInfo(@"############  FROM DELEGATE METHOD ##############");
     DDLogInfo(@"#### VirtualCurrency count: %d ####", virtualCurrencies.count);
     for (VirtualCurrency *currentItem in virtualCurrencies) {
@@ -88,6 +96,8 @@
 - (void)liKitPromotionsHasPromos {
     DDLogInfo(@"!!! We have promotions !!!");
     UIViewController *viewController = self.window.rootViewController.presentedViewController;
+    if (!viewController)
+        viewController = self.window.rootViewController;
     [LiKitPromotions getAllAvailblePromosWithBlock:^(NSError *error, NSArray *array) {
         if ([array count] > 0) {
             for (Promotion *promo in array) {
@@ -103,8 +113,7 @@
 }
 
 - (void) application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-    [LiCore registerDeviceToken:[@"gilParsay" dataUsingEncoding:NSUTF8StringEncoding]];
-//    [LiCore failToRegisterDeviceToken];
+    [LiCore failToRegisterDeviceToken];
 }
 
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{

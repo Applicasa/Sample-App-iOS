@@ -24,6 +24,9 @@
             btnVirtualItems,
             storeItemView;
 
+static UIImage *virtualCurrencyImage = nil;
+static UIImage *virtualGoodImage = nil;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -37,6 +40,12 @@
 {
     [super viewDidLoad];
     [self updateBalanceLabel];
+    
+    if (!virtualCurrencyImage)
+        virtualCurrencyImage = [UIImage imageNamed:@"btnBuyCoins"];
+    if (!virtualGoodImage)
+        virtualGoodImage = [UIImage imageNamed:@"green_btn"];
+    
     collectionItems = [[NSMutableArray alloc] init];
     storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent@2x.png"]];
     
@@ -46,7 +55,7 @@
         LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
         [activityView removeFromSuperview];
     } else {
-        [LiActivityIndicator startAnimatingOnView:self.view];
+        [[LiActivityIndicator startAnimatingOnView:self.view] setLabelText:nil];
     }
 }
 
@@ -79,10 +88,12 @@
             // purchase success
             DDLogWarn(@"Bought item: %@", [obj virtualGoodTitle]);
             [self updateBalanceLabel];
+            [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Bought %@",[obj virtualGoodTitle]] OnViewController:self];
         }
         else {
             // purchased failed
             DDLogError(@"Purchase Error: %@", error);
+            [AlertShower showAlertWithMessage:error.localizedDescription OnViewController:self];
         }
     }];
 }
@@ -90,7 +101,7 @@
 - (void)buyVirtualCurrency:(id)obj {
     // generic helper for buying currency
     LiActivityIndicator *buyingActivity = [LiActivityIndicator startAnimatingOnView:self.view];
-    [buyingActivity setLabelText:@"Purchasing"];
+    [buyingActivity setLabelText:nil];
     [IAP buyVirtualCurrency:obj WithBlock:^(NSError *error, NSString *itemID, Actions action) {
         [buyingActivity stopAndRemove];
         if (error == nil) {
@@ -100,6 +111,7 @@
             [AlertShower showAlertWithMessage:@"Purchase success!" OnViewController:self];
         }
         else {
+            [AlertShower showAlertWithMessage:error.localizedDescription OnViewController:self];
             // purchase failed
             DDLogError(@"Purchase Error: %@", error);
         }
@@ -223,13 +235,14 @@
     if (isDisplayingVirtualGoods) {
         // Customize cell for displaying virtual goods
         imageUrl = [item virtualGoodImageA];
-        title = [NSString stringWithFormat:@"%d coins",[item virtualGoodMainCurrency]];
-
+        title = [NSString stringWithFormat:@"%d",[item virtualGoodMainCurrency]];
+        [cell.btnBuy setBackgroundImage:virtualGoodImage forState:UIControlStateNormal];
     } else if (isDisplayingVirtualCurrency) {
         // Customize cell for displaying virtual currencies
         imageUrl = [item virtualCurrencyImageA];
         title = [NSString stringWithFormat:@"$%g",[item virtualCurrencyPrice]];
         [cell setInfoText:[NSString stringWithFormat:@"%d %@",[item virtualCurrencyCredit],([item virtualCurrencyKind]==MainCurrency)?@"Coins":@"Gems"]];
+        [cell.btnBuy setBackgroundImage:virtualCurrencyImage forState:UIControlStateNormal];
     } else if (isDisplayingUserInventory) {
         // Customize cell for displaying virtual goods
         imageUrl = [item virtualGoodImageA];

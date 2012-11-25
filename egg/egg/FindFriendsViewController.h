@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @class FindFriendsViewController;
+@class LiObjFBFriend;
+
 @protocol FindFriendsViewControllerDelegate <NSObject>
 // delegate for handling login controller actions
 - (void) findFriendsViewControllerDidGoBack:(FindFriendsViewController*)controller;
@@ -19,11 +21,15 @@
 @property (nonatomic, weak) id <FindFriendsViewControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UITableView *friendsTableView;
 @property (nonatomic, strong) NSArray *fbFriendsArray;
+@property (nonatomic, strong) NSMutableArray *selectionsArray;
 
 // actions for storyboard
 - (IBAction)goBack:(id)sender;
 - (IBAction)shareOnFB:(id)sender;
 - (IBAction)challengeFriend:(id)sender;
 - (IBAction)inviteFriend:(id)sender;
+
+- (void) friendSelected:(NSIndexPath *)indexPath;
+- (void) friendDeSelected:(NSIndexPath *)indexPath;
 
 @end

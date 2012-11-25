@@ -22,6 +22,9 @@ typedef enum {
 // User-based session events
     userFirstSession = 1200,
     userReturnSession,
+    userLogin,
+    userLogout,
+    userRegister,
     
 // Game events
     gameStarted = 1300,

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		840E0E6E165CFA37000294BF /* LiKitIAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840E0E6D165CFA37000294BF /* LiKitIAP.framework */; };
 		847D4A06165E2A9000BB524D /* AlertShower.m in Sources */ = {isa = PBXBuildFile; fileRef = 847D4A05165E2A9000BB524D /* AlertShower.m */; };
+		847DF21216626D980015A5F8 /* green_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 847DF21116626D980015A5F8 /* green_btn.png */; };
+		847DF215166278100015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png in Resources */ = {isa = PBXBuildFile; fileRef = 847DF214166278100015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png */; };
+		847DF2171662781D0015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png in Resources */ = {isa = PBXBuildFile; fileRef = 847DF2161662781D0015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png */; };
 		8485D930165E8897008BD59A /* FindFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8485D92F165E8897008BD59A /* FindFriendsViewController.m */; };
 		8485D935165E8D2B008BD59A /* FBFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8485D934165E8D2B008BD59A /* FBFriendCell.m */; };
 		84949A4B165E6D090080F6B0 /* Close.png in Resources */ = {isa = PBXBuildFile; fileRef = 84949A4A165E6D060080F6B0 /* Close.png */; };
@@ -109,6 +112,9 @@
 		840E0E6D165CFA37000294BF /* LiKitIAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiKitIAP.framework; path = ../ApplicasaFrameworks/LiKitIAP.framework; sourceTree = "<group>"; };
 		847D4A04165E2A9000BB524D /* AlertShower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertShower.h; sourceTree = "<group>"; };
 		847D4A05165E2A9000BB524D /* AlertShower.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertShower.m; sourceTree = "<group>"; };
+		847DF21116626D980015A5F8 /* green_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_btn.png; sourceTree = "<group>"; };
+		847DF214166278100015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png"; sourceTree = "<group>"; };
+		847DF2161662781D0015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png"; sourceTree = "<group>"; };
 		8485D92E165E8897008BD59A /* FindFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindFriendsViewController.h; sourceTree = "<group>"; };
 		8485D92F165E8897008BD59A /* FindFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindFriendsViewController.m; sourceTree = "<group>"; };
 		8485D933165E8D2B008BD59A /* FBFriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFriendCell.h; sourceTree = "<group>"; };
@@ -268,6 +274,15 @@
 			name = AlertShower;
 			sourceTree = "<group>";
 		};
+		847DF213166277FF0015A5F8 /* AppStart Promo */ = {
+			isa = PBXGroup;
+			children = (
+				847DF2161662781D0015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png */,
+				847DF214166278100015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png */,
+			);
+			name = "AppStart Promo";
+			sourceTree = "<group>";
+		};
 		8485D932165E8D07008BD59A /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,6 +393,7 @@
 		C4514ACB163F0E4D0004CEA9 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				847DF213166277FF0015A5F8 /* AppStart Promo */,
 				C4CB70EC165EDB6F00D4F8B2 /* splashScreens */,
 				84949A4A165E6D060080F6B0 /* Close.png */,
 				C463C720165107B9003CAA31 /* Icon.png */,
@@ -432,6 +448,7 @@
 		C4514ADF163F0E4D0004CEA9 /* iap */ = {
 			isa = PBXGroup;
 			children = (
+				847DF21116626D980015A5F8 /* green_btn.png */,
 				C4514AE0163F0E4D0004CEA9 /* btnBuyCoins@2x.png */,
 				C4514AE1163F0E4D0004CEA9 /* btnBuyItem@2x.png */,
 				C4514AE2163F0E4D0004CEA9 /* coins1@2x.png */,
@@ -733,6 +750,9 @@
 				C4CB70E9165EDB5700D4F8B2 /* Default@2x.png in Resources */,
 				C4CB70EB165EDB6800D4F8B2 /* Default.png in Resources */,
 				C4CB70EE165EDBED00D4F8B2 /* Default-568h@2x.png in Resources */,
+				847DF21216626D980015A5F8 /* green_btn.png in Resources */,
+				847DF215166278100015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png in Resources */,
+				847DF2171662781D0015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -848,7 +868,7 @@
 		C4514AC8163F09B20004CEA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bob Waycott (G4CUFDE873)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
@@ -857,12 +877,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "egg/egg-Prefix.pch";
 				INFOPLIST_FILE = "egg/egg-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
+				PROVISIONING_PROFILE = "14D830A7-90A5-40BF-81F5-2F557A83F55D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -870,7 +891,7 @@
 		C4514AC9163F09B20004CEA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Bob Waycott (G4CUFDE873)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
@@ -879,12 +900,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "egg/egg-Prefix.pch";
 				INFOPLIST_FILE = "egg/egg-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
+				PROVISIONING_PROFILE = "14D830A7-90A5-40BF-81F5-2F557A83F55D";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

@@ -5,8 +5,8 @@
 // Behaviors keys
 #define kEnable_Push FALSE
 #define kPush_popup_on_start FALSE
-#define kEnable_Applicasa_Debug FALSE
-#define kEnable_Location FALSE
+#define kEnable_Applicasa_Debug TRUE
+#define kEnable_Location TRUE
 #define kEnable_Offline TRUE
 #define kSandbox_Environment TRUE
 

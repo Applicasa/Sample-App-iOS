@@ -9,11 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <LiKitFacebook/LiObjFBFriend.h>
 
-@interface FBFriendCell : UITableViewCell
+@interface FBFriendCell : UITableViewCell{
+
+}
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *addButton;
 
 - (id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier Friend:(LiObjFBFriend *)liObjFbFriend;
+- (void) configureWithFriend:(LiObjFBFriend *)liObjFbFriend;
 
 @end

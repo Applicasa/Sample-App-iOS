@@ -35,32 +35,30 @@
 + (PromoView *) promoViewWithPromotion:(Promotion *)promotion Frame:(CGRect)frame{
     PromoView *view = [[PromoView alloc] initWithFrame:frame];
     view.promotion = promotion;
-    
-    //[view setBackgroundColor:[UIColor colorWithPatternImage:bgImage]];
+    [view setBackgroundColor:[UIColor clearColor]];
     
     UIImageView *bgImageView = [[[UIImageView alloc] initWithFrame:frame] autorelease];
     [bgImageView setUserInteractionEnabled:TRUE];
     [bgImageView setContentMode:UIViewContentModeScaleAspectFit];
-    [bgImageView setBackgroundColor:[UIColor grayColor]];
+    [bgImageView setBackgroundColor:[UIColor clearColor]];
     [view addSubview:bgImageView];
     [view sendSubviewToBack:bgImageView];
     
-    UIButton *closeButton = [[[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-40, 20, 40, 40)] autorelease];
-    [closeButton setTitle:@"X" forState:UIControlStateNormal];
+    UIButton *closeButton = [[[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-60, 15, 40, 40)] autorelease];
+    [closeButton setImage:[UIImage imageNamed:@"Close"] forState:UIControlStateNormal];
     [closeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [closeButton setBackgroundColor:[UIColor whiteColor]];
+    [closeButton setBackgroundColor:[UIColor clearColor]];
     [closeButton addTarget:view action:@selector(promoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     closeButton.tag = kCancelButtonTag;
     [view addSubview:closeButton];
     
     UIButton *actionButton = [[[UIButton alloc] initWithFrame:CGRectMake((frame.size.width/10)*3, (frame.size.height/10)*7, (frame.size.width/10)*4, (frame.size.height/10)*2)] autorelease];
     [actionButton addTarget:view action:@selector(promoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [actionButton setBackgroundColor:[UIColor whiteColor]];
+    [actionButton setBackgroundColor:[UIColor clearColor]];
     actionButton.tag = kActionButtonTag;
     [view addSubview:actionButton];
     
     LiActivityIndicator *bgActivity = [LiActivityIndicator startAnimatingOnView:bgImageView];
-    LiActivityIndicator *btnActivity = [LiActivityIndicator startAnimatingOnView:actionButton];
     
     [[promotion promotionImage] getCachedImageWithBlock:^(NSError *error, UIImage *image) {
         [bgImageView setImage:image];
@@ -69,7 +67,6 @@
     
     [[promotion promotionButton] getCachedImageWithBlock:^(NSError *error, UIImage *image) {
         [actionButton setImage:image forState:UIControlStateNormal];
-        [btnActivity stopAndRemove];
     }];
     
     return [view autorelease];
