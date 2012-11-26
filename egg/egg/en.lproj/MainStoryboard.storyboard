@@ -307,7 +307,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JWR-zG-Si7" userLabel="inputPassword">
                                 <accessibility key="accessibilityConfiguration" hint="Input your password" label="Password"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="hideKeyboard:" destination="IfU-ab-ueM" eventType="editingDidEndOnExit" id="uaX-PB-huZ"/>
                                 </connections>
