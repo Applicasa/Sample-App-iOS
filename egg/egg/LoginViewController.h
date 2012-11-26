@@ -2,7 +2,7 @@
 //  LoginViewController.h
 //  egg
 //
-//  Created by Bob Waycott on 10/29/12.
+//  Created by Applicasa
 //  Copyright (c) 2012 Applicasa. All rights reserved.
 //
 

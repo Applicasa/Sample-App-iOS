@@ -2,7 +2,7 @@
 //  AlertShower.m
 //  egg
 //
-//  Created by admin on 11/22/12.
+//  Created by Applicasa
 //  Copyright (c) 2012 Applicasa. All rights reserved.
 //
 

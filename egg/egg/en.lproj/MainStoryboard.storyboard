@@ -300,11 +300,17 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
+                                <connections>
+                                    <action selector="hideKeyboard:" destination="IfU-ab-ueM" eventType="editingDidEndOnExit" id="Yfw-Is-6wO"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="JWR-zG-Si7" userLabel="inputPassword">
                                 <accessibility key="accessibilityConfiguration" hint="Input your password" label="Password"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                                <connections>
+                                    <action selector="hideKeyboard:" destination="IfU-ab-ueM" eventType="editingDidEndOnExit" id="uaX-PB-huZ"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -574,7 +580,6 @@
         <!--Find Friends View Controller-->
         <scene sceneID="tHo-0G-5l1">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kom-ck-aCG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Uea-O3-wnq" customClass="FindFriendsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8ah-hA-Kq5">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
@@ -750,6 +755,7 @@
                         <outlet property="friendsTableView" destination="xP2-S2-XSf" id="J6E-6n-3H1"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kom-ck-aCG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="706" y="1132"/>
         </scene>
@@ -788,6 +794,7 @@
         <class className="FBFriendCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FBFriendCell.h"/>
             <relationships>
+                <relationship kind="action" name="addAction:" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="addButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
@@ -846,6 +853,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="ViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ViewController.h"/>

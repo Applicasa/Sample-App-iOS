@@ -52,7 +52,7 @@
     closeButton.tag = kCancelButtonTag;
     [view addSubview:closeButton];
     
-    UIButton *actionButton = [[[UIButton alloc] initWithFrame:CGRectMake((frame.size.width/10)*3, (frame.size.height/10)*7, (frame.size.width/10)*4, (frame.size.height/10)*2)] autorelease];
+    UIButton *actionButton = [[[UIButton alloc] initWithFrame:CGRectMake((frame.size.width/10)*3, (frame.size.height/10)*8, (frame.size.width/10)*4, (frame.size.height/10)*2)] autorelease];
     [actionButton addTarget:view action:@selector(promoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [actionButton setBackgroundColor:[UIColor clearColor]];
     actionButton.tag = kActionButtonTag;
@@ -66,6 +66,12 @@
     }];
     
     [[promotion promotionButton] getCachedImageWithBlock:^(NSError *error, UIImage *image) {
+        CGRect rect = actionButton.frame;
+        rect.size.width = (image.size.width)/2;
+        rect.size.height = (image.size.height)/2;
+        rect.origin.x = (view.frame.size.width-rect.size.width)/2;
+        
+        [actionButton setFrame:rect];
         [actionButton setImage:image forState:UIControlStateNormal];
     }];
     

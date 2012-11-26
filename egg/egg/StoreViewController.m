@@ -2,7 +2,7 @@
 //  StoreViewController.m
 //  egg
 //
-//  Created by Bob Waycott on 10/30/12.
+//  Created by Applicasa
 //  Copyright (c) 2012 Applicasa. All rights reserved.
 //
 
@@ -36,6 +36,12 @@ static UIImage *virtualGoodImage = nil;
     return self;
 }
 
+/*
+ viewDidLoad method
+ Init the UI with the VirtualItems.
+ If LiKitIAP still loading presenting an Activity View
+ */
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -60,6 +66,11 @@ static UIImage *virtualGoodImage = nil;
 }
 
 #pragma mark Helper methods
+/*
+ A method to update the data array
+ The block is the same for all the gets
+ Only the data is different
+ */
 - (void)updateStoreItemViewData {
     GetVirtualCurrencyArrayFinished block = ^(NSError *error, NSArray *array) {
         [collectionItems setArray:array];
@@ -75,12 +86,22 @@ static UIImage *virtualGoodImage = nil;
         [IAP getAllVirtualCurrenciesWithBlock:block];
     }
 }
+
+/*
+ A method to update the balance label
+ Get the current main currency balance
+ */
 - (void)updateBalanceLabel {
     // updates User's balance displayed in the top-right corner of the the view
     self.coinTotal.text = [NSString stringWithFormat:@"%d", [IAP getCurrentUserMainBalance]];
 }
 
 #pragma mark Give/Buy/Use methods
+/*
+ But Virtual Good
+ Commit the buy, and update the label if the purchase succeeded.
+ Present the relevant alert according to the error pointer content
+ */
 - (void)buyVirtualGood:(id)obj {
     // generic helper for buying virtual items
     [IAP buyVirtualGood:obj Quantity:1 CurrencyKind:MainCurrency WithBlock:^(NSError *error, NSString *itemID, Actions action) {
@@ -98,6 +119,14 @@ static UIImage *virtualGoodImage = nil;
     }];
 }
 
+/*
+ But Virtual Currency - purchase from itunes connect products
+ --Works only in online mode--
+ 
+ Commit the purchase, and update the label if the purchase succeeded.
+ Present the relevant alert according to the error pointer content
+ Present an activity indicator view while purchasing
+ */
 - (void)buyVirtualCurrency:(id)obj {
     // generic helper for buying currency
     LiActivityIndicator *buyingActivity = [LiActivityIndicator startAnimatingOnView:self.view];
@@ -118,6 +147,12 @@ static UIImage *virtualGoodImage = nil;
     }];
 }
 
+/*
+ Use a virtual good item which the user had bought
+ update the UI if use succeeded
+ 
+ Presnet an alert message if failed
+ */
 - (void)useInventoryItem:(id)obj {
     // generic helper for using inventory
     [IAP useVirtualGood:obj Quantity:1 WithBlock:^(NSError *error, NSString *itemID, Actions action) {
@@ -136,6 +171,9 @@ static UIImage *virtualGoodImage = nil;
 
 
 #pragma mark UI state-handling methods
+/*
+ UI Stuff...
+ */
 - (void)activateVirtualGoodsDisplay {
     // sets UI for displaying virtual goods
     isDisplayingVirtualGoods = YES;
@@ -239,6 +277,7 @@ static UIImage *virtualGoodImage = nil;
         [cell.btnBuy setBackgroundImage:virtualGoodImage forState:UIControlStateNormal];
     } else if (isDisplayingVirtualCurrency) {
         // Customize cell for displaying virtual currencies
+        // Attaching the relevant currency name according to the virtualCurrencyKind value (LiCurrency)
         imageUrl = [item virtualCurrencyImageA];
         title = [NSString stringWithFormat:@"$%g",[item virtualCurrencyPrice]];
         [cell setInfoText:[NSString stringWithFormat:@"%d %@",[item virtualCurrencyCredit],([item virtualCurrencyKind]==MainCurrency)?@"Coins":@"Gems"]];

@@ -2,9 +2,14 @@
 //  ViewController.m
 //  egg
 //
-//  Created by Bob Waycott on 10/29/12.
+//  Created by Applicasa
 //  Copyright (c) 2012 Applicasa. All rights reserved.
 //
+
+/*
+ ViewController Calss Do nothing but being a main view
+ that allows the user to naigate its way
+ */
 
 #import "ViewController.h"
 #import "AlertShower.h"

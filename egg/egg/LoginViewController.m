@@ -2,9 +2,23 @@
 //  LoginViewController.m
 //  egg
 //
-//  Created by Bob Waycott on 10/29/12.
+//  Created by Applicasa
 //  Copyright (c) 2012 Applicasa. All rights reserved.
 //
+
+/*
+ LoginViewController Class present the main methods of User management in applicasa
+ which are:
+ Register,
+ Login,
+ LoginWithFacebook
+ 
+ Other methods that Applicasa provide but we didn't implement here:
+ Logout, facebookLogout
+ Update username
+ Update password
+ Forgot password
+ */
 
 #import "LoginViewController.h"
 #import "User+Facebook.h"
@@ -45,6 +59,17 @@
     [self.delegate loginViewControllerDidCancel:self];
 }
 
+/*
+ Login Method
+ This method takes the username & password from the UITextFields
+ And call for login (sync method)
+ 
+ The login call return the result in the block
+ If the error isn't nil logged in succesfuly.
+ else, there was an error and we present the error description
+ 
+ */
+
 - (IBAction)loggedIn:(id)sender {
     [User loginUserWithUsername:inputUsername.text Password:inputUsername.text WithBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (!error){
@@ -56,6 +81,21 @@
     }];
 }
 
+/*
+ Register Method
+ This method takes the username & password from the UITextFields
+ And call for regiser (sync method)
+ 
+ We are able to insert more info to ther user
+ ect.
+ [currentUser setUserPhone:@"055-1234567"];
+ 
+ The regiser call return the result in the block
+ If the error isn't nil regisered in succesfuly.
+ else, there was an error and we present the error description
+ 
+ */
+
 - (IBAction)registerAction:(id)sender{
     User *currentUser = [LiCore getCurrentUser];
     [currentUser registerUserWithUsername:inputUsername.text Password:inputPassword.text WithBlock:^(NSError *error, NSString *itemID, Actions action) {
@@ -66,6 +106,18 @@
         }
     }];
 }
+
+/*
+ Login with facebook
+ 
+ The method declare in User+Facebook (User category)
+ This method open activate the FBSession if its not activate
+ You need also to implement the AppDelegate relevant delegate method
+ Follow facebook instruction about how to define the app to use facebook oath
+ 
+ The method return the userID in the delegate
+ The User instance availble in [User getCurrentUser]
+ */
 
 - (IBAction)facebookLogin:(id)sender{
     User *currentUser = [LiCore getCurrentUser];
