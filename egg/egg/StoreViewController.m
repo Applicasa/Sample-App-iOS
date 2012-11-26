@@ -140,7 +140,6 @@ static UIImage *virtualGoodImage = nil;
             [AlertShower showAlertWithMessage:@"Purchase success!" OnViewController:self];
         }
         else {
-            [AlertShower showAlertWithMessage:error.localizedDescription OnViewController:self];
             // purchase failed
             DDLogError(@"Purchase Error: %@", error);
         }
