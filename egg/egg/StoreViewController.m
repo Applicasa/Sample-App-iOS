@@ -285,6 +285,7 @@ static UIImage *virtualGoodImage = nil;
         // Customize cell for displaying virtual goods
         imageUrl = [item virtualGoodImageA];
         title = [NSString stringWithFormat:@"%d",[item virtualGoodUserInventory]];
+        [cell.btnBuy setBackgroundImage:virtualCurrencyImage forState:UIControlStateNormal];
     }
     
     LiActivityIndicator *indicator = (LiActivityIndicator *)[cell viewWithTag:kActivityViewTag];
