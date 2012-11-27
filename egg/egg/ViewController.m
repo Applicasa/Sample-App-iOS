@@ -28,13 +28,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark FindFriendsViewControllerDelegate methods
-- (void)findFriendsViewControllerDidGoBack:(FindFriendsViewController *)controller {
-    // Handle dismissing FindFriendsViewController when user taps back button
-    DDLogInfo(@"doing goBack delegate action for FindFriends");
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
 #pragma mark LoginViewControllerDelegate methods
 - (void)loginViewControllerDidCancel:(LoginViewController *)controller {
     // Handle dismissing LoginViewController when user taps "Login Later"
@@ -75,11 +68,6 @@
         DDLogInfo(@"doing store segue");
         StoreViewController *storeModal = segue.destinationViewController;
         storeModal.delegate = self;
-    }
-    else if ([segue.identifier isEqualToString:@"findFriendsSegue"]) {
-        DDLogInfo(@"doing findFriends segue");
-        FindFriendsViewController *findFriendsModal = segue.destinationViewController;
-        findFriendsModal.delegate = self;
     }
 }
 

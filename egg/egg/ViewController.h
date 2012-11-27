@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
-#import "FindFriendsViewController.h"
 #import "StoreViewController.h"
 
-@interface ViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate, FindFriendsViewControllerDelegate>
+@interface ViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate>
 
 @end
