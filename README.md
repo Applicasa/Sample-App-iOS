@@ -22,15 +22,6 @@ Egg is an imagined game that shows common scenarios and code samples that develo
   * Login/Logout via Facebook
 4. Implementing Promotion handling via Applicasa's Promotion framework
   * Easy-to-use promotions that are triggered by events that happen inside your game
-  * Events that can be triggered inside Egg:
-    1. First-time User
-    2. First-time Virtual Currency Purchase
-    3. First-time Virtual Good Purchase
-    4. Low-balance Promotion
-  * Three types of Promotions you can use in your game:
-    1. Announcements
-    2. Deals
-    3. Rewards
 
 ## Getting Started
 
@@ -53,6 +44,27 @@ Egg is currently built to take advantage of the latest iOS features. For that re
 **However**, the current Applicasa frameworks and SDK target **iOS 4+**, so don't be worried that you must immediately port your app to iOS 6 to use Applicasa's extensive features. You can still use Egg as a reference for how to implement Applicasa functionality in your game. At some point in the future, Applicasa will continue to move forward, and we'll always let our developers know when this requires moving up in iOS versions.
 
 ## Other Remarks
+
+### A Word on Promotions
+
+Promotions can be triggered by events inside your application.
+
+Events that can be triggered inside Egg:
+* First-time User
+* First-time Virtual Currency Purchase
+* First-time Virtual Good Purchase
+* Low-balance Promotion
+
+Three types of Promotions you can use in your game:
+* Announcements (news updates, new app versions, etc.)
+* Deals (special offers on in-app purchases & virtual goods, etc.)
+* Rewards (special rewards for completing tasks in the game, etc.)
+
+### Customizing Your Applicasa Application
+
+All customization of IAP items, Promotions, Virtual Currencies, Virtual Goods, and custom data are handled via the Applicsa web console. [Sign up for a private beta account](http://applicasa.com/#Register) to experience more.
+
+<img src="readme_imgs/web-console.png" height="675" width="1279"/>
 
 ### Making Test IAP Purchases
 
