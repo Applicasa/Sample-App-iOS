@@ -62,7 +62,7 @@ Events that can be triggered inside Egg:
 * First-time Virtual Good Purchase
 * Low-balance Promotion
 
-Three types of Promotions you can use in your game:
+The three types of promotions that can be used in your game:
 * Announcements (news updates, new app versions, etc.)
 * Deals (special offers on in-app purchases & virtual goods, etc.)
 * Rewards (special rewards for completing tasks in the game, etc.)
@@ -73,7 +73,7 @@ All customization of IAP items, Promotions, Virtual Currencies, Virtual Goods, a
 
 <img src="https://raw.github.com/Applicasa/egg/stable/readme_imgs/web-console.png"/>
 
-The screenshot below is one of the steps require to create a promotion. In the Egg case, it's a promo in the form of a deal, offering 20% off on another virtual good. This promo is triggered once the player made his/hers first purchase. Our promotional tool offers many different events that can trigger these kind of promos during the user's game play.
+The screenshot below is one of the steps required to create a promotion. Here it's a promo in the form of a deal, offering 20% off on another virtual good. This promo is triggered once the player has made his/her first purchase. Our promotional tool offers many different events that can trigger these kinds of promotions during the game.
 
 <img src="https://raw.github.com/Applicasa/egg/stable/readme_imgs/Offer.png"/>
 
