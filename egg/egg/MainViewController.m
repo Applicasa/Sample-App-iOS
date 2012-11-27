@@ -11,10 +11,10 @@
  that allows the user to naigate its way
  */
 
-#import "ViewController.h"
+#import "MainViewController.h"
 #import "AlertShower.h"
 
-@implementation ViewController
+@implementation MainViewController
 
 - (void)viewDidLoad
 {

@@ -10,6 +10,6 @@
 #import "LoginViewController.h"
 #import "StoreViewController.h"
 
-@interface ViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate>
+@interface MainViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate>
 
 @end
