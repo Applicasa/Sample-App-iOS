@@ -20,6 +20,8 @@ Egg is an imagined game that shows common scenarios and code samples that develo
   * Register new users
   * Login/Logout via Applicasa
   * Login/Logout via Facebook
+* Implementing Promotion handling via Applicasa's Promotion framework
+  * Easy-to-use promotions that are triggered by events that happen inside your game
 
 ## Getting Started
 
@@ -42,6 +44,13 @@ Egg is currently built to take advantage of the latest iOS features. For that re
 **However**, the current Applicasa frameworks and SDK target **iOS 4+**, so don't be worried that you must immediately port your app to iOS 6 to use Applicasa's extensive features. You can still use Egg as a reference for how to implement Applicasa functionality in your game. At some point in the future, Applicasa will continue to move forward, and we'll always let our developers know when this requires moving up in iOS versions.
 
 ## Other Remarks
+
+### Making Test IAP Purchases
+
+Because this is a sandboxed app, you must use a test account to make IAP purchases (for virtual currencies). We have created a test user that can be used with the app as-is. The credentials are:
+
+* username: eggtest@applicasa.com
+* password: EggTest1
 
 ### A Word on Branches
 
