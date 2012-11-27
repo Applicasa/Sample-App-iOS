@@ -64,7 +64,7 @@ Three types of Promotions you can use in your game:
 
 All customization of IAP items, Promotions, Virtual Currencies, Virtual Goods, and custom data are handled via the Applicsa web console. [Sign up for a private beta account](http://applicasa.com/#Register) to experience more.
 
-<img src="readme_imgs/web-console.png" height="675" width="1279"/>
+<img src="https://github.com/Applicasa/egg/readme_imgs/web-console.png" height="675" width="1279"/>
 
 ### Making Test IAP Purchases
 
