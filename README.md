@@ -37,6 +37,13 @@ $ git clone git@github.com:Applicasa/egg.git
 
 Now that you have cloned the repo, open the project up in Xcode. At this point, you *should* be able to build and run the project in the iOS Simulator. The project is configured to use the automatic iPhone Developer profile selection inside Xcode. If, for some reason, you experience problems running the app in the simulator, first try checking the **Build Settings** and selecting your local profile.
 
+### Making Test IAP Purchases
+
+Because this is a sandboxed app, you must use a test account to make IAP purchases (for virtual currencies). We have created a test user that can be used with the app as-is. The credentials are:
+
+* username: eggtest@applicasa.com
+* password: EggTest1
+
 ## iOS Version Targeting
 
 Egg is currently built to take advantage of the latest iOS features. For that reason, the sample app targets iOS 6 only, primarily because it uses new ```UICollectionView``` features, such as auto layout.
@@ -65,13 +72,6 @@ Three types of Promotions you can use in your game:
 All customization of IAP items, Promotions, Virtual Currencies, Virtual Goods, and custom data are handled via the Applicsa web console. [Sign up for a private beta account](http://applicasa.com/#Register) to experience more.
 
 <img src="https://raw.github.com/Applicasa/egg/stable/readme_imgs/web-console.png"/>
-
-### Making Test IAP Purchases
-
-Because this is a sandboxed app, you must use a test account to make IAP purchases (for virtual currencies). We have created a test user that can be used with the app as-is. The credentials are:
-
-* username: eggtest@applicasa.com
-* password: EggTest1
 
 ### A Word on Branches
 
