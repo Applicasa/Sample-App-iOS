@@ -30,5 +30,6 @@
 // actions for storyboard
 - (IBAction)cancel:(id)sender;
 - (IBAction)loggedIn:(id)sender;
+- (IBAction)registerUser:(id)sender;
 
 @end

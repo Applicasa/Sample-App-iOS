@@ -223,7 +223,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="registerAction:" destination="IfU-ab-ueM" eventType="touchUpInside" id="lsf-Kl-tmv"/>
+                                    <action selector="registerUser:" destination="IfU-ab-ueM" eventType="touchUpInside" id="ihI-xD-vdS"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WnE-td-ssP" userLabel="btnLogin">
@@ -616,10 +616,13 @@
                 <relationship kind="action" name="facebookLogin:"/>
                 <relationship kind="action" name="hideKeyboard:"/>
                 <relationship kind="action" name="loggedIn:"/>
-                <relationship kind="action" name="registerAction:"/>
+                <relationship kind="action" name="registerUser:"/>
                 <relationship kind="outlet" name="inputPassword" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="inputUsername" candidateClass="UITextField"/>
             </relationships>
+        </class>
+        <class className="MainViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainViewController.h"/>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>

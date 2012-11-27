@@ -7,17 +7,21 @@
 //
 
 /*
- LoginViewController Class present the main methods of User management in applicasa
- which are:
- Register,
- Login,
- LoginWithFacebook
+ LoginViewController
  
- Other methods that Applicasa provide but we didn't implement here:
- Logout, facebookLogout
- Update username
- Update password
- Forgot password
+ Shows primary Applicasa SDK/framework methods used to handle users
+ 
+ Includes:
+     - Registering users
+     - Login via Applicasa's user management
+     - Login via Facebook
+ 
+ Other methods that Applicasa provide but not implemented here:
+     - Logout users via Applicasa or Facebook
+     - Update username
+     - Update password
+     - Forgot password
+ 
  */
 
 #import "LoginViewController.h"
@@ -42,8 +46,8 @@
 }
 
 - (void)viewDidLoad {
-    DDLogInfo(@"login view did load");
     [super viewDidLoad];
+    DDLogInfo(@"login view did load");
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,13 +64,13 @@
 }
 
 /*
- Login Method
- This method takes the username & password from the UITextFields
- And call for login (sync method)
  
- The login call return the result in the block
- If the error isn't nil logged in succesfuly.
- else, there was an error and we present the error description
+ loggedIn:
+ 
+ Authenticates users via Applicasa's user management features.
+ 
+ loginUserWithUsername:Password:WithBlock: returns result or error in a block
+ that allows for additional processing.
  
  */
 
@@ -82,21 +86,18 @@
 }
 
 /*
- Register Method
- This method takes the username & password from the UITextFields
- And call for regiser (sync method)
  
- We are able to insert more info to ther user
- ect.
- [currentUser setUserPhone:@"055-1234567"];
+ registerUser:
  
- The regiser call return the result in the block
- If the error isn't nil regisered in succesfuly.
- else, there was an error and we present the error description
+ Registers users via Applicasa with the username/password inputs.
+ 
+ If desired, we could further modify the user with additional
+ information, such as email address, gender, etc. using the
+ User class/instance methods.
  
  */
 
-- (IBAction)registerAction:(id)sender{
+- (IBAction)registerUser:(id)sender{
     User *currentUser = [LiCore getCurrentUser];
     [currentUser registerUserWithUsername:inputUsername.text Password:inputPassword.text WithBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (!error){
@@ -108,15 +109,14 @@
 }
 
 /*
- Login with facebook
  
- The method declare in User+Facebook (User category)
- This method open activate the FBSession if its not activate
- You need also to implement the AppDelegate relevant delegate method
- Follow facebook instruction about how to define the app to use facebook oath
+ facebookLogin:
  
- The method return the userID in the delegate
- The User instance availble in [User getCurrentUser]
+ Uses the Facebook SDK to start a new authenticated session
+ if one does not already exist.
+ 
+ Returns result or error in a block that allows for additional processing.
+ 
  */
 
 - (IBAction)facebookLogin:(id)sender{
