@@ -55,21 +55,20 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark LiCore delegate methods
 - (void)finishedInitializeLiCoreFrameworkWithUser:(User*)user isFirstLoad:(BOOL)isFirst {
     // LiCoreInitialize
     DDLogInfo(@"We initialized Applicasa ... wahooo");
 };
 
-
-#pragma mark LiCore delegate methods
 - (void)liCoreHasNewUser:(User *)user {
     DDLogVerbose(@"New User!!!");
 }
 
 - (void) refreshStoreViewController{
-    UIViewController *currenctViewController = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentedViewController];
-    if ([currenctViewController isKindOfClass:[StoreViewController class]])
-        [currenctViewController viewDidLoad];
+    UIViewController *currentViewController = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentedViewController];
+    if ([currentViewController isKindOfClass:[StoreViewController class]])
+        [currentViewController viewDidLoad];
 }
 
 - (void)finishedIntializedLiKitIAPWithVirtualCurrencies:(NSArray *)virtualCurrencies VirtualGoods:(NSArray *)virtualGoods {
