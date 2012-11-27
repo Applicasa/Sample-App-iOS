@@ -28,52 +28,68 @@
     return YES;
 }
 							
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    // Logout users if they've logged in. Not doing anything else here cos we don't have special processing
+    // needs in the sample app.
+    [User logOutWithBlock:^(NSError *error, NSString *itemID, Actions action) {
+        DDLogInfo(@"Logged Out User");
+    }];
+    
+    [User facebookLogOutWithBlock:^(NSError *error, NSString *itemID, Actions action) {
+        DDLogInfo(@"Logged out Facebook user");
+    }];
 }
 
-#pragma mark LiCore delegate methods
-- (void)finishedInitializeLiCoreFrameworkWithUser:(User*)user isFirstLoad:(BOOL)isFirst {
-    // LiCoreInitialize
-    DDLogInfo(@"We initialized Applicasa ... wahooo");
-};
+#pragma mark -
+#pragma mark AppDelegate helper methods
+#pragma mark -
 
-- (void)liCoreHasNewUser:(User *)user {
-    DDLogVerbose(@"New User!!!");
-}
-
+/*
+ * If user has store loaded before Applicasa IAP has finished loading,
+ * ensures we refresh the store view with items when IAP is loaded.
+ */
 - (void) refreshStoreViewController{
     UIViewController *currentViewController = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentedViewController];
     if ([currentViewController isKindOfClass:[StoreViewController class]])
         [currentViewController viewDidLoad];
 }
 
+#pragma mark -
+#pragma mark LiCore delegate methods
+#pragma mark -
+
+/*
+ * Lets us know that the Applicasa core framework has finished loading
+ */
+- (void)finishedInitializeLiCoreFrameworkWithUser:(User*)user isFirstLoad:(BOOL)isFirst {
+    // LiCoreInitialize
+    DDLogInfo(@"We initialized Applicasa ... wahooo");
+};
+
+/*
+ * This delegate method can be implemented if you wish to know when a new user exists
+ */
+- (void)liCoreHasNewUser:(User *)user {
+    DDLogVerbose(@"New User!!!");
+}
+
+#pragma mark -
+#pragma mark LiKitIAP delegate methods
+#pragma mark -
+
+/*
+ * Lets us know that IAP has loaded
+ *
+ * Provides arrays of virtual goods & currencies that can be used immediately
+ */
 - (void)finishedIntializedLiKitIAPWithVirtualCurrencies:(NSArray *)virtualCurrencies VirtualGoods:(NSArray *)virtualGoods {
-#ifdef DEBUG
     [self refreshStoreViewController];
+
+#ifdef DEBUG
+    // Just for DEBUG purposes, let's see our virtual currencies and items to make
+    // sure we have a successful connnection to Applicasa.
+    
     DDLogInfo(@"############  FROM DELEGATE METHOD ##############");
     DDLogInfo(@"#### VirtualCurrency count: %d ####", virtualCurrencies.count);
     for (VirtualCurrency *currentItem in virtualCurrencies) {
@@ -89,9 +105,18 @@
     }
     DDLogInfo(@"#############   END DELEGATE METHOD #############");
 #endif
+
 }
 
+#pragma mark -
 #pragma mark LiKitPromotions delegate methods
+#pragma mark -
+
+/*
+ * Lets us know that there are promotions that are available to show to the user
+ *
+ * This simple implementation shows the promos that are returned
+ */
 - (void)liKitPromotionsHasPromos {
     DDLogInfo(@"!!! We have promotions !!!");
     UIViewController *viewController = self.window.rootViewController.presentedViewController;
@@ -106,7 +131,10 @@
     }];
 }
 
+#pragma mark -
 #pragma mark - Push Notification Delegate Methods
+#pragma mark -
+
 - (void) application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
     [LiCore registerDeviceToken:deviceToken];
 }
@@ -119,7 +147,9 @@
     
 }
 
+#pragma mark -
 #pragma mark - Facebook Delegate Methods
+#pragma mark -
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     return [[LiKitFacebook getActiveSession] handleOpenURL:url];
