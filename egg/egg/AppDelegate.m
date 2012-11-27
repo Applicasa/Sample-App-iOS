@@ -46,9 +46,11 @@
 #pragma mark -
 
 /*
- * If user has store loaded before Applicasa IAP has finished loading,
- * ensures we refresh the store view with items when IAP is loaded.
- */
+
+ If user has store loaded before Applicasa IAP has finished loading,
+ ensures we refresh the store view with items when IAP is loaded.
+
+*/
 - (void) refreshStoreViewController{
     UIViewController *currentViewController = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentedViewController];
     if ([currentViewController isKindOfClass:[StoreViewController class]])
@@ -60,16 +62,20 @@
 #pragma mark -
 
 /*
- * Lets us know that the Applicasa core framework has finished loading
- */
+
+ Lets us know that the Applicasa core framework has finished loading
+ 
+*/
 - (void)finishedInitializeLiCoreFrameworkWithUser:(User*)user isFirstLoad:(BOOL)isFirst {
     // LiCoreInitialize
     DDLogInfo(@"We initialized Applicasa ... wahooo");
 };
 
 /*
- * This delegate method can be implemented if you wish to know when a new user exists
- */
+ 
+ This delegate method can be implemented if you wish to know when a new user exists
+ 
+*/
 - (void)liCoreHasNewUser:(User *)user {
     DDLogVerbose(@"New User!!!");
 }
@@ -79,10 +85,12 @@
 #pragma mark -
 
 /*
- * Lets us know that IAP has loaded
- *
- * Provides arrays of virtual goods & currencies that can be used immediately
- */
+
+ Lets us know that IAP has loaded
+ 
+ Provides arrays of virtual goods & currencies that can be used immediately
+ 
+*/
 - (void)finishedIntializedLiKitIAPWithVirtualCurrencies:(NSArray *)virtualCurrencies VirtualGoods:(NSArray *)virtualGoods {
     [self refreshStoreViewController];
 
@@ -113,10 +121,12 @@
 #pragma mark -
 
 /*
- * Lets us know that there are promotions that are available to show to the user
- *
- * This simple implementation shows the promos that are returned
- */
+
+ Lets us know that there are promotions that are available to show to the user
+ 
+ This simple implementation shows the promos that are returned
+ 
+*/
 - (void)liKitPromotionsHasPromos {
     DDLogInfo(@"!!! We have promotions !!!");
     UIViewController *viewController = self.window.rootViewController.presentedViewController;
