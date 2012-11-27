@@ -11,26 +11,26 @@ Applicasa is a Mobile Game Management Platform that provides developers a series
 Egg is an imagined game that shows common scenarios and code samples that developers can learn from and emulate in their own applications.
 
 ### What You Will Find in Egg:
-* Integrating the Applicasa SDK and frameworks for iOS
-* Implementing Applicasa's extensive In-App Purchasing support
+1. Integrating the Applicasa SDK and frameworks for iOS
+2. Implementing Applicasa's extensive In-App Purchasing support
   * Virtual Currency support &mdash; whereby users use IAP to purchase in-game currency
   * Virtual Goods support &mdash; whereby users use in-game currency to buy virtual items
   * User Inventory &mdash; whereby users can see the virtual items they've purchased
-* Implementing User handling via Applicasa's SDK and Facebook
+3. Implementing User handling via Applicasa's SDK and Facebook
   * Register new users
   * Login/Logout via Applicasa
   * Login/Logout via Facebook
-* Implementing Promotion handling via Applicasa's Promotion framework
+4. Implementing Promotion handling via Applicasa's Promotion framework
   * Easy-to-use promotions that are triggered by events that happen inside your game
   * Events that can be triggered inside Egg:
-      * First-time User
-      * First-time Virtual Currency Purchase
-      * First-time Virtual Good Purchase
-      * Low-balance Promotion
+    1. First-time User
+    2. First-time Virtual Currency Purchase
+    3. First-time Virtual Good Purchase
+    4. Low-balance Promotion
   * Three types of Promotions you can use in your game:
-      * Announcements
-      * Deals
-      * Rewards
+    1. Announcements
+    2. Deals
+    3. Rewards
 
 ## Getting Started
 
