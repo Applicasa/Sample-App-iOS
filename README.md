@@ -75,7 +75,7 @@ All customization of IAP items, Promotions, Virtual Currencies, Virtual Goods, a
 
 The screenshot below is one of the steps require to create a promotion. In the Egg case, it's a promo in the form of a deal, offering 20% off on another virtual good. This promo is triggered once the player made his/hers first purchase. Our promotional tool offers many different events that can trigger these kind of promos during the user's game play.
 
-<img src="https://raw.github.com/Applicasa/egg/stable/readme_imgs/web-console.png"/>
+<img src="https://raw.github.com/Applicasa/egg/stable/readme_imgs/Offer.png"/>
 
 ### A Word on Branches
 
