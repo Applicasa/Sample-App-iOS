@@ -11,6 +11,7 @@
 @implementation AlertShower
 
 + (void) showAlertWithMessage:(NSString *)message OnViewController:(UIViewController *)viewController{
+    // Shows a simple alert message that fades away after 3-second delay.
     UILabel *thankYouLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, 320, 100)];
     [thankYouLabel setText:message];
     [thankYouLabel setTextColor:[UIColor whiteColor]];

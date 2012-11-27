@@ -56,25 +56,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -
 #pragma mark IBActions 
+#pragma mark -
 
 - (IBAction)cancel:(id)sender {
     DDLogInfo(@"delegate said cancel. Dismissing...");
     [self.delegate loginViewControllerDidCancel:self];
 }
 
-/*
- 
- loggedIn:
- 
- Authenticates users via Applicasa's user management features.
- 
- loginUserWithUsername:Password:WithBlock: returns result or error in a block
- that allows for additional processing.
- 
- */
-
 - (IBAction)loggedIn:(id)sender {
+    // Authenticate user via Applicasa's user management features.
+    // Returns result or error in a block for additional processing.
     [User loginUserWithUsername:inputUsername.text Password:inputUsername.text WithBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (!error){
             DDLogInfo(@"delegate said loggedIn. Dismissing...");
@@ -85,19 +78,18 @@
     }];
 }
 
-/*
- 
- registerUser:
- 
- Registers users via Applicasa with the username/password inputs.
- 
- If desired, we could further modify the user with additional
- information, such as email address, gender, etc. using the
- User class/instance methods.
- 
- */
-
 - (IBAction)registerUser:(id)sender{
+    /*
+     
+     Registers users via Applicasa with the username/password inputs.
+     
+     If desired, we could further modify the user with additional
+     information, such as email address, gender, etc. using the
+     User class/instance methods.
+     
+     Returns result or error in a block that allows for additional processing.
+     
+    */
     User *currentUser = [LiCore getCurrentUser];
     [currentUser registerUserWithUsername:inputUsername.text Password:inputPassword.text WithBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (!error){
@@ -108,18 +100,15 @@
     }];
 }
 
-/*
- 
- facebookLogin:
- 
- Uses the Facebook SDK to start a new authenticated session
- if one does not already exist.
- 
- Returns result or error in a block that allows for additional processing.
- 
- */
-
 - (IBAction)facebookLogin:(id)sender{
+    /*
+     
+     Uses the Facebook SDK to start a new authenticated session
+     if one does not already exist and log FB user in.
+     
+     Returns result or error in a block that allows for additional processing.
+     
+    */
     User *currentUser = [LiCore getCurrentUser];
     [currentUser facebookLoginWithBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (!error){

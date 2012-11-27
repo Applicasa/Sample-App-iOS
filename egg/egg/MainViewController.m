@@ -7,9 +7,11 @@
 //
 
 /*
- ViewController Calss Do nothing but being a main view
- that allows the user to naigate its way
- */
+ 
+ MainViewController is the app's starting point,
+ presenting all available actions to the user.
+
+*/
 
 #import "MainViewController.h"
 #import "AlertShower.h"
@@ -28,7 +30,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -
 #pragma mark LoginViewControllerDelegate methods
+#pragma mark -
+
 - (void)loginViewControllerDidCancel:(LoginViewController *)controller {
     // Handle dismissing LoginViewController when user taps "Login Later"
     DDLogInfo(@"doing cancel delegate action");
@@ -49,14 +54,20 @@
     [AlertShower showAlertWithMessage:@"Registered Successfully" OnViewController:self];
 }
 
+#pragma mark -
 #pragma mark StoreViewControllerDelegate methods
+#pragma mark -
+
 - (void)storeViewControllerDidGoBack:(StoreViewController *)controller {
     // Handle dismissing StoreViewController when user taps back button
     DDLogInfo(@"doing goBack delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark -
 #pragma mark prepareForSegue
+#pragma mark -
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	if ([segue.identifier isEqualToString:@"loginSegue"]) {

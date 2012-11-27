@@ -10,9 +10,7 @@
 
 @implementation LiStoreCellBackground
 
-- (void)drawRect:(CGRect)rect
-{
-    
+- (void)drawRect:(CGRect)rect {
     // draw a rounded rect bezier path filled with blue
     CGContextRef aRef = UIGraphicsGetCurrentContext();
     CGContextSaveGState(aRef);

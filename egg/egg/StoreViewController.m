@@ -36,12 +36,6 @@ static UIImage *virtualGoodImage = nil;
     return self;
 }
 
-/*
- viewDidLoad method
- Init the UI with the VirtualItems.
- If LiKitIAP still loading presenting an Activity View
- */
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -53,8 +47,9 @@ static UIImage *virtualGoodImage = nil;
         virtualGoodImage = [UIImage imageNamed:@"green_btn"];
     
     collectionItems = [[NSMutableArray alloc] init];
-    storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent@2x.png"]];
+    storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent.png"]];
     
+    // Show/dismiss activity indicator depending on IAP being loaded or not.
     if ([LiKitIAP liKitIAPLoaded]){
         [self setActiveStoreSection:btnVirtualItems];
         //Remove indicator
@@ -65,19 +60,19 @@ static UIImage *virtualGoodImage = nil;
     }
 }
 
+#pragma mark -
 #pragma mark Helper methods
-/*
- A method to update the data array
- The block is the same for all the gets
- Only the data is different
- */
+#pragma mark -
+
+
 - (void)updateStoreItemViewData {
+    // Block used to set collectionItems array & reloadData
     GetVirtualCurrencyArrayFinished block = ^(NSError *error, NSArray *array) {
         [collectionItems setArray:array];
         [self.storeItemView reloadData];
     };
     
-    // Checks for active store section & loads data & images for collection view
+    // Checks for active store section & loads data for collection view
     if (isDisplayingVirtualGoods) {
         [IAP getAllVirtualGoodWithType:All WithBlock:block];
     } else if (isDisplayingUserInventory) {
@@ -87,23 +82,18 @@ static UIImage *virtualGoodImage = nil;
     }
 }
 
-/*
- A method to update the balance label
- Get the current main currency balance
- */
 - (void)updateBalanceLabel {
     // updates User's balance displayed in the top-right corner of the the view
     self.coinTotal.text = [NSString stringWithFormat:@"%d", [IAP getCurrentUserMainBalance]];
 }
 
+#pragma mark -
 #pragma mark Give/Buy/Use methods
-/*
- But Virtual Good
- Commit the buy, and update the label if the purchase succeeded.
- Present the relevant alert according to the error pointer content
- */
+#pragma mark -
+
 - (void)buyVirtualGood:(id)obj {
-    // generic helper for buying virtual items
+    // Generic helper for buying virtual items & updating balance
+    // Presents alert on success/error
     [IAP buyVirtualGood:obj Quantity:1 CurrencyKind:MainCurrency WithBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // purchase success
@@ -119,16 +109,9 @@ static UIImage *virtualGoodImage = nil;
     }];
 }
 
-/*
- But Virtual Currency - purchase from itunes connect products
- --Works only in online mode--
- 
- Commit the purchase, and update the label if the purchase succeeded.
- Present the relevant alert according to the error pointer content
- Present an activity indicator view while purchasing
- */
 - (void)buyVirtualCurrency:(id)obj {
-    // generic helper for buying currency
+    // Generic helper for buying currency & updating balance
+    // Presents alert on success/error
     LiActivityIndicator *buyingActivity = [LiActivityIndicator startAnimatingOnView:self.view];
     [buyingActivity setLabelText:nil];
     [IAP buyVirtualCurrency:obj WithBlock:^(NSError *error, NSString *itemID, Actions action) {
@@ -146,14 +129,9 @@ static UIImage *virtualGoodImage = nil;
     }];
 }
 
-/*
- Use a virtual good item which the user had bought
- update the UI if use succeeded
- 
- Presnet an alert message if failed
- */
 - (void)useInventoryItem:(id)obj {
-    // generic helper for using inventory
+    // Generic helper for using inventory items user has purchased.
+    // Logs success/error
     [IAP useVirtualGood:obj Quantity:1 WithBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // used inventory item
@@ -167,12 +145,10 @@ static UIImage *virtualGoodImage = nil;
     }];
 }
 
-
-
+#pragma mark -
 #pragma mark UI state-handling methods
-/*
- UI Stuff...
- */
+#pragma mark -
+
 - (void)activateVirtualGoodsDisplay {
     // sets UI for displaying virtual goods
     isDisplayingVirtualGoods = YES;
@@ -218,7 +194,10 @@ static UIImage *virtualGoodImage = nil;
     [self updateStoreItemViewData];
 }
 
+#pragma mark -
 #pragma mark Button Action methods
+#pragma mark -
+
 - (void)btnBuyTapped:(id)sender {
     // Responds to blue button tap to buy/use item
     UIButton *buyButton = (UIButton*)sender;
@@ -249,7 +228,10 @@ static UIImage *virtualGoodImage = nil;
     [self setActiveStoreSection:sender];
 }
 
+#pragma mark -
 #pragma mark UICollectionView datasource methods
+#pragma mark -
+
 - (NSInteger)collectionView:(UICollectionView *)storeView numberOfItemsInSection:(NSInteger)section {
     // simple count of the collectionItems
     DDLogVerbose(@"Number of items in section: %d", [collectionItems count]);
@@ -303,9 +285,12 @@ static UIImage *virtualGoodImage = nil;
     return cell;
 }
 
+#pragma mark -
 #pragma mark UICollectionView delegate methods
+#pragma mark -
+
 - (void)collectionView:(UICollectionView *)storeView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    // Select the item & respond
+    // Select collection item & perform buy/use action
     DDLogInfo(@"Selected storeViewCell");
     if (isDisplayingVirtualGoods) {
         DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:indexPath.row]);
@@ -328,10 +313,12 @@ static UIImage *virtualGoodImage = nil;
 }
 
 - (CGSize)collectionView:(UICollectionView *)storeView layout:(UICollectionViewLayout *)layout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    // sets collection item size for layout purposes
     return CGSizeMake(80, 125);
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)storeView layout:(UICollectionViewLayout *)layout insetForSectionAtIndex:(NSInteger)section {
+    // sets item insets for layout purposes
     return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 

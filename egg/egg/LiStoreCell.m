@@ -25,6 +25,7 @@
 }
 
 - (void)setImage:(UIImage *)image{
+    // Sets item image to the LiStoreCell created & managed by StoreViewController
     if(_image != image) {
         _image = image;
     }
@@ -32,6 +33,7 @@
 }
 
 - (void)setInfoText:(NSString *)text{
+    // Sets custom label text to LiStoreCell when necessary
     [self.infoLabel setText:text];
     [self.infoLabel setFont:[UIFont systemFontOfSize:13]];
     [self.infoLabel setHidden:FALSE];
