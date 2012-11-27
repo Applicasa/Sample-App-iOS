@@ -12,8 +12,6 @@
 		847DF21216626D980015A5F8 /* green_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 847DF21116626D980015A5F8 /* green_btn.png */; };
 		847DF215166278100015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png in Resources */ = {isa = PBXBuildFile; fileRef = 847DF214166278100015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png */; };
 		847DF2171662781D0015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png in Resources */ = {isa = PBXBuildFile; fileRef = 847DF2161662781D0015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png */; };
-		8485D930165E8897008BD59A /* FindFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8485D92F165E8897008BD59A /* FindFriendsViewController.m */; };
-		8485D935165E8D2B008BD59A /* FBFriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8485D934165E8D2B008BD59A /* FBFriendCell.m */; };
 		84949A4B165E6D090080F6B0 /* Close.png in Resources */ = {isa = PBXBuildFile; fileRef = 84949A4A165E6D060080F6B0 /* Close.png */; };
 		C416C38B1648F91B009008BB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C38A1648F91B009008BB /* CoreLocation.framework */; };
 		C416C38D1648F95F009008BB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C38C1648F95F009008BB /* SystemConfiguration.framework */; };
@@ -115,10 +113,6 @@
 		847DF21116626D980015A5F8 /* green_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_btn.png; sourceTree = "<group>"; };
 		847DF214166278100015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPI1B.png"; sourceTree = "<group>"; };
 		847DF2161662781D0015A5F8 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2Fdefault%2FPB1B.png"; sourceTree = "<group>"; };
-		8485D92E165E8897008BD59A /* FindFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindFriendsViewController.h; sourceTree = "<group>"; };
-		8485D92F165E8897008BD59A /* FindFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FindFriendsViewController.m; sourceTree = "<group>"; };
-		8485D933165E8D2B008BD59A /* FBFriendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBFriendCell.h; sourceTree = "<group>"; };
-		8485D934165E8D2B008BD59A /* FBFriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBFriendCell.m; sourceTree = "<group>"; };
 		84949A4A165E6D060080F6B0 /* Close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Close.png; sourceTree = "<group>"; };
 		C416C38A1648F91B009008BB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C416C38C1648F95F009008BB /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -290,8 +284,6 @@
 				C438973C1653FF1A0064BF43 /* LiStoreCellBackground.m */,
 				C48D6F13164CF98300BA7EC3 /* LiStoreCell.h */,
 				C48D6F14164CF98300BA7EC3 /* LiStoreCell.m */,
-				8485D933165E8D2B008BD59A /* FBFriendCell.h */,
-				8485D934165E8D2B008BD59A /* FBFriendCell.m */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -305,8 +297,6 @@
 				C4F18699163F5F5A007C1514 /* LoginViewController.m */,
 				C4F1869B163FA0E7007C1514 /* StoreViewController.h */,
 				C4F1869C163FA0E7007C1514 /* StoreViewController.m */,
-				8485D92E165E8897008BD59A /* FindFriendsViewController.h */,
-				8485D92F165E8897008BD59A /* FindFriendsViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -777,8 +767,6 @@
 				C489A0DB165348540003DF91 /* DispatchQueueLogFormatter.m in Sources */,
 				C438973D1653FF1A0064BF43 /* LiStoreCellBackground.m in Sources */,
 				847D4A06165E2A9000BB524D /* AlertShower.m in Sources */,
-				8485D930165E8897008BD59A /* FindFriendsViewController.m in Sources */,
-				8485D935165E8D2B008BD59A /* FBFriendCell.m in Sources */,
 				C4CB70DD165ECA1B00D4F8B2 /* IAP.m in Sources */,
 				C4CB70DE165ECA1B00D4F8B2 /* VirtualCurrency.m in Sources */,
 				C4CB70DF165ECA1B00D4F8B2 /* VirtualGood.m in Sources */,
