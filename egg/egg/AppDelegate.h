@@ -2,7 +2,7 @@
 //  AppDelegate.h
 //  egg
 //
-//  Created by Bob Waycott on 10/29/12.
+//  Created by Applicasa on 10/29/12.
 //  Copyright (c) 2012 Applicasa. All rights reserved.
 //
 
