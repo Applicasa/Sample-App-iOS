@@ -22,6 +22,15 @@ Egg is an imagined game that shows common scenarios and code samples that develo
   * Login/Logout via Facebook
 * Implementing Promotion handling via Applicasa's Promotion framework
   * Easy-to-use promotions that are triggered by events that happen inside your game
+  * Events that can be triggered inside Egg:
+    * First-time User
+    * First-time Virtual Currency Purchase
+    * First-time Virtual Good Purchase
+    * Low-balance Promotion
+  * Three types of Promotions you can use in your game:
+    * Announcements
+    * Deals
+    * Rewards
 
 ## Getting Started
 
