@@ -22,19 +22,21 @@
 
 /*
  view Did Load method
- presenet Loading screen in the Framework still initialized itself
+ presenet Loading screen if the Framework still initialized itself
  */
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([LiKitIAP liKitIAPLoaded]){
-        //Remove indicator
-        LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
-        [activityView removeFromSuperview];
-    } else {
-        [[LiActivityIndicator startAnimatingOnView:self.view] setLabelText:@"loading..."];
-    }
+    LiActivityIndicator *activity = [LiActivityIndicator startAnimatingOnView:self.view];
+    [activity setLabelText:@"loading..."];
+    [activity setUserInteractionEnabled:TRUE];
+}
+
+- (void) dismissLoadingScreen{
+    //Remove indicator
+    LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
+    [activityView removeFromSuperview];
 }
 
 - (void)didReceiveMemoryWarning

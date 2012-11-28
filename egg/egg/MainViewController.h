@@ -12,4 +12,6 @@
 
 @interface MainViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate>
 
+- (void) dismissLoadingScreen;
+
 @end

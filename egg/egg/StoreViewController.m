@@ -49,15 +49,7 @@ static UIImage *virtualGoodImage = nil;
     collectionItems = [[NSMutableArray alloc] init];
     storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent.png"]];
     
-    // Show/dismiss activity indicator depending on IAP being loaded or not.
-    if ([LiKitIAP liKitIAPLoaded]){
-        [self setActiveStoreSection:btnVirtualItems];
-        //Remove indicator
-        LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
-        [activityView removeFromSuperview];
-    } else {
-        [[LiActivityIndicator startAnimatingOnView:self.view] setLabelText:nil];
-    }
+    [self changeSection:btnVirtualItems];
 }
 
 #pragma mark -

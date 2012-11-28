@@ -48,11 +48,9 @@
 - (void) refreshViewControllers{
     // If user has store loaded before Applicasa IAP has finished loading,
     // ensures we refresh the store view with items when IAP is loaded.
-    UIViewController *currentViewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    if (!currentViewController)
-        currentViewController = [currentViewController presentedViewController];
-    if ([currentViewController isKindOfClass:[StoreViewController class]] || [currentViewController isKindOfClass:[MainViewController class]])
-        [currentViewController performSelectorOnMainThread:@selector(viewDidLoad) withObject:nil waitUntilDone:FALSE];
+    UIViewController *currentViewController = self.window.rootViewController;
+    if ([currentViewController isKindOfClass:[MainViewController class]])
+        [(MainViewController *)currentViewController dismissLoadingScreen];
 }
 
 #pragma mark -
