@@ -58,11 +58,17 @@ typedef enum {
     LiPromotionTypeOfferDealVG, // data = VG id & deal details
 } LiPromotionActionKind;
 
+typedef enum {
+    LiPromotionResultCancel = 0,
+    LiPromotionResultPress
+} LiPromotionResult;
 
+typedef void (^PromotionResultBlock)(LiPromotionResult result);
 
 #define kPromotionNotificationString @"PromotionConflictFound"
 #define kShouldPromotionWorkOffline TRUE
 @interface Promotion : LiObject <LiCoreRequestDelegate> {
+    PromotionResultBlock promoBlock;
 }
 
 @property (nonatomic, retain) NSString *promotionID;
@@ -103,8 +109,10 @@ typedef enum {
 //
 + (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetPromotionArrayFinished)block;
 
-- (void) showOnView:(UIView *)view;
-- (void) show;
+- (void) showOnView:(UIView *)view Block:(PromotionResultBlock)block;
+- (void) showWithBlock:(PromotionResultBlock)block;
+
+- (PromotionResultBlock) block;
 
 #pragma mark - End of Basic SDK
 

@@ -15,13 +15,32 @@
 
 #import "MainViewController.h"
 #import "AlertShower.h"
+#import <LiKitIAP/LiKitIAP.h>
+#import "LiPromoHelperViews.h"
+#import "LiUserLocation.h"
 
 @implementation MainViewController
+
+/*
+ view Did Load method
+ presenet Loading screen in the Framework still initialized itself
+ */
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    if ([LiKitIAP liKitIAPLoaded]){
+        //Remove indicator
+        LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
+        [activityView removeFromSuperview];
+        LiUserLocation *userLocation = [[LiUserLocation alloc] init];
+        [userLocation updateCurrentUserToCurrentLocation_Auto:FALSE DesireAccuracy:kCLLocationAccuracyBest DistanceFilter:0 WithBlock:^(NSError *error, CLLocation *location, Actions action) {
+            if (error)
+                DDLogInfo(@"Update user location failed %@",error.localizedDescription);
+        }];
+    } else {
+        [[LiActivityIndicator startAnimatingOnView:self.view] setLabelText:@"loading..."];
+    }
 }
 
 - (void)didReceiveMemoryWarning

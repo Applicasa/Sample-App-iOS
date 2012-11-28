@@ -13,8 +13,8 @@
 #import "VirtualGood.h"
 #import "StoreViewController.h"
 #import "User+Facebook.h"
-#import "LiUserLocation.h"
 #import <FacebookSDK/FBSession.h>
+#import "MainViewController.h"
 
 @implementation AppDelegate
 
@@ -45,12 +45,14 @@
 #pragma mark AppDelegate helper methods
 #pragma mark -
 
-- (void) refreshStoreViewController{
+- (void) refreshViewControllers{
     // If user has store loaded before Applicasa IAP has finished loading,
     // ensures we refresh the store view with items when IAP is loaded.
-    UIViewController *currentViewController = [[[[[UIApplication sharedApplication] delegate] window] rootViewController] presentedViewController];
-    if ([currentViewController isKindOfClass:[StoreViewController class]])
-        [currentViewController viewDidLoad];
+    UIViewController *currentViewController = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    if (!currentViewController)
+        currentViewController = [currentViewController presentedViewController];
+    if ([currentViewController isKindOfClass:[StoreViewController class]] || [currentViewController isKindOfClass:[MainViewController class]])
+        [currentViewController performSelectorOnMainThread:@selector(viewDidLoad) withObject:nil waitUntilDone:FALSE];
 }
 
 #pragma mark -
@@ -74,7 +76,7 @@
 - (void)finishedIntializedLiKitIAPWithVirtualCurrencies:(NSArray *)virtualCurrencies VirtualGoods:(NSArray *)virtualGoods {
     // Lets us know that IAP has loaded
     // Provides arrays of virtual goods & currencies that can be used immediately
-    [self refreshStoreViewController];
+    [self refreshViewControllers];
 
 #ifdef DEBUG
     // Just for DEBUG purposes, let's see our virtual currencies and items to make
@@ -112,7 +114,24 @@
     [LiKitPromotions getAllAvailblePromosWithBlock:^(NSError *error, NSArray *array) {
         if ([array count] > 0) {
             for (Promotion *promo in array) {
-                [promo showOnView:viewController.view];
+                [promo showOnView:viewController.view Block:^(LiPromotionResult result) {
+                    switch (result) {
+                        case LiPromotionResultCancel:
+                        {
+                            //Do nothing
+                        }
+                            break;
+                        case LiPromotionResultPress:
+                        {
+                            //Update balance label
+                            if ([viewController isKindOfClass:[StoreViewController class]])
+                                [(StoreViewController *)viewController updateBalanceLabel];
+                        }
+                            break;
+                        default:
+                            break;
+                    }
+                }];
             }
         }
     }];

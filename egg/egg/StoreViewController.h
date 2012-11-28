@@ -40,4 +40,7 @@
 - (IBAction)goBack:(id)sender;
 - (IBAction)changeSection:(id)sender;
 
+// method to call the StoreVC from other classes
+- (void)updateBalanceLabel;
+
 @end

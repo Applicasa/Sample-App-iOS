@@ -10,7 +10,7 @@
 #import "VirtualGood.h"
 #import "LiPromoHelperViews.h"
 #import "VirtualCurrency.h"
-#import <LiKitIAP/LiKitIAP.h>
+#import "IAP.h"
 #import <LiKitPromotions/LiKitPromotions.h>
 #import <LiCore/LiCore.h>
 
@@ -90,6 +90,7 @@
 #pragma mark - Close Button
 
 - (void) closeAction{
+    promotion.block(LiPromotionResultCancel);
     [LiKitPromotions promo:promotion ButtonClicked:FALSE CancelButton:TRUE];
 }
 
@@ -116,57 +117,61 @@
 
 - (void) defaultAction{
     NSDictionary *dictionary = [promotion.promotionActionData liJSONValue];
+    LiBlockAction actionBlock = ^(NSError *error, NSString *itemID, Actions action) {
+        if (error){
+            NSLog(@"Commit Promotion Action Failed With Error %@",error);
+            promotion.block(LiPromotionResultCancel);
+        } else {
+            promotion.block(LiPromotionResultPress);
+        }
+    };
     switch (promotion.promotionActionKind) {
         case LiPromotionTypeLink:{
-            LiWebView *webView = [[LiWebView alloc] initWithFrame:self.frame];
+            /*LiWebView *webView = [[LiWebView alloc] initWithFrame:self.frame];
             [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[dictionary objectForKey:@"link"]]]];
-            [[self superview] addSubview:webView];
+            [[self superview] addSubview:webView];*/
+            NSURL *link = [NSURL URLWithString:[dictionary objectForKey:@"link"]];
+            [[UIApplication sharedApplication] openURL:link];
+            promotion.block(LiPromotionResultPress);
         }
             break;
         case LiPromotionTypeString:{
             NSString *string = [dictionary objectForKey:@"string"];
             NSLog(@"string is %@",string);
+            promotion.block(LiPromotionResultPress);
         }
             break;
         case LiPromotionTypeGiveVirtualCurrency:{
             NSInteger amount = [[dictionary objectForKey:@"amount"] integerValue];
             LiCurrency currencyKind = [[dictionary objectForKey:@"virtualCurrencyKind"] integerValue];
-            NSError *error = nil;
-            [LiKitIAP giveAmount:amount CurrencyKind:currencyKind WithError:&error];
-            if (error)
-                NSLog(@"Give Amount Failed With Error %@",error);
+            [IAP giveVirtualCurrency:amount CurrencyKind:currencyKind WithBlock:actionBlock];
         }
             break;
         case LiPromotionTypeGiveVirtualGood:{
             NSString *vgID = [dictionary objectForKey:@"_id"];
             VirtualGood *vg = [self getVirtualGoodByID:vgID IsDeal:FALSE];
-            NSError *error = nil;
-            [LiKitIAP giveVirtualGood:vg Quantity:1 WithError:&error];
-            if (error)
-                NSLog(@"Give Virtual Good Failed With Error %@",error);
+            [IAP giveVirtualGood:vg Quantity:1 WithBlock:actionBlock];
         }
             break;
         case LiPromotionTypeOfferDealVC:{
             NSString *vcID = [dictionary objectForKey:@"_id"];
             NSLog(@"responds %d",[self respondsToSelector:@selector(getVirtualCurrencyByID:)]);
             VirtualCurrency *vc = [self getVirtualCurrencyByID:vcID];
-            [LiKitIAP purchaseVirtualCurrency:vc Delegate:nil];
+            [IAP buyVirtualCurrency:vc WithBlock:actionBlock];
         }
             break;
         case LiPromotionTypeOfferDealVG:{
             NSString *vgID = [dictionary objectForKey:@"_id"];
             VirtualGood *vg = [self getVirtualGoodByID:vgID IsDeal:TRUE];
-            NSError *error = nil;
             LiCurrency currencyKind = MainCurrency;
             if (vg.virtualGoodMainCurrency == 0)
                 currencyKind = SecondaryCurrency;
-            [LiKitIAP purchaseVirtualGood:vg Quantity:1 CurrencyKind:currencyKind WithError:&error];
-            if (error)
-                NSLog(@"Purchase Virtual Good Failed With Error %@",error);
+            [IAP buyVirtualGood:vg Quantity:1 CurrencyKind:currencyKind WithBlock:actionBlock];
         }
             break;
         default:
             //nothing...
+            promotion.block(LiPromotionResultPress);
             break;
     }
     [LiKitPromotions promo:promotion ButtonClicked:TRUE CancelButton:FALSE];
