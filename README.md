@@ -62,10 +62,12 @@ Events that can be triggered inside Egg:
 * First-time Virtual Good Purchase
 * Low-balance Promotion
 
-Three types of Promotions you can use in your game:
+Three types of Promotions can be used in your game:
 * Announcements (news updates, new app versions, etc.)
 * Deals (special offers on in-app purchases & virtual goods, etc.)
 * Rewards (special rewards for completing tasks in the game, etc.)
+
+**NOTE:** The first time you make a virtual currency purchase inside Egg, you'll see a promotion for downloading another app. This shows how you can use Applicasa to cross-promote other content you have in the App and iTunes Stores. However, please be aware that this functionality does not work on the iOS Simulator. In the simulator, the promotion will quietly dismiss and you can continue using the app. If you're running on a device, however, you'll see that accepting the promo brings you to another app inside the App Store.
 
 ### Customizing Your Applicasa Application
 
