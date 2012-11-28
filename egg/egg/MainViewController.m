@@ -17,7 +17,6 @@
 #import "AlertShower.h"
 #import <LiKitIAP/LiKitIAP.h>
 #import "LiPromoHelperViews.h"
-#import "LiUserLocation.h"
 
 @implementation MainViewController
 
@@ -33,11 +32,6 @@
         //Remove indicator
         LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
         [activityView removeFromSuperview];
-        LiUserLocation *userLocation = [[LiUserLocation alloc] init];
-        [userLocation updateCurrentUserToCurrentLocation_Auto:FALSE DesireAccuracy:kCLLocationAccuracyBest DistanceFilter:0 WithBlock:^(NSError *error, CLLocation *location, Actions action) {
-            if (error)
-                DDLogInfo(@"Update user location failed %@",error.localizedDescription);
-        }];
     } else {
         [[LiActivityIndicator startAnimatingOnView:self.view] setLabelText:@"loading..."];
     }
