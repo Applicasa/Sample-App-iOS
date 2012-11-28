@@ -73,7 +73,7 @@
             DDLogInfo(@"delegate said loggedIn. Dismissing...");
             [self.delegate loginViewControllerDidLogin:self];
         } else {
-            [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Login Failed\n%@",error.localizedDescription] OnViewController:self];
+            [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Login Failed\n%@",error.localizedDescription] onViewController:self];
         }
     }];
 }
@@ -95,7 +95,7 @@
         if (!error){
             [self.delegate loginViewControllerDidRegister:self];
         } else {
-            [AlertShower showAlertWithMessage:error.localizedDescription OnViewController:self];
+            [AlertShower showAlertWithMessage:error.localizedDescription onViewController:self];
         }
     }];
 }
@@ -114,7 +114,7 @@
         if (!error){
             [self.delegate loginViewControllerDidLogin:self];
         } else {
-            [AlertShower showAlertWithMessage:error.localizedDescription OnViewController:self];
+            [AlertShower showAlertWithMessage:error.localizedDescription onViewController:self];
         }
     }];
 }

@@ -10,6 +10,6 @@
 
 @interface AlertShower : NSObject
 
-+ (void) showAlertWithMessage:(NSString *)message OnViewController:(UIViewController *)viewController;
++ (void) showAlertWithMessage:(NSString *)message onViewController:(UIViewController *)viewController;
 
 @end

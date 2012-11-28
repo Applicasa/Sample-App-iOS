@@ -91,12 +91,12 @@ static UIImage *virtualGoodImage = nil;
             // purchase success
             DDLogWarn(@"Bought item: %@", [obj virtualGoodTitle]);
             [self updateBalanceLabel];
-            [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Bought %@",[obj virtualGoodTitle]] OnViewController:self];
+            [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Bought %@",[obj virtualGoodTitle]] onViewController:self];
         }
         else {
             // purchased failed
             DDLogError(@"Purchase Error: %@", error);
-            [AlertShower showAlertWithMessage:error.localizedDescription OnViewController:self];
+            [AlertShower showAlertWithMessage:error.localizedDescription onViewController:self];
         }
     }];
 }
@@ -112,7 +112,7 @@ static UIImage *virtualGoodImage = nil;
             // purchase success
             DDLogWarn(@"Bought item: %@; added %d to User's balance", [obj virtualCurrencyTitle], [obj virtualCurrencyCredit]);
             [self updateBalanceLabel];
-            [AlertShower showAlertWithMessage:@"Purchase success!" OnViewController:self];
+            [AlertShower showAlertWithMessage:@"Purchase success!" onViewController:self];
         }
         else {
             // purchase failed

@@ -59,14 +59,14 @@
     // Handle post-login actions & dismissal
     DDLogInfo(@"doing loggedIn delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
-    [AlertShower showAlertWithMessage:@"Logged In" OnViewController:self];
+    [AlertShower showAlertWithMessage:@"Logged In" onViewController:self];
 
 }
 
 - (void)loginViewControllerDidRegister:(LoginViewController *)controller{
     DDLogInfo(@"doing register delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
-    [AlertShower showAlertWithMessage:@"Registered Successfully" OnViewController:self];
+    [AlertShower showAlertWithMessage:@"Registered Successfully" onViewController:self];
 }
 
 #pragma mark -
