@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
 #import "StoreViewController.h"
+#import "LiPromo.h"
 
-@interface MainViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate>
+@interface MainViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate,LiKitPromotionsDelegate>
 
 - (void) dismissLoadingScreen;
 

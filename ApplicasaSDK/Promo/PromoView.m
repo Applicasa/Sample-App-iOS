@@ -90,7 +90,7 @@
 #pragma mark - Close Button
 
 - (void) closeAction{
-    promotion.block(LiPromotionResultCancel);
+    promotion.block(LiPromotionActionCancel,0,nil);
     [LiKitPromotions promo:promotion ButtonClicked:FALSE CancelButton:TRUE];
 }
 
@@ -117,12 +117,16 @@
 
 - (void) defaultAction{
     NSDictionary *dictionary = [promotion.promotionActionData liJSONValue];
+    __block LiPromotionAction promoAction = LiPromotionActionPressed;
+    __block id info = nil;
+    __block LiPromotionResult result = LiPromotionTypeNothing;
+    BOOL respondNow = TRUE;
     LiBlockAction actionBlock = ^(NSError *error, NSString *itemID, Actions action) {
         if (error){
             NSLog(@"Commit Promotion Action Failed With Error %@",error);
-            promotion.block(LiPromotionResultCancel);
-        } else {
-            promotion.block(LiPromotionResultPress);
+            result = 0;
+            promoAction = LiPromotionActionFailed;
+            info = error;
         }
     };
     switch (promotion.promotionActionKind) {
@@ -130,51 +134,61 @@
             /*LiWebView *webView = [[LiWebView alloc] initWithFrame:self.frame];
             [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[dictionary objectForKey:@"link"]]]];
             [[self superview] addSubview:webView];*/
-            NSURL *link = [NSURL URLWithString:[dictionary objectForKey:@"link"]];
-            [[UIApplication sharedApplication] openURL:link];
-            promotion.block(LiPromotionResultPress);
+            info = [NSURL URLWithString:[dictionary objectForKey:@"link"]];
+            [[UIApplication sharedApplication] openURL:info];
+            result = LiPromotionResultLinkOpened;
         }
             break;
         case LiPromotionTypeString:{
-            NSString *string = [dictionary objectForKey:@"string"];
-            NSLog(@"string is %@",string);
-            promotion.block(LiPromotionResultPress);
+            info = [dictionary objectForKey:@"string"];
+            result = LiPromotionResultStringInfo;
         }
             break;
         case LiPromotionTypeGiveVirtualCurrency:{
             NSInteger amount = [[dictionary objectForKey:@"amount"] integerValue];
+            info = [NSNumber numberWithInt:amount];
             LiCurrency currencyKind = [[dictionary objectForKey:@"virtualCurrencyKind"] integerValue];
+            result = (currencyKind == MainCurrency)?LiPromotionResultGiveMainCurrencyVirtualCurrency:LiPromotionResultGiveSecondaryCurrencyVirtualCurrency;
+            respondNow = FALSE;
             [IAP giveVirtualCurrency:amount CurrencyKind:currencyKind WithBlock:actionBlock];
         }
             break;
         case LiPromotionTypeGiveVirtualGood:{
             NSString *vgID = [dictionary objectForKey:@"_id"];
-            VirtualGood *vg = [self getVirtualGoodByID:vgID IsDeal:FALSE];
-            [IAP giveVirtualGood:vg Quantity:1 WithBlock:actionBlock];
+            info = [self getVirtualGoodByID:vgID IsDeal:FALSE];
+            result = LiPromotionResultGiveVirtualGood;
+            respondNow = FALSE;
+            [IAP giveVirtualGood:info Quantity:1 WithBlock:actionBlock];
         }
             break;
         case LiPromotionTypeOfferDealVC:{
             NSString *vcID = [dictionary objectForKey:@"_id"];
             NSLog(@"responds %d",[self respondsToSelector:@selector(getVirtualCurrencyByID:)]);
-            VirtualCurrency *vc = [self getVirtualCurrencyByID:vcID];
-            [IAP buyVirtualCurrency:vc WithBlock:actionBlock];
+            info = [self getVirtualCurrencyByID:vcID];
+            result = LiPromotionResultDealVirtualCurrency;
+            respondNow = FALSE;
+            [IAP buyVirtualCurrency:info WithBlock:actionBlock];
         }
             break;
         case LiPromotionTypeOfferDealVG:{
             NSString *vgID = [dictionary objectForKey:@"_id"];
-            VirtualGood *vg = [self getVirtualGoodByID:vgID IsDeal:TRUE];
+            info = [self getVirtualGoodByID:vgID IsDeal:TRUE];
             LiCurrency currencyKind = MainCurrency;
-            if (vg.virtualGoodMainCurrency == 0)
+            if ([(VirtualGood *)info virtualGoodMainCurrency] == 0)
                 currencyKind = SecondaryCurrency;
-            [IAP buyVirtualGood:vg Quantity:1 CurrencyKind:currencyKind WithBlock:actionBlock];
+            result = LiPromotionResultDealVirtualGood;
+            respondNow = FALSE;
+            [IAP buyVirtualGood:info Quantity:1 CurrencyKind:currencyKind WithBlock:actionBlock];
         }
             break;
         default:
             //nothing...
-            promotion.block(LiPromotionResultPress);
             break;
     }
     [LiKitPromotions promo:promotion ButtonClicked:TRUE CancelButton:FALSE];
+    if (respondNow){
+        promotion.block(promoAction,result,info);
+    }
 }
 
 

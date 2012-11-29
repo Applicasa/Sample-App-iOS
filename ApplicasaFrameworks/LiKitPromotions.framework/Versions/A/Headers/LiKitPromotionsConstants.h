@@ -13,6 +13,23 @@ typedef enum {
 }LEVEL_RESULT;
 
 typedef enum {
+    LiPromotionResultLinkOpened = 1,
+    LiPromotionResultStringInfo,
+    LiPromotionResultGiveMainCurrencyVirtualCurrency,
+    LiPromotionResultGiveSecondaryCurrencyVirtualCurrency,
+    LiPromotionResultGiveVirtualGood,
+    LiPromotionResultDealVirtualCurrency,
+    LiPromotionResultDealVirtualGood,
+    LiPromotionResultNothing
+} LiPromotionResult;
+
+typedef enum {
+    LiPromotionActionCancel = 0,
+    LiPromotionActionPressed,
+    LiPromotionActionFailed
+}LiPromotionAction;
+
+typedef enum {
 // App session events
     appStart = 1100,
     appStop,
@@ -119,6 +136,6 @@ typedef enum {
 
 @protocol LiKitPromotionsDelegate <NSObject>
 
-- (void) liKitPromotionsHasPromos;
+- (void) liKitPromotionsAvailable:(NSArray *)promotions;
 
 @end

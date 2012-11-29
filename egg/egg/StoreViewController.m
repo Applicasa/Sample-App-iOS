@@ -52,6 +52,11 @@ static UIImage *virtualGoodImage = nil;
     [self changeSection:btnVirtualItems];
 }
 
+- (void) viewDidAppear:(BOOL)animated{
+    [LiPromo setLiKitPromotionsDelegate:self];
+    [super viewDidAppear:animated];
+}
+
 #pragma mark -
 #pragma mark Helper methods
 #pragma mark -
@@ -314,5 +319,44 @@ static UIImage *virtualGoodImage = nil;
     return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
+#pragma mark -
+#pragma mark LiKitPromotionsDelegate method
+#pragma mark -
+
+- (void) liKitPromotionsAvailable:(NSArray *)promotions{
+    for (Promotion *promo in promotions) {
+        [promo showOnView:self.view Block:^(LiPromotionAction promoAction, LiPromotionResult result, id info) {
+            if (!promoAction)
+                return ;
+            
+            if (promoAction == LiPromotionActionFailed){
+                [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Failed: %@",[(NSError *)info localizedDescription]] onViewController:self];
+                return;
+            }
+            
+            switch (result) {
+                case LiPromotionResultGiveMainCurrencyVirtualCurrency:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Reward %@ Coins",info] onViewController:self];
+                }
+                    break;
+                case LiPromotionResultDealVirtualGood:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Deal %@",[(VirtualGood *)info virtualGoodTitle]] onViewController:self];
+                }
+                    break;
+                case LiPromotionResultDealVirtualCurrency:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Deal %@",[(VirtualCurrency *)info virtualCurrencyTitle]] onViewController:self];
+                }
+                    break;
+                case LiPromotionResultLinkOpened:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Open URL %@",(NSURL *)info] onViewController:self];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
+    }
+}
 
 @end

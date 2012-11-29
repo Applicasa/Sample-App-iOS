@@ -17,6 +17,7 @@
 #import "AlertShower.h"
 #import <LiKitIAP/LiKitIAP.h>
 #import "LiPromoHelperViews.h"
+#import "LiUserLocation.h"
 
 @implementation MainViewController
 
@@ -33,16 +34,53 @@
     [activity setUserInteractionEnabled:TRUE];
 }
 
+- (void) viewDidAppear:(BOOL)animated{
+    [LiKitPromotions setLiKitPromotionsDelegate:self];
+    [super viewDidAppear:animated];
+}
+
+- (void) updateCurrentUserLocation{
+    [[[LiUserLocation alloc] init] updateCurrentUserToCurrentLocation_Auto:FALSE DesireAccuracy:kCLLocationAccuracyBest DistanceFilter:kCLDistanceFilterNone WithBlock:^(NSError *error, CLLocation *location, Actions action) {
+        if (error)
+            DDLogInfo(@"Failed update current location %@",error.localizedDescription);
+    }];
+}
+
 - (void) dismissLoadingScreen{
     //Remove indicator
     LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
     [activityView removeFromSuperview];
+    [self performSelectorOnMainThread:@selector(updateCurrentUserLocation) withObject:nil waitUntilDone:FALSE];
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark -
+#pragma mark LiKitPromotionsDelegate method
+#pragma mark -
+
+- (void) liKitPromotionsAvailable:(NSArray *)promotions{
+    for (Promotion *promo in promotions) {
+        [promo showOnView:self.view Block:^(LiPromotionAction promoAction, LiPromotionResult result, id info) {
+            if (!promoAction)
+                return ;
+            
+            switch (result) {
+                case LiPromotionResultGiveMainCurrencyVirtualCurrency:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Reward %@ Coins",info] onViewController:self];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
+    }
 }
 
 #pragma mark -
@@ -67,6 +105,7 @@
     DDLogInfo(@"doing register delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
     [AlertShower showAlertWithMessage:@"Registered Successfully" onViewController:self];
+    [self updateCurrentUserLocation];
 }
 
 #pragma mark -

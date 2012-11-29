@@ -1,13 +1,26 @@
 //
 //  LiPromo.m
-//  egg
+//  LiCore
 //
-//  Created by Benny Davidovitz on 11/29/12.
-//  Copyright (c) 2012 Applicasa. All rights reserved.
+//  Created by Applicasa
+//  Copyright (c) 2012 LiCore All rights reserved.
 //
 
 #import "LiPromo.h"
 
 @implementation LiPromo
+
+
++ (void) setLiKitPromotionsDelegate:(id <LiKitPromotionsDelegate>)delegate{
+    [LiKitPromotions setLiKitPromotionsDelegate:delegate];
+}
+
++ (void) getAllAvailblePromosWithBlock:(GetPromotionArrayFinished)block{
+    [LiKitPromotions getAllAvailblePromosWithBlock:block];
+}
+
++ (void) refreshPromotions{
+    [LiKitPromotions refreshPromotions];
+}
 
 @end

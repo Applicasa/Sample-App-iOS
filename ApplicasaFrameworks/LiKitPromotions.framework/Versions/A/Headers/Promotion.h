@@ -58,12 +58,7 @@ typedef enum {
     LiPromotionTypeOfferDealVG, // data = VG id & deal details
 } LiPromotionActionKind;
 
-typedef enum {
-    LiPromotionResultCancel = 0,
-    LiPromotionResultPress
-} LiPromotionResult;
-
-typedef void (^PromotionResultBlock)(LiPromotionResult result);
+typedef void (^PromotionResultBlock)(LiPromotionAction didAction,LiPromotionResult result,id info);
 
 #define kPromotionNotificationString @"PromotionConflictFound"
 #define kShouldPromotionWorkOffline TRUE

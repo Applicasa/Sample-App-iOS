@@ -99,43 +99,6 @@
 }
 
 #pragma mark -
-#pragma mark LiKitPromotions delegate methods
-#pragma mark -
-
-- (void)liKitPromotionsHasPromos {
-    // Lets us know that there are promotions that are available to show to the user
-    // This simple implementation shows the promos that are returned
-    DDLogInfo(@"!!! We have promotions !!!");
-    UIViewController *viewController = self.window.rootViewController.presentedViewController;
-    if (!viewController)
-        viewController = self.window.rootViewController;
-    [LiKitPromotions getAllAvailblePromosWithBlock:^(NSError *error, NSArray *array) {
-        if ([array count] > 0) {
-            for (Promotion *promo in array) {
-                [promo showOnView:viewController.view Block:^(LiPromotionResult result) {
-                    switch (result) {
-                        case LiPromotionResultCancel:
-                        {
-                            //Do nothing
-                        }
-                            break;
-                        case LiPromotionResultPress:
-                        {
-                            //Update balance label
-                            if ([viewController isKindOfClass:[StoreViewController class]])
-                                [(StoreViewController *)viewController updateBalanceLabel];
-                        }
-                            break;
-                        default:
-                            break;
-                    }
-                }];
-            }
-        }
-    }];
-}
-
-#pragma mark -
 #pragma mark - Push Notification Delegate Methods
 #pragma mark -
 

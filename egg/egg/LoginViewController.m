@@ -27,6 +27,7 @@
 #import "LoginViewController.h"
 #import "User+Facebook.h"
 #import "AlertShower.h"
+#import "LiPromo.h"
 
 @interface LoginViewController ()
 
@@ -48,6 +49,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     DDLogInfo(@"login view did load");
+}
+
+- (void) viewWillAppear:(BOOL)animated{
+    [LiPromo setLiKitPromotionsDelegate:nil];
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -117,6 +123,7 @@
             [AlertShower showAlertWithMessage:error.localizedDescription onViewController:self];
         }
     }];
+
 }
 
 - (IBAction)hideKeyboard:(id)sender{

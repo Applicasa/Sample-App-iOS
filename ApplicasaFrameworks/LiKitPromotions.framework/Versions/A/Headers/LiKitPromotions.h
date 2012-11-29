@@ -16,6 +16,8 @@
 + (NSDictionary *) getProfileSettingsFieldsDictionary;
 + (NSDictionary *) getAnalyticsFieldsDictionary;
 
++ (void) setLiKitPromotionsDelegate:(id <LiKitPromotionsDelegate>)delegate;
+
 //Level
 + (void) startLevel:(NSString *)level;
 + (void) endLevel:(LEVEL_RESULT)result Socre:(NSInteger)score Bonus:(NSInteger)bonus;
