@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LiPromo.h"
 
 @class StoreViewController;
 
@@ -18,7 +19,7 @@
 @end
 
 
-@interface StoreViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout> {
+@interface StoreViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, LiKitPromotionsDelegate> {
     NSMutableArray *collectionItems;
     BOOL isDisplayingVirtualGoods;
     BOOL isDisplayingVirtualCurrency;

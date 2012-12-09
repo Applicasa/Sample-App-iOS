@@ -17,6 +17,8 @@
 #import "AlertShower.h"
 #import <LiKitIAP/LiKitIAP.h>
 #import "LiPromoHelperViews.h"
+#import "NearbyFriendsViewController.h"
+#import "LiUserLocation.h"
 
 @implementation MainViewController
 
@@ -33,16 +35,58 @@
     [activity setUserInteractionEnabled:TRUE];
 }
 
+- (void) viewDidAppear:(BOOL)animated{
+    [LiKitPromotions setLiKitPromotionsDelegate:self];
+    [super viewDidAppear:animated];
+}
+
+
 - (void) dismissLoadingScreen{
     //Remove indicator
     LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
     [activityView removeFromSuperview];
+    [self performSelectorOnMainThread:@selector(updateCurrenctUserLocation) withObject:nil waitUntilDone:FALSE];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Update user location
+
+- (void) updateCurrenctUserLocation{
+    LiUserLocation *userLocation = [[LiUserLocation alloc] init];
+    [userLocation updateLocationWithAccuracy:kCLLocationAccuracyBest distanceFilter:1000 andBlock:^(NSError *error, CLLocation *location, Actions action) {
+        if (error)
+            DDLogCError(@"Failed to upload location: %@",error.localizedDescription);
+        else
+            DDLogCInfo(@"Update to location: %@",location);
+    }];
+}
+
+#pragma mark -
+#pragma mark LiKitPromotionsDelegate method
+#pragma mark -
+
+- (void) liKitPromotionsAvailable:(NSArray *)promotions{
+    for (Promotion *promo in promotions) {
+        [promo showOnView:self.view Block:^(LiPromotionAction promoAction, LiPromotionResult result, id info) {
+            if (!promoAction)
+                return ;
+            
+            switch (result) {
+                case LiPromotionResultGiveMainCurrencyVirtualCurrency:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Reward %@ Coins",info] onViewController:self];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
+    }
 }
 
 #pragma mark -
@@ -80,6 +124,16 @@
 }
 
 #pragma mark -
+#pragma mark NearbyFriendsViewController methods
+#pragma mark -
+
+- (void)nearbyFriendsViewControllerDidGoBack:(NearbyFriendsViewController *)controller{
+    // Handle dismissing StoreViewController when user taps back button
+    DDLogInfo(@"doing goBack delegate action");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -
 #pragma mark prepareForSegue
 #pragma mark -
 
@@ -94,6 +148,11 @@
         DDLogInfo(@"doing store segue");
         StoreViewController *storeModal = segue.destinationViewController;
         storeModal.delegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"nearByFriendsSegueue"]){
+        DDLogInfo(@"doing findFriends segue");
+        NearbyFriendsViewController *nearbyFriendsViewController = segue.destinationViewController;
+        nearbyFriendsViewController.delegate = self;
     }
 }
 

@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import <LiCore/LiObjPushNotification.h>
 #import <LiCore/NSDate+SQLiteDate.h>
 #import <LiCore/LiCoreDelegate.h>
 #import <LiCore/LiObjRequest.h>
@@ -49,9 +48,6 @@
 
 + (User *) getCurrentUser;
 + (NSDateFormatter *) liSqliteDateFormatter;
-
-// Method to commit the sending push action
-+ (void) sendPush:(LiObjPushNotification *)push ToUsers:(NSArray *)users WithBlock:(SendPushFinished)block;
 
 + (void) initObjectsDictionary:(NSArray *)array;
 + (void) initForeignKeysWithDictionary:(NSDictionary *)dictionary;

@@ -52,6 +52,11 @@ static UIImage *virtualGoodImage = nil;
     [self changeSection:btnVirtualItems];
 }
 
+- (void) viewDidAppear:(BOOL)animated{
+    [LiPromo setLiKitPromotionsDelegate:self];
+    [super viewDidAppear:animated];
+}
+
 #pragma mark -
 #pragma mark Helper methods
 #pragma mark -
@@ -66,11 +71,11 @@ static UIImage *virtualGoodImage = nil;
     
     // Checks for active store section & loads data for collection view
     if (isDisplayingVirtualGoods) {
-        [IAP getAllVirtualGoodWithType:All WithBlock:block];
+        [IAP getVirtualGoodsOfType:All withBlock:block];
     } else if (isDisplayingUserInventory) {
-        [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:block];
+        [IAP getVirtualGoodsOfType:NonInventoryItems withBlock:block];
     } else if (isDisplayingVirtualCurrency) {
-        [IAP getAllVirtualCurrenciesWithBlock:block];
+        [IAP getVirtualCurrenciesWithBlock:block];
     }
 }
 
@@ -86,7 +91,7 @@ static UIImage *virtualGoodImage = nil;
 - (void)buyVirtualGood:(id)obj {
     // Generic helper for buying virtual items & updating balance
     // Presents alert on success/error
-    [IAP buyVirtualGood:obj Quantity:1 CurrencyKind:MainCurrency WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+    [IAP buyVirtualGood:obj quantity:1 withCurrencyKind:MainCurrency andBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // purchase success
             DDLogWarn(@"Bought item: %@", [obj virtualGoodTitle]);
@@ -99,6 +104,7 @@ static UIImage *virtualGoodImage = nil;
             [AlertShower showAlertWithMessage:error.localizedDescription onViewController:self];
         }
     }];
+    
 }
 
 - (void)buyVirtualCurrency:(id)obj {
@@ -106,8 +112,7 @@ static UIImage *virtualGoodImage = nil;
     // Presents alert on success/error
     LiActivityIndicator *buyingActivity = [LiActivityIndicator startAnimatingOnView:self.view];
     [buyingActivity setLabelText:nil];
-    [IAP buyVirtualCurrency:obj WithBlock:^(NSError *error, NSString *itemID, Actions action) {
-        [buyingActivity stopAndRemove];
+    [IAP buyVirtualCurrency:obj withBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // purchase success
             DDLogWarn(@"Bought item: %@; added %d to User's balance", [obj virtualCurrencyTitle], [obj virtualCurrencyCredit]);
@@ -124,7 +129,7 @@ static UIImage *virtualGoodImage = nil;
 - (void)useInventoryItem:(id)obj {
     // Generic helper for using inventory items user has purchased.
     // Logs success/error
-    [IAP useVirtualGood:obj Quantity:1 WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+    [IAP useVirtualGood:obj quantity:1 withBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // used inventory item
             DDLogVerbose(@"Used inventory item: %@", [obj virtualGoodTitle]);
@@ -312,6 +317,46 @@ static UIImage *virtualGoodImage = nil;
 - (UIEdgeInsets)collectionView:(UICollectionView *)storeView layout:(UICollectionViewLayout *)layout insetForSectionAtIndex:(NSInteger)section {
     // sets item insets for layout purposes
     return UIEdgeInsetsMake(10, 10, 10, 10);
+}
+
+#pragma mark -
+#pragma mark LiKitPromotionsDelegate method
+#pragma mark -
+
+- (void) liKitPromotionsAvailable:(NSArray *)promotions{
+    for (Promotion *promo in promotions) {
+        [promo showOnView:self.view Block:^(LiPromotionAction promoAction, LiPromotionResult result, id info) {
+            if (!promoAction)
+                return ;
+            
+            if (promoAction == LiPromotionActionFailed){
+                [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Failed: %@",[(NSError *)info localizedDescription]] onViewController:self];
+                return;
+            }
+            
+            switch (result) {
+                case LiPromotionResultGiveMainCurrencyVirtualCurrency:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Reward %@ Coins",info] onViewController:self];
+                }
+                    break;
+                case LiPromotionResultDealVirtualGood:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Deal %@",[(VirtualGood *)info virtualGoodTitle]] onViewController:self];
+                }
+                    break;
+                case LiPromotionResultDealVirtualCurrency:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Deal %@",[(VirtualCurrency *)info virtualCurrencyTitle]] onViewController:self];
+                }
+                    break;
+                case LiPromotionResultLinkOpened:{
+                    [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Open URL %@",(NSURL *)info] onViewController:self];
+                }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
+    }
 }
 
 
