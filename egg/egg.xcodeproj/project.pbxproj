@@ -138,7 +138,6 @@
 		C40997E3167632CF007E68C6 /* VirtualGood.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualGood.m; sourceTree = "<group>"; };
 		C40997E5167632CF007E68C6 /* VirtualGoodCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualGoodCategory.h; sourceTree = "<group>"; };
 		C40997E6167632CF007E68C6 /* VirtualGoodCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirtualGoodCategory.m; sourceTree = "<group>"; };
-		C40997E8167632CF007E68C6 /* LiBlockQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiBlockQuery.h; sourceTree = "<group>"; };
 		C40997E9167632CF007E68C6 /* LiBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiBlocks.h; sourceTree = "<group>"; };
 		C40997EA167632CF007E68C6 /* LiConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiConfig.h; sourceTree = "<group>"; };
 		C40997EB167632CF007E68C6 /* LiDataTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiDataTypes.h; sourceTree = "<group>"; };
@@ -395,7 +394,6 @@
 		C40997E7167632CF007E68C6 /* LiManager */ = {
 			isa = PBXGroup;
 			children = (
-				C40997E8167632CF007E68C6 /* LiBlockQuery.h */,
 				C40997E9167632CF007E68C6 /* LiBlocks.h */,
 				C40997EA167632CF007E68C6 /* LiConfig.h */,
 				C40997EB167632CF007E68C6 /* LiDataTypes.h */,
