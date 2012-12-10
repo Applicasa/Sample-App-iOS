@@ -24,13 +24,13 @@ typedef void (^LiBlockAction)(NSError *error, NSString *itemID,Actions action);
 
 - (NSDictionary *) dictionaryRepresentation;
 
++ (NSString *) getFieldName:(LiFields)field;
 + (id) instance;
 + (id) instanceWithID:(NSString *)ID;
 
 + (NSString *) getClassName;
 + (NSDictionary *) getFields;
 + (NSDictionary *) getForeignKeys;
-+ (NSString *) getFieldName:(LiFields)field;
 
 + (LiQuery *) setFieldsNameToQuery:(LiQuery *)query;
 - (void) respondToGetArray_ResponseType:(NSInteger)responseType ResponseMessage:(NSString *)responseMessage Array:(NSArray *)array Block:(void *)block;

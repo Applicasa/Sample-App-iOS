@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCoreDelegate.h>
-#import "LiBlockQuery.h"
+#import "LiBlocks.h"
+#import "LiDataTypes.h"
+#import <LiCore/LiCoreDelegate.h>
 
 @class LiGeoFilter;
 @interface LiFilters : NSObject

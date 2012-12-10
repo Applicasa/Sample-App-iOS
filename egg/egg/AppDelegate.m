@@ -27,18 +27,23 @@
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:1.00 green:0.85 blue:0.40 alpha:1.0] backgroundColor:nil forFlag:LOG_FLAG_VERBOSE];
     return YES;
 }
-							
+
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Logout users if they've logged in. Not doing anything else here cos we don't have special processing
     // needs in the sample app.
-    [User logOutWithBlock:^(NSError *error, NSString *itemID, Actions action) {
-        DDLogInfo(@"Logged Out User");
-    }];
+    BOOL userIsRegistered = [[User getCurrentUser] userIsRegistered];
+    BOOL userIsRegisteredFacebook = [[User getCurrentUser] userIsRegisteredFacebook];
+    if (userIsRegisteredFacebook){
+        [User facebookLogoutWithBlock:^(NSError *error, NSString *itemID, Actions action) {
+            DDLogInfo(@"Logged out Facebook user");
+        }];
+    } else if (userIsRegistered){
+        [User logoutWithBlock:^(NSError *error, NSString *itemID, Actions action) {
+            DDLogInfo(@"Logged Out User");
+        }];
+    }
     
-    [User facebookLogOutWithBlock:^(NSError *error, NSString *itemID, Actions action) {
-        DDLogInfo(@"Logged out Facebook user");
-    }];
 }
 
 #pragma mark -
@@ -75,7 +80,7 @@
     // Lets us know that IAP has loaded
     // Provides arrays of virtual goods & currencies that can be used immediately
     [self refreshViewControllers];
-
+    
 #ifdef DEBUG
     // Just for DEBUG purposes, let's see our virtual currencies and items to make
     // sure we have a successful connnection to Applicasa.
@@ -95,7 +100,6 @@
     }
     DDLogInfo(@"#############   END DELEGATE METHOD #############");
 #endif
-
 }
 
 #pragma mark -

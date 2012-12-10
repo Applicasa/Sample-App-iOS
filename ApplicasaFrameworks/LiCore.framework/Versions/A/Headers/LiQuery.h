@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCoreDelegate.h>
-#import "LiBlockQuery.h"
+#import "LiDataTypes.h"
 
 @class LiFilters;
 @class LiPager;

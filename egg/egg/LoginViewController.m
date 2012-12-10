@@ -12,15 +12,15 @@
  Shows primary Applicasa SDK/framework methods used to handle users
  
  Includes:
-     - Registering users
-     - Login via Applicasa's user management
-     - Login via Facebook
+ - Registering users
+ - Login via Applicasa's user management
+ - Login via Facebook
  
  Other methods that Applicasa provide but not implemented here:
-     - Logout users via Applicasa or Facebook
-     - Update username
-     - Update password
-     - Forgot password
+ - Logout users via Applicasa or Facebook
+ - Update username
+ - Update password
+ - Forgot password
  
  */
 
@@ -49,6 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     DDLogInfo(@"login view did load");
+    [LiPromo setLiKitPromotionsDelegate:nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated{
@@ -63,7 +64,7 @@
 }
 
 #pragma mark -
-#pragma mark IBActions 
+#pragma mark IBActions
 #pragma mark -
 
 - (IBAction)cancel:(id)sender {
@@ -74,7 +75,7 @@
 - (IBAction)loggedIn:(id)sender {
     // Authenticate user via Applicasa's user management features.
     // Returns result or error in a block for additional processing.
-    [User loginUserWithUsername:inputUsername.text Password:inputUsername.text WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+    [User loginWithUsername:inputUsername.text andPassword:inputPassword.text withBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (!error){
             DDLogInfo(@"delegate said loggedIn. Dismissing...");
             [self.delegate loginViewControllerDidLogin:self];
@@ -95,9 +96,9 @@
      
      Returns result or error in a block that allows for additional processing.
      
-    */
+     */
     User *currentUser = [LiCore getCurrentUser];
-    [currentUser registerUserWithUsername:inputUsername.text Password:inputPassword.text WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+    [currentUser registerUsername:inputUsername.text andPassword:inputPassword.text withBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (!error){
             [self.delegate loginViewControllerDidRegister:self];
         } else {
@@ -114,7 +115,7 @@
      
      Returns result or error in a block that allows for additional processing.
      
-    */
+     */
     User *currentUser = [LiCore getCurrentUser];
     [currentUser facebookLoginWithBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (!error){

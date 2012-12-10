@@ -71,11 +71,11 @@ static UIImage *virtualGoodImage = nil;
     
     // Checks for active store section & loads data for collection view
     if (isDisplayingVirtualGoods) {
-        [IAP getAllVirtualGoodWithType:All WithBlock:block];
+        [IAP getVirtualGoodsOfType:All withBlock:block];
     } else if (isDisplayingUserInventory) {
-        [IAP getAllVirtualGoodWithType:Non_0_Quantity WithBlock:block];
+        [IAP getVirtualGoodsOfType:NonInventoryItems withBlock:block];
     } else if (isDisplayingVirtualCurrency) {
-        [IAP getAllVirtualCurrenciesWithBlock:block];
+        [IAP getVirtualCurrenciesWithBlock:block];
     }
 }
 
@@ -91,7 +91,7 @@ static UIImage *virtualGoodImage = nil;
 - (void)buyVirtualGood:(id)obj {
     // Generic helper for buying virtual items & updating balance
     // Presents alert on success/error
-    [IAP buyVirtualGood:obj Quantity:1 CurrencyKind:MainCurrency WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+    [IAP buyVirtualGood:obj quantity:1 withCurrencyKind:MainCurrency andBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // purchase success
             DDLogWarn(@"Bought item: %@", [obj virtualGoodTitle]);
@@ -104,6 +104,7 @@ static UIImage *virtualGoodImage = nil;
             [AlertShower showAlertWithMessage:error.localizedDescription onViewController:self];
         }
     }];
+    
 }
 
 - (void)buyVirtualCurrency:(id)obj {
@@ -111,8 +112,7 @@ static UIImage *virtualGoodImage = nil;
     // Presents alert on success/error
     LiActivityIndicator *buyingActivity = [LiActivityIndicator startAnimatingOnView:self.view];
     [buyingActivity setLabelText:nil];
-    [IAP buyVirtualCurrency:obj WithBlock:^(NSError *error, NSString *itemID, Actions action) {
-        [buyingActivity stopAndRemove];
+    [IAP buyVirtualCurrency:obj withBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // purchase success
             DDLogWarn(@"Bought item: %@; added %d to User's balance", [obj virtualCurrencyTitle], [obj virtualCurrencyCredit]);
@@ -129,7 +129,7 @@ static UIImage *virtualGoodImage = nil;
 - (void)useInventoryItem:(id)obj {
     // Generic helper for using inventory items user has purchased.
     // Logs success/error
-    [IAP useVirtualGood:obj Quantity:1 WithBlock:^(NSError *error, NSString *itemID, Actions action) {
+    [IAP useVirtualGood:obj quantity:1 withBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // used inventory item
             DDLogVerbose(@"Used inventory item: %@", [obj virtualGoodTitle]);

@@ -17,6 +17,7 @@
 #import "AlertShower.h"
 #import <LiKitIAP/LiKitIAP.h>
 #import "LiPromoHelperViews.h"
+#import "NearbyFriendsViewController.h"
 #import "LiUserLocation.h"
 
 @implementation MainViewController
@@ -39,25 +40,29 @@
     [super viewDidAppear:animated];
 }
 
-- (void) updateCurrentUserLocation{
-    [[[LiUserLocation alloc] init] updateCurrentUserToCurrentLocation_Auto:FALSE DesireAccuracy:kCLLocationAccuracyBest DistanceFilter:kCLDistanceFilterNone WithBlock:^(NSError *error, CLLocation *location, Actions action) {
-        if (error)
-            DDLogInfo(@"Failed update current location %@",error.localizedDescription);
-    }];
-}
-
 - (void) dismissLoadingScreen{
     //Remove indicator
     LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
     [activityView removeFromSuperview];
     [self performSelectorOnMainThread:@selector(updateCurrentUserLocation) withObject:nil waitUntilDone:FALSE];
-    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Update user location
+
+- (void) updateCurrentUserLocation{
+    LiUserLocation *userLocation = [[LiUserLocation alloc] init];
+    [userLocation updateLocationWithAccuracy:kCLLocationAccuracyBest distanceFilter:1000 andBlock:^(NSError *error, CLLocation *location, Actions action) {
+        if (error)
+            DDLogCError(@"Failed to upload location: %@",error.localizedDescription);
+        else
+            DDLogCInfo(@"Update to location: %@",location);
+    }];
 }
 
 #pragma mark -
@@ -119,6 +124,16 @@
 }
 
 #pragma mark -
+#pragma mark NearbyFriendsViewController methods
+#pragma mark -
+
+- (void)nearbyFriendsViewControllerDidGoBack:(NearbyFriendsViewController *)controller{
+    // Handle dismissing StoreViewController when user taps back button
+    DDLogInfo(@"doing goBack delegate action");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -
 #pragma mark prepareForSegue
 #pragma mark -
 
@@ -133,6 +148,11 @@
         DDLogInfo(@"doing store segue");
         StoreViewController *storeModal = segue.destinationViewController;
         storeModal.delegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"nearByFriendsSegueue"]){
+        DDLogInfo(@"doing findFriends segue");
+        NearbyFriendsViewController *nearbyFriendsViewController = segue.destinationViewController;
+        nearbyFriendsViewController.delegate = self;
     }
 }
 

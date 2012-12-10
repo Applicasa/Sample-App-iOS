@@ -1,12 +1,12 @@
 //
 // Promotion.h
-// Created by Applicasa 
+// Created by Applicasa
 // 11/1/2012
 //
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>
-#import "LiBlockQuery.h"
+#import "LiDataTypes.h"
 #import "LiKitPromotionsConstants.h"
 
 
@@ -58,7 +58,7 @@ typedef enum {
     LiPromotionTypeOfferDealVG, // data = VG id & deal details
 } LiPromotionActionKind;
 
-typedef void (^PromotionResultBlock)(LiPromotionAction didAction,LiPromotionResult result,id info);
+typedef void (^PromotionResultBlock)(LiPromotionAction promoAction,LiPromotionResult result,id info);
 
 #define kPromotionNotificationString @"PromotionConflictFound"
 #define kShouldPromotionWorkOffline TRUE
