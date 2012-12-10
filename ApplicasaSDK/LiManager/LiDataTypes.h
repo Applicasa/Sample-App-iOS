@@ -1,15 +1,15 @@
 //
-// LiBlockQuery.h
+// LiDataTypes.h
 // Created by Applicasa 
-// 12/4/2012
+// 09/12/2012
 //
 
 
 typedef enum {
 	All = 1,
-	Just_0_Quantity,
-	Non_0_Quantity
-} VirutalGoodGetTypes;
+	NonInventoryItems,
+	InventoryItems
+} VirtualGoodType;
 
 typedef enum {
 	None = 0,
@@ -72,28 +72,20 @@ typedef enum {
 	VirtualGoodCategory_None,
 	VirtualGoodCategoryID,
 	VirtualGoodCategoryName,
-	VirtualGoodCategoryLastUpdate
+	VirtualGoodCategoryLastUpdate,
+	//Game
+	Game_None,
+	GameID,
+	GameLastUpdate,
+	GameNumOfChips,
+	GameName,
+	GamePlayerOne,
+	GamePlayerTwo,
+	//Move
+	Move_None,
+	MoveID,
+	MoveLastUpdate,
+	MoveNum,
+	MoveGame
 }LiFields;
-
-
-@class User;
-
-typedef void (^GetUserFinished)(NSError *error, User *object);
-typedef void (^GetUserArrayFinished)(NSError *error, NSArray *array);
-
-@class VirtualCurrency;
-
-typedef void (^GetVirtualCurrencyFinished)(NSError *error, VirtualCurrency *object);
-typedef void (^GetVirtualCurrencyArrayFinished)(NSError *error, NSArray *array);
-
-@class VirtualGood;
-
-typedef void (^GetVirtualGoodFinished)(NSError *error, VirtualGood *object);
-typedef void (^GetVirtualGoodArrayFinished)(NSError *error, NSArray *array);
-
-@class VirtualGoodCategory;
-
-typedef void (^GetVirtualGoodCategoryFinished)(NSError *error, VirtualGoodCategory *object);
-typedef void (^GetVirtualGoodCategoryArrayFinished)(NSError *error, NSArray *array);
-
 

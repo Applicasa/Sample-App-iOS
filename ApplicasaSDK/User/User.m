@@ -1,7 +1,7 @@
 //
 // User.m
 // Created by Applicasa 
-// 11/25/2012
+// 09/12/2012
 //
 
 #import "User.h"
@@ -31,8 +31,10 @@
 
 @interface User (privateMethods)
 
-- (void) updateField:(LiFields)field Value:(NSNumber *)value;
-- (void) setField:(LiFields)field WithValue:(id)value;
+- (void) updateField:(LiFields)field withValue:(NSNumber *)value;
+- (void) updateField:(LiFields)field Value:(NSNumber *)value DEPRECATED_ATTRIBUTE;
+- (void) setField:(LiFields)field toValue:(id)value;
+- (void) setField:(LiFields)field WithValue:(id)value DEPRECATED_ATTRIBUTE;
 
 @end
 
@@ -102,10 +104,10 @@ enum UserIndexes {
 		return;
 	}	
 	request.delegate = self;
-	[request startSync:FALSE];
+	[request startSync:NO];
 }
 
-- (void) updateField:(LiFields)field Value:(NSNumber *)value{
+- (void) updateField:(LiFields)field withValue:(NSNumber *)value{
 	switch (field) {
 		case UserMainCurrencyBalance:
 			userMainCurrencyBalance += [value intValue];
@@ -120,24 +122,23 @@ enum UserIndexes {
 
 #pragma mark - Increase
 
-- (void) increaseField:(LiFields)field ByValue:(NSNumber *)value{
+- (void) increaseField:(LiFields)field byValue:(NSNumber *)value{
     if (!self.increaseDictionary)
         self.increaseDictionary = [[[NSMutableDictionary alloc] init] autorelease];
     [self.increaseDictionary setValue:value forKey:[[self class] getFieldName:field]];
-    [self updateField:field Value:value];
+    [self updateField:field withValue:value];
 }
-
 
 #pragma mark - Get By ID
 
-+ (void) getByID:(NSString *)Id QueryKind:(QueryKind)queryKind WithBlock:(GetUserFinished)block{
++ (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetUserFinished)block{
     __block User *item = [User instance];
-	
-    LiFilters *filters = [LiBasicFilters filterByField:UserID Operator:Equal Value:Id];
+
+    LiFilters *filters = [LiBasicFilters filterByField:UserID Operator:Equal Value:idString];
     LiQuery *query = [[LiQuery alloc]init];
     [query setFilters:filters];
     
-    [self getArrayWithQuery:query QueryKind:queryKind WithBlock:^(NSError *error, NSArray *array) {
+    [self getArrayWithQuery:query queryKind:queryKind withBlock:^(NSError *error, NSArray *array) {
         item = nil;
         if (array.count)
             item = [array objectAtIndex:0];
@@ -149,12 +150,12 @@ enum UserIndexes {
 
 #pragma mark - Get Array
 
-+ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetUserArrayFinished)block{
++ (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetUserArrayFinished)block{
     User *item = [User instance];
     
-    query = [self setFieldsNameToQuery:query];
+ query = [self setFieldsNameToQuery:query];
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-	[request setBlock:block];
+ [request setBlock:block];
     [request addIntValue:queryKind forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
@@ -166,21 +167,21 @@ enum UserIndexes {
         [item requestDidFinished:request];
 }
 
-+ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetUserArrayFinished)block{
++ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetUserArrayFinished)block{
     User *item = [User instance];
-    
+
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
 	[request setBlock:block];
     [request addValue:rawQuery forKey:@"filters"];
-    [request setShouldWorkOffline:TRUE];
-    [request startSync:TRUE];
+    [request setShouldWorkOffline:YES];
+    [request startSync:YES];
     
     [item requestDidFinished:request];
 }
 
 #pragma mark - Upload File
 
-- (void) uploadFile:(NSData *)data ToField:(LiFields)field FileType:(AMAZON_FILE_TYPES)fileType Extenstion:(NSString *)ext WithBlock:(LiBlockAction)block{
+- (void) uploadFile:(NSData *)data toField:(LiFields)field withFileType:(AMAZON_FILE_TYPES)fileType extension:(NSString *)ext andBlock:(LiBlockAction)block{
 
     LiObjRequest *request = [LiObjRequest requestWithAction:UploadFile ClassName:kClassName];
     request.delegate = self;
@@ -192,7 +193,7 @@ enum UserIndexes {
 	[request addIntValue:field forKey:@"fileField"];
     [request addValue:[[self class] getFieldName:field] forKey:@"field"];
 	[request setBlock:block];
-    [request startSync:FALSE];
+    [request startSync:NO];
 }
 
 /*
@@ -207,6 +208,7 @@ enum UserIndexes {
 */
 #pragma mark - Applicasa Delegate Methods
 
+
 - (void) requestDidFinished:(LiObjRequest *)request{
     Actions action = request.action;
     NSInteger responseType = request.response.responseType;
@@ -214,13 +216,11 @@ enum UserIndexes {
     NSDictionary *responseData = request.response.responseData;
     
     switch (action) {
-        case UploadFile:{
-            LiFields fileField = [[request.requestParameters objectForKey:@"fileField"] intValue];            
-			[self setField:fileField WithValue:[responseData objectForKey:kResult]];
-        }
-        case Add:
-        case Update:
-        case Delete:{
+         case UploadFile:{
+            LiFields fileField = [[request.requestParameters objectForKey:@"fileField"] intValue];
+            [self setField:fileField toValue:[responseData objectForKey:kResult]];
+        }        
+        case Update:{
             NSString *itemID = [responseData objectForKey:KEY_userID];
             if (itemID)
                 self.userID = itemID;
@@ -230,17 +230,19 @@ enum UserIndexes {
         }
             break;
 
-        case GetArray:{
-            sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+        case GetArray:{            
+			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
             [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[User getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
 			[request releaseBlock];
+			
         }
             break;
         default:
             break;
     }
 }
+
 
 + (id) instanceWithID:(NSString *)ID{
     User *instace = [[User alloc] init];
@@ -262,7 +264,7 @@ enum UserIndexes {
     return [LiCore getCurrentUser];
 }
 
-- (void) setField:(LiFields)field WithValue:(id)value{
+- (void) setField:(LiFields)field toValue:(id)value{
 	switch (field) {
 	case UserID:
 		self.userID = value;
@@ -332,7 +334,8 @@ enum UserIndexes {
 - (id) init {
 	if (self = [super init]) {
 
-		self.userID				= @"0";		userName				= [@"" retain];
+		self.userID				= @"0";
+		userName				= [@"" retain];
 		self.userFirstName				= @"";
 		self.userLastName				= @"";
 		self.userEmail				= @"";
@@ -341,8 +344,8 @@ enum UserIndexes {
 		userLastLogin				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
 		userRegisterDate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
 		self.userLocation				=  [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease];
-		userIsRegisteredFacebook				= false;
-		userIsRegistered				= false;
+		userIsRegisteredFacebook				= NO;
+		userIsRegistered				= NO;
 		userLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
 		userFacebookID				= [@"" retain];
 		self.userImage				= [NSURL URLWithString:@""];
@@ -538,7 +541,28 @@ enum UserIndexes {
 			break;
 
 		default:
-			NSLog(@"Wrong LiField numerator for %@ Class",kClassName);
+			NSLog(@"Wrong LiFields numerator for %@ Class",kClassName);
+			fieldName = nil;
+			break;
+	}
+	
+	return fieldName;
+}
+
++ (NSString *) getGeoFieldName:(LiFields)field{
+	NSString *fieldName;
+	
+	switch (field) {
+		case User_None:
+			fieldName = @"pos";
+			break;
+	
+		case UserLocation:
+			fieldName = KEY_userLocation;
+			break;
+
+		default:
+			NSLog(@"Wrong Geo LiFields numerator for %@ Class",kClassName);
 			fieldName = nil;
 			break;
 	}
@@ -627,7 +651,7 @@ enum UserIndexes {
 		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
-			User *item  = [[User alloc] initWithStatement:stmt Array:(int **)indexes IsFK:FALSE];
+			User *item  = [[User alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
 			[item release];
 		}
@@ -649,7 +673,7 @@ enum UserIndexes {
 
 
 
-- (void) registerUserWithUsername:(NSString *)username Password:(NSString *)password WithBlock:(LiBlockAction)block{
+- (void) registerUsername:(NSString *)username andPassword:(NSString *)password withBlock:(LiBlockAction)block{
 
     if (!username || [username isEqualToString:@""] || !password){
         [self respondToLiActionCallBack:1011 ResponseMessage:@"You have to register with username and password" ItemID:self.userID Action:Register Block:block];
@@ -665,16 +689,16 @@ enum UserIndexes {
     
     NSString *liUserID = [[LiCore getCurrentUser] userID];
     [request addValue:liUserID forKey:@"_id"];
-    [request startSync:TRUE];
+    [request startSync:YES];
         
     if (request.response.responseType == 1){
-        userIsRegistered = TRUE;
+        userIsRegistered = YES;
     }
 
     [self respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Register Block:block];
 }
 
-+ (void) loginUserWithUsername:(NSString *)username Password:(NSString *)password WithBlock:(LiBlockAction)block{
++ (void) loginWithUsername:(NSString *)username andPassword:(NSString *)password withBlock:(LiBlockAction)block{
     User *item = [User instance];
     
     if (!username || [username isEqualToString:@""]){
@@ -685,12 +709,12 @@ enum UserIndexes {
     LiObjRequest *request = [LiObjRequest requestWithAction:Login ClassName:kClassName];
     [request addValue:username forKey:@"UserName"];
     [request addValue:password forKey:@"UserPassword"];
-    [request startSync:TRUE];
+    [request startSync:YES];
         
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Login Block:block];
 }
 
-+ (void) updateUsername:(NSString *)newUsername WithPassword:(NSString *)password WithBlock:(LiBlockAction)block{
++ (void) updateUsername:(NSString *)newUsername usingPassword:(NSString *)password withBlock:(LiBlockAction)block{
     User *item = [User instance];
    
     
@@ -704,12 +728,12 @@ enum UserIndexes {
     [request addValue:[[LiCore getCurrentUser] userName] forKey:@"UserName"];
     [request addValue:newUsername forKey:@"NewUserName"];
     [request addValue:password forKey:@"UserPassword"];
-    [request startSync:TRUE];
+    [request startSync:YES];
     
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:UpdateUserName Block:block];
 }
 
-+ (void) updatePassword:(NSString *)newPassword OldPassword:(NSString *)oldPassword WithBlock:(LiBlockAction)block{
++ (void) updatePassword:(NSString *)newPassword forOldPassword:(NSString *)oldPassword withBlock:(LiBlockAction)block{
     User *item = [User instance];
    
     
@@ -723,17 +747,17 @@ enum UserIndexes {
     [request addValue:[[LiCore getCurrentUser] userName] forKey:@"UserName"];
     [request addValue:oldPassword forKey:@"UserPassword"];
     [request addValue:newPassword forKey:@"NewUserPassword"];
-    [request startSync:TRUE];
+    [request startSync:YES];
     
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:UpdatePassword Block:block];
 }
 
-+ (void) logOutWithBlock:(LiBlockAction)block{
++ (void) logoutWithBlock:(LiBlockAction)block{
     User *item = [User instance];
    
     
     LiObjRequest *request = [LiObjRequest requestWithAction:Logout ClassName:kClassName];
-    [request startSync:TRUE];
+    [request startSync:YES];
     
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Logout Block:block];
 }
@@ -744,9 +768,66 @@ enum UserIndexes {
     LiObjRequest *request = [LiObjRequest requestWithAction:ForgotPassword ClassName:kClassName];
     [request addValue:[[LiCore getCurrentUser] userName] forKey:KEY_userName];
     
-    [request startSync:TRUE];
+    [request startSync:YES];
         
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:ForgotPassword Block:block];
+}
+
+
+#pragma mark - Deprecated Methods
+/*********************************************************************************
+ DEPRECATED METHODS:
+ 
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the next release. You should update your code immediately.
+ **********************************************************************************/
+
+- (void) increaseField:(LiFields)field ByValue:(NSNumber *)value {
+    [self increaseField:field byValue:value];
+}
+
+- (void) updateField:(LiFields)field Value:(NSNumber *)value {
+    [self updateField:field withValue:value];
+}
+
+- (void) setField:(LiFields)field WithValue:(NSNumber *)value {
+    [self setField:field toValue:value];
+}
+
++ (void) getByID:(NSString *)idString QueryKind:(QueryKind)queryKind WithBlock:(GetUserFinished)block {
+    [self getById:idString queryKind:queryKind withBlock:block];
+}
+
++ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetUserArrayFinished)block {
+    [self getArrayWithQuery:query queryKind:queryKind withBlock:block];
+}
+
++ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetUserArrayFinished)block {
+    [self getLocalArrayWithRawSQLQuery:rawQuery andBlock:block];
+}
+
+- (void)uploadFile:(NSData *)data ToField:(LiFields)field FileType:(AMAZON_FILE_TYPES)fileType Extenstion:(NSString *)ext WithBlock:(LiBlockAction)block {
+    [self uploadFile:data toField:field withFileType:fileType extension:ext andBlock:block];
+}
+
+- (void)registerUserWithUsername:(NSString *)username Password:(NSString *)password WithBlock:(LiBlockAction)block {
+    [self registerUsername:username andPassword:password withBlock:block];
+}
+
++ (void)loginUserWithUsername:(NSString *)username Password:(NSString *)password WithBlock:(LiBlockAction)block {
+    [self loginWithUsername:username andPassword:password withBlock:block];
+}
+
++ (void)updatePassword:(NSString *)newPassword OldPassword:(NSString *)oldPassword WithBlock:(LiBlockAction)block {
+    [self updatePassword:newPassword forOldPassword:oldPassword withBlock:block];
+}
+
++ (void)updateUsername:(NSString *)newUsername WithPassword:(NSString *)password WithBlock:(LiBlockAction)block {
+    [self updateUsername:newUsername usingPassword:password withBlock:block];
+}
+
++ (void)logOutWithBlock:(LiBlockAction)block {
+    [self logoutWithBlock:block];
 }
 
 @end

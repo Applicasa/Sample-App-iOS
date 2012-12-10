@@ -1,7 +1,7 @@
 //
 // VirtualGood.m
 // Created by Applicasa 
-// 11/25/2012
+// 09/12/2012
 //
 
 #import "VirtualGood.h"
@@ -28,8 +28,10 @@
 
 @interface VirtualGood (privateMethods)
 
-- (void) updateField:(LiFields)field Value:(NSNumber *)value;
-- (void) setField:(LiFields)field WithValue:(id)value;
+- (void) updateField:(LiFields)field withValue:(NSNumber *)value;
+- (void) updateField:(LiFields)field Value:(NSNumber *)value DEPRECATED_ATTRIBUTE;
+- (void) setField:(LiFields)field toValue:(id)value;
+- (void) setField:(LiFields)field WithValue:(id)value DEPRECATED_ATTRIBUTE;
 
 @end
 
@@ -68,13 +70,15 @@ enum VirtualGoodIndexes {
 	VirtualGoodMainCategoryIndex,
 	VirtualGoodIsDealIndex,
 	VirtualGoodConsumableIndex,
-	VirtualGoodLastUpdateIndex,};
+	VirtualGoodLastUpdateIndex,
+};
 #define NUM_OF_VIRTUALGOOD_FIELDS 16
 
 enum VirtualGoodCategoryIndexes {
 	VirtualGoodCategoryIDIndex = 0,
 	VirtualGoodCategoryNameIndex,
-	VirtualGoodCategoryLastUpdateIndex,};
+	VirtualGoodCategoryLastUpdateIndex,
+};
 #define NUM_OF_VIRTUALGOODCATEGORY_FIELDS 3
 
 
@@ -99,10 +103,10 @@ enum VirtualGoodCategoryIndexes {
 		return;
 	}	
 	request.delegate = self;
-	[request startSync:FALSE];
+	[request startSync:NO];
 }
 
-- (void) updateField:(LiFields)field Value:(NSNumber *)value{
+- (void) updateField:(LiFields)field withValue:(NSNumber *)value{
 	switch (field) {
 		case VirtualGoodMainCurrency:
 			virtualGoodMainCurrency += [value intValue];
@@ -125,7 +129,7 @@ enum VirtualGoodCategoryIndexes {
 }
 
 
-- (void) setField:(LiFields)field WithValue:(id)value{
+- (void) setField:(LiFields)field toValue:(id)value{
 	switch (field) {
 	case VirtualGoodID:
 		self.virtualGoodID = value;
@@ -205,7 +209,8 @@ enum VirtualGoodCategoryIndexes {
 - (id) init {
 	if (self = [super init]) {
 
-		self.virtualGoodID				= @"0";		self.virtualGoodTitle				= @"";
+		self.virtualGoodID				= @"0";
+		self.virtualGoodTitle				= @"";
 		self.virtualGoodDescription				= @"";
 		self.virtualGoodMainCurrency				= 0;
 		self.virtualGoodSecondaryCurrency				= 0;
@@ -216,8 +221,8 @@ enum VirtualGoodCategoryIndexes {
 		self.virtualGoodImageA				= [NSURL URLWithString:@""];
 		self.virtualGoodImageB				= [NSURL URLWithString:@""];
 		self.virtualGoodImageC				= [NSURL URLWithString:@""];
-		self.virtualGoodIsDeal				= false;
-		self.virtualGoodConsumable				= true;
+		self.virtualGoodIsDeal				= NO;
+		self.virtualGoodConsumable				= YES;
 		virtualGoodLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
 self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	}
@@ -411,7 +416,24 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 			break;
 
 		default:
-			NSLog(@"Wrong LiField numerator for %@ Class",kClassName);
+			NSLog(@"Wrong LiFields numerator for %@ Class",kClassName);
+			fieldName = nil;
+			break;
+	}
+	
+	return fieldName;
+}
+
++ (NSString *) getGeoFieldName:(LiFields)field{
+	NSString *fieldName;
+	
+	switch (field) {
+		case VirtualGood_None:
+			fieldName = @"pos";
+			break;
+	
+		default:
+			NSLog(@"Wrong Geo LiFields numerator for %@ Class",kClassName);
 			fieldName = nil;
 			break;
 	}
@@ -459,7 +481,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	} else {
 		int **virtualGoodMainCategoryArray = (int **)malloc(sizeof(int *));
 		virtualGoodMainCategoryArray[0] = array[1];
-		self.virtualGoodMainCategory = [[[VirtualGoodCategory alloc] initWithStatement:stmt Array:virtualGoodMainCategoryArray IsFK:TRUE] autorelease];
+		self.virtualGoodMainCategory = [[[VirtualGoodCategory alloc] initWithStatement:stmt Array:virtualGoodMainCategoryArray IsFK:YES] autorelease];
 		free(virtualGoodMainCategoryArray);
 	}
 
@@ -515,7 +537,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
-			VirtualGood *item  = [[VirtualGood alloc] initWithStatement:stmt Array:(int **)indexes IsFK:FALSE];
+			VirtualGood *item  = [[VirtualGood alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
 			[item release];
 		}
@@ -535,41 +557,39 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 
 #pragma mark - End of Basic SDK
 
-#pragma mark - Get Array
-
-+ (void) getArrayWithQuery:(LiQuery *)query WithBlock:(GetVirtualGoodArrayFinished)block{
++ (void) getLocalArrayWithQuery:(LiQuery *)query andBlock:(GetVirtualGoodArrayFinished)block{
     VirtualGood *item = [VirtualGood instance];
      
     query = [self setFieldsNameToQuery:query];
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-	[request setBlock:block];
+ [request setBlock:block];
     [request addIntValue:LOCAL forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
-    request.shouldWorkOffline = TRUE;
+    request.shouldWorkOffline = YES;
     
-    [request startSync:TRUE];
+    [request startSync:YES];
     
     [item requestDidFinished:request];
 }
 
-+ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetVirtualGoodArrayFinished)block{
++ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetVirtualGoodArrayFinished)block{
     VirtualGood *item = [VirtualGood instance];
     
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-	[request setBlock:block];
+ [request setBlock:block];
     [request addValue:rawQuery forKey:@"filters"];
-    [request setShouldWorkOffline:TRUE];
-    [request startSync:TRUE];
+    [request setShouldWorkOffline:YES];
+    [request startSync:YES];
     
     [item requestDidFinished:request];
-}  	
+}   
 
-+ (void) getAllVirtualGoodByType:(VirutalGoodGetTypes)type WithBlock:(GetVirtualGoodArrayFinished)block{
-    [self getAllVirtualGoodByType:type ByCategory:nil WithBlock:block];
++ (void) getVirtualGoodsOfType:(VirtualGoodType)type withBlock:(GetVirtualGoodArrayFinished)block{
+    [self getVirtualGoodsOfType:type andCategory:nil withBlock:block];
 }
 
-+ (void) getAllVirtualGoodByType:(VirutalGoodGetTypes)type ByCategory:(VirtualGoodCategory *)category WithBlock:(GetVirtualGoodArrayFinished)block{
++ (void) getVirtualGoodsOfType:(VirtualGoodType)type andCategory:(VirtualGoodCategory *)category withBlock:(GetVirtualGoodArrayFinished)block{
     NSString *predicateString = @"";
     NSArray *result = [LiKitIAP virtualGoods];
     if (category)
@@ -581,10 +601,10 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
     
     
     switch (type) {
-        case Just_0_Quantity:
+        case NonInventoryItems:
             predicateString = [predicateString stringByAppendingFormat:@"%@ %@ = 0",andString,@"virtualGoodUserInventory"];
             break;
-        case Non_0_Quantity:
+        case InventoryItems:
             predicateString = [predicateString stringByAppendingFormat:@"%@ %@ > 0",andString,@"virtualGoodUserInventory"];
             break;
         default:
@@ -596,36 +616,27 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
     block(nil,result);
 }
 
-- (void) buyVirtualGoodWithQuantity:(NSInteger)quantity CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block{
+- (void) buyQuantity:(NSInteger)quantity withCurrencyKind:(LiCurrency)currencyKind andBlock:(LiBlockAction)block{
     NSError *error = nil;
     [LiKitIAP purchaseVirtualGood:self Quantity:quantity CurrencyKind:currencyKind WithError:&error];
     block(error,virtualGoodID,DoIapAction);
 }
 
-- (void) giveVirtualGoodWithQuantity:(NSInteger)quantity WithBlock:(LiBlockAction)block{
+- (void) giveQuantity:(NSInteger)quantity withBlock:(LiBlockAction)block{
     NSError *error = nil;
     [LiKitIAP giveVirtualGood:self Quantity:quantity WithError:&error];
     block(error,virtualGoodID,DoIapAction);
     
 }
 
-- (void) useWithQuantity:(NSInteger)quantity WithBlock:(LiBlockAction)block{
+- (void) useQuantity:(NSInteger)quantity withBlock:(LiBlockAction)block{
     NSError *error = nil;
     [LiKitIAP useVirtualGood:self Quantity:quantity WithError:&error];
     block(error,virtualGoodID,DoIapAction);
 }
 
 
-/*
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-*/
+
 #pragma mark - Applicasa Delegate Methods
 
 - (void) requestDidFinished:(LiObjRequest *)request{
@@ -635,10 +646,6 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
     NSDictionary *responseData = request.response.responseData;
     
     switch (action) {
-        case UploadFile:{
-            LiFields fileField = [[request.requestParameters objectForKey:@"fileField"] intValue];
-			[self setField:fileField WithValue:[responseData objectForKey:kResult]];			
-        }
         case Add:
         case Update:
         case Delete:{
@@ -647,16 +654,16 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
                 self.virtualGoodID = itemID;
             
             [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self. virtualGoodID Action:action Block:[request getBlock]];
-			[request releaseBlock];
+            [request releaseBlock];
         }
             break;
 
         case GetArray:{
             
-   			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+            sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
             [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualGood getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
-			[request releaseBlock];
+            [request releaseBlock];
 
         }
             break;
@@ -676,10 +683,45 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 - (void) respondToGetArray_ResponseType:(NSInteger)responseType ResponseMessage:(NSString *)responseMessage Array:(NSArray *)array Block:(void *)block{
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
-	
+ 
     GetVirtualGoodArrayFinished _block = (GetVirtualGoodArrayFinished)block;
     _block(error,array);
 }
+
+
+#pragma mark - Deprecated Methods
+/*********************************************************************************
+ DEPRECATED METHODS:
+ 
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the next release. You should update your code immediately.
+ **********************************************************************************/
+
++ (void) getArrayWithQuery:(LiQuery *)query WithBlock:(GetVirtualGoodArrayFinished)block{
+    [self getLocalArrayWithQuery:query andBlock:block];
+}
+
++ (void) getAllVirtualGoodByType:(VirtualGoodType)type WithBlock:(GetVirtualGoodArrayFinished)block {
+    [self getVirtualGoodsOfType:type withBlock:block];
+}
+
++ (void) getAllVirtualGoodByType:(VirtualGoodType)type ByCategory:(VirtualGoodCategory *)category 
+	WithBlock:(GetVirtualGoodArrayFinished)block {
+    [self getVirtualGoodsOfType:type andCategory:category withBlock:block];
+}
+
+- (void) buyVirtualGoodWithQuantity:(NSInteger)quantity CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block {
+    [self buyQuantity:quantity withCurrencyKind:currencyKind andBlock:block];
+}
+
+- (void) giveVirtualGoodWithQuantity:(NSInteger)quantity WithBlock:(LiBlockAction)block {
+    [self giveQuantity:quantity withBlock:block];
+}
+
+- (void) useWithQuantity:(NSInteger)quantity WithBlock:(LiBlockAction)block {
+    [self useQuantity:quantity withBlock:block];
+}
+
 
 
 @end

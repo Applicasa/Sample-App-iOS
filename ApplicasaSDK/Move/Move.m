@@ -1,18 +1,20 @@
 //
-// VirtualGoodCategory.m
+// Move.m
 // Created by Applicasa 
 // 09/12/2012
 //
 
-#import "VirtualGoodCategory.h"
+#import "Move.h"
+#import "Game.h"
 
-#define kClassName                  @"VirtualGoodCategory"
+#define kClassName                  @"Move"
 
-#define KEY_virtualGoodCategoryID				@"VirtualGoodCategoryID"
-#define KEY_virtualGoodCategoryName				@"VirtualGoodCategoryName"
-#define KEY_virtualGoodCategoryLastUpdate				@"VirtualGoodCategoryLastUpdate"
+#define KEY_moveID				@"MoveID"
+#define KEY_moveLastUpdate				@"MoveLastUpdate"
+#define KEY_moveNum				@"MoveNum"
+#define KEY_moveGame				@"MoveGame"
 
-@interface VirtualGoodCategory (privateMethods)
+@interface Move (privateMethods)
 
 - (void) updateField:(LiFields)field withValue:(NSNumber *)value;
 - (void) updateField:(LiFields)field Value:(NSNumber *)value DEPRECATED_ATTRIBUTE;
@@ -21,32 +23,42 @@
 
 @end
 
-@implementation VirtualGoodCategory
+@implementation Move
 
-@synthesize virtualGoodCategoryID;
-@synthesize virtualGoodCategoryName;
-@synthesize virtualGoodCategoryLastUpdate;
+@synthesize moveID;
+@synthesize moveLastUpdate;
+@synthesize moveNum;
+@synthesize moveGame;
 
-enum VirtualGoodCategoryIndexes {
-	VirtualGoodCategoryIDIndex = 0,
-	VirtualGoodCategoryNameIndex,
-	VirtualGoodCategoryLastUpdateIndex,};
-#define NUM_OF_VIRTUALGOODCATEGORY_FIELDS 3
+enum MoveIndexes {
+	MoveIDIndex = 0,
+	MoveLastUpdateIndex,
+	MoveNumIndex,
+	MoveGameIndex,};
+#define NUM_OF_MOVE_FIELDS 4
 
+enum GameIndexes {
+	GameIDIndex = 0,
+	GameLastUpdateIndex,
+	GameNumOfChipsIndex,
+	GamePlayerOneIndex,
+	GamePlayerTwoIndex,
+	GameNameIndex,};
+#define NUM_OF_GAME_FIELDS 6
 
 
 #pragma mark - Save
 
 - (void) saveWithBlock:(LiBlockAction)block{
 	LiObjRequest *request = [LiObjRequest requestWithAction:Add ClassName:kClassName];
-	request.shouldWorkOffline = kShouldVirtualGoodCategoryWorkOffline;
+	request.shouldWorkOffline = kShouldMoveWorkOffline;
 
 	[request setBlock:block];
 	[self addValuesToRequest:&request];
 
-	if ([self isServerId:self.virtualGoodCategoryID]){
+	if ([self isServerId:self.moveID]){
 		request.action = Update;
-		[request addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
+		[request addValue:moveID forKey:KEY_moveID];
 		if (self.increaseDictionary.count){
 			[request.requestParameters setValue:self.increaseDictionary forKey:@"$inc"];
 			self.increaseDictionary = nil;
@@ -58,6 +70,9 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) updateField:(LiFields)field withValue:(NSNumber *)value{
 	switch (field) {
+		case MoveNum:
+			moveNum += [value intValue];
+			break;
 		default:
 			break;
 	}
@@ -76,19 +91,19 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) deleteWithBlock:(LiBlockAction)block{        
     LiObjRequest *request = [LiObjRequest requestWithAction:Delete ClassName:kClassName];
-	request.shouldWorkOffline = kShouldVirtualGoodCategoryWorkOffline;
+	request.shouldWorkOffline = kShouldMoveWorkOffline;
 	[request setBlock:block];
     request.delegate = self;
-    [request addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
+    [request addValue:moveID forKey:KEY_moveID];
     [request startSync:NO];    
 }
 
 #pragma mark - Get By ID
 
-+ (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetVirtualGoodCategoryFinished)block{
-    __block VirtualGoodCategory *item = [VirtualGoodCategory instance];
++ (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetMoveFinished)block{
+    __block Move *item = [Move instance];
 
-    LiFilters *filters = [LiBasicFilters filterByField:VirtualGoodCategoryID Operator:Equal Value:idString];
+    LiFilters *filters = [LiBasicFilters filterByField:MoveID Operator:Equal Value:idString];
     LiQuery *query = [[LiQuery alloc]init];
     [query setFilters:filters];
     
@@ -104,8 +119,8 @@ enum VirtualGoodCategoryIndexes {
 
 #pragma mark - Get Array
 
-+ (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetVirtualGoodCategoryArrayFinished)block{
-    VirtualGoodCategory *item = [VirtualGoodCategory instance];
++ (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetMoveArrayFinished)block{
+    Move *item = [Move instance];
     
  query = [self setFieldsNameToQuery:query];
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
@@ -121,8 +136,8 @@ enum VirtualGoodCategoryIndexes {
         [item requestDidFinished:request];
 }
 
-+ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetVirtualGoodCategoryArrayFinished)block{
-    VirtualGoodCategory *item = [VirtualGoodCategory instance];
++ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetMoveArrayFinished)block{
+    Move *item = [Move instance];
 
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
 	[request setBlock:block];
@@ -140,7 +155,7 @@ enum VirtualGoodCategoryIndexes {
     LiObjRequest *request = [LiObjRequest requestWithAction:UploadFile ClassName:kClassName];
     request.delegate = self;
 
-	[request addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
+	[request addValue:moveID forKey:KEY_moveID];
     [request addValue:ext forKey:@"ext"];
     [request addValue:data forKey:@"data"];
     [request addIntValue:fileType forKey:@"fileType"];
@@ -177,11 +192,11 @@ enum VirtualGoodCategoryIndexes {
         case Add:
         case Update:
         case Delete:{
-            NSString *itemID = [responseData objectForKey:KEY_virtualGoodCategoryID];
+            NSString *itemID = [responseData objectForKey:KEY_moveID];
             if (itemID)
-                self.virtualGoodCategoryID = itemID;
+                self.moveID = itemID;
             
-            [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self.virtualGoodCategoryID Action:action Block:[request getBlock]];
+            [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self.moveID Action:action Block:[request getBlock]];
 			[request releaseBlock];
         }
             break;
@@ -189,7 +204,7 @@ enum VirtualGoodCategoryIndexes {
         case GetArray:{            
 			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
-            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualGoodCategory getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
+            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[Move getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
 			[request releaseBlock];
 			
         }
@@ -200,8 +215,8 @@ enum VirtualGoodCategoryIndexes {
 }
 
 + (id) instanceWithID:(NSString *)ID{
-    VirtualGoodCategory *instace = [[VirtualGoodCategory alloc] init];
-    instace.virtualGoodCategoryID = ID;
+    Move *instace = [[Move alloc] init];
+    instace.moveID = ID;
     return [instace autorelease];
 }
 
@@ -212,7 +227,7 @@ enum VirtualGoodCategoryIndexes {
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 	
-    GetVirtualGoodCategoryArrayFinished _block = (GetVirtualGoodCategoryArrayFinished)block;
+    GetMoveArrayFinished _block = (GetMoveArrayFinished)block;
     _block(error,array);
 }
 
@@ -220,11 +235,14 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) setField:(LiFields)field toValue:(id)value{
 	switch (field) {
-	case VirtualGoodCategoryID:
-		self.virtualGoodCategoryID = value;
+	case MoveID:
+		self.moveID = value;
 		break;
-	case VirtualGoodCategoryName:
-		self.virtualGoodCategoryName = value;
+	case MoveNum:
+		self.moveNum = [value intValue];
+		break;
+	case MoveGame:
+		self.moveGame = value;
 		break;
 	default:
 	break;
@@ -236,9 +254,9 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) dealloc
 {
-	[virtualGoodCategoryID release];
-	[virtualGoodCategoryName release];
-	[virtualGoodCategoryLastUpdate release];
+	[moveID release];
+	[moveLastUpdate release];
+	[moveGame release];
 
 
 	[super dealloc];
@@ -253,9 +271,10 @@ enum VirtualGoodCategoryIndexes {
 - (id) init {
 	if (self = [super init]) {
 
-		self.virtualGoodCategoryID				= @"0";
-		self.virtualGoodCategoryName				= @"";
-		virtualGoodCategoryLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		self.moveID				= @"0";
+		moveLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		self.moveNum				= 0;
+self.moveGame    = [Game instanceWithID:@"0"];
 	}
 	return self;
 }
@@ -263,9 +282,11 @@ enum VirtualGoodCategoryIndexes {
 - (id) initWithDictionary:(NSDictionary *)item Header:(NSString *)header{
 	if (self = [self init]) {
 
-		self.virtualGoodCategoryID               = [item objectForKey:KeyWithHeader(KEY_virtualGoodCategoryID, header)];
-		self.virtualGoodCategoryName               = [item objectForKey:KeyWithHeader(KEY_virtualGoodCategoryName, header)];
-		virtualGoodCategoryLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodCategoryLastUpdate, header)] retain];
+		self.moveID               = [item objectForKey:KeyWithHeader(KEY_moveID, header)];
+		moveLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_moveLastUpdate, header)] retain];
+		self.moveNum               = [[item objectForKey:KeyWithHeader(KEY_moveNum, header)] integerValue];
+		moveGame               = [[Game alloc] initWithDictionary:item Header:KeyWithHeader
+	(@"_",KEY_moveGame)];
 
 	}
 	return self;
@@ -274,12 +295,13 @@ enum VirtualGoodCategoryIndexes {
 /*
 *  init values from Object
 */
-- (id) initWithObject:(VirtualGoodCategory *)object {
+- (id) initWithObject:(Move *)object {
 	if (self = [super init]) {
 
-		self.virtualGoodCategoryID               = object.virtualGoodCategoryID;
-		self.virtualGoodCategoryName               = object.virtualGoodCategoryName;
-		virtualGoodCategoryLastUpdate               = [object.virtualGoodCategoryLastUpdate retain];
+		self.moveID               = object.moveID;
+		moveLastUpdate               = [object.moveLastUpdate retain];
+		self.moveNum               = object.moveNum;
+		moveGame               = [[Game alloc] initWithObject:object.moveGame];
 
 	}
 	return self;
@@ -288,9 +310,10 @@ enum VirtualGoodCategoryIndexes {
 - (NSDictionary *) dictionaryRepresentation{
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc]init];
 
-	[dictionary addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
-	[dictionary addValue:virtualGoodCategoryName forKey:KEY_virtualGoodCategoryName];
-	[dictionary addDateValue:virtualGoodCategoryLastUpdate forKey:KEY_virtualGoodCategoryLastUpdate];
+	[dictionary addValue:moveID forKey:KEY_moveID];
+	[dictionary addDateValue:moveLastUpdate forKey:KEY_moveLastUpdate];
+	[dictionary addIntValue:moveNum forKey:KEY_moveNum];
+	[dictionary addForeignKeyValue:moveGame.dictionaryRepresentation forKey:KEY_moveGame];
 
 	return [dictionary autorelease];
 }
@@ -298,9 +321,10 @@ enum VirtualGoodCategoryIndexes {
 + (NSDictionary *) getFields{
 	NSMutableDictionary *fieldsDic = [[NSMutableDictionary alloc] init];
 	
-	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_virtualGoodCategoryID];
-	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_virtualGoodCategoryName];
-	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_virtualGoodCategoryLastUpdate];
+	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_moveID];
+	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_moveLastUpdate];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_moveNum];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"'0'") forKey:KEY_moveGame];
 	
 	return [fieldsDic autorelease];
 }
@@ -308,6 +332,7 @@ enum VirtualGoodCategoryIndexes {
 + (NSDictionary *) getForeignKeys{
 	NSMutableDictionary *foreignKeysDic = [[NSMutableDictionary alloc] init];
 
+	[foreignKeysDic setValue:[Game getClassName] forKey:KEY_moveGame];
 	
 	return [foreignKeysDic autorelease];
 }
@@ -320,20 +345,24 @@ enum VirtualGoodCategoryIndexes {
 	NSString *fieldName;
 	
 	switch (field) {
-		case VirtualGoodCategory_None:
+		case Move_None:
 			fieldName = @"pos";
 			break;
 	
-		case VirtualGoodCategoryID:
-			fieldName = KEY_virtualGoodCategoryID;
+		case MoveID:
+			fieldName = KEY_moveID;
 			break;
 
-		case VirtualGoodCategoryName:
-			fieldName = KEY_virtualGoodCategoryName;
+		case MoveLastUpdate:
+			fieldName = KEY_moveLastUpdate;
 			break;
 
-		case VirtualGoodCategoryLastUpdate:
-			fieldName = KEY_virtualGoodCategoryLastUpdate;
+		case MoveNum:
+			fieldName = KEY_moveNum;
+			break;
+
+		case MoveGame:
+			fieldName = KEY_moveGame;
 			break;
 
 		default:
@@ -349,7 +378,7 @@ enum VirtualGoodCategoryIndexes {
 	NSString *fieldName;
 	
 	switch (field) {
-		case VirtualGoodCategory_None:
+		case Move_None:
 			fieldName = @"pos";
 			break;
 	
@@ -364,16 +393,28 @@ enum VirtualGoodCategoryIndexes {
 
 
 - (void) addValuesToRequest:(LiObjRequest **)request{
-	[*request addValue:virtualGoodCategoryName forKey:KEY_virtualGoodCategoryName];
+	[*request addIntValue:moveNum forKey:KEY_moveNum];
+	[*request addValue:moveGame.gameID forKey:KEY_moveGame];
 }
 
 
 - (id) initWithStatement:(sqlite3_stmt *)stmt Array:(int **)array IsFK:(BOOL)isFK{
 	if (self = [super init]){
 	
-			self.virtualGoodCategoryID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodCategoryIDIndex])];
-			self.virtualGoodCategoryName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodCategoryNameIndex])];
-			virtualGoodCategoryLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodCategoryLastUpdateIndex])]] retain];
+			self.moveID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][MoveIDIndex])];
+			moveLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][MoveLastUpdateIndex])]] retain];
+			self.moveNum = sqlite3_column_int(stmt, array[0][MoveNumIndex]);
+
+	if (isFK){
+		self.moveGame = [Game instanceWithID:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][MoveGameIndex])]];
+	} else {
+		int **moveGameArray = (int **)malloc(sizeof(int *));
+		moveGameArray[0] = array[1];
+		self.moveGame = [[[Game alloc] initWithStatement:stmt Array:moveGameArray IsFK:YES] autorelease];
+		free(moveGameArray);
+	}
+
+;
 		
 		}
 	return self;
@@ -389,22 +430,31 @@ enum VirtualGoodCategoryIndexes {
 		[columnsArray addObject:[NSString stringWithUTF8String:columnName]];
 	}
 	
-	int **indexes = (int **)malloc(1*sizeof(int *));
-	indexes[0] = (int *)malloc(NUM_OF_VIRTUALGOODCATEGORY_FIELDS*sizeof(int));
+	int **indexes = (int **)malloc(2*sizeof(int *));
+	indexes[0] = (int *)malloc(NUM_OF_MOVE_FIELDS*sizeof(int));
+	indexes[1] = (int *)malloc(NUM_OF_GAME_FIELDS*sizeof(int));
 
-	indexes[0][VirtualGoodCategoryIDIndex] = [columnsArray indexOfObject:KEY_virtualGoodCategoryID];
-	indexes[0][VirtualGoodCategoryNameIndex] = [columnsArray indexOfObject:KEY_virtualGoodCategoryName];
-	indexes[0][VirtualGoodCategoryLastUpdateIndex] = [columnsArray indexOfObject:KEY_virtualGoodCategoryLastUpdate];
+	indexes[0][MoveIDIndex] = [columnsArray indexOfObject:KEY_moveID];
+	indexes[0][MoveLastUpdateIndex] = [columnsArray indexOfObject:KEY_moveLastUpdate];
+	indexes[0][MoveNumIndex] = [columnsArray indexOfObject:KEY_moveNum];
+	indexes[0][MoveGameIndex] = [columnsArray indexOfObject:KEY_moveGame];
+
+	indexes[1][GameIDIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GameID",@"_MoveGame")];
+	indexes[1][GameLastUpdateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GameLastUpdate",@"_MoveGame")];
+	indexes[1][GameNumOfChipsIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GameNumOfChips",@"_MoveGame")];
+	indexes[1][GamePlayerOneIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GamePlayerOne",@"_MoveGame")];
+	indexes[1][GamePlayerTwoIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GamePlayerTwo",@"_MoveGame")];
+	indexes[1][GameNameIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GameName",@"_MoveGame")];
 
 	[columnsArray release];
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];
 	
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
-		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][VirtualGoodCategoryIDIndex])];
+		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][MoveIDIndex])];
 		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
-			VirtualGoodCategory *item  = [[VirtualGoodCategory alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
+			Move *item  = [[Move alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
 			[item release];
 		}
@@ -413,7 +463,7 @@ enum VirtualGoodCategoryIndexes {
 	[LiObjRequest removeIDsList:blackList FromObject:kClassName];
 	[blackList release];
 	
-	for (int i=0; i<1; i++) {
+	for (int i=0; i<2; i++) {
 		free(indexes[i]);
 	}
 	free(indexes);
@@ -441,15 +491,15 @@ enum VirtualGoodCategoryIndexes {
     [self setField:field toValue:value];
 }
 
-+ (void) getByID:(NSString *)idString QueryKind:(QueryKind)queryKind WithBlock:(GetVirtualGoodCategoryFinished)block {
++ (void) getByID:(NSString *)idString QueryKind:(QueryKind)queryKind WithBlock:(GetMoveFinished)block {
     [self getById:idString queryKind:queryKind withBlock:block];
 }
 
-+ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetVirtualGoodCategoryArrayFinished)block {
++ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetMoveArrayFinished)block {
     [self getArrayWithQuery:query queryKind:queryKind withBlock:block];
 }
 
-+ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetVirtualGoodCategoryArrayFinished)block {
++ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetMoveArrayFinished)block {
     [self getLocalArrayWithRawSQLQuery:rawQuery andBlock:block];
 }
 

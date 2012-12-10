@@ -46,7 +46,7 @@
     self = [super initWithFrame:frame];
     
     [self setBackgroundColor:[UIColor blackColor]];
-    [self setAlpha:0.6];
+    [self setAlpha:0.3];
     self.tag = kActivityViewTag;
     
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -73,15 +73,12 @@
 }
 
 - (void) setLabelText:(NSString *)text{
-    if (text)
-        [(UILabel *)[self viewWithTag:1] setText:text];
-    else
-        [[self viewWithTag:1] removeFromSuperview];
+    [(UILabel *)[self viewWithTag:1] setText:text];
 }
 
 + (id) startAnimatingOnView:(UIView *)view{
-    float width = view.frame.size.width;
-    float height = view.frame.size.height;
+    float width = view.frame.size.width*3/4;
+    float height = view.frame.size.height*3/4;
 
     if (width == 0)
         width = 50;
@@ -91,7 +88,7 @@
     
     LiActivityIndicator *indicatorView = [[LiActivityIndicator alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 
-    //[indicatorView setCenter:[view center]];
+    [indicatorView setCenter:[view center]];
     [view addSubview:indicatorView];
     [view bringSubviewToFront:indicatorView];
    

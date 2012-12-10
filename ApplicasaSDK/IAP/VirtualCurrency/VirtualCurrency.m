@@ -1,7 +1,7 @@
 //
 // VirtualCurrency.m
 // Created by Applicasa 
-// 11/25/2012
+// 09/12/2012
 //
 
 #import "VirtualCurrency.h"
@@ -101,7 +101,8 @@ enum VirtualCurrencyIndexes {
 - (id) init {
 	if (self = [super init]) {
 
-		self.virtualCurrencyID				= @"0";		self.virtualCurrencyTitle				= @"";
+		self.virtualCurrencyID				= @"0";
+		self.virtualCurrencyTitle				= @"";
 		self.virtualCurrencyAppleIdentifier				= @"";
 		self.virtualCurrencyGoogleIdentifier				= @"";
 		self.virtualCurrencyDescription				= @"";
@@ -111,9 +112,9 @@ enum VirtualCurrencyIndexes {
 		self.virtualCurrencyImageA				= [NSURL URLWithString:@""];
 		self.virtualCurrencyImageB				= [NSURL URLWithString:@""];
 		self.virtualCurrencyImageC				= [NSURL URLWithString:@""];
-		self.virtualCurrencyIsDeal				= false;
-		self.virtualCurrencyInAppleStore				= false;
-		self.virtualCurrencyInGoogleStore				= false;
+		self.virtualCurrencyIsDeal				= NO;
+		self.virtualCurrencyInAppleStore				= NO;
+		self.virtualCurrencyInGoogleStore				= NO;
 		virtualCurrencyLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
 		self.product = nil;
 		self.itunesPrice = nil;
@@ -298,7 +299,24 @@ enum VirtualCurrencyIndexes {
 			break;
 
 		default:
-			NSLog(@"Wrong LiField numerator for %@ Class",kClassName);
+			NSLog(@"Wrong LiFields numerator for %@ Class",kClassName);
+			fieldName = nil;
+			break;
+	}
+	
+	return fieldName;
+}
+
++ (NSString *) getGeoFieldName:(LiFields)field{
+	NSString *fieldName;
+	
+	switch (field) {
+		case VirtualCurrency_None:
+			fieldName = @"pos";
+			break;
+	
+		default:
+			NSLog(@"Wrong Geo LiFields numerator for %@ Class",kClassName);
 			fieldName = nil;
 			break;
 	}
@@ -384,7 +402,7 @@ enum VirtualCurrencyIndexes {
 		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
-			VirtualCurrency *item  = [[VirtualCurrency alloc] initWithStatement:stmt Array:(int **)indexes IsFK:FALSE];
+			VirtualCurrency *item  = [[VirtualCurrency alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
 			[item release];
 		}
@@ -404,8 +422,7 @@ enum VirtualCurrencyIndexes {
 
 #pragma mark - End of Basic SDK
 
-
-+ (void) getAllVirtualCurrencyWithBlock:(GetVirtualCurrencyArrayFinished)block{
++ (void) getVirtualCurrenciesWithBlock:(GetVirtualCurrencyArrayFinished)block{
     block(nil,[LiKitIAP virtualCurrencies]);
 }
 
@@ -415,13 +432,13 @@ static LiBlockAction actionBlock = NULL;
     [LiKitIAP purchaseVirtualCurrency:self Delegate:self];
 }
 
-+ (void) giveVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block{
++ (void) giveAmount:(NSInteger)amount ofCurrencyKind:(LiCurrency)currencyKind withBlock:(LiBlockAction)block{
     NSError *error = nil;
     [LiKitIAP giveAmount:amount CurrencyKind:currencyKind WithError:&error];
     block(error,nil,DoIapAction);
 }
 
-+ (void) useVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block{
++ (void) useAmount:(NSInteger)amount OfCurrencyKind:(LiCurrency)currencyKind withBlock:(LiBlockAction)block{
     NSError *error = nil;
     [LiKitIAP useAmount:amount CurrencyKind:currencyKind WithError:&error];
     block(error,nil,DoIapAction);
@@ -445,35 +462,26 @@ static LiBlockAction actionBlock = NULL;
     [request addIntValue:LOCAL forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
-    request.shouldWorkOffline = TRUE;
+    request.shouldWorkOffline = YES;
     
-    [request startSync:TRUE];
+    [request startSync:YES];
     
     [item requestDidFinished:request];
 }
 
-+ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetVirtualCurrencyArrayFinished)block{
++ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetVirtualCurrencyArrayFinished)block{
     VirtualCurrency *item = [VirtualCurrency instance];
         
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
 	[request setBlock:block];
     [request addValue:rawQuery forKey:@"filters"];
-    [request setShouldWorkOffline:TRUE];
-    [request startSync:TRUE];
+    [request setShouldWorkOffline:YES];
+    [request startSync:YES];
     
     [item requestDidFinished:request];
 }
 
-/*
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-####################################################################################################
-*/
+
 #pragma mark - Applicasa Delegate Methods
 
 - (void) requestDidFinished:(LiObjRequest *)request{
@@ -485,10 +493,10 @@ static LiBlockAction actionBlock = NULL;
     switch (action) {
 
         case GetArray:{
-   			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+      sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [responseData objectForKey:@"ids"];
             [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualCurrency getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
-			[request releaseBlock];
+   [request releaseBlock];
 
         }
             break;
@@ -508,11 +516,27 @@ static LiBlockAction actionBlock = NULL;
 - (void) respondToGetArray_ResponseType:(NSInteger)responseType ResponseMessage:(NSString *)responseMessage Array:(NSArray *)array Block:(void *)block{
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
-	
+ 
     GetVirtualCurrencyArrayFinished _block = (GetVirtualCurrencyArrayFinished)block;
     _block(error,array);
 }
 
+#pragma mark - Deprecated Methods
+/*********************************************************************************
+ DEPRECATED METHODS:
+ 
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the next release. You should update your code immediately.
+ **********************************************************************************/
 
++ (void) getAllVirtualCurrencyWithBlock:(GetVirtualCurrencyArrayFinished)block {
+    [self getVirtualCurrenciesWithBlock:block];
+}
++ (void) giveVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block {
+    [self giveAmount:amount ofCurrencyKind:currencyKind withBlock:block];
+}
++ (void) useVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block {
+    [self useAmount:amount OfCurrencyKind:currencyKind withBlock:block];
+}
 
 @end

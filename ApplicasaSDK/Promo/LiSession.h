@@ -1,6 +1,5 @@
 //
 //  LiSession.h
-//  testForLior
 //
 //  Created by Applicasa
 //  Copyright (c) 2012 LiCore All rights reserved.
@@ -14,6 +13,20 @@ typedef enum {
 } LiGameResult;
 
 @interface LiSession : NSObject
+
+/*********************************************************************************
+ DEPRECATED METHODS WARNING:
+ 
+ Applicasa is cleaning up its SDK in preparation for upcoming 2.0 release.
+ 
+ Do not use methods marked with DEPRECATED_ATTRIBUTE.
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the final release. You should update your code immediately.
+ 
+ Corrected methods are listed first. Use these methods instead.
+ **********************************************************************************/
+
+
 /*
  A method to start the session.
  Calling twice will override the first session
@@ -97,6 +110,7 @@ typedef enum {
  ex.
  [LiSession gameFinishWithGameResult:LiGameResultWin MainCurrency:10 SecondaryCurrency:1 Score:50 Bonus:5];
  */
-+ (void) gameFinishWithGameResult:(LiGameResult)gameResult MainCurrency:(NSInteger)mainCurrency SecondaryCurrency:(NSInteger)secondaryCurrency Score:(NSInteger)score Bonus:(NSInteger)bonus;
++ (void) gameFinishedWithResult:(LiGameResult)gameResult mainCurrencyBalance:(NSInteger)mainBalance secondaryCurrencyBalance:(NSInteger)secondaryBalance finalScore:(NSInteger)score andBonus:(NSInteger)bonus;
++ (void) gameFinishWithGameResult:(LiGameResult)gameResult MainCurrency:(NSInteger)mainCurrency SecondaryCurrency:(NSInteger)secondaryCurrency Score:(NSInteger)score Bonus:(NSInteger)bonus DEPRECATED_ATTRIBUTE;
 
 @end

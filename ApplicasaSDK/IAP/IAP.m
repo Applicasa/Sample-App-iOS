@@ -11,53 +11,65 @@
 
 @implementation IAP
 
-// Buy
+/**********************
+ Buy Currency & Goods
+ **********************/
 
-+ (void) buyVirtualCurrency:(VirtualCurrency *)virtualCurrency WithBlock:(LiBlockAction)block{
++ (void) buyVirtualCurrency:(VirtualCurrency *)virtualCurrency withBlock:(LiBlockAction)block{
     [virtualCurrency buyVirtualCurrencyWithBlock:block];
 }
 
-+ (void) buyVirtualGood:(VirtualGood *)virtualGood Quantity:(NSInteger)quantity CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block{
-    [virtualGood buyVirtualGoodWithQuantity:quantity CurrencyKind:currencyKind WithBlock:block];
++ (void) buyVirtualGood:(VirtualGood *)virtualGood quantity:(NSInteger)quantity withCurrencyKind:(LiCurrency)currencyKind andBlock:(LiBlockAction)block{
+    [virtualGood buyQuantity:quantity withCurrencyKind:currencyKind andBlock:block];
 }
 
-// Give
+/**********************
+ Give Currency & Goods
+ **********************/
 
-+ (void) giveVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block{
-    [VirtualCurrency giveVirtualCurrency:amount CurrencyKind:currencyKind WithBlock:block];
++ (void) giveAmount:(NSInteger)amount ofCurrencyKind:(LiCurrency)currencyKind withBlock:(LiBlockAction)block{
+    [VirtualCurrency giveAmount:amount ofCurrencyKind:currencyKind withBlock:block];
 }
 
-+ (void) giveVirtualGood:(VirtualGood *)virtualGood Quantity:(NSInteger)quantity WithBlock:(LiBlockAction)block{
-    [virtualGood giveVirtualGoodWithQuantity:quantity WithBlock:block];
++ (void) giveVirtualGood:(VirtualGood *)virtualGood quantity:(NSInteger)quantity withBlock:(LiBlockAction)block{
+    [virtualGood giveQuantity:quantity withBlock:block];
 }
 
-// Use
+/**********************
+ Use Currency & Goods
+ **********************/
 
-+ (void) useVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block{
-    [VirtualCurrency useVirtualCurrency:amount CurrencyKind:currencyKind WithBlock:block];
++ (void) useAmount:(NSInteger)amount ofCurrencyKind:(LiCurrency)currencyKind withBlock:(LiBlockAction)block{
+    [VirtualCurrency useAmount:amount OfCurrencyKind:currencyKind withBlock:block];
 }
 
-+ (void) useVirtualGood:(VirtualGood *)virtualGood Quantity:(NSInteger)quantity WithBlock:(LiBlockAction)block{
-    [virtualGood useWithQuantity:quantity WithBlock:block];
++ (void) useVirtualGood:(VirtualGood *)virtualGood quantity:(NSInteger)quantity withBlock:(LiBlockAction)block{
+    [virtualGood useQuantity:quantity withBlock:block];
 }
 
-//Get - All From LiKitIAP's private shared instance
+/**********************
+ Query Methods
+ **********************/
 
-+ (void) getAllVirtualCurrenciesWithBlock:(GetVirtualCurrencyArrayFinished)block{
-    [VirtualCurrency getAllVirtualCurrencyWithBlock:block];
++ (void) getVirtualCurrenciesWithBlock:(GetVirtualCurrencyArrayFinished)block{
+    [VirtualCurrency getVirtualCurrenciesWithBlock:block];
 }
 
-+ (void) getAllVirtualGoodWithType:(VirutalGoodGetTypes)type WithBlock:(GetVirtualCurrencyArrayFinished)block{
-    [VirtualGood getAllVirtualGoodByType:type WithBlock:block];
++ (void) getVirtualGoodsOfType:(VirtualGoodType)type withBlock:(GetVirtualCurrencyArrayFinished)block{
+    [VirtualGood getVirtualGoodsOfType:type withBlock:block];
 }
 
-+ (void) getAllVirtualGoodCategoriesWithBlock:(GetVirtualGoodCategoryArrayFinished)block{
++ (void) getVirtualGoodCategoriesWithBlock:(GetVirtualGoodCategoryArrayFinished)block{
     block(nil,[LiKitIAP virtualGoodCategories]);
 }
 
-+ (void) getAllVirtualGoodWithType:(VirutalGoodGetTypes)type ByCategory:(VirtualGoodCategory *)category WithBlock:(GetVirtualCurrencyArrayFinished)block{
-    [VirtualGood getAllVirtualGoodByType:type ByCategory:category WithBlock:block];
++ (void) getVirtualGoodsOfType:(VirtualGoodType)type andCategory:(VirtualGoodCategory *)category withBlock:(GetVirtualCurrencyArrayFinished)block{
+    [VirtualGood getVirtualGoodsOfType:type andCategory:category withBlock:block];
 }
+
+/**********************
+ Balance Methods
+ **********************/
 
 + (NSInteger) getCurrentUserMainBalance{
     return [LiKitIAP getCurrentUserMainBalance];
@@ -65,6 +77,55 @@
 
 + (NSInteger) getCurrentUserSecondaryBalance{
     return [LiKitIAP getCurrentUserSecondaryBalance];
+}
+
+
+#pragma mark - Deprecated Methods
+/*********************************************************************************
+ DEPRECATED METHODS:
+ 
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the next release. You should update your code immediately.
+ **********************************************************************************/
+
++ (void) buyVirtualCurrency:(VirtualCurrency *)virtualCurrency WithBlock:(LiBlockAction)block {
+    [self buyVirtualCurrency:virtualCurrency withBlock:block];
+}
+
++ (void) buyVirtualGood:(VirtualGood *)virtualGood Quantity:(NSInteger)quantity CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block {
+    [self buyVirtualGood:virtualGood quantity:quantity withCurrencyKind:currencyKind andBlock:block];
+}
+
++ (void) giveVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block {
+    [self giveAmount:amount ofCurrencyKind:currencyKind withBlock:block];
+}
+
++ (void) giveVirtualGood:(VirtualGood *)virtualGood Quantity:(NSInteger)quantity WithBlock:(LiBlockAction)block {
+    [self giveVirtualGood:virtualGood quantity:quantity withBlock:block];
+}
+
++ (void) useVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block {
+    [self useAmount:amount ofCurrencyKind:currencyKind withBlock:block];
+}
+
++ (void) useVirtualGood:(VirtualGood *)virtualGood Quantity:(NSInteger)quantity WithBlock:(LiBlockAction)block {
+    [self useVirtualGood:virtualGood quantity:quantity withBlock:block];
+}
+
++ (void) getAllVirtualCurrenciesWithBlock:(GetVirtualCurrencyArrayFinished)block {
+    [self getVirtualCurrenciesWithBlock:block];
+}
+
++ (void) getAllVirtualGoodWithType:(VirtualGoodType)type WithBlock:(GetVirtualCurrencyArrayFinished)block {
+    [self getVirtualGoodsOfType:type withBlock:block];
+}
+
++ (void) getAllVirtualGoodCategoriesWithBlock:(GetVirtualGoodCategoryArrayFinished)block {
+    [self getVirtualGoodCategoriesWithBlock:block];
+}
+
++ (void) getAllVirtualGoodWithType:(VirtualGoodType)type ByCategory:(VirtualGoodCategory *)category WithBlock:(GetVirtualCurrencyArrayFinished)block {
+    [self getVirtualGoodsOfType:type andCategory:category withBlock:block];
 }
 
 @end

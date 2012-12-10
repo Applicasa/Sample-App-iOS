@@ -15,12 +15,24 @@
     [LiKitPromotions setLiKitPromotionsDelegate:delegate];
 }
 
-+ (void) getAllAvailblePromosWithBlock:(GetPromotionArrayFinished)block{
++ (void) getAvailblePromosWithBlock:(GetPromotionArrayFinished)block{
     [LiKitPromotions getAllAvailblePromosWithBlock:block];
 }
 
 + (void) refreshPromotions{
     [LiKitPromotions refreshPromotions];
+}
+
+#pragma mark - Deprecated Methods
+/*********************************************************************************
+ DEPRECATED METHODS:
+ 
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the next release. You should update your code immediately.
+ **********************************************************************************/
+
++(void)getAllAvailblePromosWithBlock:(GetPromotionArrayFinished)block {
+    [self getAvailblePromosWithBlock:block];
 }
 
 @end

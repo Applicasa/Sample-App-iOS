@@ -1,12 +1,13 @@
 //
 // VirtualCurrency.h
 // Created by Applicasa 
-// 11/25/2012
+// 09/12/2012
 //
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>
-#import "LiBlockQuery.h"
+#import "LiBlocks.h"
+#import "LiDataTypes.h"
 #import <LiKitIAP/LiKitIAP.h>
 
 
@@ -20,7 +21,7 @@
 @class SKProduct;
 
 #define kVirtualCurrencyNotificationString @"VirtualCurrencyConflictFound"
-#define kShouldVirtualCurrencyWorkOffline TRUE
+#define kShouldVirtualCurrencyWorkOffline YES
 @interface VirtualCurrency : LiObject <LiCoreRequestDelegate,LiKitIAPDelegate> {
 }
 
@@ -31,7 +32,7 @@
 @property (nonatomic, retain) NSString *virtualCurrencyDescription;
 @property (nonatomic, assign) float virtualCurrencyPrice;
 @property (nonatomic, assign) int virtualCurrencyCredit;
-@property (nonatomic, assign) LiCurrency virtualCurrencyKind;
+@property (nonatomic, assign) int virtualCurrencyKind;
 @property (nonatomic, retain) NSURL *virtualCurrencyImageA;
 @property (nonatomic, retain) NSURL *virtualCurrencyImageB;
 @property (nonatomic, retain) NSURL *virtualCurrencyImageC;
@@ -44,11 +45,28 @@
 
 #pragma mark - End of Basic SDK
 
-+ (void) getAllVirtualCurrencyWithBlock:(GetVirtualCurrencyArrayFinished)block;
+/*********************************************************************************
+ DEPRECATED METHODS WARNING:
+ 
+ Applicasa is cleaning up its SDK in preparation for upcoming 2.0 release.
+ 
+ Do not use methods marked with DEPRECATED_ATTRIBUTE.
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the final release. You should update your code immediately.
+ 
+ Corrected methods are listed first. Use these methods instead.
+ **********************************************************************************/
+
++ (void) getVirtualCurrenciesWithBlock:(GetVirtualCurrencyArrayFinished)block;
++ (void) getAllVirtualCurrencyWithBlock:(GetVirtualCurrencyArrayFinished)block DEPRECATED_ATTRIBUTE;
 
 - (void) buyVirtualCurrencyWithBlock:(LiBlockAction)block;
-+ (void) giveVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block;
-+ (void) useVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block;
+
++ (void) giveAmount:(NSInteger)amount ofCurrencyKind:(LiCurrency)currencyKind withBlock:(LiBlockAction)block;
++ (void) giveVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;
+
++ (void) useAmount:(NSInteger)amount OfCurrencyKind:(LiCurrency)currencyKind withBlock:(LiBlockAction)block;
++ (void) useVirtualCurrency:(NSInteger)amount CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;
 
 
 @end

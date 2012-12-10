@@ -32,13 +32,13 @@
 
 #pragma mark - UI Builder
 
-+ (PromoView *) promoViewWithPromotion:(Promotion *)promotion Frame:(CGRect)frame{
++ (PromoView *) promoViewWithPromotion:(Promotion *)promotion andFrame:(CGRect)frame{
     PromoView *view = [[PromoView alloc] initWithFrame:frame];
     view.promotion = promotion;
     [view setBackgroundColor:[UIColor clearColor]];
     
     UIImageView *bgImageView = [[[UIImageView alloc] initWithFrame:frame] autorelease];
-    [bgImageView setUserInteractionEnabled:TRUE];
+    [bgImageView setUserInteractionEnabled:YES];
     [bgImageView setContentMode:UIViewContentModeScaleAspectFit];
     [bgImageView setBackgroundColor:[UIColor clearColor]];
     [view addSubview:bgImageView];
@@ -91,7 +91,7 @@
 
 - (void) closeAction{
     promotion.block(LiPromotionActionCancel,0,nil);
-    [LiKitPromotions promo:promotion ButtonClicked:FALSE CancelButton:TRUE];
+    [LiKitPromotions promo:promotion ButtonClicked:NO CancelButton:YES];
 }
 
 #pragma mark - Action Button
@@ -120,7 +120,7 @@
     __block LiPromotionAction promoAction = LiPromotionActionPressed;
     __block id info = nil;
     __block LiPromotionResult result = LiPromotionTypeNothing;
-    BOOL respondNow = TRUE;
+    BOOL respondNow = YES;
     LiBlockAction actionBlock = ^(NSError *error, NSString *itemID, Actions action) {
         if (error){
             NSLog(@"Commit Promotion Action Failed With Error %@",error);
@@ -149,16 +149,16 @@
             info = [NSNumber numberWithInt:amount];
             LiCurrency currencyKind = [[dictionary objectForKey:@"virtualCurrencyKind"] integerValue];
             result = (currencyKind == MainCurrency)?LiPromotionResultGiveMainCurrencyVirtualCurrency:LiPromotionResultGiveSecondaryCurrencyVirtualCurrency;
-            respondNow = FALSE;
-            [IAP giveVirtualCurrency:amount CurrencyKind:currencyKind WithBlock:actionBlock];
+            respondNow = NO;
+            [IAP giveAmount:amount ofCurrencyKind:currencyKind withBlock:actionBlock];
         }
             break;
         case LiPromotionTypeGiveVirtualGood:{
             NSString *vgID = [dictionary objectForKey:@"_id"];
-            info = [self getVirtualGoodByID:vgID IsDeal:FALSE];
+            info = [self getVirtualGoodByID:vgID IsDeal:NO];
             result = LiPromotionResultGiveVirtualGood;
-            respondNow = FALSE;
-            [IAP giveVirtualGood:info Quantity:1 WithBlock:actionBlock];
+            respondNow = NO;
+            [IAP giveVirtualGood:info quantity:1 withBlock:actionBlock];
         }
             break;
         case LiPromotionTypeOfferDealVC:{
@@ -166,31 +166,41 @@
             NSLog(@"responds %d",[self respondsToSelector:@selector(getVirtualCurrencyByID:)]);
             info = [self getVirtualCurrencyByID:vcID];
             result = LiPromotionResultDealVirtualCurrency;
-            respondNow = FALSE;
-            [IAP buyVirtualCurrency:info WithBlock:actionBlock];
+            respondNow = NO;
+            [IAP buyVirtualCurrency:info withBlock:actionBlock];
         }
             break;
         case LiPromotionTypeOfferDealVG:{
             NSString *vgID = [dictionary objectForKey:@"_id"];
-            info = [self getVirtualGoodByID:vgID IsDeal:TRUE];
+            info = [self getVirtualGoodByID:vgID IsDeal:YES];
             LiCurrency currencyKind = MainCurrency;
             if ([(VirtualGood *)info virtualGoodMainCurrency] == 0)
                 currencyKind = SecondaryCurrency;
             result = LiPromotionResultDealVirtualGood;
-            respondNow = FALSE;
-            [IAP buyVirtualGood:info Quantity:1 CurrencyKind:currencyKind WithBlock:actionBlock];
+            respondNow = NO;
+            [IAP buyVirtualGood:info quantity:1 withCurrencyKind:currencyKind andBlock:actionBlock];
         }
             break;
         default:
             //nothing...
             break;
     }
-    [LiKitPromotions promo:promotion ButtonClicked:TRUE CancelButton:FALSE];
+    [LiKitPromotions promo:promotion ButtonClicked:YES CancelButton:NO];
     if (respondNow){
         promotion.block(promoAction,result,info);
     }
 }
 
+#pragma mark - Deprecated Methods
+/*********************************************************************************
+ DEPRECATED METHODS:
+ 
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the next release. You should update your code immediately.
+ **********************************************************************************/
 
++ (PromoView *)promoViewWithPromotion:(Promotion *)promotion Frame:(CGRect)frame {
+    return [self promoViewWithPromotion:promotion andFrame:frame];
+}
 
 @end

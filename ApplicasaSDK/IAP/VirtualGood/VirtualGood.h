@@ -1,12 +1,13 @@
 //
 // VirtualGood.h
 // Created by Applicasa 
-// 11/25/2012
+// 09/12/2012
 //
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>
-#import "LiBlockQuery.h"
+#import "LiBlocks.h"
+#import "LiDataTypes.h"
 #import <LiKitIAP/LiKitIAP.h>
 
 
@@ -18,7 +19,7 @@
 //
 
 #define kVirtualGoodNotificationString @"VirtualGoodConflictFound"
-#define kShouldVirtualGoodWorkOffline TRUE
+#define kShouldVirtualGoodWorkOffline YES
 @class VirtualGoodCategory;
 @interface VirtualGood : LiObject <LiCoreRequestDelegate> {
 }
@@ -42,28 +43,35 @@
 
 #pragma mark - End of Basic SDK
 
+/*********************************************************************************
+ DEPRECATED METHODS WARNING:
+ 
+ Applicasa is cleaning up its SDK in preparation for upcoming 2.0 release.
+ 
+ Do not use methods marked with DEPRECATED_ATTRIBUTE.
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the final release. You should update your code immediately.
+ 
+ Corrected methods are listed first. Use these methods instead.
+ **********************************************************************************/
 
-// ****
-// Save VirtualGood item to Applicasa DB
-//
-//- (void) saveWithBlock:(LiBlockAction)block;
++ (void) getLocalArrayWithQuery:(LiQuery *)query andBlock:(GetVirtualGoodArrayFinished)block;
++ (void) getArrayWithQuery:(LiQuery *)query WithBlock:(GetVirtualGoodArrayFinished)block DEPRECATED_ATTRIBUTE;
 
-// ****
-// Increase VirtualGood int and float fields item in Applicasa DB
-//
-//- (void) increaseField:(LiFields)field ByValue:(NSNumber *)value;
++ (void) getVirtualGoodsOfType:(VirtualGoodType)type withBlock:(GetVirtualGoodArrayFinished)block;
++ (void) getAllVirtualGoodByType:(VirtualGoodType)type WithBlock:(GetVirtualGoodArrayFinished)block DEPRECATED_ATTRIBUTE;
 
-// ****
-// Get VirtualGood Array from Applicasa DB - Locally only
-//
-+ (void) getArrayWithQuery:(LiQuery *)query WithBlock:(GetVirtualGoodArrayFinished)block;
++ (void) getVirtualGoodsOfType:(VirtualGoodType)type andCategory:(VirtualGoodCategory *)category withBlock:(GetVirtualGoodArrayFinished)block;
++ (void) getAllVirtualGoodByType:(VirtualGoodType)type ByCategory:(VirtualGoodCategory *)category WithBlock:(GetVirtualGoodArrayFinished)block DEPRECATED_ATTRIBUTE;
 
-+ (void) getAllVirtualGoodByType:(VirutalGoodGetTypes)type WithBlock:(GetVirtualGoodArrayFinished)block;
-+ (void) getAllVirtualGoodByType:(VirutalGoodGetTypes)type ByCategory:(VirtualGoodCategory *)category WithBlock:(GetVirtualGoodArrayFinished)block;
+- (void) buyQuantity:(NSInteger)quantity withCurrencyKind:(LiCurrency)currencyKind andBlock:(LiBlockAction)block;
+- (void) buyVirtualGoodWithQuantity:(NSInteger)quantity CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;
 
-- (void) buyVirtualGoodWithQuantity:(NSInteger)quantity CurrencyKind:(LiCurrency)currencyKind WithBlock:(LiBlockAction)block;
-- (void) giveVirtualGoodWithQuantity:(NSInteger)quantity WithBlock:(LiBlockAction)block;
-- (void) useWithQuantity:(NSInteger)quantity WithBlock:(LiBlockAction)block;
+- (void) giveQuantity:(NSInteger)quantity withBlock:(LiBlockAction)block;
+- (void) giveVirtualGoodWithQuantity:(NSInteger)quantity WithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;
+
+- (void) useQuantity:(NSInteger)quantity withBlock:(LiBlockAction)block;
+- (void) useWithQuantity:(NSInteger)quantity WithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;
 
 
 @end

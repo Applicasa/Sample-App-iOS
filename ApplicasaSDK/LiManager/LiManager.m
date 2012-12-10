@@ -71,53 +71,105 @@
     [self setForeignKeysDictionary];
 }
 
-+ (void) conflictFoundBetween:(NSDictionary *)localItem And:(NSDictionary *)serverItem OfObject:(NSString *)className{
++ (void) conflictFoundBetweenLocalItem:(NSDictionary *)localItem andServerItem:(NSDictionary *)serverItem OfClass:(NSString *)className{
 	NSString *notificationName = [NSString stringWithFormat:@"%@%@",className,kNotificationString];
 	[[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:[NSArray arrayWithObjects:localItem,serverItem, nil] userInfo:nil];
 }
 
-+ (int) getSchemeDate{
-	return kSchemeDate;
++ (int) getSchemaDate{
+	return SCHEMA_DATE;
 }
 
-+ (NSString *) getApplicationID{
-	return kApplication_ID;
++ (NSString *) getApplicationId{
+	return APPLICATION_ID;
 }
 
-+ (BOOL) getEnablePush{
-	return kEnable_Push;
++ (BOOL) isPushEnabled{
+	return ENABLE_PUSH;
 }
 
-+ (BOOL) getPush_popup_on_start{
-	return kPush_popup_on_start;
++ (BOOL) shouldConfirmPushOnStart{
+	return SHOULD_CONFIRM_PUSH_ON_START;
 }
 
-+ (BOOL) getEnable_Applicasa_Debug{
-	return kEnable_Applicasa_Debug;
++ (BOOL) isDebugEnabled{
+	return ENABLE_DEBUG;
 }
 
-+ (float) getSDK_Version{
-	return kSDK_Version;
++ (float) getSDKVersion{
+	return SDK_VERSION;
 }
 
-+ (float) getFrameWork_Version{
-	return kFrameWork_Version;
++ (float) getFrameworkVersion{
+	return FRAMEWORK_VERSION;
 }
 
-+ (float) getEnable_Location{
-	return kEnable_Location;
++ (BOOL) isLocationEnabled{
+	return ENABLE_LOCATION;
 }
 
-+ (BOOL) getEnable_Offline{
-	return kEnable_Offline;
++ (BOOL) isOfflineEnabled{
+	return ENABLE_OFFLINE;
 }
 
-+ (NSString *) getApplicasaSecretKey{
-	return kApplicasaSecretKey;
++ (NSString *) getSecretKey{
+	return SECRET_KEY;
 }
 
-+ (BOOL) getSandbox_Environment{
-	return kSandbox_Environment;
++ (BOOL) isSandboxEnabled{
+	return ENABLE_SANDBOX;
+}
+
+#pragma mark - Deprecated Methods
+/*********************************************************************************
+ DEPRECATED METHODS:
+ 
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the next release. You should update your code immediately.
+ **********************************************************************************/
+
++ (NSString *) getApplicasaSecretKey {
+    return [self getSecretKey];
+}
+
++ (BOOL) getEnable_Applicasa_Debug {
+    return [self isDebugEnabled];
+}
+
++ (int) getSchemeDate {
+    return [self getSchemaDate];
+}
+
++ (float) getSDK_Version {
+    return [self getSDKVersion];
+}
+
++ (float) getFrameWork_Version {
+    return [self getFrameworkVersion];
+}
+
++ (float) getEnable_Location {
+    return [self isLocationEnabled];
+}
+
++ (BOOL) getEnable_Offline {
+    return [self isOfflineEnabled];
+}
+
++ (BOOL) getPush_popup_on_start {
+    return [self shouldConfirmPushOnStart];
+}
+
++ (BOOL) getEnablePush {
+    return [self isPushEnabled];
+}
+
++ (BOOL)getSandbox_Environment {
+    return [self isSandboxEnabled];
+}
+
++(void)conflictFoundBetween:(NSDictionary *)localItem And:(NSDictionary *)serverItem OfObject:(NSString *)className {
+    [self conflictFoundBetweenLocalItem:localItem andServerItem:serverItem OfClass:className];
 }
 
 @end

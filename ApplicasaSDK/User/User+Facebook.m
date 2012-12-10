@@ -30,9 +30,9 @@ static LiBlockAction actionBlock = NULL;
     [LiKitFacebook findFacebookFriendsWithDelegate:item];
 }
 
-+ (void) facebookLogOutWithBlock:(LiBlockAction)block{
++ (void) facebookLogoutWithBlock:(LiBlockAction)block{
     [LiKitFacebook logOut];
-    [self logOutWithBlock:block];
+    [self logoutWithBlock:block];
 }
 
 #pragma mark - FB Kit Delegate
@@ -49,6 +49,18 @@ static LiBlockAction actionBlock = NULL;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
     fbFriendsAction(error,friends,FacebookFriends);
     Block_release(fbFriendsAction);
+}
+
+#pragma mark - Deprecated Methods
+/*********************************************************************************
+ DEPRECATED METHODS:
+ 
+ These methods are deprecated. They are included for backward-compatibility only.
+ They will be removed in the next release. You should update your code immediately.
+ **********************************************************************************/
+
++ (void)facebookLogOutWithBlock:(LiBlockAction)block {
+    [self facebookLogoutWithBlock:block];
 }
 
 @end
