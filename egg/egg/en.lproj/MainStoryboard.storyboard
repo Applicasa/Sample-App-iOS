@@ -775,6 +775,8 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
             <relationships>
                 <relationship kind="action" name="cancel:"/>
+                <relationship kind="action" name="facebookLogin:"/>
+                <relationship kind="action" name="hideKeyboard:"/>
                 <relationship kind="action" name="loggedIn:"/>
                 <relationship kind="action" name="registerUser:"/>
                 <relationship kind="outlet" name="inputPassword" candidateClass="UITextField"/>
@@ -816,6 +818,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
