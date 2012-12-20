@@ -1,7 +1,7 @@
 //
 // User.m
 // Created by Applicasa 
-// 09/12/2012
+// 12/20/2012
 //
 
 #import "User.h"
@@ -762,17 +762,16 @@ enum UserIndexes {
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Logout Block:block];
 }
 
-+ (void) forgotPasswordWithBlock:(LiBlockAction)block{
++ (void) forgotPasswordForUsername:(NSString *)username withBlock:(LiBlockAction)block;{
     User *item = [User instance];   
     
     LiObjRequest *request = [LiObjRequest requestWithAction:ForgotPassword ClassName:kClassName];
-    [request addValue:[[LiCore getCurrentUser] userName] forKey:KEY_userName];
+    [request addValue:username forKey:KEY_userName];
     
     [request startSync:YES];
         
     [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:ForgotPassword Block:block];
 }
-
 
 #pragma mark - Deprecated Methods
 /*********************************************************************************

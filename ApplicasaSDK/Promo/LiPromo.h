@@ -25,7 +25,7 @@
 
 + (void) setLiKitPromotionsDelegate:(id <LiKitPromotionsDelegate>)delegate;
 
-+ (void) getAvailblePromosWithBlock:(GetPromotionArrayFinished)block;
++ (void) getAvailablePromosWithBlock:(GetPromotionArrayFinished)block;
 + (void) getAllAvailblePromosWithBlock:(GetPromotionArrayFinished)block DEPRECATED_ATTRIBUTE;
 
 + (void) refreshPromotions;

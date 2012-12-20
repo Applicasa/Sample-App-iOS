@@ -1,20 +1,23 @@
 //
-// Move.m
+// Dynamic.m
 // Created by Applicasa 
-// 09/12/2012
+// 12/20/2012
 //
 
-#import "Move.h"
-#import "Game.h"
+#import "Dynamic.h"
 
-#define kClassName                  @"Move"
+#define kClassName                  @"Dynamic"
 
-#define KEY_moveID				@"MoveID"
-#define KEY_moveLastUpdate				@"MoveLastUpdate"
-#define KEY_moveNum				@"MoveNum"
-#define KEY_moveGame				@"MoveGame"
+#define KEY_dynamicID				@"DynamicID"
+#define KEY_dynamicLastUpdate				@"DynamicLastUpdate"
+#define KEY_dynamicText				@"DynamicText"
+#define KEY_dynamicNumber				@"DynamicNumber"
+#define KEY_dynamicReal				@"DynamicReal"
+#define KEY_dynamicDate				@"DynamicDate"
+#define KEY_dynamicBool				@"DynamicBool"
+#define KEY_dynamicHtml				@"DynamicHtml"
 
-@interface Move (privateMethods)
+@interface Dynamic (privateMethods)
 
 - (void) updateField:(LiFields)field withValue:(NSNumber *)value;
 - (void) updateField:(LiFields)field Value:(NSNumber *)value DEPRECATED_ATTRIBUTE;
@@ -23,42 +26,42 @@
 
 @end
 
-@implementation Move
+@implementation Dynamic
 
-@synthesize moveID;
-@synthesize moveLastUpdate;
-@synthesize moveNum;
-@synthesize moveGame;
+@synthesize dynamicID;
+@synthesize dynamicLastUpdate;
+@synthesize dynamicText;
+@synthesize dynamicNumber;
+@synthesize dynamicReal;
+@synthesize dynamicDate;
+@synthesize dynamicBool;
+@synthesize dynamicHtml;
 
-enum MoveIndexes {
-	MoveIDIndex = 0,
-	MoveLastUpdateIndex,
-	MoveNumIndex,
-	MoveGameIndex,};
-#define NUM_OF_MOVE_FIELDS 4
+enum DynamicIndexes {
+	DynamicIDIndex = 0,
+	DynamicLastUpdateIndex,
+	DynamicTextIndex,
+	DynamicNumberIndex,
+	DynamicRealIndex,
+	DynamicDateIndex,
+	DynamicBoolIndex,
+	DynamicHtmlIndex,};
+#define NUM_OF_DYNAMIC_FIELDS 8
 
-enum GameIndexes {
-	GameIDIndex = 0,
-	GameLastUpdateIndex,
-	GameNumOfChipsIndex,
-	GamePlayerOneIndex,
-	GamePlayerTwoIndex,
-	GameNameIndex,};
-#define NUM_OF_GAME_FIELDS 6
 
 
 #pragma mark - Save
 
 - (void) saveWithBlock:(LiBlockAction)block{
 	LiObjRequest *request = [LiObjRequest requestWithAction:Add ClassName:kClassName];
-	request.shouldWorkOffline = kShouldMoveWorkOffline;
+	request.shouldWorkOffline = kShouldDynamicWorkOffline;
 
 	[request setBlock:block];
 	[self addValuesToRequest:&request];
 
-	if ([self isServerId:self.moveID]){
+	if ([self isServerId:self.dynamicID]){
 		request.action = Update;
-		[request addValue:moveID forKey:KEY_moveID];
+		[request addValue:dynamicID forKey:KEY_dynamicID];
 		if (self.increaseDictionary.count){
 			[request.requestParameters setValue:self.increaseDictionary forKey:@"$inc"];
 			self.increaseDictionary = nil;
@@ -70,8 +73,11 @@ enum GameIndexes {
 
 - (void) updateField:(LiFields)field withValue:(NSNumber *)value{
 	switch (field) {
-		case MoveNum:
-			moveNum += [value intValue];
+		case DynamicNumber:
+			dynamicNumber += [value intValue];
+			break;
+		case DynamicReal:
+			dynamicReal += [value floatValue];
 			break;
 		default:
 			break;
@@ -91,19 +97,19 @@ enum GameIndexes {
 
 - (void) deleteWithBlock:(LiBlockAction)block{        
     LiObjRequest *request = [LiObjRequest requestWithAction:Delete ClassName:kClassName];
-	request.shouldWorkOffline = kShouldMoveWorkOffline;
+	request.shouldWorkOffline = kShouldDynamicWorkOffline;
 	[request setBlock:block];
     request.delegate = self;
-    [request addValue:moveID forKey:KEY_moveID];
+    [request addValue:dynamicID forKey:KEY_dynamicID];
     [request startSync:NO];    
 }
 
 #pragma mark - Get By ID
 
-+ (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetMoveFinished)block{
-    __block Move *item = [Move instance];
++ (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetDynamicFinished)block{
+    __block Dynamic *item = [Dynamic instance];
 
-    LiFilters *filters = [LiBasicFilters filterByField:MoveID Operator:Equal Value:idString];
+    LiFilters *filters = [LiBasicFilters filterByField:DynamicID Operator:Equal Value:idString];
     LiQuery *query = [[LiQuery alloc]init];
     [query setFilters:filters];
     
@@ -119,8 +125,8 @@ enum GameIndexes {
 
 #pragma mark - Get Array
 
-+ (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetMoveArrayFinished)block{
-    Move *item = [Move instance];
++ (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetDynamicArrayFinished)block{
+    Dynamic *item = [Dynamic instance];
     
  query = [self setFieldsNameToQuery:query];
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
@@ -136,8 +142,8 @@ enum GameIndexes {
         [item requestDidFinished:request];
 }
 
-+ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetMoveArrayFinished)block{
-    Move *item = [Move instance];
++ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetDynamicArrayFinished)block{
+    Dynamic *item = [Dynamic instance];
 
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
 	[request setBlock:block];
@@ -155,7 +161,7 @@ enum GameIndexes {
     LiObjRequest *request = [LiObjRequest requestWithAction:UploadFile ClassName:kClassName];
     request.delegate = self;
 
-	[request addValue:moveID forKey:KEY_moveID];
+	[request addValue:dynamicID forKey:KEY_dynamicID];
     [request addValue:ext forKey:@"ext"];
     [request addValue:data forKey:@"data"];
     [request addIntValue:fileType forKey:@"fileType"];
@@ -192,11 +198,11 @@ enum GameIndexes {
         case Add:
         case Update:
         case Delete:{
-            NSString *itemID = [responseData objectForKey:KEY_moveID];
+            NSString *itemID = [responseData objectForKey:KEY_dynamicID];
             if (itemID)
-                self.moveID = itemID;
+                self.dynamicID = itemID;
             
-            [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self.moveID Action:action Block:[request getBlock]];
+            [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self.dynamicID Action:action Block:[request getBlock]];
 			[request releaseBlock];
         }
             break;
@@ -204,7 +210,7 @@ enum GameIndexes {
         case GetArray:{            
 			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
-            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[Move getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
+            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[Dynamic getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
 			[request releaseBlock];
 			
         }
@@ -215,8 +221,8 @@ enum GameIndexes {
 }
 
 + (id) instanceWithID:(NSString *)ID{
-    Move *instace = [[Move alloc] init];
-    instace.moveID = ID;
+    Dynamic *instace = [[Dynamic alloc] init];
+    instace.dynamicID = ID;
     return [instace autorelease];
 }
 
@@ -227,7 +233,7 @@ enum GameIndexes {
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 	
-    GetMoveArrayFinished _block = (GetMoveArrayFinished)block;
+    GetDynamicArrayFinished _block = (GetDynamicArrayFinished)block;
     _block(error,array);
 }
 
@@ -235,14 +241,26 @@ enum GameIndexes {
 
 - (void) setField:(LiFields)field toValue:(id)value{
 	switch (field) {
-	case MoveID:
-		self.moveID = value;
+	case DynamicID:
+		self.dynamicID = value;
 		break;
-	case MoveNum:
-		self.moveNum = [value intValue];
+	case DynamicText:
+		self.dynamicText = value;
 		break;
-	case MoveGame:
-		self.moveGame = value;
+	case DynamicNumber:
+		self.dynamicNumber = [value intValue];
+		break;
+	case DynamicReal:
+		self.dynamicReal = [value floatValue];
+		break;
+	case DynamicDate:
+		self.dynamicDate = value;
+		break;
+	case DynamicBool:
+		self.dynamicBool = [value boolValue];
+		break;
+	case DynamicHtml:
+		self.dynamicHtml = value;
 		break;
 	default:
 	break;
@@ -254,9 +272,11 @@ enum GameIndexes {
 
 - (void) dealloc
 {
-	[moveID release];
-	[moveLastUpdate release];
-	[moveGame release];
+	[dynamicID release];
+	[dynamicLastUpdate release];
+	[dynamicText release];
+	[dynamicDate release];
+	[dynamicHtml release];
 
 
 	[super dealloc];
@@ -271,10 +291,14 @@ enum GameIndexes {
 - (id) init {
 	if (self = [super init]) {
 
-		self.moveID				= @"0";
-		moveLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
-		self.moveNum				= 0;
-self.moveGame    = [Game instanceWithID:@"0"];
+		self.dynamicID				= @"0";
+		dynamicLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		self.dynamicText				= @"";
+		self.dynamicNumber				= 0;
+		self.dynamicReal				= 0;
+		self.dynamicDate				= [[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease];
+		self.dynamicBool				= YES;
+		self.dynamicHtml				= @"";
 	}
 	return self;
 }
@@ -282,11 +306,14 @@ self.moveGame    = [Game instanceWithID:@"0"];
 - (id) initWithDictionary:(NSDictionary *)item Header:(NSString *)header{
 	if (self = [self init]) {
 
-		self.moveID               = [item objectForKey:KeyWithHeader(KEY_moveID, header)];
-		moveLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_moveLastUpdate, header)] retain];
-		self.moveNum               = [[item objectForKey:KeyWithHeader(KEY_moveNum, header)] integerValue];
-		moveGame               = [[Game alloc] initWithDictionary:item Header:KeyWithHeader
-	(@"_",KEY_moveGame)];
+		self.dynamicID               = [item objectForKey:KeyWithHeader(KEY_dynamicID, header)];
+		dynamicLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_dynamicLastUpdate, header)] retain];
+		self.dynamicText               = [item objectForKey:KeyWithHeader(KEY_dynamicText, header)];
+		self.dynamicNumber               = [[item objectForKey:KeyWithHeader(KEY_dynamicNumber, header)] integerValue];
+		self.dynamicReal               = [[item objectForKey:KeyWithHeader(KEY_dynamicReal, header)] floatValue];
+		self.dynamicDate               = [item objectForKey:KeyWithHeader(KEY_dynamicDate, header)];
+		self.dynamicBool               = [[item objectForKey:KeyWithHeader(KEY_dynamicBool, header)] boolValue];
+		self.dynamicHtml               = [item objectForKey:KeyWithHeader(KEY_dynamicHtml, header)];
 
 	}
 	return self;
@@ -295,13 +322,17 @@ self.moveGame    = [Game instanceWithID:@"0"];
 /*
 *  init values from Object
 */
-- (id) initWithObject:(Move *)object {
+- (id) initWithObject:(Dynamic *)object {
 	if (self = [super init]) {
 
-		self.moveID               = object.moveID;
-		moveLastUpdate               = [object.moveLastUpdate retain];
-		self.moveNum               = object.moveNum;
-		moveGame               = [[Game alloc] initWithObject:object.moveGame];
+		self.dynamicID               = object.dynamicID;
+		dynamicLastUpdate               = [object.dynamicLastUpdate retain];
+		self.dynamicText               = object.dynamicText;
+		self.dynamicNumber               = object.dynamicNumber;
+		self.dynamicReal               = object.dynamicReal;
+		self.dynamicDate               = object.dynamicDate;
+		self.dynamicBool               = object.dynamicBool;
+		self.dynamicHtml               = object.dynamicHtml;
 
 	}
 	return self;
@@ -310,10 +341,14 @@ self.moveGame    = [Game instanceWithID:@"0"];
 - (NSDictionary *) dictionaryRepresentation{
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc]init];
 
-	[dictionary addValue:moveID forKey:KEY_moveID];
-	[dictionary addDateValue:moveLastUpdate forKey:KEY_moveLastUpdate];
-	[dictionary addIntValue:moveNum forKey:KEY_moveNum];
-	[dictionary addForeignKeyValue:moveGame.dictionaryRepresentation forKey:KEY_moveGame];
+	[dictionary addValue:dynamicID forKey:KEY_dynamicID];
+	[dictionary addDateValue:dynamicLastUpdate forKey:KEY_dynamicLastUpdate];
+	[dictionary addValue:dynamicText forKey:KEY_dynamicText];
+	[dictionary addIntValue:dynamicNumber forKey:KEY_dynamicNumber];
+	[dictionary addFloatValue:dynamicReal forKey:KEY_dynamicReal];
+	[dictionary addDateValue:dynamicDate forKey:KEY_dynamicDate];
+	[dictionary addBoolValue:dynamicBool forKey:KEY_dynamicBool];
+	[dictionary addValue:dynamicHtml forKey:KEY_dynamicHtml];
 
 	return [dictionary autorelease];
 }
@@ -321,10 +356,14 @@ self.moveGame    = [Game instanceWithID:@"0"];
 + (NSDictionary *) getFields{
 	NSMutableDictionary *fieldsDic = [[NSMutableDictionary alloc] init];
 	
-	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_moveID];
-	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_moveLastUpdate];
-	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_moveNum];
-	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"'0'") forKey:KEY_moveGame];
+	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_dynamicID];
+	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_dynamicLastUpdate];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_dynamicText];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_dynamicNumber];
+	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_dynamicReal];
+	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_dynamicDate];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"1") forKey:KEY_dynamicBool];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_dynamicHtml];
 	
 	return [fieldsDic autorelease];
 }
@@ -332,7 +371,6 @@ self.moveGame    = [Game instanceWithID:@"0"];
 + (NSDictionary *) getForeignKeys{
 	NSMutableDictionary *foreignKeysDic = [[NSMutableDictionary alloc] init];
 
-	[foreignKeysDic setValue:[Game getClassName] forKey:KEY_moveGame];
 	
 	return [foreignKeysDic autorelease];
 }
@@ -345,24 +383,40 @@ self.moveGame    = [Game instanceWithID:@"0"];
 	NSString *fieldName;
 	
 	switch (field) {
-		case Move_None:
+		case Dynamic_None:
 			fieldName = @"pos";
 			break;
 	
-		case MoveID:
-			fieldName = KEY_moveID;
+		case DynamicID:
+			fieldName = KEY_dynamicID;
 			break;
 
-		case MoveLastUpdate:
-			fieldName = KEY_moveLastUpdate;
+		case DynamicLastUpdate:
+			fieldName = KEY_dynamicLastUpdate;
 			break;
 
-		case MoveNum:
-			fieldName = KEY_moveNum;
+		case DynamicText:
+			fieldName = KEY_dynamicText;
 			break;
 
-		case MoveGame:
-			fieldName = KEY_moveGame;
+		case DynamicNumber:
+			fieldName = KEY_dynamicNumber;
+			break;
+
+		case DynamicReal:
+			fieldName = KEY_dynamicReal;
+			break;
+
+		case DynamicDate:
+			fieldName = KEY_dynamicDate;
+			break;
+
+		case DynamicBool:
+			fieldName = KEY_dynamicBool;
+			break;
+
+		case DynamicHtml:
+			fieldName = KEY_dynamicHtml;
 			break;
 
 		default:
@@ -378,7 +432,7 @@ self.moveGame    = [Game instanceWithID:@"0"];
 	NSString *fieldName;
 	
 	switch (field) {
-		case Move_None:
+		case Dynamic_None:
 			fieldName = @"pos";
 			break;
 	
@@ -393,28 +447,26 @@ self.moveGame    = [Game instanceWithID:@"0"];
 
 
 - (void) addValuesToRequest:(LiObjRequest **)request{
-	[*request addIntValue:moveNum forKey:KEY_moveNum];
-	[*request addValue:moveGame.gameID forKey:KEY_moveGame];
+	[*request addValue:dynamicText forKey:KEY_dynamicText];
+	[*request addIntValue:dynamicNumber forKey:KEY_dynamicNumber];
+	[*request addFloatValue:dynamicReal forKey:KEY_dynamicReal];
+	[*request addDateValue:dynamicDate forKey:KEY_dynamicDate];
+	[*request addBoolValue:dynamicBool forKey:KEY_dynamicBool];
+	[*request addValue:dynamicHtml forKey:KEY_dynamicHtml];
 }
 
 
 - (id) initWithStatement:(sqlite3_stmt *)stmt Array:(int **)array IsFK:(BOOL)isFK{
 	if (self = [super init]){
 	
-			self.moveID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][MoveIDIndex])];
-			moveLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][MoveLastUpdateIndex])]] retain];
-			self.moveNum = sqlite3_column_int(stmt, array[0][MoveNumIndex]);
-
-	if (isFK){
-		self.moveGame = [Game instanceWithID:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][MoveGameIndex])]];
-	} else {
-		int **moveGameArray = (int **)malloc(sizeof(int *));
-		moveGameArray[0] = array[1];
-		self.moveGame = [[[Game alloc] initWithStatement:stmt Array:moveGameArray IsFK:YES] autorelease];
-		free(moveGameArray);
-	}
-
-;
+			self.dynamicID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicIDIndex])];
+			dynamicLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicLastUpdateIndex])]] retain];
+			self.dynamicText = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicTextIndex])];
+			self.dynamicNumber = sqlite3_column_int(stmt, array[0][DynamicNumberIndex]);
+			self.dynamicReal = sqlite3_column_double(stmt, array[0][DynamicRealIndex]);
+			self.dynamicDate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicDateIndex])]];
+			self.dynamicBool = sqlite3_column_int(stmt, array[0][DynamicBoolIndex]);
+			self.dynamicHtml = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicHtmlIndex])];
 		
 		}
 	return self;
@@ -430,31 +482,27 @@ self.moveGame    = [Game instanceWithID:@"0"];
 		[columnsArray addObject:[NSString stringWithUTF8String:columnName]];
 	}
 	
-	int **indexes = (int **)malloc(2*sizeof(int *));
-	indexes[0] = (int *)malloc(NUM_OF_MOVE_FIELDS*sizeof(int));
-	indexes[1] = (int *)malloc(NUM_OF_GAME_FIELDS*sizeof(int));
+	int **indexes = (int **)malloc(1*sizeof(int *));
+	indexes[0] = (int *)malloc(NUM_OF_DYNAMIC_FIELDS*sizeof(int));
 
-	indexes[0][MoveIDIndex] = [columnsArray indexOfObject:KEY_moveID];
-	indexes[0][MoveLastUpdateIndex] = [columnsArray indexOfObject:KEY_moveLastUpdate];
-	indexes[0][MoveNumIndex] = [columnsArray indexOfObject:KEY_moveNum];
-	indexes[0][MoveGameIndex] = [columnsArray indexOfObject:KEY_moveGame];
-
-	indexes[1][GameIDIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GameID",@"_MoveGame")];
-	indexes[1][GameLastUpdateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GameLastUpdate",@"_MoveGame")];
-	indexes[1][GameNumOfChipsIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GameNumOfChips",@"_MoveGame")];
-	indexes[1][GamePlayerOneIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GamePlayerOne",@"_MoveGame")];
-	indexes[1][GamePlayerTwoIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GamePlayerTwo",@"_MoveGame")];
-	indexes[1][GameNameIndex] = [columnsArray indexOfObject:KeyWithHeader(@"GameName",@"_MoveGame")];
+	indexes[0][DynamicIDIndex] = [columnsArray indexOfObject:KEY_dynamicID];
+	indexes[0][DynamicLastUpdateIndex] = [columnsArray indexOfObject:KEY_dynamicLastUpdate];
+	indexes[0][DynamicTextIndex] = [columnsArray indexOfObject:KEY_dynamicText];
+	indexes[0][DynamicNumberIndex] = [columnsArray indexOfObject:KEY_dynamicNumber];
+	indexes[0][DynamicRealIndex] = [columnsArray indexOfObject:KEY_dynamicReal];
+	indexes[0][DynamicDateIndex] = [columnsArray indexOfObject:KEY_dynamicDate];
+	indexes[0][DynamicBoolIndex] = [columnsArray indexOfObject:KEY_dynamicBool];
+	indexes[0][DynamicHtmlIndex] = [columnsArray indexOfObject:KEY_dynamicHtml];
 
 	[columnsArray release];
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];
 	
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
-		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][MoveIDIndex])];
+		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][DynamicIDIndex])];
 		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
-			Move *item  = [[Move alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
+			Dynamic *item  = [[Dynamic alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
 			[item release];
 		}
@@ -463,7 +511,7 @@ self.moveGame    = [Game instanceWithID:@"0"];
 	[LiObjRequest removeIDsList:blackList FromObject:kClassName];
 	[blackList release];
 	
-	for (int i=0; i<2; i++) {
+	for (int i=0; i<1; i++) {
 		free(indexes[i]);
 	}
 	free(indexes);
@@ -491,15 +539,15 @@ self.moveGame    = [Game instanceWithID:@"0"];
     [self setField:field toValue:value];
 }
 
-+ (void) getByID:(NSString *)idString QueryKind:(QueryKind)queryKind WithBlock:(GetMoveFinished)block {
++ (void) getByID:(NSString *)idString QueryKind:(QueryKind)queryKind WithBlock:(GetDynamicFinished)block {
     [self getById:idString queryKind:queryKind withBlock:block];
 }
 
-+ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetMoveArrayFinished)block {
++ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetDynamicArrayFinished)block {
     [self getArrayWithQuery:query queryKind:queryKind withBlock:block];
 }
 
-+ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetMoveArrayFinished)block {
++ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetDynamicArrayFinished)block {
     [self getLocalArrayWithRawSQLQuery:rawQuery andBlock:block];
 }
 

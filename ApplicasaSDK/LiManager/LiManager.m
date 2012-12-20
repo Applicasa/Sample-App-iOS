@@ -15,6 +15,7 @@
 #import "User.h"
 #import "VirtualCurrency.h"
 #import "VirtualGoodCategory.h"
+#import "Dynamic.h"
 #import "VirtualGood.h"
 #import <LiKitIAP/LiKitIAP.h>
 
@@ -27,11 +28,12 @@
 
 + (void) setObjectDictionary{
 	NSMutableArray *array = [[NSMutableArray alloc] init];
-    
-    
+        
+	
 	[array addObject:[NSDictionary dictionaryWithObject:[User getFields] forKey:[User getClassName]]];
 	[array addObject:[NSDictionary dictionaryWithObject:[VirtualCurrency getFields] forKey:[VirtualCurrency getClassName]]];
 	[array addObject:[NSDictionary dictionaryWithObject:[VirtualGoodCategory getFields] forKey:[VirtualGoodCategory getClassName]]];
+	[array addObject:[NSDictionary dictionaryWithObject:[Dynamic getFields] forKey:[Dynamic getClassName]]];
 	[array addObject:[NSDictionary dictionaryWithObject:[VirtualGood getFields] forKey:[VirtualGood getClassName]]];
 
 	[array addObject:[LiKitPromotions getAnalyticsFieldsDictionary]];
@@ -40,8 +42,6 @@
 	[array addObject:[LiKitIAP getIAPActionFieldsDictionary]];
 
 
-	
-        
     
 	[LiCore initObjectsDictionary:array];
 	[array release];
@@ -52,11 +52,12 @@
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
 
 	[dic setValuesForKeysWithDictionary:[LiKitIAP getIAPFKsDictionary]];
-	
+		
 	
 	[dic setObject:[User getForeignKeys] forKey:[User getClassName]];
 	[dic setObject:[VirtualCurrency getForeignKeys] forKey:[VirtualCurrency getClassName]];
 	[dic setObject:[VirtualGoodCategory getForeignKeys] forKey:[VirtualGoodCategory getClassName]];
+	[dic setObject:[Dynamic getForeignKeys] forKey:[Dynamic getClassName]];
 	[dic setObject:[VirtualGood getForeignKeys] forKey:[VirtualGood getClassName]];
 
 
