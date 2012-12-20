@@ -15,7 +15,7 @@
     [LiKitPromotions setLiKitPromotionsDelegate:delegate];
 }
 
-+ (void) getAvailblePromosWithBlock:(GetPromotionArrayFinished)block{
++ (void) getAvailablePromosWithBlock:(GetPromotionArrayFinished)block{
     [LiKitPromotions getAllAvailblePromosWithBlock:block];
 }
 
@@ -32,7 +32,7 @@
  **********************************************************************************/
 
 +(void)getAllAvailblePromosWithBlock:(GetPromotionArrayFinished)block {
-    [self getAvailblePromosWithBlock:block];
+    [self getAvailablePromosWithBlock:block];
 }
 
 @end

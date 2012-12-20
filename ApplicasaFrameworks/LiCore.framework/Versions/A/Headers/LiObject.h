@@ -12,7 +12,7 @@
 typedef void (^LiBlockAction)(NSError *error, NSString *itemID,Actions action);
 
 @class LiQuery;
-@interface LiObject : NSObject{
+@interface LiObject : NSObject <NSCopying>{
 
 }
 @property (nonatomic, strong) NSMutableDictionary *increaseDictionary;

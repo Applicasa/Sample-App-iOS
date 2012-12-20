@@ -1,7 +1,7 @@
 //
 // LiBlocks.h
 // Created by Applicasa 
-// 09/12/2012
+// 12/20/2012
 //
 
 
@@ -28,14 +28,9 @@ typedef void (^GetVirtualGoodArrayFinished)(NSError *error, NSArray *array);
 typedef void (^GetVirtualGoodCategoryFinished)(NSError *error, VirtualGoodCategory *object);
 typedef void (^GetVirtualGoodCategoryArrayFinished)(NSError *error, NSArray *array);
 
-@class Game;
+@class Dynamic;
 
-typedef void (^GetGameFinished)(NSError *error, Game *object);
-typedef void (^GetGameArrayFinished)(NSError *error, NSArray *array);
-
-@class Move;
-
-typedef void (^GetMoveFinished)(NSError *error, Move *object);
-typedef void (^GetMoveArrayFinished)(NSError *error, NSArray *array);
+typedef void (^GetDynamicFinished)(NSError *error, Dynamic *object);
+typedef void (^GetDynamicArrayFinished)(NSError *error, NSArray *array);
 
 

@@ -16,14 +16,12 @@
 		847DF21216626D980015A5F8 /* green_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 847DF21116626D980015A5F8 /* green_btn.png */; };
 		847F4EB816663E6100AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png in Resources */ = {isa = PBXBuildFile; fileRef = 847F4EB716663E6100AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png */; };
 		847F4EBB16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png in Resources */ = {isa = PBXBuildFile; fileRef = 847F4EBA16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png */; };
-		C4099804167632CF007E68C6 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997DA167632CF007E68C6 /* Game.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C4099805167632CF007E68C6 /* IAP.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997DD167632CF007E68C6 /* IAP.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C4099806167632CF007E68C6 /* VirtualCurrency.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997E0167632CF007E68C6 /* VirtualCurrency.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C4099807167632CF007E68C6 /* VirtualGood.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997E3167632CF007E68C6 /* VirtualGood.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C4099808167632CF007E68C6 /* VirtualGoodCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997E6167632CF007E68C6 /* VirtualGoodCategory.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C4099809167632CF007E68C6 /* LiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997ED167632CF007E68C6 /* LiManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C409980A167632CF007E68C6 /* LiUserLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997EF167632CF007E68C6 /* LiUserLocation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		C409980B167632CF007E68C6 /* Move.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997F2167632CF007E68C6 /* Move.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C409980C167632CF007E68C6 /* Close.png in Resources */ = {isa = PBXBuildFile; fileRef = C40997F4167632CF007E68C6 /* Close.png */; };
 		C409980D167632CF007E68C6 /* LiPromo.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997F6167632CF007E68C6 /* LiPromo.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C409980E167632CF007E68C6 /* LiPromoHelperViews.m in Sources */ = {isa = PBXBuildFile; fileRef = C40997F8167632CF007E68C6 /* LiPromoHelperViews.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -128,8 +126,6 @@
 		847DF21116626D980015A5F8 /* green_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_btn.png; sourceTree = "<group>"; };
 		847F4EB716663E6100AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png"; sourceTree = "<group>"; };
 		847F4EBA16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png"; sourceTree = "<group>"; };
-		C40997D9167632CF007E68C6 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
-		C40997DA167632CF007E68C6 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
 		C40997DC167632CF007E68C6 /* IAP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAP.h; sourceTree = "<group>"; };
 		C40997DD167632CF007E68C6 /* IAP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IAP.m; sourceTree = "<group>"; };
 		C40997DF167632CF007E68C6 /* VirtualCurrency.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualCurrency.h; sourceTree = "<group>"; };
@@ -145,8 +141,6 @@
 		C40997ED167632CF007E68C6 /* LiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiManager.m; sourceTree = "<group>"; };
 		C40997EE167632CF007E68C6 /* LiUserLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiUserLocation.h; sourceTree = "<group>"; };
 		C40997EF167632CF007E68C6 /* LiUserLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiUserLocation.m; sourceTree = "<group>"; };
-		C40997F1167632CF007E68C6 /* Move.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Move.h; sourceTree = "<group>"; };
-		C40997F2167632CF007E68C6 /* Move.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Move.m; sourceTree = "<group>"; };
 		C40997F4167632CF007E68C6 /* Close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Close.png; sourceTree = "<group>"; };
 		C40997F5167632CF007E68C6 /* LiPromo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiPromo.h; sourceTree = "<group>"; };
 		C40997F6167632CF007E68C6 /* LiPromo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiPromo.m; sourceTree = "<group>"; };
@@ -332,24 +326,13 @@
 		C40997D7167632CF007E68C6 /* ApplicasaSDK */ = {
 			isa = PBXGroup;
 			children = (
-				C40997D8167632CF007E68C6 /* Game */,
 				C40997DB167632CF007E68C6 /* IAP */,
 				C40997E7167632CF007E68C6 /* LiManager */,
-				C40997F0167632CF007E68C6 /* Move */,
 				C40997F3167632CF007E68C6 /* Promo */,
 				C40997FD167632CF007E68C6 /* User */,
 			);
 			name = ApplicasaSDK;
 			path = ../../ApplicasaSDK;
-			sourceTree = "<group>";
-		};
-		C40997D8167632CF007E68C6 /* Game */ = {
-			isa = PBXGroup;
-			children = (
-				C40997D9167632CF007E68C6 /* Game.h */,
-				C40997DA167632CF007E68C6 /* Game.m */,
-			);
-			path = Game;
 			sourceTree = "<group>";
 		};
 		C40997DB167632CF007E68C6 /* IAP */ = {
@@ -403,15 +386,6 @@
 				C40997EF167632CF007E68C6 /* LiUserLocation.m */,
 			);
 			path = LiManager;
-			sourceTree = "<group>";
-		};
-		C40997F0167632CF007E68C6 /* Move */ = {
-			isa = PBXGroup;
-			children = (
-				C40997F1167632CF007E68C6 /* Move.h */,
-				C40997F2167632CF007E68C6 /* Move.m */,
-			);
-			path = Move;
 			sourceTree = "<group>";
 		};
 		C40997F3167632CF007E68C6 /* Promo */ = {
@@ -827,14 +801,12 @@
 				841DF0B3166E0C6D000465C4 /* NearbyFriendsViewController.m in Sources */,
 				841DF0B6166E17ED000465C4 /* FriendTableViewCell.m in Sources */,
 				841DF0B9166E2544000465C4 /* User+DisplayName.m in Sources */,
-				C4099804167632CF007E68C6 /* Game.m in Sources */,
 				C4099805167632CF007E68C6 /* IAP.m in Sources */,
 				C4099806167632CF007E68C6 /* VirtualCurrency.m in Sources */,
 				C4099807167632CF007E68C6 /* VirtualGood.m in Sources */,
 				C4099808167632CF007E68C6 /* VirtualGoodCategory.m in Sources */,
 				C4099809167632CF007E68C6 /* LiManager.m in Sources */,
 				C409980A167632CF007E68C6 /* LiUserLocation.m in Sources */,
-				C409980B167632CF007E68C6 /* Move.m in Sources */,
 				C409980D167632CF007E68C6 /* LiPromo.m in Sources */,
 				C409980E167632CF007E68C6 /* LiPromoHelperViews.m in Sources */,
 				C409980F167632CF007E68C6 /* LiSession.m in Sources */,
