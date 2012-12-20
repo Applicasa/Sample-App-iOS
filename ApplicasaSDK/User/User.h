@@ -1,7 +1,7 @@
 //
 // User.h
 // Created by Applicasa 
-// 09/12/2012
+// 12/20/2012
 //
 
 #import <Foundation/Foundation.h>
@@ -100,7 +100,7 @@
 + (void) logoutWithBlock:(LiBlockAction)block;
 + (void) logOutWithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;
 
-+ (void) forgotPasswordWithBlock:(LiBlockAction)block;
++ (void) forgotPasswordForUsername:(NSString *)username withBlock:(LiBlockAction)block;
 
 
 @end

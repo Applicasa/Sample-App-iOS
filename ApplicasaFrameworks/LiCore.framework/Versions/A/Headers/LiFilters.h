@@ -22,7 +22,7 @@
 - (LiGeoFilter *) getGeoFilter;
 
 + (NSString *) getSQLOperatorString:(OPERATORS)oper;
-+ (NSString *) getMongoOperatorString:(OPERATORS)oper WithValue:(id)value;
++ (NSString *) getMongoOperatorString:(OPERATORS)oper WithValue:(id)value isIDField:(BOOL)isIDField;
 
 - (LiFilters *) NOT;
 /*

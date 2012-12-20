@@ -57,7 +57,7 @@
     [indicator startAnimating];
 
     [self addSubview:indicator];
-    //[indicator release];
+    [indicator release];
     
     UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, frame.size.height*4/5, frame.size.width, frame.size.width*1/5)];
     [loadingLabel setText:@"Loading..."];

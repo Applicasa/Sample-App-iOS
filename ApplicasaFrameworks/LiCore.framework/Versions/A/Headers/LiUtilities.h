@@ -124,9 +124,10 @@ typedef void (^GetCachedDataFinished)(NSError *error, NSData *data);
     BOOL val;
 }
 
+- (id) initWithVal:(BOOL)value;
+- (BOOL) value;
+
 + (LiBoolean *) liTrueVal;
 + (LiBoolean *) liFalseVal;
-
-- (BOOL) value;
 
 @end

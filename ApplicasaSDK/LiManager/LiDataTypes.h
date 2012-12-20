@@ -1,7 +1,7 @@
 //
 // LiDataTypes.h
 // Created by Applicasa 
-// 09/12/2012
+// 12/20/2012
 //
 
 
@@ -73,19 +73,15 @@ typedef enum {
 	VirtualGoodCategoryID,
 	VirtualGoodCategoryName,
 	VirtualGoodCategoryLastUpdate,
-	//Game
-	Game_None,
-	GameID,
-	GameLastUpdate,
-	GameNumOfChips,
-	GameName,
-	GamePlayerOne,
-	GamePlayerTwo,
-	//Move
-	Move_None,
-	MoveID,
-	MoveLastUpdate,
-	MoveNum,
-	MoveGame
+	//Dynamic
+	Dynamic_None,
+	DynamicID,
+	DynamicLastUpdate,
+	DynamicText,
+	DynamicNumber,
+	DynamicReal,
+	DynamicDate,
+	DynamicBool,
+	DynamicHtml
 }LiFields;
 

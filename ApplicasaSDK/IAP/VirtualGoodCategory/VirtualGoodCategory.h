@@ -1,7 +1,7 @@
 //
 // VirtualGoodCategory.h
 // Created by Applicasa 
-// 09/12/2012
+// 12/20/2012
 //
 
 #import <Foundation/Foundation.h>

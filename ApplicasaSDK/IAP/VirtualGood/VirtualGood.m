@@ -1,7 +1,7 @@
 //
 // VirtualGood.m
 // Created by Applicasa 
-// 09/12/2012
+// 12/20/2012
 //
 
 #import "VirtualGood.h"
@@ -70,15 +70,13 @@ enum VirtualGoodIndexes {
 	VirtualGoodMainCategoryIndex,
 	VirtualGoodIsDealIndex,
 	VirtualGoodConsumableIndex,
-	VirtualGoodLastUpdateIndex,
-};
+	VirtualGoodLastUpdateIndex,};
 #define NUM_OF_VIRTUALGOOD_FIELDS 16
 
 enum VirtualGoodCategoryIndexes {
 	VirtualGoodCategoryIDIndex = 0,
 	VirtualGoodCategoryNameIndex,
-	VirtualGoodCategoryLastUpdateIndex,
-};
+	VirtualGoodCategoryLastUpdateIndex,};
 #define NUM_OF_VIRTUALGOODCATEGORY_FIELDS 3
 
 
@@ -562,7 +560,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
      
     query = [self setFieldsNameToQuery:query];
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
- [request setBlock:block];
+	[request setBlock:block];
     [request addIntValue:LOCAL forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
@@ -577,7 +575,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
     VirtualGood *item = [VirtualGood instance];
     
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
- [request setBlock:block];
+	[request setBlock:block];
     [request addValue:rawQuery forKey:@"filters"];
     [request setShouldWorkOffline:YES];
     [request startSync:YES];
@@ -645,7 +643,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
     NSString *responseMessage = request.response.responseMessage;
     NSDictionary *responseData = request.response.responseData;
     
-    switch (action) {
+    switch (action) {        
         case Add:
         case Update:
         case Delete:{
@@ -654,16 +652,16 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
                 self.virtualGoodID = itemID;
             
             [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self. virtualGoodID Action:action Block:[request getBlock]];
-            [request releaseBlock];
+			[request releaseBlock];
         }
             break;
 
         case GetArray:{
             
-            sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+      sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
             [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualGood getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
-            [request releaseBlock];
+   [request releaseBlock];
 
         }
             break;
@@ -697,10 +695,6 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
  They will be removed in the next release. You should update your code immediately.
  **********************************************************************************/
 
-+ (void) getArrayWithQuery:(LiQuery *)query WithBlock:(GetVirtualGoodArrayFinished)block{
-    [self getLocalArrayWithQuery:query andBlock:block];
-}
-
 + (void) getAllVirtualGoodByType:(VirtualGoodType)type WithBlock:(GetVirtualGoodArrayFinished)block {
     [self getVirtualGoodsOfType:type withBlock:block];
 }
@@ -722,6 +716,9 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
     [self useQuantity:quantity withBlock:block];
 }
 
++ (void) getArrayWithQuery:(LiQuery *)query WithBlock:(GetVirtualGoodArrayFinished)block{
+    [self getLocalArrayWithQuery:query andBlock:block];
+}
 
 
 @end

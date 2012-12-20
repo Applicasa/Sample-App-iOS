@@ -1,18 +1,23 @@
 //
-// VirtualGoodCategory.m
+// Dynamic.m
 // Created by Applicasa 
 // 12/20/2012
 //
 
-#import "VirtualGoodCategory.h"
+#import "Dynamic.h"
 
-#define kClassName                  @"VirtualGoodCategory"
+#define kClassName                  @"Dynamic"
 
-#define KEY_virtualGoodCategoryID				@"VirtualGoodCategoryID"
-#define KEY_virtualGoodCategoryName				@"VirtualGoodCategoryName"
-#define KEY_virtualGoodCategoryLastUpdate				@"VirtualGoodCategoryLastUpdate"
+#define KEY_dynamicID				@"DynamicID"
+#define KEY_dynamicLastUpdate				@"DynamicLastUpdate"
+#define KEY_dynamicText				@"DynamicText"
+#define KEY_dynamicNumber				@"DynamicNumber"
+#define KEY_dynamicReal				@"DynamicReal"
+#define KEY_dynamicDate				@"DynamicDate"
+#define KEY_dynamicBool				@"DynamicBool"
+#define KEY_dynamicHtml				@"DynamicHtml"
 
-@interface VirtualGoodCategory (privateMethods)
+@interface Dynamic (privateMethods)
 
 - (void) updateField:(LiFields)field withValue:(NSNumber *)value;
 - (void) updateField:(LiFields)field Value:(NSNumber *)value DEPRECATED_ATTRIBUTE;
@@ -21,17 +26,27 @@
 
 @end
 
-@implementation VirtualGoodCategory
+@implementation Dynamic
 
-@synthesize virtualGoodCategoryID;
-@synthesize virtualGoodCategoryName;
-@synthesize virtualGoodCategoryLastUpdate;
+@synthesize dynamicID;
+@synthesize dynamicLastUpdate;
+@synthesize dynamicText;
+@synthesize dynamicNumber;
+@synthesize dynamicReal;
+@synthesize dynamicDate;
+@synthesize dynamicBool;
+@synthesize dynamicHtml;
 
-enum VirtualGoodCategoryIndexes {
-	VirtualGoodCategoryIDIndex = 0,
-	VirtualGoodCategoryNameIndex,
-	VirtualGoodCategoryLastUpdateIndex,};
-#define NUM_OF_VIRTUALGOODCATEGORY_FIELDS 3
+enum DynamicIndexes {
+	DynamicIDIndex = 0,
+	DynamicLastUpdateIndex,
+	DynamicTextIndex,
+	DynamicNumberIndex,
+	DynamicRealIndex,
+	DynamicDateIndex,
+	DynamicBoolIndex,
+	DynamicHtmlIndex,};
+#define NUM_OF_DYNAMIC_FIELDS 8
 
 
 
@@ -39,14 +54,14 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) saveWithBlock:(LiBlockAction)block{
 	LiObjRequest *request = [LiObjRequest requestWithAction:Add ClassName:kClassName];
-	request.shouldWorkOffline = kShouldVirtualGoodCategoryWorkOffline;
+	request.shouldWorkOffline = kShouldDynamicWorkOffline;
 
 	[request setBlock:block];
 	[self addValuesToRequest:&request];
 
-	if ([self isServerId:self.virtualGoodCategoryID]){
+	if ([self isServerId:self.dynamicID]){
 		request.action = Update;
-		[request addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
+		[request addValue:dynamicID forKey:KEY_dynamicID];
 		if (self.increaseDictionary.count){
 			[request.requestParameters setValue:self.increaseDictionary forKey:@"$inc"];
 			self.increaseDictionary = nil;
@@ -58,6 +73,12 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) updateField:(LiFields)field withValue:(NSNumber *)value{
 	switch (field) {
+		case DynamicNumber:
+			dynamicNumber += [value intValue];
+			break;
+		case DynamicReal:
+			dynamicReal += [value floatValue];
+			break;
 		default:
 			break;
 	}
@@ -76,19 +97,19 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) deleteWithBlock:(LiBlockAction)block{        
     LiObjRequest *request = [LiObjRequest requestWithAction:Delete ClassName:kClassName];
-	request.shouldWorkOffline = kShouldVirtualGoodCategoryWorkOffline;
+	request.shouldWorkOffline = kShouldDynamicWorkOffline;
 	[request setBlock:block];
     request.delegate = self;
-    [request addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
+    [request addValue:dynamicID forKey:KEY_dynamicID];
     [request startSync:NO];    
 }
 
 #pragma mark - Get By ID
 
-+ (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetVirtualGoodCategoryFinished)block{
-    __block VirtualGoodCategory *item = [VirtualGoodCategory instance];
++ (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetDynamicFinished)block{
+    __block Dynamic *item = [Dynamic instance];
 
-    LiFilters *filters = [LiBasicFilters filterByField:VirtualGoodCategoryID Operator:Equal Value:idString];
+    LiFilters *filters = [LiBasicFilters filterByField:DynamicID Operator:Equal Value:idString];
     LiQuery *query = [[LiQuery alloc]init];
     [query setFilters:filters];
     
@@ -104,8 +125,8 @@ enum VirtualGoodCategoryIndexes {
 
 #pragma mark - Get Array
 
-+ (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetVirtualGoodCategoryArrayFinished)block{
-    VirtualGoodCategory *item = [VirtualGoodCategory instance];
++ (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetDynamicArrayFinished)block{
+    Dynamic *item = [Dynamic instance];
     
  query = [self setFieldsNameToQuery:query];
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
@@ -121,8 +142,8 @@ enum VirtualGoodCategoryIndexes {
         [item requestDidFinished:request];
 }
 
-+ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetVirtualGoodCategoryArrayFinished)block{
-    VirtualGoodCategory *item = [VirtualGoodCategory instance];
++ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetDynamicArrayFinished)block{
+    Dynamic *item = [Dynamic instance];
 
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
 	[request setBlock:block];
@@ -140,7 +161,7 @@ enum VirtualGoodCategoryIndexes {
     LiObjRequest *request = [LiObjRequest requestWithAction:UploadFile ClassName:kClassName];
     request.delegate = self;
 
-	[request addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
+	[request addValue:dynamicID forKey:KEY_dynamicID];
     [request addValue:ext forKey:@"ext"];
     [request addValue:data forKey:@"data"];
     [request addIntValue:fileType forKey:@"fileType"];
@@ -177,11 +198,11 @@ enum VirtualGoodCategoryIndexes {
         case Add:
         case Update:
         case Delete:{
-            NSString *itemID = [responseData objectForKey:KEY_virtualGoodCategoryID];
+            NSString *itemID = [responseData objectForKey:KEY_dynamicID];
             if (itemID)
-                self.virtualGoodCategoryID = itemID;
+                self.dynamicID = itemID;
             
-            [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self.virtualGoodCategoryID Action:action Block:[request getBlock]];
+            [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self.dynamicID Action:action Block:[request getBlock]];
 			[request releaseBlock];
         }
             break;
@@ -189,7 +210,7 @@ enum VirtualGoodCategoryIndexes {
         case GetArray:{            
 			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
-            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualGoodCategory getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
+            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[Dynamic getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
 			[request releaseBlock];
 			
         }
@@ -200,8 +221,8 @@ enum VirtualGoodCategoryIndexes {
 }
 
 + (id) instanceWithID:(NSString *)ID{
-    VirtualGoodCategory *instace = [[VirtualGoodCategory alloc] init];
-    instace.virtualGoodCategoryID = ID;
+    Dynamic *instace = [[Dynamic alloc] init];
+    instace.dynamicID = ID;
     return [instace autorelease];
 }
 
@@ -212,7 +233,7 @@ enum VirtualGoodCategoryIndexes {
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 	
-    GetVirtualGoodCategoryArrayFinished _block = (GetVirtualGoodCategoryArrayFinished)block;
+    GetDynamicArrayFinished _block = (GetDynamicArrayFinished)block;
     _block(error,array);
 }
 
@@ -220,11 +241,26 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) setField:(LiFields)field toValue:(id)value{
 	switch (field) {
-	case VirtualGoodCategoryID:
-		self.virtualGoodCategoryID = value;
+	case DynamicID:
+		self.dynamicID = value;
 		break;
-	case VirtualGoodCategoryName:
-		self.virtualGoodCategoryName = value;
+	case DynamicText:
+		self.dynamicText = value;
+		break;
+	case DynamicNumber:
+		self.dynamicNumber = [value intValue];
+		break;
+	case DynamicReal:
+		self.dynamicReal = [value floatValue];
+		break;
+	case DynamicDate:
+		self.dynamicDate = value;
+		break;
+	case DynamicBool:
+		self.dynamicBool = [value boolValue];
+		break;
+	case DynamicHtml:
+		self.dynamicHtml = value;
 		break;
 	default:
 	break;
@@ -236,9 +272,11 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) dealloc
 {
-	[virtualGoodCategoryID release];
-	[virtualGoodCategoryName release];
-	[virtualGoodCategoryLastUpdate release];
+	[dynamicID release];
+	[dynamicLastUpdate release];
+	[dynamicText release];
+	[dynamicDate release];
+	[dynamicHtml release];
 
 
 	[super dealloc];
@@ -253,9 +291,14 @@ enum VirtualGoodCategoryIndexes {
 - (id) init {
 	if (self = [super init]) {
 
-		self.virtualGoodCategoryID				= @"0";
-		self.virtualGoodCategoryName				= @"";
-		virtualGoodCategoryLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		self.dynamicID				= @"0";
+		dynamicLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		self.dynamicText				= @"";
+		self.dynamicNumber				= 0;
+		self.dynamicReal				= 0;
+		self.dynamicDate				= [[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease];
+		self.dynamicBool				= YES;
+		self.dynamicHtml				= @"";
 	}
 	return self;
 }
@@ -263,9 +306,14 @@ enum VirtualGoodCategoryIndexes {
 - (id) initWithDictionary:(NSDictionary *)item Header:(NSString *)header{
 	if (self = [self init]) {
 
-		self.virtualGoodCategoryID               = [item objectForKey:KeyWithHeader(KEY_virtualGoodCategoryID, header)];
-		self.virtualGoodCategoryName               = [item objectForKey:KeyWithHeader(KEY_virtualGoodCategoryName, header)];
-		virtualGoodCategoryLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodCategoryLastUpdate, header)] retain];
+		self.dynamicID               = [item objectForKey:KeyWithHeader(KEY_dynamicID, header)];
+		dynamicLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_dynamicLastUpdate, header)] retain];
+		self.dynamicText               = [item objectForKey:KeyWithHeader(KEY_dynamicText, header)];
+		self.dynamicNumber               = [[item objectForKey:KeyWithHeader(KEY_dynamicNumber, header)] integerValue];
+		self.dynamicReal               = [[item objectForKey:KeyWithHeader(KEY_dynamicReal, header)] floatValue];
+		self.dynamicDate               = [item objectForKey:KeyWithHeader(KEY_dynamicDate, header)];
+		self.dynamicBool               = [[item objectForKey:KeyWithHeader(KEY_dynamicBool, header)] boolValue];
+		self.dynamicHtml               = [item objectForKey:KeyWithHeader(KEY_dynamicHtml, header)];
 
 	}
 	return self;
@@ -274,12 +322,17 @@ enum VirtualGoodCategoryIndexes {
 /*
 *  init values from Object
 */
-- (id) initWithObject:(VirtualGoodCategory *)object {
+- (id) initWithObject:(Dynamic *)object {
 	if (self = [super init]) {
 
-		self.virtualGoodCategoryID               = object.virtualGoodCategoryID;
-		self.virtualGoodCategoryName               = object.virtualGoodCategoryName;
-		virtualGoodCategoryLastUpdate               = [object.virtualGoodCategoryLastUpdate retain];
+		self.dynamicID               = object.dynamicID;
+		dynamicLastUpdate               = [object.dynamicLastUpdate retain];
+		self.dynamicText               = object.dynamicText;
+		self.dynamicNumber               = object.dynamicNumber;
+		self.dynamicReal               = object.dynamicReal;
+		self.dynamicDate               = object.dynamicDate;
+		self.dynamicBool               = object.dynamicBool;
+		self.dynamicHtml               = object.dynamicHtml;
 
 	}
 	return self;
@@ -288,9 +341,14 @@ enum VirtualGoodCategoryIndexes {
 - (NSDictionary *) dictionaryRepresentation{
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc]init];
 
-	[dictionary addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
-	[dictionary addValue:virtualGoodCategoryName forKey:KEY_virtualGoodCategoryName];
-	[dictionary addDateValue:virtualGoodCategoryLastUpdate forKey:KEY_virtualGoodCategoryLastUpdate];
+	[dictionary addValue:dynamicID forKey:KEY_dynamicID];
+	[dictionary addDateValue:dynamicLastUpdate forKey:KEY_dynamicLastUpdate];
+	[dictionary addValue:dynamicText forKey:KEY_dynamicText];
+	[dictionary addIntValue:dynamicNumber forKey:KEY_dynamicNumber];
+	[dictionary addFloatValue:dynamicReal forKey:KEY_dynamicReal];
+	[dictionary addDateValue:dynamicDate forKey:KEY_dynamicDate];
+	[dictionary addBoolValue:dynamicBool forKey:KEY_dynamicBool];
+	[dictionary addValue:dynamicHtml forKey:KEY_dynamicHtml];
 
 	return [dictionary autorelease];
 }
@@ -298,9 +356,14 @@ enum VirtualGoodCategoryIndexes {
 + (NSDictionary *) getFields{
 	NSMutableDictionary *fieldsDic = [[NSMutableDictionary alloc] init];
 	
-	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_virtualGoodCategoryID];
-	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_virtualGoodCategoryName];
-	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_virtualGoodCategoryLastUpdate];
+	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_dynamicID];
+	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_dynamicLastUpdate];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_dynamicText];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_dynamicNumber];
+	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_dynamicReal];
+	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_dynamicDate];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"1") forKey:KEY_dynamicBool];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_dynamicHtml];
 	
 	return [fieldsDic autorelease];
 }
@@ -320,20 +383,40 @@ enum VirtualGoodCategoryIndexes {
 	NSString *fieldName;
 	
 	switch (field) {
-		case VirtualGoodCategory_None:
+		case Dynamic_None:
 			fieldName = @"pos";
 			break;
 	
-		case VirtualGoodCategoryID:
-			fieldName = KEY_virtualGoodCategoryID;
+		case DynamicID:
+			fieldName = KEY_dynamicID;
 			break;
 
-		case VirtualGoodCategoryName:
-			fieldName = KEY_virtualGoodCategoryName;
+		case DynamicLastUpdate:
+			fieldName = KEY_dynamicLastUpdate;
 			break;
 
-		case VirtualGoodCategoryLastUpdate:
-			fieldName = KEY_virtualGoodCategoryLastUpdate;
+		case DynamicText:
+			fieldName = KEY_dynamicText;
+			break;
+
+		case DynamicNumber:
+			fieldName = KEY_dynamicNumber;
+			break;
+
+		case DynamicReal:
+			fieldName = KEY_dynamicReal;
+			break;
+
+		case DynamicDate:
+			fieldName = KEY_dynamicDate;
+			break;
+
+		case DynamicBool:
+			fieldName = KEY_dynamicBool;
+			break;
+
+		case DynamicHtml:
+			fieldName = KEY_dynamicHtml;
 			break;
 
 		default:
@@ -349,7 +432,7 @@ enum VirtualGoodCategoryIndexes {
 	NSString *fieldName;
 	
 	switch (field) {
-		case VirtualGoodCategory_None:
+		case Dynamic_None:
 			fieldName = @"pos";
 			break;
 	
@@ -364,16 +447,26 @@ enum VirtualGoodCategoryIndexes {
 
 
 - (void) addValuesToRequest:(LiObjRequest **)request{
-	[*request addValue:virtualGoodCategoryName forKey:KEY_virtualGoodCategoryName];
+	[*request addValue:dynamicText forKey:KEY_dynamicText];
+	[*request addIntValue:dynamicNumber forKey:KEY_dynamicNumber];
+	[*request addFloatValue:dynamicReal forKey:KEY_dynamicReal];
+	[*request addDateValue:dynamicDate forKey:KEY_dynamicDate];
+	[*request addBoolValue:dynamicBool forKey:KEY_dynamicBool];
+	[*request addValue:dynamicHtml forKey:KEY_dynamicHtml];
 }
 
 
 - (id) initWithStatement:(sqlite3_stmt *)stmt Array:(int **)array IsFK:(BOOL)isFK{
 	if (self = [super init]){
 	
-			self.virtualGoodCategoryID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodCategoryIDIndex])];
-			self.virtualGoodCategoryName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodCategoryNameIndex])];
-			virtualGoodCategoryLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodCategoryLastUpdateIndex])]] retain];
+			self.dynamicID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicIDIndex])];
+			dynamicLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicLastUpdateIndex])]] retain];
+			self.dynamicText = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicTextIndex])];
+			self.dynamicNumber = sqlite3_column_int(stmt, array[0][DynamicNumberIndex]);
+			self.dynamicReal = sqlite3_column_double(stmt, array[0][DynamicRealIndex]);
+			self.dynamicDate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicDateIndex])]];
+			self.dynamicBool = sqlite3_column_int(stmt, array[0][DynamicBoolIndex]);
+			self.dynamicHtml = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicHtmlIndex])];
 		
 		}
 	return self;
@@ -390,21 +483,26 @@ enum VirtualGoodCategoryIndexes {
 	}
 	
 	int **indexes = (int **)malloc(1*sizeof(int *));
-	indexes[0] = (int *)malloc(NUM_OF_VIRTUALGOODCATEGORY_FIELDS*sizeof(int));
+	indexes[0] = (int *)malloc(NUM_OF_DYNAMIC_FIELDS*sizeof(int));
 
-	indexes[0][VirtualGoodCategoryIDIndex] = [columnsArray indexOfObject:KEY_virtualGoodCategoryID];
-	indexes[0][VirtualGoodCategoryNameIndex] = [columnsArray indexOfObject:KEY_virtualGoodCategoryName];
-	indexes[0][VirtualGoodCategoryLastUpdateIndex] = [columnsArray indexOfObject:KEY_virtualGoodCategoryLastUpdate];
+	indexes[0][DynamicIDIndex] = [columnsArray indexOfObject:KEY_dynamicID];
+	indexes[0][DynamicLastUpdateIndex] = [columnsArray indexOfObject:KEY_dynamicLastUpdate];
+	indexes[0][DynamicTextIndex] = [columnsArray indexOfObject:KEY_dynamicText];
+	indexes[0][DynamicNumberIndex] = [columnsArray indexOfObject:KEY_dynamicNumber];
+	indexes[0][DynamicRealIndex] = [columnsArray indexOfObject:KEY_dynamicReal];
+	indexes[0][DynamicDateIndex] = [columnsArray indexOfObject:KEY_dynamicDate];
+	indexes[0][DynamicBoolIndex] = [columnsArray indexOfObject:KEY_dynamicBool];
+	indexes[0][DynamicHtmlIndex] = [columnsArray indexOfObject:KEY_dynamicHtml];
 
 	[columnsArray release];
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];
 	
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
-		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][VirtualGoodCategoryIDIndex])];
+		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][DynamicIDIndex])];
 		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
-			VirtualGoodCategory *item  = [[VirtualGoodCategory alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
+			Dynamic *item  = [[Dynamic alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
 			[item release];
 		}
@@ -441,15 +539,15 @@ enum VirtualGoodCategoryIndexes {
     [self setField:field toValue:value];
 }
 
-+ (void) getByID:(NSString *)idString QueryKind:(QueryKind)queryKind WithBlock:(GetVirtualGoodCategoryFinished)block {
++ (void) getByID:(NSString *)idString QueryKind:(QueryKind)queryKind WithBlock:(GetDynamicFinished)block {
     [self getById:idString queryKind:queryKind withBlock:block];
 }
 
-+ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetVirtualGoodCategoryArrayFinished)block {
++ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetDynamicArrayFinished)block {
     [self getArrayWithQuery:query queryKind:queryKind withBlock:block];
 }
 
-+ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetVirtualGoodCategoryArrayFinished)block {
++ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetDynamicArrayFinished)block {
     [self getLocalArrayWithRawSQLQuery:rawQuery andBlock:block];
 }
 
