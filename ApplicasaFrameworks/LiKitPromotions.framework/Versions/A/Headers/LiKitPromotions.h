@@ -18,6 +18,10 @@
 
 + (void) setLiKitPromotionsDelegate:(id <LiKitPromotionsDelegate>)delegate;
 
+//User Profile
++ (LiSpendProfile) getCurrentUserSpendProfile;
++ (LiUsageProfile) getCurrentUserUsageProfile;
+
 //Level
 + (void) startLevel:(NSString *)level;
 + (void) endLevel:(LEVEL_RESULT)result Socre:(NSInteger)score Bonus:(NSInteger)bonus;

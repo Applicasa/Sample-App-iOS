@@ -5,6 +5,7 @@
 //
 
 #import "User.h"
+#import <LiKitPromotions/LiKitPromotions.h>
 
 #define kClassName                  @"User"
 
@@ -78,7 +79,8 @@ enum UserIndexes {
 	UserImageIndex,
 	UserMainCurrencyBalanceIndex,
 	UserSecondaryCurrencyBalanceIndex,
-	UserTempDateIndex,};
+	UserTempDateIndex,
+};
 #define NUM_OF_USER_FIELDS 19
 
 
@@ -827,6 +829,16 @@ enum UserIndexes {
 
 + (void)logOutWithBlock:(LiBlockAction)block {
     [self logoutWithBlock:block];
+}
+
+#pragma mark - Profile Data Methods
+
++ (LiSpendProfile) getCurrentSpendProfile{
+    return [LiKitPromotions getCurrentUserSpendProfile];
+}
+
++ (LiUsageProfile) getCurrentUsageProfile{
+    return [LiKitPromotions getCurrentUserUsageProfile];
 }
 
 @end

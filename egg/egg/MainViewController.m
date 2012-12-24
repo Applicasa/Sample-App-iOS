@@ -19,9 +19,16 @@
 #import "LiPromoHelperViews.h"
 #import "NearbyFriendsViewController.h"
 #import "LiUserLocation.h"
+#import "User.h"
+
+@interface MainViewController ()
+
+- (void) refreshProfileIcons;
+
+@end
 
 @implementation MainViewController
-
+@synthesize spendProfileImageView,usageProfileImageView;
 /*
  view Did Load method
  presenet Loading screen if the Framework still initialized itself
@@ -37,6 +44,7 @@
 
 - (void) viewDidAppear:(BOOL)animated{
     [LiKitPromotions setLiKitPromotionsDelegate:self];
+    [self refreshProfileIcons];
     [super viewDidAppear:animated];
 }
 
@@ -45,12 +53,75 @@
     LiActivityIndicator *activityView = (LiActivityIndicator *)[self.view viewWithTag:kActivityViewTag];
     [activityView removeFromSuperview];
     [self performSelectorOnMainThread:@selector(updateCurrentUserLocation) withObject:nil waitUntilDone:FALSE];
+    [self performSelectorOnMainThread:@selector(refreshProfileIcons) withObject:nil waitUntilDone:FALSE];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Profile Data 
+
+- (void) updateSpendProfileImage:(LiSpendProfile)profile{
+    if (spendProfileImageView.tag == profile)
+        return;
+    
+    NSString *imageName = @"";
+    switch (profile) {
+        case LiSpendProfileRockefeller:
+            imageName = @"profileRockfeller";
+            break;
+        case LiSpendProfileTaxPayer:
+            imageName = @"profileTaxpayer";
+            break;
+        case LiSpendProfileTourist:
+            imageName = @"profileTurist";
+            break;
+        case LiSpendProfileZombie:
+            imageName = @"profileZombie";
+            break;
+        default:
+            break;
+    }
+    
+    [spendProfileImageView setImage:[UIImage imageNamed:imageName]];
+    [spendProfileImageView setTag:profile];
+}
+
+- (void) updateUsageProfileImage:(LiUsageProfile)profile{
+    if (usageProfileImageView.tag == profile)
+        return;
+    
+    NSString *imageName = @"";
+    switch (profile) {
+        case LiUsageProfileGeneral:
+            imageName = @"rankGeneral";
+            break;
+        case LiUsageProfileSerganet:
+            imageName = @"rankSergeant";
+            break;
+        case LiUsageProfilePrivate:
+            imageName = @"rankPrivate";
+            break;
+        case LiUsageProfileCivilan:
+            imageName = @"rankHippie";
+            break;
+        default:
+            break;
+    }
+    
+    [usageProfileImageView setImage:[UIImage imageNamed:imageName]];
+    [usageProfileImageView setTag:profile];
+}
+
+- (void) refreshProfileIcons{
+    LiSpendProfile spendProfile = [User getCurrentSpendProfile];
+    LiUsageProfile usageProfile = [User getCurrentUsageProfile];
+    
+    [self updateSpendProfileImage:spendProfile];
+    [self updateUsageProfileImage:usageProfile];
 }
 
 #pragma mark - Update user location

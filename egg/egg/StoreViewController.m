@@ -123,6 +123,7 @@ static UIImage *virtualGoodImage = nil;
             // purchase failed
             DDLogError(@"Purchase Error: %@", error);
         }
+        [buyingActivity stopAndRemove];
     }];
 }
 

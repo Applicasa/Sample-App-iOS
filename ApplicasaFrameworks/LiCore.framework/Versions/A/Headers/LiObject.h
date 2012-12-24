@@ -42,6 +42,6 @@ typedef void (^LiBlockAction)(NSError *error, NSString *itemID,Actions action);
 - (BOOL) isServerId:(NSString *)IdString;
 - (void) addValuesToRequest:(LiObjRequest **)request;
 
-+ (void) clearAllObjectContentWithFilter:(LiFilters *)filter Error:(NSError **)error;
++ (BOOL) clearAllObjectContentWithFilter:(LiFilters *)filter Error:(NSError **)error;
 
 @end

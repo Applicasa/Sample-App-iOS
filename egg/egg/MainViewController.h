@@ -14,6 +14,11 @@
 
 @interface MainViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate,NearbyFriendsViewControllerDelegate,LiKitPromotionsDelegate>
 
+@property (weak, nonatomic) IBOutlet UIImageView *spendProfileImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *usageProfileImageView;
+
+
+
 - (void) dismissLoadingScreen;
 
 @end
