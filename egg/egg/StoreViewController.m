@@ -18,11 +18,11 @@
 
 @implementation StoreViewController
 @synthesize coinTotal,
-            collectionItems,
-            btnBuyCoins,
-            btnMyItems,
-            btnVirtualItems,
-            storeItemView;
+collectionItems,
+btnBuyCoins,
+btnMyItems,
+btnVirtualItems,
+storeItemView;
 
 static UIImage *virtualCurrencyImage = nil;
 static UIImage *virtualGoodImage = nil;

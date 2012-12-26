@@ -91,7 +91,6 @@
     // Lets us know that IAP has loaded
     // Provides arrays of virtual goods & currencies that can be used immediately
     [self refreshViewControllers];
-    [LiSession sessionStart];
     
 #ifdef DEBUG
     // Just for DEBUG purposes, let's see our virtual currencies and items to make

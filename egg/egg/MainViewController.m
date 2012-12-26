@@ -10,8 +10,8 @@
  
  MainViewController is the app's starting point,
  presenting all available actions to the user.
-
-*/
+ 
+ */
 
 #import "MainViewController.h"
 #import "AlertShower.h"
@@ -62,7 +62,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Profile Data 
+#pragma mark - Profile Data
 
 - (void) updateSpendProfileImage:(LiSpendProfile)profile{
     if (spendProfileImageView.tag == profile)
@@ -174,7 +174,7 @@
     DDLogInfo(@"doing loggedIn delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
     [AlertShower showAlertWithMessage:@"Logged In" onViewController:self];
-
+    
 }
 
 - (void)loginViewControllerDidRegister:(LoginViewController *)controller{

@@ -1,14 +1,14 @@
 //
 // User.h
-// Created by Applicasa 
-// 12/20/2012
+// Created by Applicasa
+// 12/26/2012
 //
 
-#import <LiKitPromotions/LiKitPromotionsConstants.h>
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>
 #import "LiBlocks.h"
 #import "LiDataTypes.h"
+#import <LiKitPromotions/LiKitPromotionsConstants.h>
 
 
 
@@ -33,14 +33,13 @@
 @property (nonatomic, retain, readonly) NSDate *userLastLogin;
 @property (nonatomic, retain, readonly) NSDate *userRegisterDate;
 @property (nonatomic, retain) CLLocation *userLocation;
-@property (nonatomic, assign, readonly) BOOL userIsRegisteredFacebook;
 @property (nonatomic, assign, readonly) BOOL userIsRegistered;
+@property (nonatomic, assign, readonly) BOOL userIsRegisteredFacebook;
 @property (nonatomic, retain, readonly) NSDate *userLastUpdate;
-@property (nonatomic, retain, readonly) NSString *userFacebookID;
 @property (nonatomic, retain) NSURL *userImage;
 @property (nonatomic, assign) int userMainCurrencyBalance;
 @property (nonatomic, assign) int userSecondaryCurrencyBalance;
-@property (nonatomic, retain) NSDate *userTempDate;
+@property (nonatomic, retain, readonly) NSString *userFacebookID;
 
 /*********************************************************************************
  DEPRECATED METHODS WARNING:
@@ -53,7 +52,7 @@
  
  Corrected methods are listed first. Use these methods instead.
  **********************************************************************************/
- 
+
 // Save Useritem to Applicasa DB
 - (void) saveWithBlock:(LiBlockAction)block;
 
@@ -82,11 +81,6 @@
 
 + (User *) getCurrentUser;
 
-#pragma mark - Profile Data Methods
-
-+ (LiSpendProfile) getCurrentSpendProfile;
-+ (LiUsageProfile) getCurrentUsageProfile;
-
 #pragma mark - End of Basic SDK
 
 
@@ -107,9 +101,11 @@
 + (void) logOutWithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;
 
 + (void) forgotPasswordForUsername:(NSString *)username withBlock:(LiBlockAction)block;
-<<<<<<< HEAD
 
-=======
->>>>>>> master
+#pragma mark - Profile Data Methods
+
++ (LiSpendProfile) getCurrentSpendProfile;
+
++ (LiUsageProfile) getCurrentUsageProfile;
 
 @end
