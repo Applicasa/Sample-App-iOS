@@ -8,7 +8,19 @@
 
 /* Begin PBXBuildFile section */
 		840E0E6E165CFA37000294BF /* LiKitIAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840E0E6D165CFA37000294BF /* LiKitIAP.framework */; };
+<<<<<<< HEAD
 		84116AC81683272D002797A3 /* Dynamic.m in Sources */ = {isa = PBXBuildFile; fileRef = 84116AC71683272D002797A3 /* Dynamic.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+=======
+		84116AE616888D6D002797A3 /* Dynamic.m in Sources */ = {isa = PBXBuildFile; fileRef = 84116AE516888D6D002797A3 /* Dynamic.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		84116AED16888F1C002797A3 /* profileRockfeller@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84116AE916888F1C002797A3 /* profileRockfeller@2x.png */; };
+		84116AEE16888F1C002797A3 /* profileTaxpayer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84116AEA16888F1C002797A3 /* profileTaxpayer@2x.png */; };
+		84116AEF16888F1C002797A3 /* profileTurist@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84116AEB16888F1C002797A3 /* profileTurist@2x.png */; };
+		84116AF016888F1C002797A3 /* profileZombie@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84116AEC16888F1C002797A3 /* profileZombie@2x.png */; };
+		84116AF516888F23002797A3 /* rankGeneral@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84116AF116888F23002797A3 /* rankGeneral@2x.png */; };
+		84116AF616888F23002797A3 /* rankHippie@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84116AF216888F23002797A3 /* rankHippie@2x.png */; };
+		84116AF716888F23002797A3 /* rankPrivate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84116AF316888F23002797A3 /* rankPrivate@2x.png */; };
+		84116AF816888F23002797A3 /* rankSergeant@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84116AF416888F23002797A3 /* rankSergeant@2x.png */; };
+>>>>>>> master
 		841DF0B3166E0C6D000465C4 /* NearbyFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841DF0B2166E0C6C000465C4 /* NearbyFriendsViewController.m */; };
 		841DF0B6166E17ED000465C4 /* FriendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 841DF0B5166E17ED000465C4 /* FriendTableViewCell.m */; };
 		841DF0B9166E2544000465C4 /* User+DisplayName.m in Sources */ = {isa = PBXBuildFile; fileRef = 841DF0B8166E2543000465C4 /* User+DisplayName.m */; };
@@ -115,8 +127,21 @@
 
 /* Begin PBXFileReference section */
 		840E0E6D165CFA37000294BF /* LiKitIAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiKitIAP.framework; path = ../ApplicasaFrameworks/LiKitIAP.framework; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		84116AC61683272D002797A3 /* Dynamic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dynamic.h; sourceTree = "<group>"; };
 		84116AC71683272D002797A3 /* Dynamic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dynamic.m; sourceTree = "<group>"; };
+=======
+		84116AE416888D6D002797A3 /* Dynamic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dynamic.h; sourceTree = "<group>"; };
+		84116AE516888D6D002797A3 /* Dynamic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dynamic.m; sourceTree = "<group>"; };
+		84116AE916888F1C002797A3 /* profileRockfeller@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profileRockfeller@2x.png"; sourceTree = "<group>"; };
+		84116AEA16888F1C002797A3 /* profileTaxpayer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profileTaxpayer@2x.png"; sourceTree = "<group>"; };
+		84116AEB16888F1C002797A3 /* profileTurist@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profileTurist@2x.png"; sourceTree = "<group>"; };
+		84116AEC16888F1C002797A3 /* profileZombie@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profileZombie@2x.png"; sourceTree = "<group>"; };
+		84116AF116888F23002797A3 /* rankGeneral@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rankGeneral@2x.png"; sourceTree = "<group>"; };
+		84116AF216888F23002797A3 /* rankHippie@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rankHippie@2x.png"; sourceTree = "<group>"; };
+		84116AF316888F23002797A3 /* rankPrivate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rankPrivate@2x.png"; sourceTree = "<group>"; };
+		84116AF416888F23002797A3 /* rankSergeant@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rankSergeant@2x.png"; sourceTree = "<group>"; };
+>>>>>>> master
 		841DF0B1166E0C6C000465C4 /* NearbyFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyFriendsViewController.h; sourceTree = "<group>"; };
 		841DF0B2166E0C6C000465C4 /* NearbyFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyFriendsViewController.m; sourceTree = "<group>"; };
 		841DF0B4166E17ED000465C4 /* FriendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTableViewCell.h; sourceTree = "<group>"; };
@@ -280,15 +305,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+<<<<<<< HEAD
 		84116AC51683272D002797A3 /* Dynamic */ = {
 			isa = PBXGroup;
 			children = (
 				84116AC61683272D002797A3 /* Dynamic.h */,
 				84116AC71683272D002797A3 /* Dynamic.m */,
+=======
+		84116AE316888D6C002797A3 /* Dynamic */ = {
+			isa = PBXGroup;
+			children = (
+				84116AE416888D6D002797A3 /* Dynamic.h */,
+				84116AE516888D6D002797A3 /* Dynamic.m */,
+>>>>>>> master
 			);
 			path = Dynamic;
 			sourceTree = "<group>";
 		};
+<<<<<<< HEAD
+=======
+		84116AE816888F0B002797A3 /* ProfileData Icons */ = {
+			isa = PBXGroup;
+			children = (
+				84116AF916888F29002797A3 /* Spend */,
+				84116AFA16888F33002797A3 /* Usage */,
+			);
+			name = "ProfileData Icons";
+			sourceTree = "<group>";
+		};
+		84116AF916888F29002797A3 /* Spend */ = {
+			isa = PBXGroup;
+			children = (
+				84116AE916888F1C002797A3 /* profileRockfeller@2x.png */,
+				84116AEA16888F1C002797A3 /* profileTaxpayer@2x.png */,
+				84116AEB16888F1C002797A3 /* profileTurist@2x.png */,
+				84116AEC16888F1C002797A3 /* profileZombie@2x.png */,
+			);
+			name = Spend;
+			sourceTree = "<group>";
+		};
+		84116AFA16888F33002797A3 /* Usage */ = {
+			isa = PBXGroup;
+			children = (
+				84116AF116888F23002797A3 /* rankGeneral@2x.png */,
+				84116AF216888F23002797A3 /* rankHippie@2x.png */,
+				84116AF316888F23002797A3 /* rankPrivate@2x.png */,
+				84116AF416888F23002797A3 /* rankSergeant@2x.png */,
+			);
+			name = Usage;
+			sourceTree = "<group>";
+		};
+>>>>>>> master
 		847D4A08165E2A9700BB524D /* AlertShower */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,7 +405,11 @@
 		C40997D7167632CF007E68C6 /* ApplicasaSDK */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				84116AC51683272D002797A3 /* Dynamic */,
+=======
+				84116AE316888D6C002797A3 /* Dynamic */,
+>>>>>>> master
 				C40997DB167632CF007E68C6 /* IAP */,
 				C40997E7167632CF007E68C6 /* LiManager */,
 				C40997F3167632CF007E68C6 /* Promo */,
@@ -514,6 +585,7 @@
 		C4514ACB163F0E4D0004CEA9 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				84116AE816888F0B002797A3 /* ProfileData Icons */,
 				847DF213166277FF0015A5F8 /* AppStart Promo */,
 				C4CB70EC165EDB6F00D4F8B2 /* splashScreens */,
 				C463C720165107B9003CAA31 /* Icon.png */,
@@ -787,6 +859,14 @@
 				847F4EBB16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png in Resources */,
 				841DF0BB166E26A9000465C4 /* avatar.png in Resources */,
 				C409980C167632CF007E68C6 /* Close.png in Resources */,
+				84116AED16888F1C002797A3 /* profileRockfeller@2x.png in Resources */,
+				84116AEE16888F1C002797A3 /* profileTaxpayer@2x.png in Resources */,
+				84116AEF16888F1C002797A3 /* profileTurist@2x.png in Resources */,
+				84116AF016888F1C002797A3 /* profileZombie@2x.png in Resources */,
+				84116AF516888F23002797A3 /* rankGeneral@2x.png in Resources */,
+				84116AF616888F23002797A3 /* rankHippie@2x.png in Resources */,
+				84116AF716888F23002797A3 /* rankPrivate@2x.png in Resources */,
+				84116AF816888F23002797A3 /* rankSergeant@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,7 +907,11 @@
 				C4099811167632CF007E68C6 /* LiObjPushNotification.m in Sources */,
 				C4099812167632CF007E68C6 /* User+Facebook.m in Sources */,
 				C4099813167632CF007E68C6 /* User.m in Sources */,
+<<<<<<< HEAD
 				84116AC81683272D002797A3 /* Dynamic.m in Sources */,
+=======
+				84116AE616888D6D002797A3 /* Dynamic.m in Sources */,
+>>>>>>> master
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -906,7 +990,8 @@
 		C4514AC8163F09B20004CEA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
@@ -921,7 +1006,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -929,7 +1015,8 @@
 		C4514AC9163F09B20004CEA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
@@ -944,7 +1031,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

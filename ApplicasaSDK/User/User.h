@@ -4,6 +4,7 @@
 // 12/20/2012
 //
 
+#import <LiKitPromotions/LiKitPromotionsConstants.h>
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>
 #import "LiBlocks.h"
@@ -81,6 +82,11 @@
 
 + (User *) getCurrentUser;
 
+#pragma mark - Profile Data Methods
+
++ (LiSpendProfile) getCurrentSpendProfile;
++ (LiUsageProfile) getCurrentUsageProfile;
+
 #pragma mark - End of Basic SDK
 
 
@@ -101,6 +107,9 @@
 + (void) logOutWithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;
 
 + (void) forgotPasswordForUsername:(NSString *)username withBlock:(LiBlockAction)block;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 
 @end

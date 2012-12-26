@@ -44,7 +44,7 @@
 + (void) setDesireAccuracy:(CLLocationAccuracy)desireAccuracy;
 
 
-+ (void) clearContentOfObject:(NSString *)object WithFilter:(LiFilters *)filter Error:(NSError **)error;
++ (BOOL) clearContentOfObject:(NSString *)object WithFilter:(LiFilters *)filter Error:(NSError **)error;
 
 + (User *) getCurrentUser;
 + (NSDateFormatter *) liSqliteDateFormatter;
@@ -57,6 +57,8 @@
 #pragma mark - Caching Methods
 
 + (void) deleteAllCachedImages;
+
++ (void) resetDevice;
 
 
 @end

@@ -12,6 +12,23 @@ typedef enum {
     LEVEL_RESULT_EXIT
 }LEVEL_RESULT;
 
+
+typedef enum {
+    LiUsageProfileNone = 0,
+    LiUsageProfileCivilan,
+    LiUsageProfilePrivate,
+    LiUsageProfileSerganet,
+    LiUsageProfileGeneral
+} LiUsageProfile;
+
+typedef enum{
+    LiSpendProfileNone = 0,
+    LiSpendProfileZombie,
+    LiSpendProfileTourist,
+    LiSpendProfileTaxPayer,
+    LiSpendProfileRockefeller
+} LiSpendProfile;
+
 typedef enum {
     LiPromotionResultLinkOpened = 1,
     LiPromotionResultStringInfo,

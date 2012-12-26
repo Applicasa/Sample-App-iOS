@@ -68,7 +68,8 @@ typedef enum {
 
 typedef enum AMAZON_FILE_TYPES{
     Image = 1,
-    TEXT
+    Text,
+    Pdf
 }AMAZON_FILE_TYPES;
 
 typedef enum OPERATORS{
