@@ -11,14 +11,16 @@
 #import "IAP.h"
 #import "VirtualCurrency.h"
 #import "VirtualGood.h"
-#import "StoreViewController.h"
+#import "LiSession.h"
 #import "User+Facebook.h"
 #import <FacebookSDK/FBSession.h>
 #import "MainViewController.h"
+#import "LiObjPushNotification.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     // setup Lumberjack logging
     [DDLog addLogger:[DDASLLogger sharedInstance]];
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
@@ -28,8 +30,17 @@
     return YES;
 }
 
+- (void) applicationDidEnterBackground:(UIApplication *)application{
+    [LiSession sessionPause];
+}
+
+- (void) applicationWillEnterForeground:(UIApplication *)application{
+    [LiSession sessionResume];
+}
+
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    [LiSession sessionEnd];
     // Logout users if they've logged in. Not doing anything else here cos we don't have special processing
     // needs in the sample app.
     BOOL userIsRegistered = [[User getCurrentUser] userIsRegistered];
@@ -80,6 +91,7 @@
     // Lets us know that IAP has loaded
     // Provides arrays of virtual goods & currencies that can be used immediately
     [self refreshViewControllers];
+    [LiSession sessionStart];
     
 #ifdef DEBUG
     // Just for DEBUG purposes, let's see our virtual currencies and items to make
@@ -115,7 +127,10 @@
 }
 
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    
+    LiObjPushNotification *pushInstance = [LiObjPushNotification pushWithDictionary:userInfo];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Egg says" message:pushInstance.message delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
+    [alert show];
+    NSLog(@"tag %@",pushInstance.tag);
 }
 
 #pragma mark -

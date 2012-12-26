@@ -45,11 +45,11 @@
 }
 
 -(id) initWithDictionary:(NSDictionary *)dictionary{
-    NSDictionary *theTag = [dictionary objectForKey:@"tag"];
-    if ([dictionary objectForKey:@"aps"]){
-        dictionary=[dictionary objectForKey:@"aps"];
-    }
-    return [self initWithMessage:[dictionary objectForKey:@"alert"] sound:[dictionary objectForKey:@"sound"] badge:[[dictionary objectForKey:@"badge"] intValue] andTag:theTag];
+    NSMutableDictionary *mutableDic = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+    NSDictionary *apsDic = [mutableDic objectForKey:@"aps"];
+    [mutableDic removeObjectForKey:@"aps"];
+    
+    return [self initWithMessage:[apsDic objectForKey:@"alert"] sound:[apsDic objectForKey:@"sound"] badge:[[apsDic objectForKey:@"badge"] intValue] andTag:mutableDic];
 }
 
 + (LiObjPushNotification *) pushWithDictionary:(NSDictionary *)dictionary{
