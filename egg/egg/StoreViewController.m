@@ -73,7 +73,7 @@ static UIImage *virtualGoodImage = nil;
     if (isDisplayingVirtualGoods) {
         [IAP getVirtualGoodsOfType:All withBlock:block];
     } else if (isDisplayingUserInventory) {
-        [IAP getVirtualGoodsOfType:NonInventoryItems withBlock:block];
+        [IAP getVirtualGoodsOfType:InventoryItems withBlock:block];
     } else if (isDisplayingVirtualCurrency) {
         [IAP getVirtualCurrenciesWithBlock:block];
     }
