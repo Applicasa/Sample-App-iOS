@@ -13,9 +13,9 @@
 }
 
 @property NSInteger responseType;
-@property (nonatomic,retain) NSString *responseMessage;
-@property (nonatomic,retain) NSDictionary *responseData;
-@property (nonatomic,retain) NSDate *responseTime;
+@property (nonatomic,strong) NSString *responseMessage;
+@property (nonatomic,strong) NSDictionary *responseData;
+@property (nonatomic,strong) NSDate *responseTime;
 
 + (LiResponse *) responseWithDictionary:(NSDictionary *)dictionary;
 + (LiResponse *) responseWithResponseType:(NSInteger)_responseType ResponseMessage:(NSString *)_responseMessage ResponseData:(NSDictionary *)_responseData;

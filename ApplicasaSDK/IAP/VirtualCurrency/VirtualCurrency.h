@@ -1,7 +1,7 @@
 //
 // VirtualCurrency.h
 // Created by Applicasa 
-// 12/20/2012
+// 07/01/2013
 //
 
 #import <Foundation/Foundation.h>
@@ -25,23 +25,23 @@
 @interface VirtualCurrency : LiObject <LiCoreRequestDelegate,LiKitIAPDelegate> {
 }
 
-@property (nonatomic, retain) NSString *virtualCurrencyID;
-@property (nonatomic, retain) NSString *virtualCurrencyTitle;
-@property (nonatomic, retain) NSString *virtualCurrencyAppleIdentifier;
-@property (nonatomic, retain) NSString *virtualCurrencyGoogleIdentifier;
-@property (nonatomic, retain) NSString *virtualCurrencyDescription;
+@property (nonatomic, strong) NSString *virtualCurrencyID;
+@property (nonatomic, strong) NSString *virtualCurrencyTitle;
+@property (nonatomic, strong) NSString *virtualCurrencyAppleIdentifier;
+@property (nonatomic, strong) NSString *virtualCurrencyGoogleIdentifier;
+@property (nonatomic, strong) NSString *virtualCurrencyDescription;
 @property (nonatomic, assign) float virtualCurrencyPrice;
 @property (nonatomic, assign) int virtualCurrencyCredit;
 @property (nonatomic, assign) int virtualCurrencyKind;
-@property (nonatomic, retain) NSURL *virtualCurrencyImageA;
-@property (nonatomic, retain) NSURL *virtualCurrencyImageB;
-@property (nonatomic, retain) NSURL *virtualCurrencyImageC;
+@property (nonatomic, strong) NSURL *virtualCurrencyImageA;
+@property (nonatomic, strong) NSURL *virtualCurrencyImageB;
+@property (nonatomic, strong) NSURL *virtualCurrencyImageC;
 @property (nonatomic, assign) BOOL virtualCurrencyIsDeal;
 @property (nonatomic, assign) BOOL virtualCurrencyInAppleStore;
 @property (nonatomic, assign) BOOL virtualCurrencyInGoogleStore;
-@property (nonatomic, retain, readonly) NSDate *virtualCurrencyLastUpdate;
-@property (nonatomic, retain) SKProduct *product;
-@property (nonatomic, retain) NSDecimalNumber *itunesPrice;
+@property (nonatomic, strong, readonly) NSDate *virtualCurrencyLastUpdate;
+@property (nonatomic, strong) SKProduct *product;
+@property (nonatomic, strong) NSDecimalNumber *itunesPrice;
 
 #pragma mark - End of Basic SDK
 

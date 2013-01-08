@@ -17,17 +17,11 @@
 @synthesize pushID;
 @synthesize tag;
 
--(void)dealloc{
-    [message release];
-    [sound release];
-    [tag release];
-    [super dealloc];
-}
 
 #pragma mark - init Method
 
 + (LiObjPushNotification *)pushWithMessage:(NSString *)theMessage sound:(NSString *)theSound badge:(NSInteger)theBadge andTag:(NSDictionary *)theTag{
-    return [[[LiObjPushNotification alloc]initWithMessage:theMessage sound:theSound badge:theBadge andTag:theTag]autorelease];
+    return [[LiObjPushNotification alloc]initWithMessage:theMessage sound:theSound badge:theBadge andTag:theTag];
 }
 
 -(id)initWithMessage:(NSString *)theMessage sound:(NSString *)theSound badge:(NSInteger)theBadge andTag:(NSDictionary *)theTag{
@@ -53,11 +47,11 @@
 }
 
 + (LiObjPushNotification *) pushWithDictionary:(NSDictionary *)dictionary{
-    return [[[self alloc] initWithDictionary:dictionary] autorelease];
+    return [[self alloc] initWithDictionary:dictionary];
 }
 
 - (void) sendPushToUsers:(NSArray *)users withBlock:(SendPushFinished)block{
-    pushBlock = Block_copy(block);
+    pushBlock = (__bridge SendPushFinished)CFBridgingRetain(block);
     [LiPushManager sendPush:self UsersArray:users];
 }
 
@@ -72,7 +66,7 @@
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
     
     pushBlock(error,responseMessage,self);
-    Block_release(pushBlock);
+    pushBlock = NULL;
     
 }
 

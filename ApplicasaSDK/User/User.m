@@ -1,7 +1,7 @@
 //
 // User.m
-// Created by Applicasa
-// 12/26/2012
+// Created by Applicasa 
+// 07/01/2013
 //
 
 #import "User.h"
@@ -21,13 +21,14 @@
 #define KEY_userLocation				@"UserLocation"
 #define KEY_userLocationLong				@"UserLocationLong"
 #define KEY_userLocationLat				@"UserLocationLat"
-#define KEY_userIsRegistered				@"UserIsRegistered"
 #define KEY_userIsRegisteredFacebook				@"UserIsRegisteredFacebook"
+#define KEY_userIsRegistered				@"UserIsRegistered"
 #define KEY_userLastUpdate				@"UserLastUpdate"
+#define KEY_userFacebookID				@"UserFacebookID"
 #define KEY_userImage				@"UserImage"
 #define KEY_userMainCurrencyBalance				@"UserMainCurrencyBalance"
 #define KEY_userSecondaryCurrencyBalance				@"UserSecondaryCurrencyBalance"
-#define KEY_userFacebookID				@"UserFacebookID"
+#define KEY_userTempDate				@"UserTempDate"
 
 @interface User (privateMethods)
 
@@ -50,13 +51,14 @@
 @synthesize userLastLogin;
 @synthesize userRegisterDate;
 @synthesize userLocation;
-@synthesize userIsRegistered;
 @synthesize userIsRegisteredFacebook;
+@synthesize userIsRegistered;
 @synthesize userLastUpdate;
+@synthesize userFacebookID;
 @synthesize userImage;
 @synthesize userMainCurrencyBalance;
 @synthesize userSecondaryCurrencyBalance;
-@synthesize userFacebookID;
+@synthesize userTempDate;
 
 enum UserIndexes {
 	UserIDIndex = 0,
@@ -70,15 +72,15 @@ enum UserIndexes {
 	UserRegisterDateIndex,
 	UserLocationLatIndex,
 	UserLocationLongIndex,
-	UserIsRegisteredIndex,
 	UserIsRegisteredFacebookIndex,
+	UserIsRegisteredIndex,
 	UserLastUpdateIndex,
+	UserFacebookIDIndex,
 	UserImageIndex,
 	UserMainCurrencyBalanceIndex,
 	UserSecondaryCurrencyBalanceIndex,
-	UserFacebookIDIndex,
-};
-#define NUM_OF_USER_FIELDS 18
+	UserTempDateIndex,};
+#define NUM_OF_USER_FIELDS 19
 
 
 
@@ -87,10 +89,10 @@ enum UserIndexes {
 - (void) saveWithBlock:(LiBlockAction)block{
 	LiObjRequest *request = [LiObjRequest requestWithAction:Add ClassName:kClassName];
 	request.shouldWorkOffline = kShouldUserWorkOffline;
-    
-	[request setBlock:block];
+
+	[request setBlock:(__bridge void *)(block)];
 	[self addValuesToRequest:&request];
-    
+
 	if ([self isServerId:self.userID]){
 		request.action = Update;
 		[request addValue:userID forKey:KEY_userID];
@@ -99,9 +101,9 @@ enum UserIndexes {
 			self.increaseDictionary = nil;
 		}
 	} 	else {
-		[self respondToLiActionCallBack:1023 ResponseMessage:@"Attempt to add User instance" ItemID:@"0" Action:Add Block:block];
+		[self respondToLiActionCallBack:1023 ResponseMessage:@"Attempt to add User instance" ItemID:@"0" Action:Add Block:(__bridge void *)(block)];
 		return;
-	}
+	}	
 	request.delegate = self;
 	[request startSync:NO];
 }
@@ -122,8 +124,12 @@ enum UserIndexes {
 #pragma mark - Increase
 
 - (void) increaseField:(LiFields)field byValue:(NSNumber *)value{
+	if (field == UserMainCurrencyBalance || field == userSecondaryCurrencyBalance){
+		NSLog(@"Attempt to increase user's balance - please use IAP class methods");
+		return;
+	}
     if (!self.increaseDictionary)
-        self.increaseDictionary = [[[NSMutableDictionary alloc] init] autorelease];
+        self.increaseDictionary = [[NSMutableDictionary alloc] init];
     [self.increaseDictionary setValue:value forKey:[[self class] getFieldName:field]];
     [self updateField:field withValue:value];
 }
@@ -132,7 +138,7 @@ enum UserIndexes {
 
 + (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetUserFinished)block{
     __block User *item = [User instance];
-    
+
     LiFilters *filters = [LiBasicFilters filterByField:UserID Operator:Equal Value:idString];
     LiQuery *query = [[LiQuery alloc]init];
     [query setFilters:filters];
@@ -142,8 +148,7 @@ enum UserIndexes {
         if (array.count)
             item = [array objectAtIndex:0];
         block(error,item);
-    }];
-    [query release];
+    }];   
 }
 
 
@@ -152,9 +157,9 @@ enum UserIndexes {
 + (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetUserArrayFinished)block{
     User *item = [User instance];
     
-    query = [self setFieldsNameToQuery:query];
+	query = [self setFieldsNameToQuery:query];
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-    [request setBlock:block];
+	[request setBlock:(__bridge void *)(block)];
     [request addIntValue:queryKind forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
@@ -168,9 +173,9 @@ enum UserIndexes {
 
 + (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetUserArrayFinished)block{
     User *item = [User instance];
-    
+
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-	[request setBlock:block];
+	[request setBlock:(__bridge void *)(block)];
     [request addValue:rawQuery forKey:@"filters"];
     [request setShouldWorkOffline:YES];
     [request startSync:YES];
@@ -181,30 +186,30 @@ enum UserIndexes {
 #pragma mark - Upload File
 
 - (void) uploadFile:(NSData *)data toField:(LiFields)field withFileType:(AMAZON_FILE_TYPES)fileType extension:(NSString *)ext andBlock:(LiBlockAction)block{
-    
+
     LiObjRequest *request = [LiObjRequest requestWithAction:UploadFile ClassName:kClassName];
     request.delegate = self;
-    
+
 	[request addValue:userID forKey:KEY_userID];
     [request addValue:ext forKey:@"ext"];
     [request addValue:data forKey:@"data"];
     [request addIntValue:fileType forKey:@"fileType"];
 	[request addIntValue:field forKey:@"fileField"];
     [request addValue:[[self class] getFieldName:field] forKey:@"field"];
-	[request setBlock:block];
+	[request setBlock:(__bridge void *)(block)];
     [request startSync:NO];
 }
 
 /*
- ####################################################################################################
- ####################################################################################################
- ####################################################################################################
- ####################################################################################################
- ####################################################################################################
- ####################################################################################################
- ####################################################################################################
- ####################################################################################################
- */
+####################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
+####################################################################################################
+*/
 #pragma mark - Applicasa Delegate Methods
 
 
@@ -215,10 +220,10 @@ enum UserIndexes {
     NSDictionary *responseData = request.response.responseData;
     
     switch (action) {
-        case UploadFile:{
+         case UploadFile:{
             LiFields fileField = [[request.requestParameters objectForKey:@"fileField"] intValue];
             [self setField:fileField toValue:[responseData objectForKey:kResult]];
-        }
+        }        
         case Update:{
             NSString *itemID = [responseData objectForKey:KEY_userID];
             if (itemID)
@@ -228,11 +233,11 @@ enum UserIndexes {
 			[request releaseBlock];
         }
             break;
-            
-        case GetArray:{
+
+        case GetArray:{            
 			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
-            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[User getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
+			[self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[User getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer] Block:[request getBlock]];
 			[request releaseBlock];
 			
         }
@@ -246,7 +251,7 @@ enum UserIndexes {
 + (id) instanceWithID:(NSString *)ID{
     User *instace = [[User alloc] init];
     instace.userID = ID;
-    return [instace autorelease];
+    return instace;
 }
 
 #pragma mark - Responders
@@ -254,8 +259,8 @@ enum UserIndexes {
 - (void) respondToGetArray_ResponseType:(NSInteger)responseType ResponseMessage:(NSString *)responseMessage Array:(NSArray *)array Block:(void *)block{
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
-	
-    GetUserArrayFinished _block = (GetUserArrayFinished)block;
+
+    GetUserArrayFinished _block = (__bridge GetUserArrayFinished)block;
     _block(error,array);
 }
 
@@ -265,147 +270,130 @@ enum UserIndexes {
 
 - (void) setField:(LiFields)field toValue:(id)value{
 	switch (field) {
-        case UserID:
-            self.userID = value;
-            break;
-        case UserFirstName:
-            self.userFirstName = value;
-            break;
-        case UserLastName:
-            self.userLastName = value;
-            break;
-        case UserEmail:
-            self.userEmail = value;
-            break;
-        case UserPhone:
-            self.userPhone = value;
-            break;
-        case UserLocation:
-            self.userLocation = value;
-            break;
-        case UserImage:
-            self.userImage = value;
-            break;
-        case UserMainCurrencyBalance:
-            self.userMainCurrencyBalance = [value intValue];
-            break;
-        case UserSecondaryCurrencyBalance:
-            self.userSecondaryCurrencyBalance = [value intValue];
-            break;
-        default:
-            break;
+	case UserID:
+		self.userID = value;
+		break;
+	case UserFirstName:
+		self.userFirstName = value;
+		break;
+	case UserLastName:
+		self.userLastName = value;
+		break;
+	case UserEmail:
+		self.userEmail = value;
+		break;
+	case UserPhone:
+		self.userPhone = value;
+		break;
+	case UserLocation:
+		self.userLocation = value;
+		break;
+	case UserImage:
+		self.userImage = value;
+		break;
+	case UserMainCurrencyBalance:
+		self.userMainCurrencyBalance = [value intValue];
+		break;
+	case UserSecondaryCurrencyBalance:
+		self.userSecondaryCurrencyBalance = [value intValue];
+		break;
+	case UserTempDate:
+		self.userTempDate = value;
+		break;
+	default:
+	break;
 	}
-}
-
-
-# pragma mark - Memory Management
-
-- (void) dealloc
-{
-	[userID release];
-	[userName release];
-	[userFirstName release];
-	[userLastName release];
-	[userEmail release];
-	[userPhone release];
-	[userPassword release];
-	[userLastLogin release];
-	[userRegisterDate release];
-	[userLocation release];
-	[userLastUpdate release];
-	[userImage release];
-	[userFacebookID release];
-    
-    
-	[super dealloc];
 }
 
 
 # pragma mark - Initialization
 
 /*
- *  init with defaults values
- */
+*  init with defaults values
+*/
 - (id) init {
 	if (self = [super init]) {
-        
+
 		self.userID				= @"0";
-		userName				= [@"" retain];
+		userName				= @"";
 		self.userFirstName				= @"";
 		self.userLastName				= @"";
 		self.userEmail				= @"";
 		self.userPhone				= @"";
-		userPassword				= [@"" retain];
-		userLastLogin				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
-		userRegisterDate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
-		self.userLocation				=  [[[CLLocation alloc] initWithLatitude:0 longitude:0] autorelease];
-		userIsRegistered				= NO;
+		userPassword				= @"";
+		userLastLogin				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
+		userRegisterDate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
+		self.userLocation				=  [[CLLocation alloc] initWithLatitude:0 longitude:0];
 		userIsRegisteredFacebook				= NO;
-		userLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		userIsRegistered				= NO;
+		userLastUpdate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
+		userFacebookID				= @"";
 		self.userImage				= [NSURL URLWithString:@""];
 		self.userMainCurrencyBalance				= 0;
 		self.userSecondaryCurrencyBalance				= 0;
-		userFacebookID				= [@"" retain];
+		self.userTempDate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 	}
 	return self;
 }
 
 - (id) initWithDictionary:(NSDictionary *)item Header:(NSString *)header{
 	if (self = [self init]) {
-        
+
 		self.userID               = [item objectForKey:KeyWithHeader(KEY_userID, header)];
-		userName               = [[item objectForKey:KeyWithHeader(KEY_userName, header)] retain];
+		userName               = [item objectForKey:KeyWithHeader(KEY_userName, header)];
 		self.userFirstName               = [item objectForKey:KeyWithHeader(KEY_userFirstName, header)];
 		self.userLastName               = [item objectForKey:KeyWithHeader(KEY_userLastName, header)];
 		self.userEmail               = [item objectForKey:KeyWithHeader(KEY_userEmail, header)];
 		self.userPhone               = [item objectForKey:KeyWithHeader(KEY_userPhone, header)];
-		userPassword               = [[item objectForKey:KeyWithHeader(KEY_userPassword, header)] retain];
-		userLastLogin               = [[item objectForKey:KeyWithHeader(KEY_userLastLogin, header)] retain];
-		userRegisterDate               = [[item objectForKey:KeyWithHeader(KEY_userRegisterDate, header)] retain];
-		self.userLocation               = [[[CLLocation alloc] initWithLatitude:[[item objectForKey:KeyWithHeader(KEY_userLocationLat, header)] floatValue] longitude:[[item objectForKey:KeyWithHeader(KEY_userLocationLong, header)] floatValue]] autorelease];
-		userIsRegistered               = [[item objectForKey:KeyWithHeader(KEY_userIsRegistered, header)] boolValue];
+		userPassword               = [item objectForKey:KeyWithHeader(KEY_userPassword, header)];
+		userLastLogin               = [item objectForKey:KeyWithHeader(KEY_userLastLogin, header)];
+		userRegisterDate               = [item objectForKey:KeyWithHeader(KEY_userRegisterDate, header)];
+		self.userLocation               = [[CLLocation alloc] initWithLatitude:[[item objectForKey:KeyWithHeader(KEY_userLocationLat, header)] floatValue] longitude:[[item objectForKey:KeyWithHeader(KEY_userLocationLong, header)] floatValue]];
 		userIsRegisteredFacebook               = [[item objectForKey:KeyWithHeader(KEY_userIsRegisteredFacebook, header)] boolValue];
-		userLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_userLastUpdate, header)] retain];
+		userIsRegistered               = [[item objectForKey:KeyWithHeader(KEY_userIsRegistered, header)] boolValue];
+		userLastUpdate               = [item objectForKey:KeyWithHeader(KEY_userLastUpdate, header)];
+		userFacebookID               = [item objectForKey:KeyWithHeader(KEY_userFacebookID, header)];
 		self.userImage               = [NSURL URLWithString:[item objectForKey:KeyWithHeader(KEY_userImage, header)]];
 		self.userMainCurrencyBalance               = [[item objectForKey:KeyWithHeader(KEY_userMainCurrencyBalance, header)] integerValue];
 		self.userSecondaryCurrencyBalance               = [[item objectForKey:KeyWithHeader(KEY_userSecondaryCurrencyBalance, header)] integerValue];
-		userFacebookID               = [[item objectForKey:KeyWithHeader(KEY_userFacebookID, header)] retain];
-        
+		self.userTempDate               = [item objectForKey:KeyWithHeader(KEY_userTempDate, header)];
+
 	}
 	return self;
 }
 
 /*
- *  init values from Object
- */
+*  init values from Object
+*/
 - (id) initWithObject:(User *)object {
 	if (self = [super init]) {
-        
+
 		self.userID               = object.userID;
-		userName               = [object.userName retain];
+		userName               = object.userName;
 		self.userFirstName               = object.userFirstName;
 		self.userLastName               = object.userLastName;
 		self.userEmail               = object.userEmail;
 		self.userPhone               = object.userPhone;
-		userPassword               = [object.userPassword retain];
-		userLastLogin               = [object.userLastLogin retain];
-		userRegisterDate               = [object.userRegisterDate retain];
+		userPassword               = object.userPassword;
+		userLastLogin               = object.userLastLogin;
+		userRegisterDate               = object.userRegisterDate;
 		self.userLocation               = object.userLocation;
-		userIsRegistered               = object.userIsRegistered;
 		userIsRegisteredFacebook               = object.userIsRegisteredFacebook;
-		userLastUpdate               = [object.userLastUpdate retain];
+		userIsRegistered               = object.userIsRegistered;
+		userLastUpdate               = object.userLastUpdate;
+		userFacebookID               = object.userFacebookID;
 		self.userImage               = object.userImage;
 		self.userMainCurrencyBalance               = object.userMainCurrencyBalance;
 		self.userSecondaryCurrencyBalance               = object.userSecondaryCurrencyBalance;
-		userFacebookID               = [object.userFacebookID retain];
-        
+		self.userTempDate               = object.userTempDate;
+
 	}
 	return self;
 }
 
 - (NSDictionary *) dictionaryRepresentation{
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc]init];
-    
+
 	[dictionary addValue:userID forKey:KEY_userID];
 	[dictionary addValue:userName forKey:KEY_userName];
 	[dictionary addValue:userFirstName forKey:KEY_userFirstName];
@@ -416,14 +404,15 @@ enum UserIndexes {
 	[dictionary addDateValue:userLastLogin forKey:KEY_userLastLogin];
 	[dictionary addDateValue:userRegisterDate forKey:KEY_userRegisterDate];
 	[dictionary addGeoValue:userLocation forKey:KEY_userLocation];
-	[dictionary addBoolValue:userIsRegistered forKey:KEY_userIsRegistered];
 	[dictionary addBoolValue:userIsRegisteredFacebook forKey:KEY_userIsRegisteredFacebook];
+	[dictionary addBoolValue:userIsRegistered forKey:KEY_userIsRegistered];
 	[dictionary addDateValue:userLastUpdate forKey:KEY_userLastUpdate];
+	[dictionary addValue:userFacebookID forKey:KEY_userFacebookID];
 	[dictionary addValue:userImage.absoluteString forKey:KEY_userImage];	[dictionary addIntValue:userMainCurrencyBalance forKey:KEY_userMainCurrencyBalance];
 	[dictionary addIntValue:userSecondaryCurrencyBalance forKey:KEY_userSecondaryCurrencyBalance];
-	[dictionary addValue:userFacebookID forKey:KEY_userFacebookID];
-    
-	return [dictionary autorelease];
+	[dictionary addDateValue:userTempDate forKey:KEY_userTempDate];
+
+	return dictionary;
 }
 
 + (NSDictionary *) getFields{
@@ -440,22 +429,23 @@ enum UserIndexes {
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userRegisterDate];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_userLocationLong];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_userLocationLat];
-	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userIsRegistered];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userIsRegisteredFacebook];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userIsRegistered];
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userLastUpdate];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userFacebookID];
 	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userImage];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userMainCurrencyBalance];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userSecondaryCurrencyBalance];
-	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userFacebookID];
+	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userTempDate];
 	
-	return [fieldsDic autorelease];
+	return fieldsDic;
 }
 
 + (NSDictionary *) getForeignKeys{
 	NSMutableDictionary *foreignKeysDic = [[NSMutableDictionary alloc] init];
-    
+
 	
-	return [foreignKeysDic autorelease];
+	return foreignKeysDic;
 }
 
 + (NSString *) getClassName{
@@ -469,63 +459,67 @@ enum UserIndexes {
 		case User_None:
 			fieldName = @"pos";
 			break;
-            
+	
 		case UserID:
 			fieldName = KEY_userID;
 			break;
-            
+
 		case UserName:
 			fieldName = KEY_userName;
 			break;
-            
+
 		case UserFirstName:
 			fieldName = KEY_userFirstName;
 			break;
-            
+
 		case UserLastName:
 			fieldName = KEY_userLastName;
 			break;
-            
+
 		case UserEmail:
 			fieldName = KEY_userEmail;
 			break;
-            
+
 		case UserPhone:
 			fieldName = KEY_userPhone;
 			break;
-            
+
 		case UserLastLogin:
 			fieldName = KEY_userLastLogin;
 			break;
-            
+
 		case UserRegisterDate:
 			fieldName = KEY_userRegisterDate;
 			break;
-            
-		case UserIsRegistered:
-			fieldName = KEY_userIsRegistered;
-			break;
-            
+
 		case UserIsRegisteredFacebook:
 			fieldName = KEY_userIsRegisteredFacebook;
 			break;
-            
+
+		case UserIsRegistered:
+			fieldName = KEY_userIsRegistered;
+			break;
+
 		case UserLastUpdate:
 			fieldName = KEY_userLastUpdate;
 			break;
-            
+
 		case UserImage:
 			fieldName = KEY_userImage;
 			break;
-            
+
 		case UserMainCurrencyBalance:
 			fieldName = KEY_userMainCurrencyBalance;
 			break;
-            
+
 		case UserSecondaryCurrencyBalance:
 			fieldName = KEY_userSecondaryCurrencyBalance;
 			break;
-            
+
+		case UserTempDate:
+			fieldName = KEY_userTempDate;
+			break;
+
 		default:
 			NSLog(@"Wrong LiFields numerator for %@ Class",kClassName);
 			fieldName = nil;
@@ -542,11 +536,11 @@ enum UserIndexes {
 		case User_None:
 			fieldName = @"pos";
 			break;
-            
+	
 		case UserLocation:
 			fieldName = KEY_userLocation;
 			break;
-            
+
 		default:
 			NSLog(@"Wrong Geo LiFields numerator for %@ Class",kClassName);
 			fieldName = nil;
@@ -566,35 +560,37 @@ enum UserIndexes {
 	[*request addValue:userImage.absoluteString forKey:KEY_userImage];
 	[*request addIntValue:userMainCurrencyBalance forKey:KEY_userMainCurrencyBalance];
 	[*request addIntValue:userSecondaryCurrencyBalance forKey:KEY_userSecondaryCurrencyBalance];
+	[*request addDateValue:userTempDate forKey:KEY_userTempDate];
 }
 
 
 - (id) initWithStatement:(sqlite3_stmt *)stmt Array:(int **)array IsFK:(BOOL)isFK{
 	if (self = [super init]){
-        
-        self.userID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserIDIndex])];
-        userName = [[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserNameIndex])] retain];
-        self.userFirstName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserFirstNameIndex])];
-        self.userLastName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastNameIndex])];
-        self.userEmail = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserEmailIndex])];
-        self.userPhone = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserPhoneIndex])];
-        userPassword = [[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserPasswordIndex])] retain];
-        userLastLogin = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastLoginIndex])]] retain];
-        userRegisterDate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserRegisterDateIndex])]] retain];
-        self.userLocation =  [[[CLLocation alloc] initWithLatitude:sqlite3_column_double(stmt, array[0][UserLocationLatIndex]) longitude:sqlite3_column_double(stmt, array[0][UserLocationLongIndex])] autorelease];
-        userIsRegistered = sqlite3_column_int(stmt, array[0][UserIsRegisteredIndex]);
-        userIsRegisteredFacebook = sqlite3_column_int(stmt, array[0][UserIsRegisteredFacebookIndex]);
-        userLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastUpdateIndex])]] retain];
-        self.userImage = [NSURL URLWithString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserImageIndex])]];
-        self.userMainCurrencyBalance = sqlite3_column_int(stmt, array[0][UserMainCurrencyBalanceIndex]);
-        self.userSecondaryCurrencyBalance = sqlite3_column_int(stmt, array[0][UserSecondaryCurrencyBalanceIndex]);
-        userFacebookID = [[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserFacebookIDIndex])] retain];
+	
+			self.userID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserIDIndex])];
+			userName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserNameIndex])];
+			self.userFirstName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserFirstNameIndex])];
+			self.userLastName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastNameIndex])];
+			self.userEmail = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserEmailIndex])];
+			self.userPhone = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserPhoneIndex])];
+			userPassword = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserPasswordIndex])];
+			userLastLogin = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastLoginIndex])]];
+			userRegisterDate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserRegisterDateIndex])]];
+			self.userLocation =  [[CLLocation alloc] initWithLatitude:sqlite3_column_double(stmt, array[0][UserLocationLatIndex]) longitude:sqlite3_column_double(stmt, array[0][UserLocationLongIndex])];
+			userIsRegisteredFacebook = sqlite3_column_int(stmt, array[0][UserIsRegisteredFacebookIndex]);
+			userIsRegistered = sqlite3_column_int(stmt, array[0][UserIsRegisteredIndex]);
+			userLastUpdate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastUpdateIndex])]];
+			userFacebookID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserFacebookIDIndex])];
+			self.userImage = [NSURL URLWithString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserImageIndex])]];
+			self.userMainCurrencyBalance = sqlite3_column_int(stmt, array[0][UserMainCurrencyBalanceIndex]);
+			self.userSecondaryCurrencyBalance = sqlite3_column_int(stmt, array[0][UserSecondaryCurrencyBalanceIndex]);
+			self.userTempDate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserTempDateIndex])]];
 		
-    }
+		}
 	return self;
 }
 
-+ (NSArray *) getArrayFromStatement:(sqlite3_stmt *)stmt IDsList:(NSArray *)idsList{
++ (NSArray *) getArrayFromStatement:(sqlite3_stmt *)stmt IDsList:(NSArray *)idsList resultFromServer:(BOOL)resultFromServer{
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	NSMutableArray *columnsArray = [[NSMutableArray alloc] init];
@@ -606,7 +602,7 @@ enum UserIndexes {
 	
 	int **indexes = (int **)malloc(1*sizeof(int *));
 	indexes[0] = (int *)malloc(NUM_OF_USER_FIELDS*sizeof(int));
-    
+
 	indexes[0][UserIDIndex] = [columnsArray indexOfObject:KEY_userID];
 	indexes[0][UserNameIndex] = [columnsArray indexOfObject:KEY_userName];
 	indexes[0][UserFirstNameIndex] = [columnsArray indexOfObject:KEY_userFirstName];
@@ -618,37 +614,35 @@ enum UserIndexes {
 	indexes[0][UserRegisterDateIndex] = [columnsArray indexOfObject:KEY_userRegisterDate];
 	indexes[0][UserLocationLatIndex] = [columnsArray indexOfObject:KEY_userLocationLat];
 	indexes[0][UserLocationLongIndex] = [columnsArray indexOfObject:KEY_userLocationLong];
-	indexes[0][UserIsRegisteredIndex] = [columnsArray indexOfObject:KEY_userIsRegistered];
 	indexes[0][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KEY_userIsRegisteredFacebook];
+	indexes[0][UserIsRegisteredIndex] = [columnsArray indexOfObject:KEY_userIsRegistered];
 	indexes[0][UserLastUpdateIndex] = [columnsArray indexOfObject:KEY_userLastUpdate];
+	indexes[0][UserFacebookIDIndex] = [columnsArray indexOfObject:KEY_userFacebookID];
 	indexes[0][UserImageIndex] = [columnsArray indexOfObject:KEY_userImage];
 	indexes[0][UserMainCurrencyBalanceIndex] = [columnsArray indexOfObject:KEY_userMainCurrencyBalance];
 	indexes[0][UserSecondaryCurrencyBalanceIndex] = [columnsArray indexOfObject:KEY_userSecondaryCurrencyBalance];
-	indexes[0][UserFacebookIDIndex] = [columnsArray indexOfObject:KEY_userFacebookID];
-    
-	[columnsArray release];
+	indexes[0][UserTempDateIndex] = [columnsArray indexOfObject:KEY_userTempDate];
+
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];
 	
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
 		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][UserIDIndex])];
-		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
+		if (resultFromServer && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
 			User *item  = [[User alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
-			[item release];
 		}
 	}
-    
+
 	[LiObjRequest removeIDsList:blackList FromObject:kClassName];
-	[blackList release];
 	
 	for (int i=0; i<1; i++) {
 		free(indexes[i]);
 	}
 	free(indexes);
 	
-	return [result autorelease];
+	return result;
 }
 
 
@@ -657,35 +651,35 @@ enum UserIndexes {
 
 
 - (void) registerUsername:(NSString *)username andPassword:(NSString *)password withBlock:(LiBlockAction)block{
-    
+
     if (!username || [username isEqualToString:@""] || !password){
-        [self respondToLiActionCallBack:1011 ResponseMessage:@"You have to register with username and password" ItemID:self.userID Action:Register Block:block];
+        [self respondToLiActionCallBack:1011 ResponseMessage:@"You have to register with username and password" ItemID:self.userID Action:Register Block:(__bridge void *)(block)];		
         return;
     }
     
     LiObjRequest *request = [LiObjRequest requestWithAction:Register ClassName:kClassName];
-	[request setBlock:block];
+	[request setBlock:(__bridge void *)(block)];
     [request addValue:username forKey:KEY_userName];
     [request addValue:password forKey:KEY_userPassword];
-    
+
     [self addValuesToRequest:&request];
     
     NSString *liUserID = [[LiCore getCurrentUser] userID];
     [request addValue:liUserID forKey:@"_id"];
     [request startSync:YES];
-    
+        
     if (request.response.responseType == 1){
         userIsRegistered = YES;
     }
-    
-    [self respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Register Block:block];
+
+    [self respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Register Block:(__bridge void *)(block)];
 }
 
 + (void) loginWithUsername:(NSString *)username andPassword:(NSString *)password withBlock:(LiBlockAction)block{
     User *item = [User instance];
     
     if (!username || [username isEqualToString:@""]){
-        [item respondToLiActionCallBack:1020 ResponseMessage:@"You have to login with username and password" ItemID:[[LiCore getCurrentUser] userID] Action:Login Block:block];
+        [item respondToLiActionCallBack:1020 ResponseMessage:@"You have to login with username and password" ItemID:[[LiCore getCurrentUser] userID] Action:Login Block:(__bridge void *)(block)];
         return;
     }
     
@@ -693,16 +687,16 @@ enum UserIndexes {
     [request addValue:username forKey:@"UserName"];
     [request addValue:password forKey:@"UserPassword"];
     [request startSync:YES];
-    
-    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Login Block:block];
+        
+    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Login Block:(__bridge void *)(block)];
 }
 
 + (void) updateUsername:(NSString *)newUsername usingPassword:(NSString *)password withBlock:(LiBlockAction)block{
     User *item = [User instance];
-    
+   
     
     if (!newUsername || [newUsername isEqualToString:@""] || !password){
-        [item respondToLiActionCallBack:1021 ResponseMessage:@"You can't update the username without new username and password" ItemID:[[LiCore getCurrentUser] userID] Action:UpdateUserName Block:block];
+        [item respondToLiActionCallBack:1021 ResponseMessage:@"You can't update the username without new username and password" ItemID:[[LiCore getCurrentUser] userID] Action:UpdateUserName Block:(__bridge void *)(block)];
         return;
     }
     
@@ -713,15 +707,15 @@ enum UserIndexes {
     [request addValue:password forKey:@"UserPassword"];
     [request startSync:YES];
     
-    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:UpdateUserName Block:block];
+    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:UpdateUserName Block:(__bridge void *)(block)];
 }
 
 + (void) updatePassword:(NSString *)newPassword forOldPassword:(NSString *)oldPassword withBlock:(LiBlockAction)block{
     User *item = [User instance];
-    
+   
     
     if (!newPassword || !oldPassword){
-        [item respondToLiActionCallBack:1022 ResponseMessage:@"You can't update password without new and old passwords" ItemID:[[LiCore getCurrentUser] userID] Action:UpdatePassword Block:block];
+        [item respondToLiActionCallBack:1022 ResponseMessage:@"You can't update password without new and old passwords" ItemID:[[LiCore getCurrentUser] userID] Action:UpdatePassword Block:(__bridge void *)(block)];
         return;
     }
     
@@ -732,28 +726,28 @@ enum UserIndexes {
     [request addValue:newPassword forKey:@"NewUserPassword"];
     [request startSync:YES];
     
-    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:UpdatePassword Block:block];
+    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:UpdatePassword Block:(__bridge void *)(block)];
 }
 
 + (void) logoutWithBlock:(LiBlockAction)block{
     User *item = [User instance];
-    
+   
     
     LiObjRequest *request = [LiObjRequest requestWithAction:Logout ClassName:kClassName];
     [request startSync:YES];
     
-    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Logout Block:block];
+    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:Logout Block:(__bridge void *)(block)];
 }
 
 + (void) forgotPasswordForUsername:(NSString *)username withBlock:(LiBlockAction)block;{
-    User *item = [User instance];
+    User *item = [User instance];   
     
     LiObjRequest *request = [LiObjRequest requestWithAction:ForgotPassword ClassName:kClassName];
     [request addValue:username forKey:KEY_userName];
     
     [request startSync:YES];
-    
-    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:ForgotPassword Block:block];
+        
+    [item respondToLiActionCallBack:request.response.responseType ResponseMessage:request.response.responseMessage ItemID:[[LiCore getCurrentUser] userID] Action:ForgotPassword Block:(__bridge void *)(block)];
 }
 
 #pragma mark - Deprecated Methods

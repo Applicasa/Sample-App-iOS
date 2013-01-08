@@ -43,5 +43,6 @@ typedef void (^LiBlockAction)(NSError *error, NSString *itemID,Actions action);
 - (void) addValuesToRequest:(LiObjRequest **)request;
 
 + (BOOL) clearAllObjectContentWithFilter:(LiFilters *)filter Error:(NSError **)error;
++ (NSArray *) getArrayFromStatement:(sqlite3_stmt *)stmt IDsList:(NSArray *)idsList resultFromServer:(BOOL)resultFromServer;
 
 @end

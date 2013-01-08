@@ -1,7 +1,7 @@
 //
 // VirtualGood.m
 // Created by Applicasa 
-// 12/20/2012
+// 07/01/2013
 //
 
 #import "VirtualGood.h"
@@ -70,13 +70,15 @@ enum VirtualGoodIndexes {
 	VirtualGoodMainCategoryIndex,
 	VirtualGoodIsDealIndex,
 	VirtualGoodConsumableIndex,
-	VirtualGoodLastUpdateIndex,};
+	VirtualGoodLastUpdateIndex,
+};
 #define NUM_OF_VIRTUALGOOD_FIELDS 16
 
 enum VirtualGoodCategoryIndexes {
 	VirtualGoodCategoryIDIndex = 0,
 	VirtualGoodCategoryNameIndex,
-	VirtualGoodCategoryLastUpdateIndex,};
+	VirtualGoodCategoryLastUpdateIndex,
+};
 #define NUM_OF_VIRTUALGOODCATEGORY_FIELDS 3
 
 
@@ -86,7 +88,7 @@ enum VirtualGoodCategoryIndexes {
 	LiObjRequest *request = [LiObjRequest requestWithAction:Add ClassName:kClassName];
 	request.shouldWorkOffline = kShouldVirtualGoodWorkOffline;
 
-	[request setBlock:block];
+	[request setBlock:(__bridge void *)(block)];
 	[self addValuesToRequest:&request];
 
 	if ([self isServerId:self.virtualGoodID]){
@@ -97,7 +99,7 @@ enum VirtualGoodCategoryIndexes {
 			self.increaseDictionary = nil;
 		}
 	} 	else {
-		[self respondToLiActionCallBack:1023 ResponseMessage:@"Attempt to add VirtualGood instance" ItemID:@"0" Action:Add Block:block];
+		[self respondToLiActionCallBack:1023 ResponseMessage:@"Attempt to add VirtualGood instance" ItemID:@"0" Action:Add Block:(__bridge void *)(block)];
 		return;
 	}	
 	request.delegate = self;
@@ -180,25 +182,6 @@ enum VirtualGoodCategoryIndexes {
 }
 
 
-# pragma mark - Memory Management
-
-- (void) dealloc
-{
-	[virtualGoodID release];
-	[virtualGoodTitle release];
-	[virtualGoodDescription release];
-	[virtualGoodRelatedVirtualGood release];
-	[virtualGoodImageA release];
-	[virtualGoodImageB release];
-	[virtualGoodImageC release];
-	[virtualGoodLastUpdate release];
-	[virtualGoodMainCategory release];
-
-
-	[super dealloc];
-}
-
-
 # pragma mark - Initialization
 
 /*
@@ -221,7 +204,7 @@ enum VirtualGoodCategoryIndexes {
 		self.virtualGoodImageC				= [NSURL URLWithString:@""];
 		self.virtualGoodIsDeal				= NO;
 		self.virtualGoodConsumable				= YES;
-		virtualGoodLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		virtualGoodLastUpdate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	}
 	return self;
@@ -250,7 +233,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 		self.virtualGoodImageC               = [NSURL URLWithString:[item objectForKey:KeyWithHeader(KEY_virtualGoodImageC, header)]];
 		self.virtualGoodIsDeal               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodIsDeal, header)] boolValue];
 		self.virtualGoodConsumable               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodConsumable, header)] boolValue];
-		virtualGoodLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodLastUpdate, header)] retain];
+		virtualGoodLastUpdate               = [item objectForKey:KeyWithHeader(KEY_virtualGoodLastUpdate, header)];
 		virtualGoodMainCategory               = [[VirtualGoodCategory alloc] initWithDictionary:item Header:KeyWithHeader
 	(@"_",KEY_virtualGoodMainCategory)];
 
@@ -278,7 +261,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 		self.virtualGoodImageC               = object.virtualGoodImageC;
 		self.virtualGoodIsDeal               = object.virtualGoodIsDeal;
 		self.virtualGoodConsumable               = object.virtualGoodConsumable;
-		virtualGoodLastUpdate               = [object.virtualGoodLastUpdate retain];
+		virtualGoodLastUpdate               = object.virtualGoodLastUpdate;
 		virtualGoodMainCategory               = [[VirtualGoodCategory alloc] initWithObject:object.virtualGoodMainCategory];
 
 	}
@@ -302,7 +285,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	[dictionary addDateValue:virtualGoodLastUpdate forKey:KEY_virtualGoodLastUpdate];
 	[dictionary addForeignKeyValue:virtualGoodMainCategory.dictionaryRepresentation forKey:KEY_virtualGoodMainCategory];
 
-	return [dictionary autorelease];
+	return dictionary;
 }
 
 + (NSDictionary *) getFields{
@@ -326,7 +309,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_virtualGoodLastUpdate];
 	[fieldsDic setValue:kTEXT_TYPE forKey:@"Security"];
 	
-	return [fieldsDic autorelease];
+	return fieldsDic;
 }
 
 + (NSDictionary *) getForeignKeys{
@@ -334,7 +317,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 
 	[foreignKeysDic setValue:[VirtualGoodCategory getClassName] forKey:KEY_virtualGoodMainCategory];
 	
-	return [foreignKeysDic autorelease];
+	return foreignKeysDic;
 }
 
 + (NSString *) getClassName{
@@ -479,20 +462,20 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	} else {
 		int **virtualGoodMainCategoryArray = (int **)malloc(sizeof(int *));
 		virtualGoodMainCategoryArray[0] = array[1];
-		self.virtualGoodMainCategory = [[[VirtualGoodCategory alloc] initWithStatement:stmt Array:virtualGoodMainCategoryArray IsFK:YES] autorelease];
+		self.virtualGoodMainCategory = [[VirtualGoodCategory alloc] initWithStatement:stmt Array:virtualGoodMainCategoryArray IsFK:YES];
 		free(virtualGoodMainCategoryArray);
 	}
 
 ;
 			self.virtualGoodIsDeal = sqlite3_column_int(stmt, array[0][VirtualGoodIsDealIndex]);
 			self.virtualGoodConsumable = sqlite3_column_int(stmt, array[0][VirtualGoodConsumableIndex]);
-			virtualGoodLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodLastUpdateIndex])]] retain];
+			virtualGoodLastUpdate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodLastUpdateIndex])]];
 		
 		}
 	return self;
 }
 
-+ (NSArray *) getArrayFromStatement:(sqlite3_stmt *)stmt IDsList:(NSArray *)idsList{
++ (NSArray *) getArrayFromStatement:(sqlite3_stmt *)stmt IDsList:(NSArray *)idsList resultFromServer:(BOOL)resultFromServer{
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	NSMutableArray *columnsArray = [[NSMutableArray alloc] init];
@@ -527,29 +510,26 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	indexes[1][VirtualGoodCategoryNameIndex] = [columnsArray indexOfObject:KeyWithHeader(@"VirtualGoodCategoryName",@"_VirtualGoodMainCategory")];
 	indexes[1][VirtualGoodCategoryLastUpdateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"VirtualGoodCategoryLastUpdate",@"_VirtualGoodMainCategory")];
 
-	[columnsArray release];
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];
 	
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
 		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][VirtualGoodIDIndex])];
-		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
+		if (resultFromServer && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
 			VirtualGood *item  = [[VirtualGood alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
-			[item release];
 		}
 	}
 
 	[LiObjRequest removeIDsList:blackList FromObject:kClassName];
-	[blackList release];
 	
 	for (int i=0; i<2; i++) {
 		free(indexes[i]);
 	}
 	free(indexes);
 	
-	return [result autorelease];
+	return result;
 }
 
 
@@ -558,29 +538,29 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 + (void) getLocalArrayWithQuery:(LiQuery *)query andBlock:(GetVirtualGoodArrayFinished)block{
     VirtualGood *item = [VirtualGood instance];
      
-    query = [self setFieldsNameToQuery:query];
-    LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-	[request setBlock:block];
-    [request addIntValue:LOCAL forKey:@"DbGetKind"];
-    [request setDelegate:item];
-    [request addValue:query forKey:@"query"];
-    request.shouldWorkOffline = YES;
+	query = [self setFieldsNameToQuery:query];
+	LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
+	[request setBlock:(__bridge void *)(block)];
+	[request addIntValue:LOCAL forKey:@"DbGetKind"];
+	[request setDelegate:item];
+	[request addValue:query forKey:@"query"];
+	request.shouldWorkOffline = YES;
     
-    [request startSync:YES];
+	[request startSync:YES];
     
-    [item requestDidFinished:request];
+	[item requestDidFinished:request];
 }
 
 + (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetVirtualGoodArrayFinished)block{
     VirtualGood *item = [VirtualGood instance];
     
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-	[request setBlock:block];
-    [request addValue:rawQuery forKey:@"filters"];
-    [request setShouldWorkOffline:YES];
-    [request startSync:YES];
+	[request setBlock:(__bridge void *)(block)];
+	[request addValue:rawQuery forKey:@"filters"];
+	[request setShouldWorkOffline:YES];
+	[request startSync:YES];
     
-    [item requestDidFinished:request];
+	[item requestDidFinished:request];
 }   
 
 + (void) getVirtualGoodsOfType:(VirtualGoodType)type withBlock:(GetVirtualGoodArrayFinished)block{
@@ -647,33 +627,31 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
         case Add:
         case Update:
         case Delete:{
-            NSString *itemID = [responseData objectForKey:KEY_virtualGoodID];
-            if (itemID)
-                self.virtualGoodID = itemID;
-            
-            [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self. virtualGoodID Action:action Block:[request getBlock]];
+			NSString *itemID = [responseData objectForKey:KEY_virtualGoodID];
+			if (itemID)
+				self.virtualGoodID = itemID;
+				
+			[self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self. virtualGoodID Action:action Block:[request getBlock]];
 			[request releaseBlock];
-        }
-            break;
-
-        case GetArray:{
-            
-      sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
-            NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
-            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualGood getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
-   [request releaseBlock];
-
-        }
-            break;
-        default:
-            break;
+			}
+			break;
+			
+		case GetArray:{            
+			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+			NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
+			[self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualGood getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer] Block:[request getBlock]];
+			[request releaseBlock];
+			}
+			break;
+		default:
+			break;
     }
 }
 
 + (id) instanceWithID:(NSString *)ID{
     VirtualGood *instace = [[VirtualGood alloc] init];
     instace.virtualGoodID = ID;
-    return [instace autorelease];
+    return instace;
 }
 
 #pragma mark - Responders
@@ -682,7 +660,7 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
  
-    GetVirtualGoodArrayFinished _block = (GetVirtualGoodArrayFinished)block;
+    GetVirtualGoodArrayFinished _block = (__bridge GetVirtualGoodArrayFinished)block;
     _block(error,array);
 }
 

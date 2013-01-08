@@ -10,7 +10,7 @@
 
 @class Promotion;
 @interface PromoView : UIView
-@property (nonatomic, retain) Promotion *promotion;
+@property (nonatomic, strong) Promotion *promotion;
 
 /*********************************************************************************
  DEPRECATED METHODS WARNING:

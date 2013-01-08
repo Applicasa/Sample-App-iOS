@@ -17,9 +17,9 @@
 
 @property (readonly) NSInteger pushID;
 @property (nonatomic) NSInteger badge;
-@property (nonatomic, retain) NSDictionary *tag;
-@property (nonatomic, retain) NSString *message;
-@property (nonatomic, retain) NSString *sound;
+@property (nonatomic, strong) NSDictionary *tag;
+@property (nonatomic, strong) NSString *message;
+@property (nonatomic, strong) NSString *sound;
 
 /*********************************************************************************
  DEPRECATED METHODS WARNING:

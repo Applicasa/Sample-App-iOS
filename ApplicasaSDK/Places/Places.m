@@ -1,18 +1,21 @@
 //
-// VirtualGoodCategory.m
+// Places.m
 // Created by Applicasa 
 // 07/01/2013
 //
 
-#import "VirtualGoodCategory.h"
+#import "Places.h"
 
-#define kClassName                  @"VirtualGoodCategory"
+#define kClassName                  @"Places"
 
-#define KEY_virtualGoodCategoryID				@"VirtualGoodCategoryID"
-#define KEY_virtualGoodCategoryName				@"VirtualGoodCategoryName"
-#define KEY_virtualGoodCategoryLastUpdate				@"VirtualGoodCategoryLastUpdate"
+#define KEY_placesID				@"PlacesID"
+#define KEY_placesLastUpdate				@"PlacesLastUpdate"
+#define KEY_placesLoc				@"PlacesLoc"
+#define KEY_placesLocLong				@"PlacesLocLong"
+#define KEY_placesLocLat				@"PlacesLocLat"
+#define KEY_placesName				@"PlacesName"
 
-@interface VirtualGoodCategory (privateMethods)
+@interface Places (privateMethods)
 
 - (void) updateField:(LiFields)field withValue:(NSNumber *)value;
 - (void) updateField:(LiFields)field Value:(NSNumber *)value DEPRECATED_ATTRIBUTE;
@@ -21,17 +24,20 @@
 
 @end
 
-@implementation VirtualGoodCategory
+@implementation Places
 
-@synthesize virtualGoodCategoryID;
-@synthesize virtualGoodCategoryName;
-@synthesize virtualGoodCategoryLastUpdate;
+@synthesize placesID;
+@synthesize placesLastUpdate;
+@synthesize placesLoc;
+@synthesize placesName;
 
-enum VirtualGoodCategoryIndexes {
-	VirtualGoodCategoryIDIndex = 0,
-	VirtualGoodCategoryNameIndex,
-	VirtualGoodCategoryLastUpdateIndex,};
-#define NUM_OF_VIRTUALGOODCATEGORY_FIELDS 3
+enum PlacesIndexes {
+	PlacesIDIndex = 0,
+	PlacesLastUpdateIndex,
+	PlacesLocLatIndex,
+	PlacesLocLongIndex,
+	PlacesNameIndex,};
+#define NUM_OF_PLACES_FIELDS 5
 
 
 
@@ -39,14 +45,14 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) saveWithBlock:(LiBlockAction)block{
 	LiObjRequest *request = [LiObjRequest requestWithAction:Add ClassName:kClassName];
-	request.shouldWorkOffline = kShouldVirtualGoodCategoryWorkOffline;
+	request.shouldWorkOffline = kShouldPlacesWorkOffline;
 
 	[request setBlock:(__bridge void *)(block)];
 	[self addValuesToRequest:&request];
 
-	if ([self isServerId:self.virtualGoodCategoryID]){
+	if ([self isServerId:self.placesID]){
 		request.action = Update;
-		[request addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
+		[request addValue:placesID forKey:KEY_placesID];
 		if (self.increaseDictionary.count){
 			[request.requestParameters setValue:self.increaseDictionary forKey:@"$inc"];
 			self.increaseDictionary = nil;
@@ -76,19 +82,19 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) deleteWithBlock:(LiBlockAction)block{        
 	LiObjRequest *request = [LiObjRequest requestWithAction:Delete ClassName:kClassName];
-	request.shouldWorkOffline = kShouldVirtualGoodCategoryWorkOffline;
+	request.shouldWorkOffline = kShouldPlacesWorkOffline;
 	[request setBlock:(__bridge void *)(block)];
 	request.delegate = self;
-	[request addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
+	[request addValue:placesID forKey:KEY_placesID];
 	[request startSync:NO];    
 }
 
 #pragma mark - Get By ID
 
-+ (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetVirtualGoodCategoryFinished)block{
-    __block VirtualGoodCategory *item = [VirtualGoodCategory instance];
++ (void) getById:(NSString *)idString queryKind:(QueryKind)queryKind withBlock:(GetPlacesFinished)block{
+    __block Places *item = [Places instance];
 
-    LiFilters *filters = [LiBasicFilters filterByField:VirtualGoodCategoryID Operator:Equal Value:idString];
+    LiFilters *filters = [LiBasicFilters filterByField:PlacesID Operator:Equal Value:idString];
     LiQuery *query = [[LiQuery alloc]init];
     [query setFilters:filters];
     
@@ -103,8 +109,8 @@ enum VirtualGoodCategoryIndexes {
 
 #pragma mark - Get Array
 
-+ (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetVirtualGoodCategoryArrayFinished)block{
-    VirtualGoodCategory *item = [VirtualGoodCategory instance];
++ (void) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind withBlock:(GetPlacesArrayFinished)block{
+    Places *item = [Places instance];
     
  query = [self setFieldsNameToQuery:query];
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
@@ -120,8 +126,8 @@ enum VirtualGoodCategoryIndexes {
         [item requestDidFinished:request];
 }
 
-+ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetVirtualGoodCategoryArrayFinished)block{
-    VirtualGoodCategory *item = [VirtualGoodCategory instance];
++ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetPlacesArrayFinished)block{
+    Places *item = [Places instance];
 
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
 	[request setBlock:(__bridge void *)(block)];
@@ -139,7 +145,7 @@ enum VirtualGoodCategoryIndexes {
     LiObjRequest *request = [LiObjRequest requestWithAction:UploadFile ClassName:kClassName];
     request.delegate = self;
 
-	[request addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
+	[request addValue:placesID forKey:KEY_placesID];
     [request addValue:ext forKey:@"ext"];
     [request addValue:data forKey:@"data"];
     [request addIntValue:fileType forKey:@"fileType"];
@@ -176,11 +182,11 @@ enum VirtualGoodCategoryIndexes {
         case Add:
         case Update:
         case Delete:{
-            NSString *itemID = [responseData objectForKey:KEY_virtualGoodCategoryID];
+            NSString *itemID = [responseData objectForKey:KEY_placesID];
             if (itemID)
-                self.virtualGoodCategoryID = itemID;
+                self.placesID = itemID;
             
-            [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self.virtualGoodCategoryID Action:action Block:[request getBlock]];
+            [self respondToLiActionCallBack:responseType ResponseMessage:responseMessage ItemID:self.placesID Action:action Block:[request getBlock]];
 			[request releaseBlock];
         }
             break;
@@ -188,7 +194,7 @@ enum VirtualGoodCategoryIndexes {
         case GetArray:{            
 			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
-			[self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualGoodCategory getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer] Block:[request getBlock]];
+			[self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[Places getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer] Block:[request getBlock]];
 
 			[request releaseBlock];
 			
@@ -200,8 +206,8 @@ enum VirtualGoodCategoryIndexes {
 }
 
 + (id) instanceWithID:(NSString *)ID{
-    VirtualGoodCategory *instace = [[VirtualGoodCategory alloc] init];
-    instace.virtualGoodCategoryID = ID;
+    Places *instace = [[Places alloc] init];
+    instace.placesID = ID;
     return instace;
 }
 
@@ -212,7 +218,7 @@ enum VirtualGoodCategoryIndexes {
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 	
-    GetVirtualGoodCategoryArrayFinished _block = (__bridge GetVirtualGoodCategoryArrayFinished)block;
+    GetPlacesArrayFinished _block = (__bridge GetPlacesArrayFinished)block;
     _block(error,array);
 }
 
@@ -220,11 +226,14 @@ enum VirtualGoodCategoryIndexes {
 
 - (void) setField:(LiFields)field toValue:(id)value{
 	switch (field) {
-	case VirtualGoodCategoryID:
-		self.virtualGoodCategoryID = value;
+	case PlacesID:
+		self.placesID = value;
 		break;
-	case VirtualGoodCategoryName:
-		self.virtualGoodCategoryName = value;
+	case PlacesLoc:
+		self.placesLoc = value;
+		break;
+	case PlacesName:
+		self.placesName = value;
 		break;
 	default:
 	break;
@@ -240,9 +249,10 @@ enum VirtualGoodCategoryIndexes {
 - (id) init {
 	if (self = [super init]) {
 
-		self.virtualGoodCategoryID				= @"0";
-		self.virtualGoodCategoryName				= @"";
-		virtualGoodCategoryLastUpdate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
+		self.placesID				= @"0";
+		placesLastUpdate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
+		self.placesLoc				=  [[CLLocation alloc] initWithLatitude:0 longitude:0];
+		self.placesName				= @"";
 	}
 	return self;
 }
@@ -250,9 +260,10 @@ enum VirtualGoodCategoryIndexes {
 - (id) initWithDictionary:(NSDictionary *)item Header:(NSString *)header{
 	if (self = [self init]) {
 
-		self.virtualGoodCategoryID               = [item objectForKey:KeyWithHeader(KEY_virtualGoodCategoryID, header)];
-		self.virtualGoodCategoryName               = [item objectForKey:KeyWithHeader(KEY_virtualGoodCategoryName, header)];
-		virtualGoodCategoryLastUpdate               = [item objectForKey:KeyWithHeader(KEY_virtualGoodCategoryLastUpdate, header)];
+		self.placesID               = [item objectForKey:KeyWithHeader(KEY_placesID, header)];
+		placesLastUpdate               = [item objectForKey:KeyWithHeader(KEY_placesLastUpdate, header)];
+		self.placesLoc               = [[CLLocation alloc] initWithLatitude:[[item objectForKey:KeyWithHeader(KEY_placesLocLat, header)] floatValue] longitude:[[item objectForKey:KeyWithHeader(KEY_placesLocLong, header)] floatValue]];
+		self.placesName               = [item objectForKey:KeyWithHeader(KEY_placesName, header)];
 
 	}
 	return self;
@@ -261,12 +272,13 @@ enum VirtualGoodCategoryIndexes {
 /*
 *  init values from Object
 */
-- (id) initWithObject:(VirtualGoodCategory *)object {
+- (id) initWithObject:(Places *)object {
 	if (self = [super init]) {
 
-		self.virtualGoodCategoryID               = object.virtualGoodCategoryID;
-		self.virtualGoodCategoryName               = object.virtualGoodCategoryName;
-		virtualGoodCategoryLastUpdate               = object.virtualGoodCategoryLastUpdate;
+		self.placesID               = object.placesID;
+		placesLastUpdate               = object.placesLastUpdate;
+		self.placesLoc               = object.placesLoc;
+		self.placesName               = object.placesName;
 
 	}
 	return self;
@@ -275,9 +287,10 @@ enum VirtualGoodCategoryIndexes {
 - (NSDictionary *) dictionaryRepresentation{
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc]init];
 
-	[dictionary addValue:virtualGoodCategoryID forKey:KEY_virtualGoodCategoryID];
-	[dictionary addValue:virtualGoodCategoryName forKey:KEY_virtualGoodCategoryName];
-	[dictionary addDateValue:virtualGoodCategoryLastUpdate forKey:KEY_virtualGoodCategoryLastUpdate];
+	[dictionary addValue:placesID forKey:KEY_placesID];
+	[dictionary addDateValue:placesLastUpdate forKey:KEY_placesLastUpdate];
+	[dictionary addGeoValue:placesLoc forKey:KEY_placesLoc];
+	[dictionary addValue:placesName forKey:KEY_placesName];
 
 	return dictionary;
 }
@@ -285,9 +298,11 @@ enum VirtualGoodCategoryIndexes {
 + (NSDictionary *) getFields{
 	NSMutableDictionary *fieldsDic = [[NSMutableDictionary alloc] init];
 	
-	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_virtualGoodCategoryID];
-	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_virtualGoodCategoryName];
-	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_virtualGoodCategoryLastUpdate];
+	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_placesID];
+	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_placesLastUpdate];
+	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_placesLocLong];
+	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_placesLocLat];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_placesName];
 	
 	return fieldsDic;
 }
@@ -307,20 +322,20 @@ enum VirtualGoodCategoryIndexes {
 	NSString *fieldName;
 	
 	switch (field) {
-		case VirtualGoodCategory_None:
+		case Places_None:
 			fieldName = @"pos";
 			break;
 	
-		case VirtualGoodCategoryID:
-			fieldName = KEY_virtualGoodCategoryID;
+		case PlacesID:
+			fieldName = KEY_placesID;
 			break;
 
-		case VirtualGoodCategoryName:
-			fieldName = KEY_virtualGoodCategoryName;
+		case PlacesLastUpdate:
+			fieldName = KEY_placesLastUpdate;
 			break;
 
-		case VirtualGoodCategoryLastUpdate:
-			fieldName = KEY_virtualGoodCategoryLastUpdate;
+		case PlacesName:
+			fieldName = KEY_placesName;
 			break;
 
 		default:
@@ -336,10 +351,14 @@ enum VirtualGoodCategoryIndexes {
 	NSString *fieldName;
 	
 	switch (field) {
-		case VirtualGoodCategory_None:
+		case Places_None:
 			fieldName = @"pos";
 			break;
 	
+		case PlacesLoc:
+			fieldName = KEY_placesLoc;
+			break;
+
 		default:
 			NSLog(@"Wrong Geo LiFields numerator for %@ Class",kClassName);
 			fieldName = nil;
@@ -351,16 +370,18 @@ enum VirtualGoodCategoryIndexes {
 
 
 - (void) addValuesToRequest:(LiObjRequest **)request{
-	[*request addValue:virtualGoodCategoryName forKey:KEY_virtualGoodCategoryName];
+	[*request addLocationValue:placesLoc forKey:KEY_placesLoc];
+	[*request addValue:placesName forKey:KEY_placesName];
 }
 
 
 - (id) initWithStatement:(sqlite3_stmt *)stmt Array:(int **)array IsFK:(BOOL)isFK{
 	if (self = [super init]){
 	
-			self.virtualGoodCategoryID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodCategoryIDIndex])];
-			self.virtualGoodCategoryName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodCategoryNameIndex])];
-			virtualGoodCategoryLastUpdate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodCategoryLastUpdateIndex])]];
+			self.placesID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][PlacesIDIndex])];
+			placesLastUpdate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][PlacesLastUpdateIndex])]];
+			self.placesLoc =  [[CLLocation alloc] initWithLatitude:sqlite3_column_double(stmt, array[0][PlacesLocLatIndex]) longitude:sqlite3_column_double(stmt, array[0][PlacesLocLongIndex])];
+			self.placesName = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][PlacesNameIndex])];
 		
 		}
 	return self;
@@ -377,20 +398,22 @@ enum VirtualGoodCategoryIndexes {
 	}
 	
 	int **indexes = (int **)malloc(1*sizeof(int *));
-	indexes[0] = (int *)malloc(NUM_OF_VIRTUALGOODCATEGORY_FIELDS*sizeof(int));
+	indexes[0] = (int *)malloc(NUM_OF_PLACES_FIELDS*sizeof(int));
 
-	indexes[0][VirtualGoodCategoryIDIndex] = [columnsArray indexOfObject:KEY_virtualGoodCategoryID];
-	indexes[0][VirtualGoodCategoryNameIndex] = [columnsArray indexOfObject:KEY_virtualGoodCategoryName];
-	indexes[0][VirtualGoodCategoryLastUpdateIndex] = [columnsArray indexOfObject:KEY_virtualGoodCategoryLastUpdate];
+	indexes[0][PlacesIDIndex] = [columnsArray indexOfObject:KEY_placesID];
+	indexes[0][PlacesLastUpdateIndex] = [columnsArray indexOfObject:KEY_placesLastUpdate];
+	indexes[0][PlacesLocLatIndex] = [columnsArray indexOfObject:KEY_placesLocLat];
+	indexes[0][PlacesLocLongIndex] = [columnsArray indexOfObject:KEY_placesLocLong];
+	indexes[0][PlacesNameIndex] = [columnsArray indexOfObject:KEY_placesName];
 
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];
 	
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
-		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][VirtualGoodCategoryIDIndex])];
+		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][PlacesIDIndex])];
 		if (resultFromServer && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
-			VirtualGoodCategory *item  = [[VirtualGoodCategory alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
+			Places *item  = [[Places alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
 		}
 	}
@@ -425,15 +448,15 @@ enum VirtualGoodCategoryIndexes {
     [self setField:field toValue:value];
 }
 
-+ (void) getByID:(NSString *)idString QueryKind:(QueryKind)queryKind WithBlock:(GetVirtualGoodCategoryFinished)block {
++ (void) getByID:(NSString *)idString QueryKind:(QueryKind)queryKind WithBlock:(GetPlacesFinished)block {
     [self getById:idString queryKind:queryKind withBlock:block];
 }
 
-+ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetVirtualGoodCategoryArrayFinished)block {
++ (void) getArrayWithQuery:(LiQuery *)query QueryKind:(QueryKind)queryKind WithBlock:(GetPlacesArrayFinished)block {
     [self getArrayWithQuery:query queryKind:queryKind withBlock:block];
 }
 
-+ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetVirtualGoodCategoryArrayFinished)block {
++ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetPlacesArrayFinished)block {
     [self getLocalArrayWithRawSQLQuery:rawQuery andBlock:block];
 }
 

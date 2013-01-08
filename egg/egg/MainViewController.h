@@ -10,14 +10,13 @@
 #import "LoginViewController.h"
 #import "StoreViewController.h"
 #import "NearbyFriendsViewController.h"
+#import "FacebookFeatureViewController.h"
 #import "LiPromo.h"
 
-@interface MainViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate,NearbyFriendsViewControllerDelegate,LiKitPromotionsDelegate>
+@interface MainViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate,NearbyFriendsViewControllerDelegate,FacebookFeatureViewControllerDelegate,LiKitPromotionsDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *spendProfileImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *usageProfileImageView;
-
-
 
 - (void) dismissLoadingScreen;
 

@@ -1,7 +1,7 @@
 //
 // VirtualGood.h
 // Created by Applicasa 
-// 12/20/2012
+// 07/01/2013
 //
 
 #import <Foundation/Foundation.h>
@@ -24,22 +24,22 @@
 @interface VirtualGood : LiObject <LiCoreRequestDelegate> {
 }
 
-@property (nonatomic, retain) NSString *virtualGoodID;
-@property (nonatomic, retain) NSString *virtualGoodTitle;
-@property (nonatomic, retain) NSString *virtualGoodDescription;
+@property (nonatomic, strong) NSString *virtualGoodID;
+@property (nonatomic, strong) NSString *virtualGoodTitle;
+@property (nonatomic, strong) NSString *virtualGoodDescription;
 @property (nonatomic, assign) int virtualGoodMainCurrency;
 @property (nonatomic, assign) int virtualGoodSecondaryCurrency;
-@property (nonatomic, retain) NSString *virtualGoodRelatedVirtualGood;
+@property (nonatomic, strong) NSString *virtualGoodRelatedVirtualGood;
 @property (nonatomic, assign) int virtualGoodQuantity;
 @property (nonatomic, assign) int virtualGoodMaxForUser;
 @property (nonatomic, assign) int virtualGoodUserInventory;
-@property (nonatomic, retain) NSURL *virtualGoodImageA;
-@property (nonatomic, retain) NSURL *virtualGoodImageB;
-@property (nonatomic, retain) NSURL *virtualGoodImageC;
+@property (nonatomic, strong) NSURL *virtualGoodImageA;
+@property (nonatomic, strong) NSURL *virtualGoodImageB;
+@property (nonatomic, strong) NSURL *virtualGoodImageC;
 @property (nonatomic, assign) BOOL virtualGoodIsDeal;
 @property (nonatomic, assign) BOOL virtualGoodConsumable;
-@property (nonatomic, retain, readonly) NSDate *virtualGoodLastUpdate;
-@property (nonatomic, retain) VirtualGoodCategory *virtualGoodMainCategory;
+@property (nonatomic, strong, readonly) NSDate *virtualGoodLastUpdate;
+@property (nonatomic, strong) VirtualGoodCategory *virtualGoodMainCategory;
 
 #pragma mark - End of Basic SDK
 

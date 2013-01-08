@@ -16,14 +16,14 @@
 - (void) updateLocationWithAccuracy:(CLLocationAccuracy)accuracy distanceFilter:(CLLocationDistance)distanceFilter andBlock:(LiBlockLocationAction)block {
     [LiCore setDesireAccuracy:accuracy];
     [LiCore setDistanceFilter:distanceFilter];
-    self.locationAction = Block_copy(block);
+    self.locationAction = (__bridge LiBlockLocationAction)CFBridgingRetain(block);
     [LiCore updateUserLocation:self];
 }
 
 - (void) updateLocationAutomaticallyWithAccuracy:(CLLocationAccuracy)accuracy distanceFilter:(CLLocationDistance)distanceFilter andBlock:(LiBlockLocationAction)block{
     [LiCore setDesireAccuracy:accuracy];
     [LiCore setDistanceFilter:distanceFilter];
-    self.locationAction = Block_copy(block);
+    self.locationAction = (__bridge LiBlockLocationAction)CFBridgingRetain(block);
     [LiCore startUpdatingUserLocationWithDelegate:self];
 }
 
@@ -34,7 +34,7 @@
 #pragma mark - LiCore Location Delegate
 - (void) LiCoreDidFinishGetCurrentLocation:(CLLocation *)location Error:(NSError *)error{
     self.locationAction(error,location,GetLocation);
-    Block_release(self.locationAction);
+    self.locationAction = NULL;
 }
 
 #pragma mark - LiCore Update Location Delegate

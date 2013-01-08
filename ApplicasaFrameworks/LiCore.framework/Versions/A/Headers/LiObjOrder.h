@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>
 
-@interface LiObjOrder : NSObject
+@interface LiObjOrder : NSObject <NSCopying>
 
-@property (nonatomic,retain) id sortField;
+@property (nonatomic,strong) id sortField;
 @property (nonatomic,assign) SortType sortType;
 
 + (LiObjOrder *) orderItemWithSortField:(id)sortField SortType:(SortType)sortType;

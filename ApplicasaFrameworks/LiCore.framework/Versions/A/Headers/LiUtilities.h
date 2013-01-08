@@ -120,7 +120,7 @@ typedef void (^GetCachedDataFinished)(NSError *error, NSData *data);
 
 @end
 
-@interface LiBoolean : NSObject{
+@interface LiBoolean : NSObject <NSCopying>{
     BOOL val;
 }
 

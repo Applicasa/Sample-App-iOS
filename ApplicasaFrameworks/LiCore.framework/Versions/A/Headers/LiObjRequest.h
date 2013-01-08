@@ -17,13 +17,14 @@
 
 @property (nonatomic, assign) void *callBackBlock;
 
-@property (nonatomic,retain) id <LiCoreRequestDelegate> delegate;
-@property (nonatomic,retain) NSString                   *className;
+@property (nonatomic,strong) id <LiCoreRequestDelegate> delegate;
+@property (nonatomic,strong) NSString                   *className;
 @property (nonatomic,assign) Actions                    action;
-@property (nonatomic,retain) NSMutableDictionary        *requestParameters;
+@property (nonatomic,strong) NSMutableDictionary        *requestParameters;
 
-@property (nonatomic,retain) LiResponse                 *response;
+@property (nonatomic,strong) LiResponse                 *response;
 @property (nonatomic,assign) BOOL shouldWorkOffline;
+@property (nonatomic,assign) BOOL resultFromServer;
 
 + (LiObjRequest *)requestWithAction:(Actions)action ClassName:(NSString *)className;
 

@@ -1,7 +1,7 @@
 //
 // VirtualGoodCategory.h
 // Created by Applicasa 
-// 12/20/2012
+// 07/01/2013
 //
 
 #import <Foundation/Foundation.h>
@@ -23,9 +23,9 @@
 @interface VirtualGoodCategory : LiObject <LiCoreRequestDelegate> {
 }
 
-@property (nonatomic, retain) NSString *virtualGoodCategoryID;
-@property (nonatomic, retain) NSString *virtualGoodCategoryName;
-@property (nonatomic, retain, readonly) NSDate *virtualGoodCategoryLastUpdate;
+@property (nonatomic, strong) NSString *virtualGoodCategoryID;
+@property (nonatomic, strong) NSString *virtualGoodCategoryName;
+@property (nonatomic, strong, readonly) NSDate *virtualGoodCategoryLastUpdate;
 
 /*********************************************************************************
  DEPRECATED METHODS WARNING:

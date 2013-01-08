@@ -12,11 +12,11 @@ static LiBlockFBFriendsAction fbFriendsAction = NULL;
 static LiBlockAction actionBlock = NULL;
 
 - (void) setFbFriendsAction:(LiBlockFBFriendsAction)block{
-    fbFriendsAction = Block_copy(block);
+    fbFriendsAction = (__bridge LiBlockFBFriendsAction)CFBridgingRetain(block);
 }
 
 - (void) setActionBlock:(LiBlockAction)block{
-    actionBlock = Block_copy(block);
+    actionBlock = (__bridge LiBlockAction)CFBridgingRetain(block);
 }
 
 - (void) facebookLoginWithBlock:(LiBlockAction)block{
@@ -41,14 +41,14 @@ static LiBlockAction actionBlock = NULL;
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
     actionBlock(error,user.userID,LoginWithFacebook);
-    Block_release(actionBlock);
+    actionBlock = NULL;
 }
 
 - (void) FBdidFindFacebookFriends:(NSArray *)friends ResponseType:(int)responseType ResponseMessage:(NSString *)responseMessage{
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
     fbFriendsAction(error,friends,FacebookFriends);
-    Block_release(fbFriendsAction);
+    actionBlock = NULL;
 }
 
 #pragma mark - Deprecated Methods

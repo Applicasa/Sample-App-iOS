@@ -1,7 +1,7 @@
 //
 // LiDataTypes.h
 // Created by Applicasa 
-// 12/20/2012
+// 07/01/2013
 //
 
 
@@ -82,6 +82,17 @@ typedef enum {
 	DynamicReal,
 	DynamicDate,
 	DynamicBool,
-	DynamicHtml
+	DynamicHtml,
+	//Places
+	Places_None,
+	PlacesID,
+	PlacesLastUpdate,
+	PlacesLoc,
+	PlacesName,
+	//Tips
+	Tips_None,
+	TipsID,
+	TipsLastUpdate,
+	TipsContent
 }LiFields;
 

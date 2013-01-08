@@ -1,7 +1,7 @@
 //
 // User.h
-// Created by Applicasa
-// 12/26/2012
+// Created by Applicasa 
+// 07/01/2013
 //
 
 #import <Foundation/Foundation.h>
@@ -23,23 +23,24 @@
 @interface User : LiObject <LiCoreRequestDelegate> {
 }
 
-@property (nonatomic, retain) NSString *userID;
-@property (nonatomic, retain, readonly) NSString *userName;
-@property (nonatomic, retain) NSString *userFirstName;
-@property (nonatomic, retain) NSString *userLastName;
-@property (nonatomic, retain) NSString *userEmail;
-@property (nonatomic, retain) NSString *userPhone;
-@property (nonatomic, retain, readonly) NSString *userPassword;
-@property (nonatomic, retain, readonly) NSDate *userLastLogin;
-@property (nonatomic, retain, readonly) NSDate *userRegisterDate;
-@property (nonatomic, retain) CLLocation *userLocation;
-@property (nonatomic, assign, readonly) BOOL userIsRegistered;
+@property (nonatomic, strong) NSString *userID;
+@property (nonatomic, strong, readonly) NSString *userName;
+@property (nonatomic, strong) NSString *userFirstName;
+@property (nonatomic, strong) NSString *userLastName;
+@property (nonatomic, strong) NSString *userEmail;
+@property (nonatomic, strong) NSString *userPhone;
+@property (nonatomic, strong, readonly) NSString *userPassword;
+@property (nonatomic, strong, readonly) NSDate *userLastLogin;
+@property (nonatomic, strong, readonly) NSDate *userRegisterDate;
+@property (nonatomic, strong) CLLocation *userLocation;
 @property (nonatomic, assign, readonly) BOOL userIsRegisteredFacebook;
-@property (nonatomic, retain, readonly) NSDate *userLastUpdate;
-@property (nonatomic, retain) NSURL *userImage;
+@property (nonatomic, assign, readonly) BOOL userIsRegistered;
+@property (nonatomic, strong, readonly) NSDate *userLastUpdate;
+@property (nonatomic, strong, readonly) NSString *userFacebookID;
+@property (nonatomic, strong) NSURL *userImage;
 @property (nonatomic, assign) int userMainCurrencyBalance;
 @property (nonatomic, assign) int userSecondaryCurrencyBalance;
-@property (nonatomic, retain, readonly) NSString *userFacebookID;
+@property (nonatomic, strong) NSDate *userTempDate;
 
 /*********************************************************************************
  DEPRECATED METHODS WARNING:
@@ -52,7 +53,7 @@
  
  Corrected methods are listed first. Use these methods instead.
  **********************************************************************************/
-
+ 
 // Save Useritem to Applicasa DB
 - (void) saveWithBlock:(LiBlockAction)block;
 

@@ -23,6 +23,7 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     // setup Lumberjack logging
     [DDLog addLogger:[DDASLLogger sharedInstance]];
+    
     [DDLog addLogger:[DDTTYLogger sharedInstance]];
     [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
     [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.58 green:0.77 blue:0.49 alpha:1.0] backgroundColor:nil forFlag:LOG_FLAG_INFO];
@@ -76,7 +77,8 @@
 - (void)finishedInitializeLiCoreFrameworkWithUser:(User*)user isFirstLoad:(BOOL)isFirst {
     // Lets us know that the Applicasa core framework has finished loading
     DDLogInfo(@"We initialized Applicasa ... wahooo");
-};
+    [LiKitFacebook setPermissions:[NSArray arrayWithObject:@"publish_stream"] AllowLoginUI:YES];
+}
 
 - (void)liCoreHasNewUser:(User *)user {
     // This delegate method can be implemented if you wish to know when a new user exists

@@ -37,14 +37,14 @@
     view.promotion = promotion;
     [view setBackgroundColor:[UIColor clearColor]];
     
-    UIImageView *bgImageView = [[[UIImageView alloc] initWithFrame:frame] autorelease];
+    UIImageView *bgImageView = [[UIImageView alloc] initWithFrame:frame];
     [bgImageView setUserInteractionEnabled:YES];
     [bgImageView setContentMode:UIViewContentModeScaleAspectFit];
     [bgImageView setBackgroundColor:[UIColor clearColor]];
     [view addSubview:bgImageView];
     [view sendSubviewToBack:bgImageView];
     
-    UIButton *closeButton = [[[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-60, 15, 40, 40)] autorelease];
+    UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-60, 15, 40, 40)];
     [closeButton setImage:[UIImage imageNamed:@"Close"] forState:UIControlStateNormal];
     [closeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [closeButton setBackgroundColor:[UIColor clearColor]];
@@ -52,7 +52,7 @@
     closeButton.tag = kCancelButtonTag;
     [view addSubview:closeButton];
     
-    UIButton *actionButton = [[[UIButton alloc] initWithFrame:CGRectMake((frame.size.width/10)*3, (frame.size.height/10)*8, (frame.size.width/10)*4, (frame.size.height/10)*2)] autorelease];
+    UIButton *actionButton = [[UIButton alloc] initWithFrame:CGRectMake((frame.size.width/10)*3, (frame.size.height/10)*8, (frame.size.width/10)*4, (frame.size.height/10)*2)];
     [actionButton addTarget:view action:@selector(promoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [actionButton setBackgroundColor:[UIColor clearColor]];
     actionButton.tag = kActionButtonTag;
@@ -75,7 +75,7 @@
         [actionButton setImage:image forState:UIControlStateNormal];
     }];
     
-    return [view autorelease];
+    return view;
 }
 
 - (IBAction) promoButtonPressed:(UIButton *)sender{

@@ -24,7 +24,6 @@
         [closeButton setBackgroundColor:[UIColor blackColor]];
         [closeButton addTarget:self action:@selector(hideLiWebView) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:closeButton];
-        [closeButton release];
     }
     return self;
 }
@@ -57,7 +56,6 @@
     [indicator startAnimating];
 
     [self addSubview:indicator];
-    [indicator release];
     
     UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, frame.size.height*4/5, frame.size.width, frame.size.width*1/5)];
     [loadingLabel setText:@"Loading..."];
@@ -67,7 +65,6 @@
     [loadingLabel setBackgroundColor:[UIColor blackColor]];
     [loadingLabel setTextColor:[UIColor whiteColor]];
     [self addSubview:loadingLabel];
-    [loadingLabel release];
     
     return self;
 }
@@ -92,7 +89,7 @@
     [view addSubview:indicatorView];
     [view bringSubviewToFront:indicatorView];
    
-    return [indicatorView autorelease];
+    return indicatorView;
 }
 
 - (void) stopAndRemove{

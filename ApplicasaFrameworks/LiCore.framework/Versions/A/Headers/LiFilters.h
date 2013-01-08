@@ -13,16 +13,12 @@
 #import <LiCore/LiCoreDelegate.h>
 
 @class LiGeoFilter;
+@class LiBasicFilters;
+@class LiComplexFilters;
+
 @interface LiFilters : NSObject
-@property (nonatomic, retain) id field;
-@property (nonatomic, retain) id value;
-
-- (NSString *) sqlDescription;
-- (NSString *) mongoDescriptionByClassName:(NSString *)className;
-- (LiGeoFilter *) getGeoFilter;
-
-+ (NSString *) getSQLOperatorString:(OPERATORS)oper;
-+ (NSString *) getMongoOperatorString:(OPERATORS)oper WithValue:(id)value isIDField:(BOOL)isIDField;
+@property (nonatomic, strong) id field;
+@property (nonatomic, strong) id value;
 
 - (LiFilters *) NOT;
 /*
@@ -34,24 +30,6 @@
 
 @end
 
-@interface LiBasicFilters: LiFilters {
-    OPERATORS _operator;
-}
-
-- (id) initFilterWithField:(LiFields)_field Value:(id)_value Operator:(OPERATORS)__operator;
-
-@end
-
-@interface LiComplexFilters : LiFilters {
-    
-}
-@property (nonatomic, assign) COMPLEX_OPERATORS complexOperator;
-- (id) initWithOperandA:(LiFilters *)_operandA OperandB:(LiFilters *)_operandB Operator:(COMPLEX_OPERATORS)_operator;
-
-@property (nonatomic, retain) LiFilters *operandA;
-@property (nonatomic, retain) LiFilters *operandB;
-
-@end
 
 @interface LiPager : NSObject{
     NSUInteger page;
@@ -59,7 +37,5 @@
 }
 
 + (LiPager *) pagerWithPage:(NSUInteger)page RecordsPerPage:(NSUInteger)recordsPerPage;
-- (NSDictionary *) pagerMongoDictionary;
-- (NSString *) sqlPagingQuery;
 
 @end

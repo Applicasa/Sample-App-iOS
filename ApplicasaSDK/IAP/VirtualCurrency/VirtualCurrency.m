@@ -1,12 +1,11 @@
 //
 // VirtualCurrency.m
 // Created by Applicasa 
-// 12/20/2012
+// 07/01/2013
 //
 
 #import "VirtualCurrency.h"
 #import <StoreKit/StoreKit.h>
-
 
 #define kClassName                  @"VirtualCurrency"
 
@@ -72,27 +71,6 @@ enum VirtualCurrencyIndexes {
 
 
 
-# pragma mark - Memory Management
-
-- (void) dealloc
-{
-	[virtualCurrencyID release];
-	[virtualCurrencyTitle release];
-	[virtualCurrencyAppleIdentifier release];
-	[virtualCurrencyGoogleIdentifier release];
-	[virtualCurrencyDescription release];
-	[virtualCurrencyImageA release];
-	[virtualCurrencyImageB release];
-	[virtualCurrencyImageC release];
-	[virtualCurrencyLastUpdate release];
-
-	[product release];
-	[itunesPrice release];
-
-	[super dealloc];
-}
-
-
 # pragma mark - Initialization
 
 /*
@@ -115,7 +93,7 @@ enum VirtualCurrencyIndexes {
 		self.virtualCurrencyIsDeal				= NO;
 		self.virtualCurrencyInAppleStore				= NO;
 		self.virtualCurrencyInGoogleStore				= NO;
-		virtualCurrencyLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		virtualCurrencyLastUpdate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 		self.product = nil;
 		self.itunesPrice = nil;
 	}
@@ -145,7 +123,7 @@ enum VirtualCurrencyIndexes {
 		self.virtualCurrencyIsDeal               = [[item objectForKey:KeyWithHeader(KEY_virtualCurrencyIsDeal, header)] boolValue];
 		self.virtualCurrencyInAppleStore               = [[item objectForKey:KeyWithHeader(KEY_virtualCurrencyInAppleStore, header)] boolValue];
 		self.virtualCurrencyInGoogleStore               = [[item objectForKey:KeyWithHeader(KEY_virtualCurrencyInGoogleStore, header)] boolValue];
-		virtualCurrencyLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_virtualCurrencyLastUpdate, header)] retain];
+		virtualCurrencyLastUpdate               = [item objectForKey:KeyWithHeader(KEY_virtualCurrencyLastUpdate, header)];
 
 	}
 	return self;
@@ -171,7 +149,7 @@ enum VirtualCurrencyIndexes {
 		self.virtualCurrencyIsDeal               = object.virtualCurrencyIsDeal;
 		self.virtualCurrencyInAppleStore               = object.virtualCurrencyInAppleStore;
 		self.virtualCurrencyInGoogleStore               = object.virtualCurrencyInGoogleStore;
-		virtualCurrencyLastUpdate               = [object.virtualCurrencyLastUpdate retain];
+		virtualCurrencyLastUpdate               = object.virtualCurrencyLastUpdate;
 
 	}
 	return self;
@@ -193,7 +171,7 @@ enum VirtualCurrencyIndexes {
 	[dictionary addBoolValue:virtualCurrencyInGoogleStore forKey:KEY_virtualCurrencyInGoogleStore];
 	[dictionary addDateValue:virtualCurrencyLastUpdate forKey:KEY_virtualCurrencyLastUpdate];
 
-	return [dictionary autorelease];
+	return dictionary;
 }
 
 + (NSDictionary *) getFields{
@@ -216,14 +194,14 @@ enum VirtualCurrencyIndexes {
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_virtualCurrencyLastUpdate];
 	[fieldsDic setValue:kTEXT_TYPE forKey:@"Security"];
 	
-	return [fieldsDic autorelease];
+	return fieldsDic;
 }
 
 + (NSDictionary *) getForeignKeys{
 	NSMutableDictionary *foreignKeysDic = [[NSMutableDictionary alloc] init];
 
 	
-	return [foreignKeysDic autorelease];
+	return foreignKeysDic;
 }
 
 + (NSString *) getClassName{
@@ -359,13 +337,13 @@ enum VirtualCurrencyIndexes {
 			self.virtualCurrencyIsDeal = sqlite3_column_int(stmt, array[0][VirtualCurrencyIsDealIndex]);
 			self.virtualCurrencyInAppleStore = sqlite3_column_int(stmt, array[0][VirtualCurrencyInAppleStoreIndex]);
 			self.virtualCurrencyInGoogleStore = sqlite3_column_int(stmt, array[0][VirtualCurrencyInGoogleStoreIndex]);
-			virtualCurrencyLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualCurrencyLastUpdateIndex])]] retain];
+			virtualCurrencyLastUpdate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualCurrencyLastUpdateIndex])]];
 		
 		}
 	return self;
 }
 
-+ (NSArray *) getArrayFromStatement:(sqlite3_stmt *)stmt IDsList:(NSArray *)idsList{
++ (NSArray *) getArrayFromStatement:(sqlite3_stmt *)stmt IDsList:(NSArray *)idsList resultFromServer:(BOOL)resultFromServer{
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	NSMutableArray *columnsArray = [[NSMutableArray alloc] init];
@@ -394,29 +372,26 @@ enum VirtualCurrencyIndexes {
 	indexes[0][VirtualCurrencyInGoogleStoreIndex] = [columnsArray indexOfObject:KEY_virtualCurrencyInGoogleStore];
 	indexes[0][VirtualCurrencyLastUpdateIndex] = [columnsArray indexOfObject:KEY_virtualCurrencyLastUpdate];
 
-	[columnsArray release];
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];
 	
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
 		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][VirtualCurrencyIDIndex])];
-		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
+		if (resultFromServer && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
 			VirtualCurrency *item  = [[VirtualCurrency alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
-			[item release];
 		}
 	}
 
 	[LiObjRequest removeIDsList:blackList FromObject:kClassName];
-	[blackList release];
 	
 	for (int i=0; i<1; i++) {
 		free(indexes[i]);
 	}
 	free(indexes);
 	
-	return [result autorelease];
+	return result;
 }
 
 
@@ -428,7 +403,7 @@ enum VirtualCurrencyIndexes {
 
 static LiBlockAction actionBlock = NULL;
 - (void) buyVirtualCurrencyWithBlock:(LiBlockAction)block{
-    actionBlock = Block_copy(block);
+    actionBlock = (__bridge LiBlockAction)CFBridgingRetain(block);
     [LiKitIAP purchaseVirtualCurrency:self Delegate:self];
 }
 
@@ -448,20 +423,20 @@ static LiBlockAction actionBlock = NULL;
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
     actionBlock(error,item.virtualCurrencyID,DoIapAction);
-	Block_release(actionBlock);
+	actionBlock = NULL;
 }
 
 #pragma mark - Get Array
 
 + (void) getArrayWithQuery:(LiQuery *)query WithBlock:(GetVirtualCurrencyArrayFinished)block{
-    VirtualCurrency *item = [VirtualCurrency instance];
+	VirtualCurrency *item = [VirtualCurrency instance];
 
-    query = [self setFieldsNameToQuery:query];
-    LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-	[request setBlock:block];
+	query = [self setFieldsNameToQuery:query];
+	LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
+	[request setBlock:(__bridge void *)(block)];
     [request addIntValue:LOCAL forKey:@"DbGetKind"];
-    [request setDelegate:item];
-    [request addValue:query forKey:@"query"];
+	[request setDelegate:item];
+	[request addValue:query forKey:@"query"];
     request.shouldWorkOffline = YES;
     
     [request startSync:YES];
@@ -473,12 +448,12 @@ static LiBlockAction actionBlock = NULL;
     VirtualCurrency *item = [VirtualCurrency instance];
         
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-	[request setBlock:block];
-    [request addValue:rawQuery forKey:@"filters"];
-    [request setShouldWorkOffline:YES];
-    [request startSync:YES];
+	[request setBlock:(__bridge void *)(block)];
+	[request addValue:rawQuery forKey:@"filters"];
+	[request setShouldWorkOffline:YES];
+	[request startSync:YES];
     
-    [item requestDidFinished:request];
+	[item requestDidFinished:request];
 }
 
 
@@ -492,23 +467,22 @@ static LiBlockAction actionBlock = NULL;
     
     switch (action) {
 
-        case GetArray:{
-      sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
-            NSArray *idsList = [responseData objectForKey:@"ids"];
-            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualCurrency getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
-   [request releaseBlock];
-
-        }
-            break;
-        default:
-            break;
+	case GetArray:{
+		sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+        NSArray *idsList = [responseData objectForKey:@"ids"];
+        [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[VirtualCurrency getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer] Block:[request getBlock]];
+		[request releaseBlock];
+		}
+        break;
+	default:
+		break;
     }
 }
 
 + (id) instanceWithID:(NSString *)ID{
     VirtualCurrency *instace = [[VirtualCurrency alloc] init];
     instace.virtualCurrencyID = ID;
-    return [instace autorelease];
+    return instace;
 }
 
 #pragma mark - Responders
@@ -517,7 +491,7 @@ static LiBlockAction actionBlock = NULL;
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
  
-    GetVirtualCurrencyArrayFinished _block = (GetVirtualCurrencyArrayFinished)block;
+    GetVirtualCurrencyArrayFinished _block = (__bridge GetVirtualCurrencyArrayFinished)block;
     _block(error,array);
 }
 

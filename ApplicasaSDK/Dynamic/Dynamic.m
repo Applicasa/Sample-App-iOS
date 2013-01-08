@@ -1,7 +1,7 @@
 //
 // Dynamic.m
 // Created by Applicasa 
-// 12/20/2012
+// 07/01/2013
 //
 
 #import "Dynamic.h"
@@ -56,7 +56,7 @@ enum DynamicIndexes {
 	LiObjRequest *request = [LiObjRequest requestWithAction:Add ClassName:kClassName];
 	request.shouldWorkOffline = kShouldDynamicWorkOffline;
 
-	[request setBlock:block];
+	[request setBlock:(__bridge void *)(block)];
 	[self addValuesToRequest:&request];
 
 	if ([self isServerId:self.dynamicID]){
@@ -88,7 +88,7 @@ enum DynamicIndexes {
 
 - (void) increaseField:(LiFields)field byValue:(NSNumber *)value{
     if (!self.increaseDictionary)
-        self.increaseDictionary = [[[NSMutableDictionary alloc] init] autorelease];
+        self.increaseDictionary = [[NSMutableDictionary alloc] init];
     [self.increaseDictionary setValue:value forKey:[[self class] getFieldName:field]];
     [self updateField:field withValue:value];
 }
@@ -96,12 +96,12 @@ enum DynamicIndexes {
 #pragma mark - Delete
 
 - (void) deleteWithBlock:(LiBlockAction)block{        
-    LiObjRequest *request = [LiObjRequest requestWithAction:Delete ClassName:kClassName];
+	LiObjRequest *request = [LiObjRequest requestWithAction:Delete ClassName:kClassName];
 	request.shouldWorkOffline = kShouldDynamicWorkOffline;
-	[request setBlock:block];
-    request.delegate = self;
-    [request addValue:dynamicID forKey:KEY_dynamicID];
-    [request startSync:NO];    
+	[request setBlock:(__bridge void *)(block)];
+	request.delegate = self;
+	[request addValue:dynamicID forKey:KEY_dynamicID];
+	[request startSync:NO];    
 }
 
 #pragma mark - Get By ID
@@ -118,8 +118,7 @@ enum DynamicIndexes {
         if (array.count)
             item = [array objectAtIndex:0];
         block(error,item);
-    }];	
-    [query release];
+    }];	 
 }
 
 
@@ -130,7 +129,7 @@ enum DynamicIndexes {
     
  query = [self setFieldsNameToQuery:query];
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
- [request setBlock:block];
+	[request setBlock:(__bridge void *)(block)];
     [request addIntValue:queryKind forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
@@ -146,7 +145,7 @@ enum DynamicIndexes {
     Dynamic *item = [Dynamic instance];
 
     LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
-	[request setBlock:block];
+	[request setBlock:(__bridge void *)(block)];
     [request addValue:rawQuery forKey:@"filters"];
     [request setShouldWorkOffline:YES];
     [request startSync:YES];
@@ -167,7 +166,7 @@ enum DynamicIndexes {
     [request addIntValue:fileType forKey:@"fileType"];
 	[request addIntValue:field forKey:@"fileField"];
     [request addValue:[[self class] getFieldName:field] forKey:@"field"];
-	[request setBlock:block];
+	[request setBlock:(__bridge void *)(block)];
     [request startSync:NO];
 }
 
@@ -210,7 +209,8 @@ enum DynamicIndexes {
         case GetArray:{            
 			sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
             NSArray *idsList = [request.response.responseData objectForKey:@"ids"];
-            [self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[Dynamic getArrayFromStatement:stmt IDsList:idsList] Block:[request getBlock]];
+			[self respondToGetArray_ResponseType:responseType ResponseMessage:responseMessage Array:[Dynamic getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer] Block:[request getBlock]];
+
 			[request releaseBlock];
 			
         }
@@ -223,7 +223,7 @@ enum DynamicIndexes {
 + (id) instanceWithID:(NSString *)ID{
     Dynamic *instace = [[Dynamic alloc] init];
     instace.dynamicID = ID;
-    return [instace autorelease];
+    return instace;
 }
 
 
@@ -233,7 +233,7 @@ enum DynamicIndexes {
     NSError *error = nil;
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 	
-    GetDynamicArrayFinished _block = (GetDynamicArrayFinished)block;
+    GetDynamicArrayFinished _block = (__bridge GetDynamicArrayFinished)block;
     _block(error,array);
 }
 
@@ -268,21 +268,6 @@ enum DynamicIndexes {
 }
 
 
-# pragma mark - Memory Management
-
-- (void) dealloc
-{
-	[dynamicID release];
-	[dynamicLastUpdate release];
-	[dynamicText release];
-	[dynamicDate release];
-	[dynamicHtml release];
-
-
-	[super dealloc];
-}
-
-
 # pragma mark - Initialization
 
 /*
@@ -292,11 +277,11 @@ enum DynamicIndexes {
 	if (self = [super init]) {
 
 		self.dynamicID				= @"0";
-		dynamicLastUpdate				= [[[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease] retain];
+		dynamicLastUpdate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 		self.dynamicText				= @"";
 		self.dynamicNumber				= 0;
 		self.dynamicReal				= 0;
-		self.dynamicDate				= [[[NSDate alloc] initWithTimeIntervalSince1970:0] autorelease];
+		self.dynamicDate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 		self.dynamicBool				= YES;
 		self.dynamicHtml				= @"";
 	}
@@ -307,7 +292,7 @@ enum DynamicIndexes {
 	if (self = [self init]) {
 
 		self.dynamicID               = [item objectForKey:KeyWithHeader(KEY_dynamicID, header)];
-		dynamicLastUpdate               = [[item objectForKey:KeyWithHeader(KEY_dynamicLastUpdate, header)] retain];
+		dynamicLastUpdate               = [item objectForKey:KeyWithHeader(KEY_dynamicLastUpdate, header)];
 		self.dynamicText               = [item objectForKey:KeyWithHeader(KEY_dynamicText, header)];
 		self.dynamicNumber               = [[item objectForKey:KeyWithHeader(KEY_dynamicNumber, header)] integerValue];
 		self.dynamicReal               = [[item objectForKey:KeyWithHeader(KEY_dynamicReal, header)] floatValue];
@@ -326,7 +311,7 @@ enum DynamicIndexes {
 	if (self = [super init]) {
 
 		self.dynamicID               = object.dynamicID;
-		dynamicLastUpdate               = [object.dynamicLastUpdate retain];
+		dynamicLastUpdate               = object.dynamicLastUpdate;
 		self.dynamicText               = object.dynamicText;
 		self.dynamicNumber               = object.dynamicNumber;
 		self.dynamicReal               = object.dynamicReal;
@@ -350,7 +335,7 @@ enum DynamicIndexes {
 	[dictionary addBoolValue:dynamicBool forKey:KEY_dynamicBool];
 	[dictionary addValue:dynamicHtml forKey:KEY_dynamicHtml];
 
-	return [dictionary autorelease];
+	return dictionary;
 }
 
 + (NSDictionary *) getFields{
@@ -365,14 +350,14 @@ enum DynamicIndexes {
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"1") forKey:KEY_dynamicBool];
 	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_dynamicHtml];
 	
-	return [fieldsDic autorelease];
+	return fieldsDic;
 }
 
 + (NSDictionary *) getForeignKeys{
 	NSMutableDictionary *foreignKeysDic = [[NSMutableDictionary alloc] init];
 
 	
-	return [foreignKeysDic autorelease];
+	return foreignKeysDic;
 }
 
 + (NSString *) getClassName{
@@ -460,7 +445,7 @@ enum DynamicIndexes {
 	if (self = [super init]){
 	
 			self.dynamicID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicIDIndex])];
-			dynamicLastUpdate = [[[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicLastUpdateIndex])]] retain];
+			dynamicLastUpdate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicLastUpdateIndex])]];
 			self.dynamicText = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][DynamicTextIndex])];
 			self.dynamicNumber = sqlite3_column_int(stmt, array[0][DynamicNumberIndex]);
 			self.dynamicReal = sqlite3_column_double(stmt, array[0][DynamicRealIndex]);
@@ -472,7 +457,7 @@ enum DynamicIndexes {
 	return self;
 }
 
-+ (NSArray *) getArrayFromStatement:(sqlite3_stmt *)stmt IDsList:(NSArray *)idsList{
++ (NSArray *) getArrayFromStatement:(sqlite3_stmt *)stmt IDsList:(NSArray *)idsList resultFromServer:(BOOL)resultFromServer{
 	NSMutableArray *result = [[NSMutableArray alloc] init];
 	
 	NSMutableArray *columnsArray = [[NSMutableArray alloc] init];
@@ -494,29 +479,26 @@ enum DynamicIndexes {
 	indexes[0][DynamicBoolIndex] = [columnsArray indexOfObject:KEY_dynamicBool];
 	indexes[0][DynamicHtmlIndex] = [columnsArray indexOfObject:KEY_dynamicHtml];
 
-	[columnsArray release];
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];
 	
 	while (sqlite3_step(stmt) == SQLITE_ROW) {
 		NSString *ID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, indexes[0][DynamicIDIndex])];
-		if (idsList.count && ([idsList indexOfObject:ID] == NSNotFound)){
+		if (resultFromServer && ([idsList indexOfObject:ID] == NSNotFound)){
 			[blackList addObject:ID];
 		} else {
 			Dynamic *item  = [[Dynamic alloc] initWithStatement:stmt Array:(int **)indexes IsFK:NO];
 			[result addObject:item];
-			[item release];
 		}
 	}
 
 	[LiObjRequest removeIDsList:blackList FromObject:kClassName];
-	[blackList release];
 	
 	for (int i=0; i<1; i++) {
 		free(indexes[i]);
 	}
 	free(indexes);
 	
-	return [result autorelease];
+	return result;
 }
 
 #pragma mark - Deprecated Methods

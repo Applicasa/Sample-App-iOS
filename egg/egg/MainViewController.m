@@ -17,7 +17,6 @@
 #import "AlertShower.h"
 #import <LiKitIAP/LiKitIAP.h>
 #import "LiPromoHelperViews.h"
-#import "NearbyFriendsViewController.h"
 #import "LiUserLocation.h"
 #import "User.h"
 
@@ -205,6 +204,16 @@
 }
 
 #pragma mark -
+#pragma mark NearbyFriendsViewController methods
+#pragma mark -
+
+- (void)facebookFeatureViewControllerViewControllerDidGoBack:(FacebookFeatureViewController *)controller{
+    // Handle dismissing StoreViewController when user taps back button
+    DDLogInfo(@"doing goBack delegate action");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -
 #pragma mark prepareForSegue
 #pragma mark -
 
@@ -224,6 +233,10 @@
         DDLogInfo(@"doing findFriends segue");
         NearbyFriendsViewController *nearbyFriendsViewController = segue.destinationViewController;
         nearbyFriendsViewController.delegate = self;
+    } else if ([segue.identifier isEqualToString:@"facebookFeatureSegue"]){
+        DDLogInfo(@"doing facebookFeature segue");
+        FacebookFeatureViewController *facebookFeatureViewController = segue.destinationViewController;
+        facebookFeatureViewController.delegate = self;
     }
 }
 

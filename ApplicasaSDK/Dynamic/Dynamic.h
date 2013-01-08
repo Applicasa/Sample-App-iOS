@@ -1,7 +1,7 @@
 //
 // Dynamic.h
 // Created by Applicasa 
-// 12/20/2012
+// 07/01/2013
 //
 
 #import <Foundation/Foundation.h>
@@ -22,14 +22,14 @@
 @interface Dynamic : LiObject <LiCoreRequestDelegate> {
 }
 
-@property (nonatomic, retain) NSString *dynamicID;
-@property (nonatomic, retain, readonly) NSDate *dynamicLastUpdate;
-@property (nonatomic, retain) NSString *dynamicText;
+@property (nonatomic, strong) NSString *dynamicID;
+@property (nonatomic, strong, readonly) NSDate *dynamicLastUpdate;
+@property (nonatomic, strong) NSString *dynamicText;
 @property (nonatomic, assign) int dynamicNumber;
 @property (nonatomic, assign) float dynamicReal;
-@property (nonatomic, retain) NSDate *dynamicDate;
+@property (nonatomic, strong) NSDate *dynamicDate;
 @property (nonatomic, assign) BOOL dynamicBool;
-@property (nonatomic, retain) NSString *dynamicHtml;
+@property (nonatomic, strong) NSString *dynamicHtml;
 
 /*********************************************************************************
  DEPRECATED METHODS WARNING:

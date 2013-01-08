@@ -11,10 +11,10 @@
 @class User;
 @interface LiObjFBFriend : NSObject
 
-@property (nonatomic, retain) User *user;
+@property (nonatomic, strong) User *user;
 @property (nonatomic, assign) NSInteger facebookID;
-@property (nonatomic, retain) NSString *facebookName;
-@property (nonatomic, retain) NSURL *facebookImage;
+@property (nonatomic, strong) NSString *facebookName;
+@property (nonatomic, strong) NSURL *facebookImage;
 
 + (LiObjFBFriend *) friendWithDictionary:(NSDictionary *)dictionary;
 

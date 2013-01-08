@@ -66,9 +66,9 @@ typedef void (^PromotionResultBlock)(LiPromotionAction promoAction,LiPromotionRe
     PromotionResultBlock promoBlock;
 }
 
-@property (nonatomic, retain) NSString *promotionID;
-@property (nonatomic, retain, readonly) NSDate *promotionLastUpdate;
-@property (nonatomic, retain) NSString *promotionName;
+@property (nonatomic, strong) NSString *promotionID;
+@property (nonatomic, strong, readonly) NSDate *promotionLastUpdate;
+@property (nonatomic, strong) NSString *promotionName;
 @property (nonatomic, assign) LiEventTypes promotionAppEvent;
 @property (nonatomic, assign) int promotionMaxPerUser;
 @property (nonatomic, assign) int promotionMaxPerDay;
@@ -76,27 +76,27 @@ typedef void (^PromotionResultBlock)(LiPromotionAction promoAction,LiPromotionRe
 @property (nonatomic, assign) BOOL promotionShowImmediately;
 @property (nonatomic, assign) BOOL promotionShowOnce;
 @property (nonatomic, assign) int promotionGender;
-@property (nonatomic, retain) NSString *promotionSpendProfile;
-@property (nonatomic, retain) NSString *promotionUseProfile;
-@property (nonatomic, retain) NSString *promotionCountry;
-@property (nonatomic, retain) NSString *promotionAge;
-@property (nonatomic, retain) NSDate *promotionStartTime;
-@property (nonatomic, retain) NSDate *promotionEndTime;
-@property (nonatomic, retain) NSString *promotionFilterParameters;
-@property (nonatomic, retain) NSString *promotionType;
+@property (nonatomic, strong) NSString *promotionSpendProfile;
+@property (nonatomic, strong) NSString *promotionUseProfile;
+@property (nonatomic, strong) NSString *promotionCountry;
+@property (nonatomic, strong) NSString *promotionAge;
+@property (nonatomic, strong) NSDate *promotionStartTime;
+@property (nonatomic, strong) NSDate *promotionEndTime;
+@property (nonatomic, strong) NSString *promotionFilterParameters;
+@property (nonatomic, strong) NSString *promotionType;
 @property (nonatomic, assign) LiPromotionActionKind promotionActionKind;
-@property (nonatomic, retain) NSString *promotionActionData;
-@property (nonatomic, retain) NSURL *promotionImage;
-@property (nonatomic, retain) NSURL *promotionButton;
+@property (nonatomic, strong) NSString *promotionActionData;
+@property (nonatomic, strong) NSURL *promotionImage;
+@property (nonatomic, strong) NSURL *promotionButton;
 @property (nonatomic, assign) int promotionEligible;
 @property (nonatomic, assign) int promotionViews;
 @property (nonatomic, assign) int promotionUsed;
-@property (nonatomic, retain) NSString *promotionImageBase;
-@property (nonatomic, retain) NSString *promotionDefaultPhone;
-@property (nonatomic, retain) NSString *promotionDefaultTablet;
-@property (nonatomic, retain) NSString *promotionImageOptions;
+@property (nonatomic, strong) NSString *promotionImageBase;
+@property (nonatomic, strong) NSString *promotionDefaultPhone;
+@property (nonatomic, strong) NSString *promotionDefaultTablet;
+@property (nonatomic, strong) NSString *promotionImageOptions;
 @property (nonatomic, assign) BOOL promotionWaitingToBeViewed;
-@property (nonatomic, retain) NSString *promotionIdentifier;
+@property (nonatomic, strong) NSString *promotionIdentifier;
 
 
 // ****
