@@ -47,7 +47,7 @@ static UIImage *virtualGoodImage = nil;
         virtualGoodImage = [UIImage imageNamed:@"green_btn"];
     
     collectionItems = [[NSMutableArray alloc] init];
-    storeItemView.backgroundView= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent.png"]];
+    storeItemView.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"iapBgContent.png"]];
     
     [self changeSection:btnVirtualItems];
 }
@@ -346,6 +346,7 @@ static UIImage *virtualGoodImage = nil;
                     break;
                 case LiPromotionResultDealVirtualCurrency:{
                     [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Deal %@",[(VirtualCurrency *)info virtualCurrencyTitle]] onViewController:self];
+                    [self updateBalanceLabel];
                 }
                     break;
                 case LiPromotionResultLinkOpened:{

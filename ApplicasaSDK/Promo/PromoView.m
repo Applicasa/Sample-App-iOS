@@ -128,6 +128,7 @@
             promoAction = LiPromotionActionFailed;
             info = error;
         }
+        promotion.block(promoAction,result,info);
     };
     switch (promotion.promotionActionKind) {
         case LiPromotionTypeLink:{
