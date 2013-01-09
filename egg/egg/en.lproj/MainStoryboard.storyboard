@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="11E2620" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="duW-wm-fsE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="11G63b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="duW-wm-fsE">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
     </dependencies>
@@ -286,12 +286,12 @@
                                     <segue destination="PYe-tA-1B5" kind="modal" identifier="nearByFriendsSegueue" id="Lxh-G6-2rj"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="profileZombie@2x.png" translatesAutoresizingMaskIntoConstraints="NO" id="WjE-VD-iYs">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WjE-VD-iYs">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="48" id="zpV-zv-fVz"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="rankPrivate@2x.png" translatesAutoresizingMaskIntoConstraints="NO" id="w0D-hk-gRm">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w0D-hk-gRm">
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="U27-3g-h2n"/>
                                     <constraint firstAttribute="width" constant="48" id="eTC-zV-9ee"/>
@@ -523,7 +523,6 @@
         <!--Store View Controller - Store-->
         <scene sceneID="SCh-NE-7Si">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="N20-i0-fAC" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="Store" id="vea-E6-9SG" customClass="StoreViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LDm-cU-rIF">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
@@ -737,13 +736,13 @@
                         <outlet property="storeItemView" destination="Xgu-2G-4NS" id="fHo-fz-td5"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N20-i0-fAC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="604" y="336"/>
         </scene>
         <!--Nearby Friends View Controller - LocationFriends-->
         <scene sceneID="Hyi-X0-TGj">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lrn-0b-XtL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController title="LocationFriends" id="PYe-tA-1B5" customClass="NearbyFriendsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DzB-Lu-WbP">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
@@ -881,6 +880,7 @@
                         <outlet property="friendsTableView" destination="hr6-Fd-mX8" id="rSC-2C-Ouf"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lrn-0b-XtL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="644" y="930"/>
         </scene>
@@ -913,10 +913,91 @@
         <image name="mainTabFacebookFeatures@2x.png" width="134" height="190"/>
         <image name="mainTabFindMyFriends@2x.png" width="107" height="181"/>
         <image name="mainTabGameFeatures@2x.png" width="134" height="190"/>
-        <image name="profileZombie@2x.png" width="96" height="96"/>
-        <image name="rankPrivate@2x.png" width="96" height="96"/>
         <image name="tabChallenge@2x.png" width="318" height="88"/>
     </resources>
+    <classes>
+        <class className="FBFriendCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FBFriendCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="inviteButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="nameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="FacebookFeatureViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FacebookFeatureViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="fbFriendsTableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="FriendTableViewCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FriendTableViewCell.h"/>
+            <relationships>
+                <relationship kind="action" name="actionButtonPressed:"/>
+                <relationship kind="outlet" name="actionButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="label" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="LiStoreCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LiStoreCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="btnBuy" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="infoLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="itemImage" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="LoginViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancel:"/>
+                <relationship kind="action" name="loggedIn:"/>
+                <relationship kind="action" name="registerUser:"/>
+                <relationship kind="outlet" name="inputPassword" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="inputUsername" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="MainViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="spendProfileImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="usageProfileImageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+        <class className="NearbyFriendsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NearbyFriendsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="challangeAction:"/>
+                <relationship kind="action" name="goBack:"/>
+                <relationship kind="outlet" name="challangeButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="friendsTableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="StoreViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/StoreViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="changeSection:"/>
+                <relationship kind="action" name="goBack:"/>
+                <relationship kind="outlet" name="btnBuyCoins" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="btnMyItems" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="btnVirtualItems" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="coinTotal" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="storeItemView" candidateClass="UICollectionView"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
