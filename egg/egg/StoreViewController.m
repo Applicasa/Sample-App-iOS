@@ -268,12 +268,7 @@ static UIImage *virtualGoodImage = nil;
         [cell.btnBuy setBackgroundImage:virtualCurrencyImage forState:UIControlStateNormal];
     }
     
-    LiActivityIndicator *indicator = (LiActivityIndicator *)[cell viewWithTag:kActivityViewTag];
-    if (!indicator){
-        indicator = [LiActivityIndicator startAnimatingOnView:cell];
-    }
     [imageUrl getCachedImageWithBlock:^(NSError *error, UIImage *image) {
-        [indicator stopAndRemove];
         [cell setImage:image];
     }];
     cell.btnBuy.tag = row;
