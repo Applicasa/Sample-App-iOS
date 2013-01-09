@@ -16,27 +16,11 @@ enum ActionButtonState {
     };
 
 @implementation FriendTableViewCell
+@synthesize imageView,label,actionButton;
 
 static UIImage *addImage = nil;
 static UIImage *addedImage = nil;
-static UIImage *avatarImage = nil;
 static NearbyFriendsViewController *nearbyFriendsViewController = nil;
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 - (IBAction)actionButtonPressed:(id)sender {
     UIButton *button = (UIButton *)sender;
@@ -61,17 +45,17 @@ static NearbyFriendsViewController *nearbyFriendsViewController = nil;
     
 }
 
+- (void) loadImageViewWithURL:(NSURL *)url{
+    @autoreleasepool {
+        [url getCachedImageWithBlock:^(NSError *error, UIImage *image) {
+            if (!error && image)
+                [imageView setImage:image];
+        }];
+    }
+}
+
 - (void) setCellContenetWithUser:(User *)user viewController:(NearbyFriendsViewController *)viewController{
-    [[user userImage] getCachedImageWithBlock:^(NSError *error, UIImage *image) {
-        if (error || !image){
-            //load avatar
-            if (!avatarImage)
-                avatarImage = [UIImage imageNamed:@"avatar"];
-            [self.imageView setImage:avatarImage];
-        } else {
-            [self.imageView setImage:image];
-        }
-    }];
+    [self performSelectorInBackground:@selector(loadImageViewWithURL:) withObject:user.userImage];
     
     CLLocation *currentLocation = [[User getCurrentUser] userLocation];
     NSString *labelString = [NSString stringWithFormat:@"%@, %d meters",[user displayName],(int)[currentLocation distanceFromLocation:[user userLocation]]];

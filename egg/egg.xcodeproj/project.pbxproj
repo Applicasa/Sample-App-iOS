@@ -1002,8 +1002,8 @@
 		C4514AC8163F09B20004CEA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
@@ -1018,8 +1018,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C227E3E9-0878-41A5-B094-0081630F2057";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C227E3E9-0878-41A5-B094-0081630F2057";
+				PROVISIONING_PROFILE = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1027,8 +1027,8 @@
 		C4514AC9163F09B20004CEA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
@@ -1043,8 +1043,8 @@
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "C227E3E9-0878-41A5-B094-0081630F2057";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C227E3E9-0878-41A5-B094-0081630F2057";
+				PROVISIONING_PROFILE = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AE4B8EA4-BCB9-497D-ADB5-77CC4BDCDF9F";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

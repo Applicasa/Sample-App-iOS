@@ -22,12 +22,18 @@ static UIImage *addedImage = nil;
     [tableViewDelegate tableView:myTableView didSelectRowAtIndexPath:myIndexPath];
 }
 
+- (void) loadImageViewWithURL:(NSURL *)url{
+    @autoreleasepool {
+        [url getCachedImageWithBlock:^(NSError *error, UIImage *image) {
+            if (!error)
+                [imageView setImage:image];
+        }];
+    }
+}
+
 
 - (void) setCellContenetWithLiObjFBFriend:(LiObjFBFriend *)liObjFBFriend{
-    [liObjFBFriend.facebookImage getCachedImageWithBlock:^(NSError *error, UIImage *image) {
-        if (!error)
-            [imageView setImage:image];
-    }];
+    [self performSelectorInBackground:@selector(loadImageViewWithURL:) withObject:liObjFBFriend.facebookImage];
     
     [nameLabel setText:liObjFBFriend.facebookName];
     

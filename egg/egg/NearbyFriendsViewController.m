@@ -47,7 +47,7 @@ static UIImage *challangeOff = nil;
         [AlertShower showAlertWithMessage:@"Can't get Currenct Location" onViewController:self];
         return;
     }
-    [query setGeoFilterBy:UserLocation Location:currentUserLocation Radius:5000];
+    [query setGeoFilterBy:UserLocation Location:currentUserLocation Radius:50000];
     [User getArrayWithQuery:query queryKind:LIGHT withBlock:^(NSError *error, NSArray *array) {
         self.tableArray = array;
         [self.friendsTableView reloadData];

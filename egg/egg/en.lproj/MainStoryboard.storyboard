@@ -45,7 +45,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="avatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="qgJ-l2-Shs">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="avatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="qgJ-l2-Shs">
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="44" id="blt-N3-Cxk"/>
                                                     </constraints>
@@ -781,15 +781,14 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="eot-kD-2g2">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="avatar.png" translatesAutoresizingMaskIntoConstraints="NO" id="eot-kD-2g2">
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="48" id="MtI-ou-rrK"/>
-                                                        <constraint firstAttribute="width" constant="48" id="hJ3-lQ-qgk"/>
+                                                        <constraint firstAttribute="width" constant="44" id="WRi-wK-nOr"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wac-It-Dnb">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="155" id="ug1-zz-SYx"/>
+                                                        <constraint firstAttribute="width" constant="189" id="Oez-oo-jKz"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -797,7 +796,6 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8kX-eM-oDR">
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="34" id="CZN-fl-sb3"/>
                                                         <constraint firstAttribute="height" constant="34" id="XeG-9u-3r3"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -817,12 +815,14 @@
                                         </view>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="wac-It-Dnb" firstAttribute="centerY" secondItem="NvX-Vz-dm9" secondAttribute="centerY" type="default" id="0f0-Xo-HhC"/>
-                                            <constraint firstItem="wac-It-Dnb" firstAttribute="leading" secondItem="eot-kD-2g2" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="5Wo-Ie-fYr"/>
                                             <constraint firstItem="eot-kD-2g2" firstAttribute="top" secondItem="NvX-Vz-dm9" secondAttribute="top" type="default" id="Fvy-7a-aHy"/>
+                                            <constraint firstItem="eot-kD-2g2" firstAttribute="leading" secondItem="NvX-Vz-dm9" secondAttribute="leading" constant="13" id="Giq-sa-YxZ"/>
+                                            <constraint firstItem="eot-kD-2g2" firstAttribute="centerY" secondItem="wac-It-Dnb" secondAttribute="centerY" type="default" id="Loh-0W-nh9"/>
                                             <constraint firstAttribute="trailing" secondItem="8kX-eM-oDR" secondAttribute="trailing" constant="20" type="default" id="LsN-Kh-Q5N"/>
-                                            <constraint firstItem="eot-kD-2g2" firstAttribute="leading" secondItem="NvX-Vz-dm9" secondAttribute="leading" constant="13" id="RHz-fz-Gv8"/>
+                                            <constraint firstItem="8kX-eM-oDR" firstAttribute="leading" secondItem="wac-It-Dnb" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="SE5-d5-beJ"/>
                                             <constraint firstItem="wac-It-Dnb" firstAttribute="centerY" secondItem="8kX-eM-oDR" secondAttribute="centerY" type="default" id="jdE-Eq-WcA"/>
+                                            <constraint firstItem="wac-It-Dnb" firstAttribute="leading" secondItem="NvX-Vz-dm9" secondAttribute="leading" constant="69" id="smb-YW-1uL"/>
+                                            <constraint firstItem="eot-kD-2g2" firstAttribute="bottom" secondItem="NvX-Vz-dm9" secondAttribute="bottom" type="default" id="tlx-fq-u5z"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="actionButton" destination="8kX-eM-oDR" id="gtA-09-hB3"/>
