@@ -1,7 +1,7 @@
 //
 // Tips.m
 // Created by Applicasa 
-// 07/01/2013
+// 1/15/2013
 //
 
 #import "Tips.h"
@@ -11,6 +11,8 @@
 #define KEY_tipsID				@"TipsID"
 #define KEY_tipsLastUpdate				@"TipsLastUpdate"
 #define KEY_tipsContent				@"TipsContent"
+#define KEY_tipsNum				@"TipsNum"
+#define KEY_tipsFdfsd				@"TipsFdfsd"
 
 @interface Tips (privateMethods)
 
@@ -26,12 +28,16 @@
 @synthesize tipsID;
 @synthesize tipsLastUpdate;
 @synthesize tipsContent;
+@synthesize tipsNum;
+@synthesize tipsFdfsd;
 
 enum TipsIndexes {
 	TipsIDIndex = 0,
 	TipsLastUpdateIndex,
-	TipsContentIndex,};
-#define NUM_OF_TIPS_FIELDS 3
+	TipsContentIndex,
+	TipsNumIndex,
+	TipsFdfsdIndex,};
+#define NUM_OF_TIPS_FIELDS 5
 
 
 
@@ -58,6 +64,12 @@ enum TipsIndexes {
 
 - (void) updateField:(LiFields)field withValue:(NSNumber *)value{
 	switch (field) {
+		case TipsNum:
+			tipsNum += [value intValue];
+			break;
+		case TipsFdfsd:
+			tipsFdfsd += [value intValue];
+			break;
 		default:
 			break;
 	}
@@ -226,6 +238,12 @@ enum TipsIndexes {
 	case TipsContent:
 		self.tipsContent = value;
 		break;
+	case TipsNum:
+		self.tipsNum = [value intValue];
+		break;
+	case TipsFdfsd:
+		self.tipsFdfsd = [value intValue];
+		break;
 	default:
 	break;
 	}
@@ -243,6 +261,8 @@ enum TipsIndexes {
 		self.tipsID				= @"0";
 		tipsLastUpdate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 		self.tipsContent				= @"";
+		self.tipsNum				= 0;
+		self.tipsFdfsd				= 0;
 	}
 	return self;
 }
@@ -253,6 +273,8 @@ enum TipsIndexes {
 		self.tipsID               = [item objectForKey:KeyWithHeader(KEY_tipsID, header)];
 		tipsLastUpdate               = [item objectForKey:KeyWithHeader(KEY_tipsLastUpdate, header)];
 		self.tipsContent               = [item objectForKey:KeyWithHeader(KEY_tipsContent, header)];
+		self.tipsNum               = [[item objectForKey:KeyWithHeader(KEY_tipsNum, header)] integerValue];
+		self.tipsFdfsd               = [[item objectForKey:KeyWithHeader(KEY_tipsFdfsd, header)] integerValue];
 
 	}
 	return self;
@@ -267,6 +289,8 @@ enum TipsIndexes {
 		self.tipsID               = object.tipsID;
 		tipsLastUpdate               = object.tipsLastUpdate;
 		self.tipsContent               = object.tipsContent;
+		self.tipsNum               = object.tipsNum;
+		self.tipsFdfsd               = object.tipsFdfsd;
 
 	}
 	return self;
@@ -278,6 +302,8 @@ enum TipsIndexes {
 	[dictionary addValue:tipsID forKey:KEY_tipsID];
 	[dictionary addDateValue:tipsLastUpdate forKey:KEY_tipsLastUpdate];
 	[dictionary addValue:tipsContent forKey:KEY_tipsContent];
+	[dictionary addIntValue:tipsNum forKey:KEY_tipsNum];
+	[dictionary addIntValue:tipsFdfsd forKey:KEY_tipsFdfsd];
 
 	return dictionary;
 }
@@ -288,6 +314,8 @@ enum TipsIndexes {
 	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_tipsID];
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_tipsLastUpdate];
 	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_tipsContent];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_tipsNum];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_tipsFdfsd];
 	
 	return fieldsDic;
 }
@@ -323,6 +351,14 @@ enum TipsIndexes {
 			fieldName = KEY_tipsContent;
 			break;
 
+		case TipsNum:
+			fieldName = KEY_tipsNum;
+			break;
+
+		case TipsFdfsd:
+			fieldName = KEY_tipsFdfsd;
+			break;
+
 		default:
 			NSLog(@"Wrong LiFields numerator for %@ Class",kClassName);
 			fieldName = nil;
@@ -352,6 +388,8 @@ enum TipsIndexes {
 
 - (void) addValuesToRequest:(LiObjRequest **)request{
 	[*request addValue:tipsContent forKey:KEY_tipsContent];
+	[*request addIntValue:tipsNum forKey:KEY_tipsNum];
+	[*request addIntValue:tipsFdfsd forKey:KEY_tipsFdfsd];
 }
 
 
@@ -361,6 +399,8 @@ enum TipsIndexes {
 			self.tipsID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][TipsIDIndex])];
 			tipsLastUpdate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][TipsLastUpdateIndex])]];
 			self.tipsContent = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][TipsContentIndex])];
+			self.tipsNum = sqlite3_column_int(stmt, array[0][TipsNumIndex]);
+			self.tipsFdfsd = sqlite3_column_int(stmt, array[0][TipsFdfsdIndex]);
 		
 		}
 	return self;
@@ -382,6 +422,8 @@ enum TipsIndexes {
 	indexes[0][TipsIDIndex] = [columnsArray indexOfObject:KEY_tipsID];
 	indexes[0][TipsLastUpdateIndex] = [columnsArray indexOfObject:KEY_tipsLastUpdate];
 	indexes[0][TipsContentIndex] = [columnsArray indexOfObject:KEY_tipsContent];
+	indexes[0][TipsNumIndex] = [columnsArray indexOfObject:KEY_tipsNum];
+	indexes[0][TipsFdfsdIndex] = [columnsArray indexOfObject:KEY_tipsFdfsd];
 
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];
 	

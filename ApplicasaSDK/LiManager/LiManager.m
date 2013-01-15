@@ -9,7 +9,7 @@
 #import "LiManager.h"
 #import "LiConfig.h"
 #import <LiCore/LiCore.h>
-#import <LiKitPromotions/LiKitPromotions.h>
+#import <LiCore/LiKitPromotions.h>
 
 
 #import "User.h"
@@ -19,7 +19,7 @@
 #import "Places.h"
 #import "Tips.h"
 #import "VirtualGood.h"
-#import <LiKitIAP/LiKitIAP.h>
+#import <LiCore/LiKitIAP.h>
 
 
 

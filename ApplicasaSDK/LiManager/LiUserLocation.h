@@ -11,7 +11,7 @@
 typedef void (^LiBlockLocationAction)(NSError *error, CLLocation *location,Actions action);
 
 @interface LiUserLocation : NSObject <LiCoreLocationDelegate,LiCoreUpdateLocationDelegate>
-@property (nonatomic, weak) LiBlockLocationAction locationAction;
+@property (nonatomic, assign) LiBlockLocationAction locationAction;
 
 /*********************************************************************************
  DEPRECATED METHODS WARNING:

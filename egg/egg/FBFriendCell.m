@@ -7,7 +7,7 @@
 //
 
 #import "FBFriendCell.h"
-#import "User+Facebook.h"
+#import "User.h"
 
 @implementation FBFriendCell
 @synthesize imageView,nameLabel,inviteButton;

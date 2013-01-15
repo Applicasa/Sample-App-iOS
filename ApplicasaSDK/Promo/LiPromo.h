@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <LiKitPromotions/LiKitPromotions.h>
+#import <LiCore/LiKitPromotions.h>
 
 @interface LiPromo : NSObject
 

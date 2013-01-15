@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <LiKitPromotions/Promotion.h>
-#import <LiKitPromotions/LiKitPromotionsConstants.h>
+#import <LiCore/Promotion.h>
+#import <LiCore/LiKitPromotionsConstants.h>
 
 @interface LiKitPromotions : NSObject
 

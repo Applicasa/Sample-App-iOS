@@ -12,7 +12,6 @@
 #import "VirtualCurrency.h"
 #import "VirtualGood.h"
 #import "LiSession.h"
-#import "User+Facebook.h"
 #import <FacebookSDK/FBSession.h>
 #import "MainViewController.h"
 #import "LiObjPushNotification.h"

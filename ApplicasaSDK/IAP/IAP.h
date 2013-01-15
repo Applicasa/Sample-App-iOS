@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiObject.h>
-#import <LiKitIAP/LiKitIAPDelegate.h>
+#import <LiCore/LiKitIAPDelegate.h>
 #import "LiBlocks.h"
 #import "LiDataTypes.h"
 

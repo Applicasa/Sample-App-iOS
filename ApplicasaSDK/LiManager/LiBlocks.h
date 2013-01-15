@@ -1,12 +1,13 @@
 //
 // LiBlocks.h
 // Created by Applicasa 
-// 07/01/2013
+// 1/15/2013
 //
 
 
 @class LiObjPushNotification;
 typedef void (^SendPushFinished)(NSError *error, NSString *message,LiObjPushNotification *pushObject);
+typedef void (^LiBlockFBFriendsAction)(NSError *error, NSArray *friends,Actions action);
 
 @class User;
 

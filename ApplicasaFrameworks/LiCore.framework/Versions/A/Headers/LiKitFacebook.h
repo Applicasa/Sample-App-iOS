@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <LiKitFacebook/LiObjFBFriend.h>
-#import <LiKitFacebook/LiKitFacebookDelegate.h>
+#import <LiCore/LiObjFBFriend.h>
+#import <LiCore/LiKitFacebookDelegate.h>
 #import <FacebookSDK/FacebookSDK.h>
 
 /*

@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import <LiKitIAP/SKProduct+LiPriceAsString.h>
-#import <LiKitIAP/LiKitIAPDelegate.h>
+#import <LiCore/SKProduct+LiPriceAsString.h>
+#import <LiCore/LiKitIAPDelegate.h>
 #import <LiCore/LiResponse.h>
 
 @class VirtualCurrency;

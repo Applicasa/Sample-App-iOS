@@ -11,7 +11,7 @@
 #import "LiPromoHelperViews.h"
 #import "VirtualCurrency.h"
 #import "IAP.h"
-#import <LiKitPromotions/LiKitPromotions.h>
+#import <LiCore/LiKitPromotions.h>
 #import <LiCore/LiCore.h>
 
 #define kCancelButtonTag 1

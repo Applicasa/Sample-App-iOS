@@ -1,14 +1,15 @@
 //
 // User.h
 // Created by Applicasa 
-// 07/01/2013
+// 1/15/2013
 //
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>
 #import "LiBlocks.h"
 #import "LiDataTypes.h"
-#import <LiKitPromotions/LiKitPromotionsConstants.h>
+#import <LiCore/LiKitFacebook.h>
+#import <LiCore/LiKitPromotionsConstants.h>
 
 
 
@@ -20,7 +21,7 @@
 
 #define kUserNotificationString @"UserConflictFound"
 #define kShouldUserWorkOffline YES
-@interface User : LiObject <LiCoreRequestDelegate> {
+@interface User : LiObject <LiCoreRequestDelegate,LiKitFacebookDelegate> {
 }
 
 @property (nonatomic, strong) NSString *userID;
@@ -82,9 +83,16 @@
 
 + (User *) getCurrentUser;
 
+#pragma mark - Facebook Methods
+
+- (void) facebookLoginWithBlock:(LiBlockAction)block;
++ (void) facebookFindFriendsWithBlock:(LiBlockFBFriendsAction)block;
+
++ (void) facebookLogoutWithBlock:(LiBlockAction)block;
++ (void) facebookLogOutWithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;
+
+
 #pragma mark - End of Basic SDK
-
-
 
 - (void) registerUsername:(NSString *)username andPassword:(NSString *)password withBlock:(LiBlockAction)block;
 - (void) registerUserWithUsername:(NSString *)username Password:(NSString *)password WithBlock:(LiBlockAction)block DEPRECATED_ATTRIBUTE;

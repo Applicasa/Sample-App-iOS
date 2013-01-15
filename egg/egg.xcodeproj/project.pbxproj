@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		840E0E6E165CFA37000294BF /* LiKitIAP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 840E0E6D165CFA37000294BF /* LiKitIAP.framework */; };
 		841DF0B3166E0C6D000465C4 /* NearbyFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841DF0B2166E0C6C000465C4 /* NearbyFriendsViewController.m */; };
 		841DF0B6166E17ED000465C4 /* FriendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 841DF0B5166E17ED000465C4 /* FriendTableViewCell.m */; };
 		841DF0B9166E2544000465C4 /* User+DisplayName.m in Sources */ = {isa = PBXBuildFile; fileRef = 841DF0B8166E2543000465C4 /* User+DisplayName.m */; };
@@ -31,8 +30,8 @@
 		847E7D30169AFDC60069200D /* PromoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 847E7D19169AFDC60069200D /* PromoView.m */; };
 		847E7D31169AFDC60069200D /* Tips.m in Sources */ = {isa = PBXBuildFile; fileRef = 847E7D1C169AFDC60069200D /* Tips.m */; };
 		847E7D32169AFDC60069200D /* LiObjPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 847E7D1F169AFDC60069200D /* LiObjPushNotification.m */; };
-		847E7D33169AFDC60069200D /* User+Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 847E7D21169AFDC60069200D /* User+Facebook.m */; };
 		847E7D34169AFDC60069200D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 847E7D23169AFDC60069200D /* User.m */; };
+		847E826516A5916E0069200D /* LiCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847E826416A5916E0069200D /* LiCore.framework */; };
 		847F4EB816663E6100AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png in Resources */ = {isa = PBXBuildFile; fileRef = 847F4EB716663E6100AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png */; };
 		847F4EBB16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png in Resources */ = {isa = PBXBuildFile; fileRef = 847F4EBA16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png */; };
 		84D6B04D168B3594006FC4BB /* rankGeneral@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D6B049168B3594006FC4BB /* rankGeneral@2x.png */; };
@@ -48,9 +47,6 @@
 		C416C38F1648F96C009008BB /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C38E1648F96C009008BB /* libsqlite3.0.dylib */; };
 		C416C3911648F976009008BB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C3901648F976009008BB /* StoreKit.framework */; };
 		C416C3E91648FB3C009008BB /* Li_AWSiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C3E41648FB3C009008BB /* Li_AWSiOSSDK.framework */; };
-		C416C3EA1648FB3C009008BB /* LiCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C3E51648FB3C009008BB /* LiCore.framework */; };
-		C416C3EB1648FB3C009008BB /* LiKitFacebook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C3E61648FB3C009008BB /* LiKitFacebook.framework */; };
-		C416C3ED1648FB3C009008BB /* LiKitPromotions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C3E81648FB3C009008BB /* LiKitPromotions.framework */; };
 		C416C3EF1648FB83009008BB /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C416C3EE1648FB83009008BB /* FacebookSDK.framework */; };
 		C438973D1653FF1A0064BF43 /* LiStoreCellBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = C438973C1653FF1A0064BF43 /* LiStoreCellBackground.m */; };
 		C4514AA8163F09B20004CEA9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4514AA7163F09B20004CEA9 /* UIKit.framework */; };
@@ -126,7 +122,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		840E0E6D165CFA37000294BF /* LiKitIAP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiKitIAP.framework; path = ../ApplicasaFrameworks/LiKitIAP.framework; sourceTree = "<group>"; };
 		841DF0B1166E0C6C000465C4 /* NearbyFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyFriendsViewController.h; sourceTree = "<group>"; };
 		841DF0B2166E0C6C000465C4 /* NearbyFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyFriendsViewController.m; sourceTree = "<group>"; };
 		841DF0B4166E17ED000465C4 /* FriendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTableViewCell.h; sourceTree = "<group>"; };
@@ -173,10 +168,9 @@
 		847E7D1C169AFDC60069200D /* Tips.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tips.m; sourceTree = "<group>"; };
 		847E7D1E169AFDC60069200D /* LiObjPushNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiObjPushNotification.h; sourceTree = "<group>"; };
 		847E7D1F169AFDC60069200D /* LiObjPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiObjPushNotification.m; sourceTree = "<group>"; };
-		847E7D20169AFDC60069200D /* User+Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+Facebook.h"; sourceTree = "<group>"; };
-		847E7D21169AFDC60069200D /* User+Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+Facebook.m"; sourceTree = "<group>"; };
 		847E7D22169AFDC60069200D /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		847E7D23169AFDC60069200D /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		847E826416A5916E0069200D /* LiCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiCore.framework; path = ../ApplicasaFrameworks/LiCore.framework; sourceTree = "<group>"; };
 		847F4EB716663E6100AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png"; sourceTree = "<group>"; };
 		847F4EBA16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png"; sourceTree = "<group>"; };
 		84D6B049168B3594006FC4BB /* rankGeneral@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rankGeneral@2x.png"; sourceTree = "<group>"; };
@@ -192,9 +186,6 @@
 		C416C38E1648F96C009008BB /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		C416C3901648F976009008BB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C416C3E41648FB3C009008BB /* Li_AWSiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Li_AWSiOSSDK.framework; path = ../ApplicasaFrameworks/Li_AWSiOSSDK.framework; sourceTree = "<group>"; };
-		C416C3E51648FB3C009008BB /* LiCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiCore.framework; path = ../ApplicasaFrameworks/LiCore.framework; sourceTree = "<group>"; };
-		C416C3E61648FB3C009008BB /* LiKitFacebook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiKitFacebook.framework; path = ../ApplicasaFrameworks/LiKitFacebook.framework; sourceTree = "<group>"; };
-		C416C3E81648FB3C009008BB /* LiKitPromotions.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiKitPromotions.framework; path = ../ApplicasaFrameworks/LiKitPromotions.framework; sourceTree = "<group>"; };
 		C416C3EE1648FB83009008BB /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../ApplicasaFrameworks/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		C438973B1653FF1A0064BF43 /* LiStoreCellBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiStoreCellBackground.h; sourceTree = "<group>"; };
 		C438973C1653FF1A0064BF43 /* LiStoreCellBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiStoreCellBackground.m; sourceTree = "<group>"; };
@@ -289,7 +280,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				840E0E6E165CFA37000294BF /* LiKitIAP.framework in Frameworks */,
+				847E826516A5916E0069200D /* LiCore.framework in Frameworks */,
 				C416C3911648F976009008BB /* StoreKit.framework in Frameworks */,
 				C416C38F1648F96C009008BB /* libsqlite3.0.dylib in Frameworks */,
 				C416C38D1648F95F009008BB /* SystemConfiguration.framework in Frameworks */,
@@ -298,9 +289,6 @@
 				C4514AAA163F09B20004CEA9 /* Foundation.framework in Frameworks */,
 				C4514AAC163F09B20004CEA9 /* CoreGraphics.framework in Frameworks */,
 				C416C3E91648FB3C009008BB /* Li_AWSiOSSDK.framework in Frameworks */,
-				C416C3EA1648FB3C009008BB /* LiCore.framework in Frameworks */,
-				C416C3EB1648FB3C009008BB /* LiKitFacebook.framework in Frameworks */,
-				C416C3ED1648FB3C009008BB /* LiKitPromotions.framework in Frameworks */,
 				C416C3EF1648FB83009008BB /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,8 +430,6 @@
 			children = (
 				847E7D1E169AFDC60069200D /* LiObjPushNotification.h */,
 				847E7D1F169AFDC60069200D /* LiObjPushNotification.m */,
-				847E7D20169AFDC60069200D /* User+Facebook.h */,
-				847E7D21169AFDC60069200D /* User+Facebook.m */,
 				847E7D22169AFDC60069200D /* User.h */,
 				847E7D23169AFDC60069200D /* User.m */,
 			);
@@ -530,6 +516,7 @@
 		C4514A98163F09B20004CEA9 = {
 			isa = PBXGroup;
 			children = (
+				847E826416A5916E0069200D /* LiCore.framework */,
 				C4514AAD163F09B20004CEA9 /* egg */,
 				C4514AA6163F09B20004CEA9 /* Frameworks */,
 				C4514AA4163F09B20004CEA9 /* Products */,
@@ -547,12 +534,8 @@
 		C4514AA6163F09B20004CEA9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				840E0E6D165CFA37000294BF /* LiKitIAP.framework */,
 				C416C3EE1648FB83009008BB /* FacebookSDK.framework */,
 				C416C3E41648FB3C009008BB /* Li_AWSiOSSDK.framework */,
-				C416C3E51648FB3C009008BB /* LiCore.framework */,
-				C416C3E61648FB3C009008BB /* LiKitFacebook.framework */,
-				C416C3E81648FB3C009008BB /* LiKitPromotions.framework */,
 				C416C3901648F976009008BB /* StoreKit.framework */,
 				C416C38E1648F96C009008BB /* libsqlite3.0.dylib */,
 				C416C38C1648F95F009008BB /* SystemConfiguration.framework */,
@@ -922,7 +905,6 @@
 				847E7D30169AFDC60069200D /* PromoView.m in Sources */,
 				847E7D31169AFDC60069200D /* Tips.m in Sources */,
 				847E7D32169AFDC60069200D /* LiObjPushNotification.m in Sources */,
-				847E7D33169AFDC60069200D /* User+Facebook.m in Sources */,
 				847E7D34169AFDC60069200D /* User.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1002,12 +984,13 @@
 		C4514AC8163F09B20004CEA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
 					"\"$(SRCROOT)/../ApplicasaFrameworks/FacebookSDK\"",
+					"\"$(SRCROOT)/../..\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "egg/egg-Prefix.pch";
@@ -1020,6 +1003,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "10D65B35-59A5-462B-B128-644138E6D63C";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "10D65B35-59A5-462B-B128-644138E6D63C";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1027,12 +1011,13 @@
 		C4514AC9163F09B20004CEA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Benny Davidovich (8VNVZ62BET)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tzvi Kopetz (5BV86XSCFH)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../ApplicasaFrameworks\"",
 					"\"$(SRCROOT)/../ApplicasaFrameworks/FacebookSDK\"",
+					"\"$(SRCROOT)/../..\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "egg/egg-Prefix.pch";
@@ -1045,6 +1030,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "10D65B35-59A5-462B-B128-644138E6D63C";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "10D65B35-59A5-462B-B128-644138E6D63C";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

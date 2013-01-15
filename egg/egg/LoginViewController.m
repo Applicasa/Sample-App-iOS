@@ -25,9 +25,9 @@
  */
 
 #import "LoginViewController.h"
-#import "User+Facebook.h"
 #import "AlertShower.h"
 #import "LiPromo.h"
+#import "User.h"
 
 @interface LoginViewController ()
 

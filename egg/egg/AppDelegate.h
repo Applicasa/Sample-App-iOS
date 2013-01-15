@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <LiCore/LiCore.h>
-#import <LiKitPromotions/LiKitPromotions.h>
+#import "LiPromo.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, LiCoreInitializeDelegate>
 

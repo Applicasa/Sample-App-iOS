@@ -1,13 +1,14 @@
 //
 // Tips.h
 // Created by Applicasa 
-// 07/01/2013
+// 1/15/2013
 //
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>
 #import "LiBlocks.h"
 #import "LiDataTypes.h"
+#import <LiCore/LiKitFacebook.h>
 
 
 
@@ -25,6 +26,8 @@
 @property (nonatomic, strong) NSString *tipsID;
 @property (nonatomic, strong, readonly) NSDate *tipsLastUpdate;
 @property (nonatomic, strong) NSString *tipsContent;
+@property (nonatomic, assign) int tipsNum;
+@property (nonatomic, assign) int tipsFdfsd;
 
 /*********************************************************************************
  DEPRECATED METHODS WARNING:

@@ -1,14 +1,15 @@
 //
 // VirtualCurrency.h
 // Created by Applicasa 
-// 07/01/2013
+// 1/15/2013
 //
 
 #import <Foundation/Foundation.h>
 #import <LiCore/LiCore.h>
 #import "LiBlocks.h"
 #import "LiDataTypes.h"
-#import <LiKitIAP/LiKitIAP.h>
+#import <LiCore/LiKitFacebook.h>
+#import <LiCore/LiKitIAP.h>
 
 
 

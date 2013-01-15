@@ -61,7 +61,7 @@
     [loadingLabel setText:@"Loading..."];
     [loadingLabel setTag:1];
     [loadingLabel setFont:[UIFont systemFontOfSize:loadingLabel.frame.size.height-1]];
-    [loadingLabel setTextAlignment:NSTextAlignmentCenter];
+    [loadingLabel setTextAlignment:UITextAlignmentCenter];
     [loadingLabel setBackgroundColor:[UIColor blackColor]];
     [loadingLabel setTextColor:[UIColor whiteColor]];
     [self addSubview:loadingLabel];
@@ -74,8 +74,12 @@
 }
 
 + (id) startAnimatingOnView:(UIView *)view{
-    float width = view.frame.size.width*3/4;
-    float height = view.frame.size.height*3/4;
+    return [self startAnimatingOnView:view sizeFactor:0.75];
+}
+
++ (id) startAnimatingOnView:(UIView *)view sizeFactor:(float)factor{
+    float width = view.frame.size.width*factor;
+    float height = view.frame.size.height*factor;
 
     if (width == 0)
         width = 50;
@@ -85,7 +89,8 @@
     
     LiActivityIndicator *indicatorView = [[LiActivityIndicator alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 
-    [indicatorView setCenter:[view center]];
+    CGPoint centerPoint = CGPointMake(view.bounds.size.width/2, view.bounds.size.height/2);
+    [indicatorView setCenter:centerPoint];
     [view addSubview:indicatorView];
     [view bringSubviewToFront:indicatorView];
    

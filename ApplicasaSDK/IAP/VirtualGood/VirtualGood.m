@@ -1,7 +1,7 @@
 //
 // VirtualGood.m
 // Created by Applicasa 
-// 07/01/2013
+// 1/15/2013
 //
 
 #import "VirtualGood.h"
@@ -70,15 +70,13 @@ enum VirtualGoodIndexes {
 	VirtualGoodMainCategoryIndex,
 	VirtualGoodIsDealIndex,
 	VirtualGoodConsumableIndex,
-	VirtualGoodLastUpdateIndex,
-};
+	VirtualGoodLastUpdateIndex,};
 #define NUM_OF_VIRTUALGOOD_FIELDS 16
 
 enum VirtualGoodCategoryIndexes {
 	VirtualGoodCategoryIDIndex = 0,
 	VirtualGoodCategoryNameIndex,
-	VirtualGoodCategoryLastUpdateIndex,
-};
+	VirtualGoodCategoryLastUpdateIndex,};
 #define NUM_OF_VIRTUALGOODCATEGORY_FIELDS 3
 
 

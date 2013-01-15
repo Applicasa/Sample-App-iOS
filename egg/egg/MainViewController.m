@@ -15,7 +15,7 @@
 
 #import "MainViewController.h"
 #import "AlertShower.h"
-#import <LiKitIAP/LiKitIAP.h>
+#import "IAP.h"
 #import "LiPromoHelperViews.h"
 #import "LiUserLocation.h"
 #import "User.h"
@@ -36,7 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    LiActivityIndicator *activity = [LiActivityIndicator startAnimatingOnView:self.view];
+    LiActivityIndicator *activity = [LiActivityIndicator startAnimatingOnView:self.view sizeFactor:1];
     [activity setLabelText:@"loading..."];
     [activity setUserInteractionEnabled:TRUE];
 }

@@ -12,7 +12,7 @@
 @interface LiObjFBFriend : NSObject
 
 @property (nonatomic, strong) User *user;
-@property (nonatomic, assign) NSInteger facebookID;
+@property (nonatomic, assign) unsigned long long facebookID;
 @property (nonatomic, strong) NSString *facebookName;
 @property (nonatomic, strong) NSURL *facebookImage;
 

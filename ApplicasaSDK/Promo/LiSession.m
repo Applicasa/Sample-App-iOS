@@ -7,7 +7,7 @@
 //
 
 #import "LiSession.h"
-#import <LiKitPromotions/LiKitPromotions.h>
+#import <LiCore/LiKitPromotions.h>
 
 @implementation LiSession
 

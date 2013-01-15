@@ -10,6 +10,7 @@
 @synthesize locationAction;
 
 - (void) getCurrentLocationWithBlock:(LiBlockLocationAction)block{
+    [self setLocationAction:(__bridge LiBlockLocationAction)CFBridgingRetain(block)];
     [LiCore getCurrentLocation:self];
 }
 
@@ -41,10 +42,12 @@
 
 - (void) LiCoreDidFailToUpdateLocation:(NSError *)error{
     self.locationAction(error,nil,UpdateLocation);
+    self.locationAction = NULL;
 }
 
 - (void) LiCoreDidUpdateLocation:(CLLocation *)location{
     self.locationAction(nil,location,UpdateLocation);
+    self.locationAction = NULL;
 }
 
 #pragma mark - Deprecated Methods
