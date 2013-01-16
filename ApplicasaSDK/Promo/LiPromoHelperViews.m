@@ -61,7 +61,7 @@
     [loadingLabel setText:@"Loading..."];
     [loadingLabel setTag:1];
     [loadingLabel setFont:[UIFont systemFontOfSize:loadingLabel.frame.size.height-1]];
-    [loadingLabel setTextAlignment:UITextAlignmentCenter];
+    [loadingLabel setTextAlignment:1];
     [loadingLabel setBackgroundColor:[UIColor blackColor]];
     [loadingLabel setTextColor:[UIColor whiteColor]];
     [self addSubview:loadingLabel];
