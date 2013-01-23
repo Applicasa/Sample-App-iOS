@@ -1,7 +1,7 @@
 //
 // VirtualCurrency.h
 // Created by Applicasa 
-// 1/15/2013
+// 1/23/2013
 //
 
 #import <Foundation/Foundation.h>

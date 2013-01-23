@@ -63,22 +63,22 @@
 
 #pragma mark - Profile Data
 
-- (void) updateSpendProfileImage:(LiSpendProfile)profile{
+- (void) updateSpendingProfileImage:(LiSpendingProfile)profile{
     if (spendProfileImageView.tag == profile)
         return;
     
     NSString *imageName = @"";
     switch (profile) {
-        case LiSpendProfileRockefeller:
+        case LiSpendingProfileRockefeller:
             imageName = @"profileRockfeller";
             break;
-        case LiSpendProfileTaxPayer:
+        case LiSpendingProfileTaxPayer:
             imageName = @"profileTaxpayer";
             break;
-        case LiSpendProfileTourist:
+        case LiSpendingProfileTourist:
             imageName = @"profileTurist";
             break;
-        case LiSpendProfileZombie:
+        case LiSpendingProfileZombie:
             imageName = @"profileZombie";
             break;
         default:
@@ -98,7 +98,7 @@
         case LiUsageProfileGeneral:
             imageName = @"rankGeneral";
             break;
-        case LiUsageProfileSerganet:
+        case LiUsageProfileSergeant:
             imageName = @"rankSergeant";
             break;
         case LiUsageProfilePrivate:
@@ -116,10 +116,10 @@
 }
 
 - (void) refreshProfileIcons{
-    LiSpendProfile spendProfile = [User getCurrentSpendProfile];
+    LiSpendingProfile spendingProfile = [User getCurrentSpendingProfile];
     LiUsageProfile usageProfile = [User getCurrentUsageProfile];
     
-    [self updateSpendProfileImage:spendProfile];
+    [self updateSpendingProfileImage:spendingProfile];
     [self updateUsageProfileImage:usageProfile];
 }
 

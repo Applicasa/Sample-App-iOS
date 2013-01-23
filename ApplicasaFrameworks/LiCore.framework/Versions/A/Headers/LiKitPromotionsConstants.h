@@ -17,17 +17,17 @@ typedef enum {
     LiUsageProfileNone = 0,
     LiUsageProfileCivilan,
     LiUsageProfilePrivate,
-    LiUsageProfileSerganet,
+    LiUsageProfileSergeant,
     LiUsageProfileGeneral
 } LiUsageProfile;
 
 typedef enum{
-    LiSpendProfileNone = 0,
-    LiSpendProfileZombie,
-    LiSpendProfileTourist,
-    LiSpendProfileTaxPayer,
-    LiSpendProfileRockefeller
-} LiSpendProfile;
+    LiSpendingProfileNone = 0,
+    LiSpendingProfileZombie,
+    LiSpendingProfileTourist,
+    LiSpendingProfileTaxPayer,
+    LiSpendingProfileRockefeller
+} LiSpendingProfile;
 
 typedef enum {
     LiPromotionResultLinkOpened = 1,

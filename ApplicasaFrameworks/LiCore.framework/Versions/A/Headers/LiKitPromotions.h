@@ -19,7 +19,7 @@
 + (void) setLiKitPromotionsDelegate:(id <LiKitPromotionsDelegate>)delegate;
 
 //User Profile
-+ (LiSpendProfile) getCurrentUserSpendProfile;
++ (LiSpendingProfile) getCurrentUserSpendingProfile;
 + (LiUsageProfile) getCurrentUserUsageProfile;
 
 //Level

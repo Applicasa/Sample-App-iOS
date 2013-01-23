@@ -31,9 +31,9 @@
 		847E7D31169AFDC60069200D /* Tips.m in Sources */ = {isa = PBXBuildFile; fileRef = 847E7D1C169AFDC60069200D /* Tips.m */; };
 		847E7D32169AFDC60069200D /* LiObjPushNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 847E7D1F169AFDC60069200D /* LiObjPushNotification.m */; };
 		847E7D34169AFDC60069200D /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 847E7D23169AFDC60069200D /* User.m */; };
-		847E826516A5916E0069200D /* LiCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847E826416A5916E0069200D /* LiCore.framework */; };
 		847F4EB816663E6100AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png in Resources */ = {isa = PBXBuildFile; fileRef = 847F4EB716663E6100AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png */; };
 		847F4EBB16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png in Resources */ = {isa = PBXBuildFile; fileRef = 847F4EBA16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png */; };
+		84854F4916B0485B005D4A0F /* LiCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84854F4816B0485B005D4A0F /* LiCore.framework */; };
 		84D6B04D168B3594006FC4BB /* rankGeneral@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D6B049168B3594006FC4BB /* rankGeneral@2x.png */; };
 		84D6B04E168B3594006FC4BB /* rankHippie@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D6B04A168B3594006FC4BB /* rankHippie@2x.png */; };
 		84D6B04F168B3594006FC4BB /* rankPrivate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D6B04B168B3594006FC4BB /* rankPrivate@2x.png */; };
@@ -170,9 +170,9 @@
 		847E7D1F169AFDC60069200D /* LiObjPushNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiObjPushNotification.m; sourceTree = "<group>"; };
 		847E7D22169AFDC60069200D /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		847E7D23169AFDC60069200D /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		847E826416A5916E0069200D /* LiCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiCore.framework; path = ../ApplicasaFrameworks/LiCore.framework; sourceTree = "<group>"; };
 		847F4EB716663E6100AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPI1A.png"; sourceTree = "<group>"; };
 		847F4EBA16663E6E00AEAB17 /* https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "https%3A%2F%2Fs3.amazonaws.com%2Fappsmaterials%2F705E89%2FPromotion%2FA%2FDefault%2FPB1A.png"; sourceTree = "<group>"; };
+		84854F4816B0485B005D4A0F /* LiCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiCore.framework; path = ../ApplicasaFrameworks/LiCore.framework; sourceTree = "<group>"; };
 		84D6B049168B3594006FC4BB /* rankGeneral@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rankGeneral@2x.png"; sourceTree = "<group>"; };
 		84D6B04A168B3594006FC4BB /* rankHippie@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rankHippie@2x.png"; sourceTree = "<group>"; };
 		84D6B04B168B3594006FC4BB /* rankPrivate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rankPrivate@2x.png"; sourceTree = "<group>"; };
@@ -280,7 +280,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				847E826516A5916E0069200D /* LiCore.framework in Frameworks */,
+				84854F4916B0485B005D4A0F /* LiCore.framework in Frameworks */,
 				C416C3911648F976009008BB /* StoreKit.framework in Frameworks */,
 				C416C38F1648F96C009008BB /* libsqlite3.0.dylib in Frameworks */,
 				C416C38D1648F95F009008BB /* SystemConfiguration.framework in Frameworks */,
@@ -516,7 +516,6 @@
 		C4514A98163F09B20004CEA9 = {
 			isa = PBXGroup;
 			children = (
-				847E826416A5916E0069200D /* LiCore.framework */,
 				C4514AAD163F09B20004CEA9 /* egg */,
 				C4514AA6163F09B20004CEA9 /* Frameworks */,
 				C4514AA4163F09B20004CEA9 /* Products */,
@@ -534,6 +533,7 @@
 		C4514AA6163F09B20004CEA9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84854F4816B0485B005D4A0F /* LiCore.framework */,
 				C416C3EE1648FB83009008BB /* FacebookSDK.framework */,
 				C416C3E41648FB3C009008BB /* Li_AWSiOSSDK.framework */,
 				C416C3901648F976009008BB /* StoreKit.framework */,

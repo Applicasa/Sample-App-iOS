@@ -102,7 +102,7 @@ typedef void (^PromotionResultBlock)(LiPromotionAction promoAction,LiPromotionRe
 // ****
 // Get Promotion Array from Local DB
 //
-+ (void) getArrayLocalyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetPromotionArrayFinished)block;
++ (void) getArrayLocallyWithRawSQLQuery:(NSString *)rawQuery WithBlock:(GetPromotionArrayFinished)block;
 
 - (void) showOnView:(UIView *)view Block:(PromotionResultBlock)block;
 - (void) showWithBlock:(PromotionResultBlock)block;

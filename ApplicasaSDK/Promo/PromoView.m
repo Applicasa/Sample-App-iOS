@@ -119,7 +119,7 @@
     NSDictionary *dictionary = [promotion.promotionActionData liJSONValue];
     __block LiPromotionAction promoAction = LiPromotionActionPressed;
     __block id info = nil;
-    __block LiPromotionResult result = LiPromotionTypeNothing;
+    __block LiPromotionResult result = LiPromotionResultNothing;
     BOOL respondNow = YES;
     LiBlockAction actionBlock = ^(NSError *error, NSString *itemID, Actions action) {
         if (error){
@@ -135,13 +135,22 @@
             /*LiWebView *webView = [[LiWebView alloc] initWithFrame:self.frame];
             [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[dictionary objectForKey:@"link"]]]];
             [[self superview] addSubview:webView];*/
-            info = [NSURL URLWithString:[dictionary objectForKey:@"link"]];
+            info = [NSURL URLWithString:[dictionary objectForKey:@"link_iOS"]];//iOS Link
+            if (info == nil)//no iOS link
+                info = [NSURL URLWithString:[dictionary objectForKey:@"link_Android"]];
+            if (info == nil)//old promotions structure
+                info = [NSURL URLWithString:[dictionary objectForKey:@"link"]];
             [[UIApplication sharedApplication] openURL:info];
             result = LiPromotionResultLinkOpened;
         }
             break;
         case LiPromotionTypeString:{
-            info = [dictionary objectForKey:@"string"];
+            // iOS String
+            info = [dictionary objectForKey:@"string_iOS"];
+            if (info == nil)//no iOS String
+                info = [dictionary objectForKey:@"string_Android"];
+            if (info == nil)//old promotions structure
+                info = [dictionary objectForKey:@"string"];
             result = LiPromotionResultStringInfo;
         }
             break;

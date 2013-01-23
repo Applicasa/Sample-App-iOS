@@ -80,8 +80,8 @@
 + (id) startAnimatingOnView:(UIView *)view sizeFactor:(float)factor{
     float width = view.frame.size.width*factor;
     float height = view.frame.size.height*factor;
-
-    if (width == 0)
+    
+	if (width == 0)
         width = 50;
     
     if (height == 0)
@@ -90,6 +90,7 @@
     LiActivityIndicator *indicatorView = [[LiActivityIndicator alloc] initWithFrame:CGRectMake(0, 0, width, height)];
 
     CGPoint centerPoint = CGPointMake(view.bounds.size.width/2, view.bounds.size.height/2);
+
     [indicatorView setCenter:centerPoint];
     [view addSubview:indicatorView];
     [view bringSubviewToFront:indicatorView];

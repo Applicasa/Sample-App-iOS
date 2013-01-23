@@ -15,8 +15,9 @@
 
 @interface LiActivityIndicator : UIView
 
-+ (id) startAnimatingOnView:(UIView *)view sizeFactor:(float)factor;
 + (id) startAnimatingOnView:(UIView *)view;
++ (id) startAnimatingOnView:(UIView *)view sizeFactor:(float)factor;
+
 - (void) stopAndRemove;
 - (void) setLabelText:(NSString *)text;
 

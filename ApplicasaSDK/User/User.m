@@ -1,7 +1,7 @@
 //
 // User.m
 // Created by Applicasa 
-// 1/15/2013
+// 1/23/2013
 //
 
 #import "User.h"
@@ -866,8 +866,8 @@ static LiBlockAction actionBlock = NULL;
 
 #pragma mark - Profile Data Methods
 
-+ (LiSpendProfile) getCurrentSpendProfile{
-    return [LiKitPromotions getCurrentUserSpendProfile];
++ (LiSpendingProfile) getCurrentSpendingProfile{
+    return [LiKitPromotions getCurrentUserSpendingProfile];
 }
 
 + (LiUsageProfile) getCurrentUsageProfile{

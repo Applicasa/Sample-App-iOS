@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    LiGameResultLoose = 0,
+    LiGameResultLose = 0,
     LiGameResultWin
 } LiGameResult;
 
