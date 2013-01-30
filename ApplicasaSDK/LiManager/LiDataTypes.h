@@ -1,7 +1,7 @@
 //
 // LiDataTypes.h
 // Created by Applicasa 
-// 1/23/2013
+// 1/30/2013
 //
 
 
@@ -95,6 +95,14 @@ typedef enum {
 	TipsLastUpdate,
 	TipsContent,
 	TipsNum,
-	TipsFdfsd
+	TipsFdfsd,
+	//Chat
+	Chat_None,
+	ChatID,
+	ChatLastUpdate,
+	ChatIsSender,
+	ChatText,
+	ChatSender,
+	ChatRecipient
 }LiFields;
 

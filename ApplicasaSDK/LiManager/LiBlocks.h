@@ -1,7 +1,7 @@
 //
 // LiBlocks.h
 // Created by Applicasa 
-// 1/23/2013
+// 1/30/2013
 //
 
 
@@ -43,5 +43,10 @@ typedef void (^GetPlacesArrayFinished)(NSError *error, NSArray *array);
 
 typedef void (^GetTipsFinished)(NSError *error, Tips *object);
 typedef void (^GetTipsArrayFinished)(NSError *error, NSArray *array);
+
+@class Chat;
+
+typedef void (^GetChatFinished)(NSError *error, Chat *object);
+typedef void (^GetChatArrayFinished)(NSError *error, NSArray *array);
 
 

@@ -11,6 +11,7 @@
 		841DF0B6166E17ED000465C4 /* FriendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 841DF0B5166E17ED000465C4 /* FriendTableViewCell.m */; };
 		841DF0B9166E2544000465C4 /* User+DisplayName.m in Sources */ = {isa = PBXBuildFile; fileRef = 841DF0B8166E2543000465C4 /* User+DisplayName.m */; };
 		841DF0BB166E26A9000465C4 /* avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 841DF0BA166E26A9000465C4 /* avatar.png */; };
+		8471192A16B9611A009622D4 /* Chat.m in Sources */ = {isa = PBXBuildFile; fileRef = 8471192916B9611A009622D4 /* Chat.m */; };
 		847BABDE1690427D003735A6 /* FacebookFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BABDD1690427D003735A6 /* FacebookFeatureViewController.m */; };
 		847D4A06165E2A9000BB524D /* AlertShower.m in Sources */ = {isa = PBXBuildFile; fileRef = 847D4A05165E2A9000BB524D /* AlertShower.m */; };
 		847DF21216626D980015A5F8 /* green_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 847DF21116626D980015A5F8 /* green_btn.png */; };
@@ -129,6 +130,8 @@
 		841DF0B7166E2542000465C4 /* User+DisplayName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+DisplayName.h"; sourceTree = "<group>"; };
 		841DF0B8166E2543000465C4 /* User+DisplayName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+DisplayName.m"; sourceTree = "<group>"; };
 		841DF0BA166E26A9000465C4 /* avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar.png; sourceTree = "<group>"; };
+		8471192816B9611A009622D4 /* Chat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chat.h; sourceTree = "<group>"; };
+		8471192916B9611A009622D4 /* Chat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chat.m; sourceTree = "<group>"; };
 		847BABDC1690427D003735A6 /* FacebookFeatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookFeatureViewController.h; sourceTree = "<group>"; };
 		847BABDD1690427D003735A6 /* FacebookFeatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookFeatureViewController.m; sourceTree = "<group>"; };
 		847D4A04165E2A9000BB524D /* AlertShower.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertShower.h; sourceTree = "<group>"; };
@@ -296,6 +299,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8471192716B9611A009622D4 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				8471192816B9611A009622D4 /* Chat.h */,
+				8471192916B9611A009622D4 /* Chat.m */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
 		847D4A08165E2A9700BB524D /* AlertShower */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +329,7 @@
 		847E7CF5169AFDC50069200D /* ApplicasaSDK */ = {
 			isa = PBXGroup;
 			children = (
+				8471192716B9611A009622D4 /* Chat */,
 				847E7CF6169AFDC60069200D /* Dynamic */,
 				847E7CF9169AFDC60069200D /* IAP */,
 				847E7D05169AFDC60069200D /* LiManager */,
@@ -906,6 +919,7 @@
 				847E7D31169AFDC60069200D /* Tips.m in Sources */,
 				847E7D32169AFDC60069200D /* LiObjPushNotification.m in Sources */,
 				847E7D34169AFDC60069200D /* User.m in Sources */,
+				8471192A16B9611A009622D4 /* Chat.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

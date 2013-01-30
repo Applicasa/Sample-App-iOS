@@ -100,7 +100,7 @@
     LiObjFBFriend *friend = [fbFriends objectAtIndex:indexPath.row];
     NSMutableDictionary *postDictionary = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"Join me!", @"message", @"http://itunes.apple.com/my-super-app", @"link", @"My Super App", @"name", nil];
     
-    NSString  *path = [NSString stringWithFormat:@"%lld/feed",friend.facebookID];
+    NSString  *path = [NSString stringWithFormat:@"%@/feed",friend.facebookID];
     [FBRequestConnection startWithGraphPath:path parameters:postDictionary HTTPMethod:@"POST" completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         NSString *alertText = nil;
         if (error) {
