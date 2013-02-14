@@ -341,7 +341,6 @@ static UIImage *virtualGoodImage = nil;
                     break;
                 case LiPromotionResultDealVirtualCurrency:{
                     [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Deal %@",[(VirtualCurrency *)info virtualCurrencyTitle]] onViewController:self];
-                    [self updateBalanceLabel];
                 }
                     break;
                 case LiPromotionResultLinkOpened:{
@@ -352,6 +351,7 @@ static UIImage *virtualGoodImage = nil;
                 default:
                     break;
             }
+             [self updateBalanceLabel];
         }];
     }
 }
