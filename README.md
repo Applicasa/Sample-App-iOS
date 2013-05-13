@@ -10,6 +10,15 @@ Applicasa is a Mobile Game Management Platform that provides developers a series
 
 Egg is an imagined game that shows common scenarios and code samples that developers can learn from and emulate in their own applications.
 
+## New SDK and Framework features:
+1. Direct purchase of virtual good from apple store
+2. Add beta support for Chartboost
+3. Added filter for Promotions (UserReturenSession, BalanceChanged & BalanceChangedBy events)
+4. DAU & MAU analytics report
+5. Performance and stability improvments
+6. Add Bundle version for VirtualGoods, VirtualCurrencies and Promotions
+
+
 ### What You Will Find in Egg:
 1. Integrating the Applicasa SDK and frameworks for iOS
 2. Implementing Applicasa's extensive In-App Purchasing support
