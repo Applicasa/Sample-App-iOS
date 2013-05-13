@@ -2,11 +2,12 @@
 //  LiComplexFilters.h
 //  LiCore
 //
-//  Created by Benny Davidovitz on 12/30/12.
-//  Copyright (c) 2012 benny@applicasa.com. All rights reserved.
+//  Created by Applicasa on 12/30/12.
+//  Copyright (c) 2012 Applicasa.com  All rights reserved.
 //
 
 #import <LiCore/LiCore.h>
+
 
 @interface LiComplexFilters : LiFilters
 

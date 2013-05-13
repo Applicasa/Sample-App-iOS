@@ -17,6 +17,7 @@
 + (NSDictionary *) getAnalyticsFieldsDictionary;
 
 + (void) setLiKitPromotionsDelegate:(id <LiKitPromotionsDelegate>)delegate;
++ (void) setLiKitPromotionsDelegate:(id <LiKitPromotionsDelegate>)delegate andCheckForAvailablePromotions:(BOOL) shouldCheckPromotions;
 
 //User Profile
 + (LiSpendingProfile) getCurrentUserSpendingProfile;
@@ -48,4 +49,8 @@
 + (void) promoHadViewed:(Promotion *)promotion;
 + (void) promo:(Promotion *)promotion ButtonClicked:(BOOL)button CancelButton:(BOOL)cancelButton;
 
+//+ (void) setPromotion:(Promotion *) promo AndBlock:(PromotionResultBlock) block;
+//+ (Promotion * )getPromotionForAds;
+
+ +(void)dismiss:(Promotion *) promo;
 @end

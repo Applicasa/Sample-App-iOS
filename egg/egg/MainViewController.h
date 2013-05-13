@@ -15,6 +15,7 @@
 
 @interface MainViewController : UIViewController <LoginViewControllerDelegate, StoreViewControllerDelegate,NearbyFriendsViewControllerDelegate,FacebookFeatureViewControllerDelegate,LiKitPromotionsDelegate>
 
+- (IBAction)onLogout:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *spendProfileImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *usageProfileImageView;
 

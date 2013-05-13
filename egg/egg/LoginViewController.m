@@ -28,6 +28,7 @@
 #import "AlertShower.h"
 #import "LiPromo.h"
 #import "User.h"
+#import "LiLog.h"
 
 @interface LoginViewController ()
 
@@ -48,7 +49,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    DDLogInfo(@"login view did load");
+    LiLogSampleApp(@"login view did load");
     [LiPromo setLiKitPromotionsDelegate:nil];
 }
 
@@ -68,7 +69,7 @@
 #pragma mark -
 
 - (IBAction)cancel:(id)sender {
-    DDLogInfo(@"delegate said cancel. Dismissing...");
+    LiLogSampleApp(@"delegate said cancel. Dismissing...");
     [self.delegate loginViewControllerDidCancel:self];
 }
 
@@ -77,7 +78,7 @@
     // Returns result or error in a block for additional processing.
     [User loginWithUsername:inputUsername.text andPassword:inputPassword.text withBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (!error){
-            DDLogInfo(@"delegate said loggedIn. Dismissing...");
+            LiLogSampleApp(@"delegate said loggedIn. Dismissing...");
             [self.delegate loginViewControllerDidLogin:self];
         } else {
             [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Login Failed\n%@",error.localizedDescription] onViewController:self];
@@ -121,12 +122,12 @@
         if (!error){
             [self.delegate loginViewControllerDidLogin:self];
         } else {
+            if (error.code == 38)
+                [[FBSession activeSession] closeAndClearTokenInformation];
             [AlertShower showAlertWithMessage:error.localizedDescription onViewController:self];
         }
-    }];
-
+    }]; 
 }
-
 - (IBAction)hideKeyboard:(id)sender{
     [inputUsername resignFirstResponder];
     [inputPassword resignFirstResponder];

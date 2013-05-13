@@ -10,10 +10,12 @@
 
 typedef enum LiCurrency {
     MainCurrency = 1,
-    SecondaryCurrency
+    SecondaryCurrency,
+    RealMoney
     }LiCurrency;
 
 @class VirtualCurrency;
+@class VirtualGood;
 @protocol LiKitIAPDelegate <NSObject>
 
 @optional 
@@ -22,8 +24,14 @@ typedef enum LiCurrency {
 
 - (void) InAppPurchase_LoadVirtualCurrencysFinishedWithArray:(NSArray *)array;
 
+- (void) InAppPurchase_ValidatedVirtualGoods:(NSArray *)items;
+
+- (void) InAppPurchase_LoadVirtualGoodsFinishedWithArray:(NSArray *)array;
+
 //Purchase AppStore Item
 - (void) InAppPurchase_AppStorePurchase:(VirtualCurrency *)item ResponseType:(NSInteger)responseType ResponseMessage:(NSString *)responseMessage;
+
+- (void) InAppPurchase_AppStorePurchaseVirtualGood:(VirtualGood *)item ResponseType:(NSInteger)responseType ResponseMessage:(NSString *)responseMessage;
 
 
 @end

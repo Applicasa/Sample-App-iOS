@@ -12,6 +12,7 @@
 #import "User+DisplayName.h"
 #import "AlertShower.h"
 #import "User.h"
+#import "LiLog.h"
 
 static UIImage *challangeOn = nil;
 static UIImage *challangeOff = nil;
@@ -62,7 +63,7 @@ static UIImage *challangeOff = nil;
 
 - (IBAction)goBack:(id)sender {
     // Responds to back arrow button tap
-    DDLogInfo(@"User said goBack. Dismissing...");
+    LiLogSampleApp(@"User said goBack. Dismissing...");
     [self.delegate nearbyFriendsViewControllerDidGoBack:self];
 }
 

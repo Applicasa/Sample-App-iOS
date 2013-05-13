@@ -37,6 +37,8 @@
 @property (nonatomic, weak) IBOutlet UIButton *btnMyItems;
 @property (nonatomic, weak) IBOutlet UIButton *btnBuyCoins;
 @property (nonatomic, strong) IBOutlet UILabel *coinTotal;
+@property (weak, nonatomic) IBOutlet UITextField *position;
+
 
 // actions for storyboard
 - (IBAction)goBack:(id)sender;

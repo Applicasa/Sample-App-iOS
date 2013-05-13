@@ -26,7 +26,10 @@
  */
 + (LiFilters *) filterByField:(LiFields)field Operator:(OPERATORS)op Value:(id)value;
 + (LiFilters *) filterByOperandA:(LiFilters *)operandA ComplexOperator:(COMPLEX_OPERATORS)op OperandB:(LiFilters *)operandB;
-+ (LiFilters *) filterByField:(LiFields)field OrOperatorWithArrayOfValues:(NSArray *)array;
+
++ (LiFilters *) filterByField:(LiFields)field InOperatorWithArrayOfValues:(NSArray *)array;
++ (LiFilters *) filterByField:(LiFields)field OrOperatorWithArrayOfValues:(NSArray *)array DEPRECATED_ATTRIBUTE;
+
 
 @end
 

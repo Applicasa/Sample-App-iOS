@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <LiCore/LiCoreDelegate.h>
 
+@class LiFilters;
 @class LiResponse;
 @interface LiObjRequest : NSObject <LiCoreRequestDelegate>{
     BOOL shouldReturnToDelegate;
@@ -51,5 +52,11 @@
 - (void) setBlock:(void *)block;
 - (void *) getBlock;
 - (void) releaseBlock;
+
+- (void) validateUser;
+
+- (NSString *)actionStringForAction:(Actions)_action;
+
++(int) deleteItemsInClass:(NSString *)className WithFilter:(LiFilters *)filter;
 
 @end

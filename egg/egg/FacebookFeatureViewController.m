@@ -10,6 +10,7 @@
 #import "User.h"
 #import "AlertShower.h"
 #import "FBFriendCell.h"
+#import "LiLog.h"
 
 #define kFacebookShareLink          @"www.applicasa.com"
 #define kFacebookShareImage         @"https://developers.facebook.com/attachment/iossdk_logo.png"
@@ -55,7 +56,7 @@
 #pragma mark - Go Back Action
 
 - (IBAction)goBack:(id)sender {
-    DDLogInfo(@"User said goBack. Dismissing...");
+    LiLogSampleApp(@"User said goBack. Dismissing...");
     [self.delegate facebookFeatureViewControllerViewControllerDidGoBack:self];
 }
 

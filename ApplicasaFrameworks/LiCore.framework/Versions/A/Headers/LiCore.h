@@ -17,9 +17,18 @@
 #import <LiCore/LiFilters.h>
 #import <LiCore/LiObject.h>
 #import <LiCore/LiQuery.h>
+#import <LiCore/LiFilters.h>
+
+#define LI_VERSION @"3.3.3.102" 
+#define FRAMEWORK_SCHEMA_VERSION @"1.2" 
+
 
 @class User;
 @interface LiCore : NSObject
+
+// for adobe Air initCall
++(void) initLiCoreManager;
+
 
 // Push Notification
 
@@ -60,5 +69,8 @@
 
 + (void) resetDevice;
 
++(void)displayAlert;
+
++(NSString *)getVersion;
 
 @end

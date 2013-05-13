@@ -15,18 +15,14 @@
 #import <FacebookSDK/FBSession.h>
 #import "MainViewController.h"
 #import "LiObjPushNotification.h"
+#import "LiLog.m"
+
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    // setup Lumberjack logging
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
-    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:0.58 green:0.77 blue:0.49 alpha:1.0] backgroundColor:nil forFlag:LOG_FLAG_INFO];
-    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor colorWithRed:1.00 green:0.85 blue:0.40 alpha:1.0] backgroundColor:nil forFlag:LOG_FLAG_VERBOSE];
+
     return YES;
 }
 
@@ -35,7 +31,9 @@
 }
 
 - (void) applicationWillEnterForeground:(UIApplication *)application{
+//    [LiKitIAP refreshStore];
     [LiSession sessionResume];
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -47,11 +45,11 @@
     BOOL userIsRegisteredFacebook = [[User getCurrentUser] userIsRegisteredFacebook];
     if (userIsRegisteredFacebook){
         [User facebookLogoutWithBlock:^(NSError *error, NSString *itemID, Actions action) {
-            DDLogInfo(@"Logged out Facebook user");
+            LiLogSampleApp(@"Logged out Facebook user");
         }];
     } else if (userIsRegistered){
         [User logoutWithBlock:^(NSError *error, NSString *itemID, Actions action) {
-            DDLogInfo(@"Logged Out User");
+            LiLogSampleApp(@"Logged Out User");
         }];
     }
     
@@ -75,13 +73,14 @@
 
 - (void)finishedInitializeLiCoreFrameworkWithUser:(User*)user isFirstLoad:(BOOL)isFirst {
     // Lets us know that the Applicasa core framework has finished loading
-    DDLogInfo(@"We initialized Applicasa ... wahooo");
+    LiLogSampleApp(@"We initialized Applicasa ... wahooo");
     [LiKitFacebook setPermissions:[NSArray arrayWithObject:@"publish_stream"] AllowLoginUI:YES];
+    
 }
 
 - (void)liCoreHasNewUser:(User *)user {
     // This delegate method can be implemented if you wish to know when a new user exists
-    DDLogVerbose(@"New User!!!");
+    LiLogSampleApp(@"New User!!!");
 }
 
 #pragma mark -
@@ -89,30 +88,15 @@
 #pragma mark -
 
 - (void)finishedIntializedLiKitIAPWithVirtualCurrencies:(NSArray *)virtualCurrencies VirtualGoods:(NSArray *)virtualGoods {
+    
+    LiLogSampleApp(@"############  FROM DELEGATE METHOD ##############");
+    LiLogSampleApp(@"############  Refreshing controllers ##############");
+
     // Lets us know that IAP has loaded
     // Provides arrays of virtual goods & currencies that can be used immediately
     [self refreshViewControllers];
-    
-#ifdef DEBUG
-    // Just for DEBUG purposes, let's see our virtual currencies and items to make
-    // sure we have a successful connnection to Applicasa.
-    
-    DDLogInfo(@"############  FROM DELEGATE METHOD ##############");
-    DDLogInfo(@"#### VirtualCurrency count: %d ####", virtualCurrencies.count);
-    for (VirtualCurrency *currentItem in virtualCurrencies) {
-        // log out virtual currency
-        DDLogVerbose(@"VirtualCurrency item: %@, %f@, %d", currentItem.virtualCurrencyTitle, currentItem.virtualCurrencyPrice, currentItem.virtualCurrencyCredit);
-    }
-    
-    
-    DDLogInfo(@"#### VirtualGoods count: %d ####", virtualGoods.count);
-    for (VirtualGood *currentItem in virtualGoods) {
-        // log out virtual goods
-        DDLogVerbose(@"VirtualGood item: %@, %@, %d", currentItem.virtualGoodTitle, currentItem.virtualGoodDescription, currentItem.virtualGoodQuantity);
-    }
-    DDLogInfo(@"#############   END DELEGATE METHOD #############");
-#endif
 }
+
 
 #pragma mark -
 #pragma mark - Push Notification Delegate Methods
@@ -130,7 +114,6 @@
     LiObjPushNotification *pushInstance = [LiObjPushNotification pushWithDictionary:userInfo];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Egg says" message:pushInstance.message delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
     [alert show];
-    NSLog(@"tag %@",pushInstance.tag);
 }
 
 #pragma mark -
@@ -139,6 +122,10 @@
 
 - (BOOL) application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     return [[LiKitFacebook getActiveSession] handleOpenURL:url];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application{
+
 }
 
 @end

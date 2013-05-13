@@ -85,6 +85,7 @@ typedef enum {
     balanceChanged = 1600,
     balanceZero,
     balanceLow,
+    balanceChangedBy,
     
     // Inventory-based events
     inventoryDepleted = 1700, // all inventory at zero

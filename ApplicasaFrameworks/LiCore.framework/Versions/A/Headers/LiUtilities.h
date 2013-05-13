@@ -47,12 +47,12 @@
 
 #define KeyWithHeader(key,header) [NSString stringWithFormat:@"%@%@",key,header]
 
-void *NewBase64Decode(
+void *LiNewBase64Decode(
                       const char *inputBuffer,
                       size_t length,
                       size_t *outputLength);
 
-char *NewBase64Encode(
+char *LiNewBase64Encode(
                       const void *inputBuffer,
                       size_t length,
                       bool separateLines,

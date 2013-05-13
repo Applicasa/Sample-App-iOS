@@ -52,11 +52,14 @@ typedef enum {
     GetInventoy,
     SaveForCurrentUser,
     
+    
+    
     //Promotions
     GetProfileData,
     GetProfileSettings,
     GetPromotions,
     UpdateProfileData,
+    GetTrialPayActions,
     
     //Social
     SendPush,
@@ -79,12 +82,14 @@ typedef enum OPERATORS{
     ,LessThanOrEqualTo    // <=
     ,Equal                // =
     ,Like                 // %foo%
+    
 } OPERATORS;
 
 typedef enum COMPLEX_OPERATORS{
     AND =0
     ,OR 
     ,NOT
+    ,IN
 } COMPLEX_OPERATORS;
 
 typedef enum {

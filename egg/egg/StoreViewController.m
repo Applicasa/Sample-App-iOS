@@ -15,9 +15,10 @@
 #import "LiStoreCell.h"
 #import "LiPromoHelperViews.h"
 #import "AlertShower.h"
+#import "LiLog.h"
 
 @implementation StoreViewController
-@synthesize coinTotal,
+@synthesize coinTotal,position,
 collectionItems,
 btnBuyCoins,
 btnMyItems,
@@ -39,6 +40,7 @@ static UIImage *virtualGoodImage = nil;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [self updateBalanceLabel];
     
     if (!virtualCurrencyImage)
@@ -71,7 +73,13 @@ static UIImage *virtualGoodImage = nil;
     
     // Checks for active store section & loads data for collection view
     if (isDisplayingVirtualGoods) {
+        if (!position || [position.text isEqualToString:@"-1"])
         [IAP getVirtualGoodsOfType:All withBlock:block];
+        else
+        {
+            int pos = [position.text intValue];
+            [IAP getVirtualGoodsOfType:All byCategoryPosition:pos withBlock:block];
+        }
     } else if (isDisplayingUserInventory) {
         [IAP getVirtualGoodsOfType:InventoryItems withBlock:block];
     } else if (isDisplayingVirtualCurrency) {
@@ -88,19 +96,19 @@ static UIImage *virtualGoodImage = nil;
 #pragma mark Give/Buy/Use methods
 #pragma mark -
 
-- (void)buyVirtualGood:(id)obj {
+- (void)buyVirtualGood:(VirtualGood *)obj {
     // Generic helper for buying virtual items & updating balance
     // Presents alert on success/error
-    [IAP buyVirtualGood:obj quantity:1 withCurrencyKind:MainCurrency andBlock:^(NSError *error, NSString *itemID, Actions action) {
+    [IAP buyVirtualGood:obj quantity:1 withCurrencyKind:(obj.virtualGoodIsStoreItem)?RealMoney:MainCurrency andBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // purchase success
-            DDLogWarn(@"Bought item: %@", [obj virtualGoodTitle]);
+            LiLogSampleApp(@"Bought item: %@", [obj virtualGoodTitle]);
             [self updateBalanceLabel];
             [AlertShower showAlertWithMessage:[NSString stringWithFormat:@"Bought %@",[obj virtualGoodTitle]] onViewController:self];
         }
         else {
             // purchased failed
-            DDLogError(@"Purchase Error: %@", error);
+            LiLogSampleApp(@"Purchase Error: %@", error);
             [AlertShower showAlertWithMessage:error.localizedDescription onViewController:self];
         }
     }];
@@ -115,13 +123,14 @@ static UIImage *virtualGoodImage = nil;
     [IAP buyVirtualCurrency:obj withBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // purchase success
-            DDLogWarn(@"Bought item: %@; added %d to User's balance", [obj virtualCurrencyTitle], [obj virtualCurrencyCredit]);
+            LiLogSampleApp(@"Bought item: %@; added %d to User's balance", [obj virtualCurrencyTitle], [obj virtualCurrencyCredit]);
             [self updateBalanceLabel];
             [AlertShower showAlertWithMessage:@"Purchase success!" onViewController:self];
         }
         else {
             // purchase failed
-            DDLogError(@"Purchase Error: %@", error);
+            LiLogSampleApp(@"Purchase Error: %@ , %i", error, [error code]);
+
         }
         [buyingActivity stopAndRemove];
     }];
@@ -133,12 +142,12 @@ static UIImage *virtualGoodImage = nil;
     [IAP useVirtualGood:obj quantity:1 withBlock:^(NSError *error, NSString *itemID, Actions action) {
         if (error == nil) {
             // used inventory item
-            DDLogVerbose(@"Used inventory item: %@", [obj virtualGoodTitle]);
+            LiLogSampleApp(@"Used inventory item: %@", [obj virtualGoodTitle]);
             [self setActiveStoreSection:btnMyItems];
         }
         else {
             // use failed
-            DDLogError(@"Inventory Error: %@", error);
+            LiLogSampleApp(@"Inventory Error: %@ , %i", error, [error code]);
         }
     }];
 }
@@ -200,11 +209,11 @@ static UIImage *virtualGoodImage = nil;
     // Responds to blue button tap to buy/use item
     UIButton *buyButton = (UIButton*)sender;
     if (isDisplayingVirtualGoods) {
-        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
+        LiLogSampleApp(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
         [self buyVirtualGood:[collectionItems objectAtIndex:buyButton.tag]];
     }
     else if (isDisplayingVirtualCurrency) {
-        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
+        LiLogSampleApp(@"buying item: %@", [collectionItems objectAtIndex:buyButton.tag]);
         [self buyVirtualCurrency:[collectionItems objectAtIndex:buyButton.tag]];
     }
     else if (isDisplayingUserInventory) {
@@ -214,14 +223,14 @@ static UIImage *virtualGoodImage = nil;
 
 - (IBAction)goBack:(id)sender {
     // Responds to back arrow button tap
-    DDLogInfo(@"User said goBack. Dismissing...");
+    LiLogSampleApp(@"User said goBack. Dismissing...");
     [self.delegate storeViewControllerDidGoBack:self];
 }
 
 - (IBAction)changeSection:(id)sender {
     // Responds to bottom-row button taps (items, inventory, & coins)
     // Sets active store section, fetches section data, and reloads
-    DDLogInfo(@"User changed section. Updating store state & data...");
+    LiLogSampleApp(@"User changed section. Updating store state & data...");
     NSParameterAssert([sender isKindOfClass:[UIButton class]]);
     [self setActiveStoreSection:sender];
 }
@@ -232,7 +241,7 @@ static UIImage *virtualGoodImage = nil;
 
 - (NSInteger)collectionView:(UICollectionView *)storeView numberOfItemsInSection:(NSInteger)section {
     // simple count of the collectionItems
-    DDLogVerbose(@"Number of items in section: %d", [collectionItems count]);
+    LiLogSampleApp(@"Number of items in section: %d", [collectionItems count]);
     return [collectionItems count];
 }
 
@@ -258,18 +267,34 @@ static UIImage *virtualGoodImage = nil;
         // Customize cell for displaying virtual currencies
         // Attaching the relevant currency name according to the virtualCurrencyKind value (LiCurrency)
         imageUrl = [item virtualCurrencyImageA];
+        
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+        [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+        [numberFormatter setLocale:[item product].priceLocale];
+        NSString *formattedString = [numberFormatter stringFromNumber:[item product].price];
+
+        
+        
+        LiLogSampleApp(@"description %@, title %@, price locale %@",[[item product] localizedDescription],
+              [[item product] localizedTitle],
+              formattedString);
+        
+                
+        
         title = [NSString stringWithFormat:@"$%g",[item virtualCurrencyPrice]];
         [cell setInfoText:[NSString stringWithFormat:@"%d %@",[item virtualCurrencyCredit],([item virtualCurrencyKind]==MainCurrency)?@"Coins":@"Gems"]];
         [cell.btnBuy setBackgroundImage:virtualCurrencyImage forState:UIControlStateNormal];
     } else if (isDisplayingUserInventory) {
         // Customize cell for displaying virtual goods
+        LiLogSampleApp(@"title %@,  url %@",[item virtualGoodTitle],[item virtualGoodImageA]);
         imageUrl = [item virtualGoodImageA];
         title = [NSString stringWithFormat:@"%d",[item virtualGoodUserInventory]];
         [cell.btnBuy setBackgroundImage:virtualCurrencyImage forState:UIControlStateNormal];
     }
     
     [imageUrl getCachedImageWithBlock:^(NSError *error, UIImage *image) {
-        [cell setImage:image];
+        [cell setImage:image];      
     }];
     cell.btnBuy.tag = row;
     [cell.btnBuy addTarget:self action:@selector(btnBuyTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -284,17 +309,17 @@ static UIImage *virtualGoodImage = nil;
 
 - (void)collectionView:(UICollectionView *)storeView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // Select collection item & perform buy/use action
-    DDLogInfo(@"Selected storeViewCell");
+    LiLogSampleApp(@"Selected storeViewCell");
     if (isDisplayingVirtualGoods) {
-        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:indexPath.row]);
+        LiLogSampleApp(@"buying item: %@", [collectionItems objectAtIndex:indexPath.row]);
         [self buyVirtualGood:[collectionItems objectAtIndex:indexPath.row]];
     }
     else if (isDisplayingVirtualCurrency) {
-        DDLogVerbose(@"buying item: %@", [collectionItems objectAtIndex:indexPath.row]);
+        LiLogSampleApp(@"buying item: %@", [collectionItems objectAtIndex:indexPath.row]);
         [self buyVirtualCurrency:[collectionItems objectAtIndex:indexPath.row]];
     }
     else if (isDisplayingUserInventory) {
-        DDLogVerbose(@"using item: %@", [collectionItems objectAtIndex:indexPath.row]);
+        LiLogSampleApp(@"using item: %@", [collectionItems objectAtIndex:indexPath.row]);
         [self useInventoryItem:[collectionItems objectAtIndex:indexPath.row]];
     }
     [self.storeItemView deselectItemAtIndexPath:indexPath animated:YES];
@@ -302,7 +327,7 @@ static UIImage *virtualGoodImage = nil;
 
 - (void)collectionView:(UICollectionView *)storeView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     // Deselect the item (might not need this for our purposes)
-    DDLogInfo(@"Deselected storeViewCell");
+    LiLogSampleApp(@"Deselected storeViewCell");
 }
 
 - (CGSize)collectionView:(UICollectionView *)storeView layout:(UICollectionViewLayout *)layout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -354,6 +379,13 @@ static UIImage *virtualGoodImage = nil;
              [self updateBalanceLabel];
         }];
     }
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+}
+- (IBAction)changeCategoryPosition:(id)sender {
+    [self updateStoreItemViewData];
 }
 
 @end

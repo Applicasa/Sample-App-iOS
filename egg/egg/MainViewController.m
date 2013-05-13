@@ -19,6 +19,7 @@
 #import "LiPromoHelperViews.h"
 #import "LiUserLocation.h"
 #import "User.h"
+#import "LiLog.h"
 
 @interface MainViewController ()
 
@@ -129,9 +130,9 @@
     LiUserLocation *userLocation = [[LiUserLocation alloc] init];
     [userLocation updateLocationWithAccuracy:kCLLocationAccuracyBest distanceFilter:1000 andBlock:^(NSError *error, CLLocation *location, Actions action) {
         if (error)
-            DDLogCError(@"Failed to upload location: %@",error.localizedDescription);
+            LiLogSampleApp(@"Failed to upload location: %@",error.localizedDescription);
         else
-            DDLogCInfo(@"Update to location: %@",location);
+            LiLogSampleApp(@"Update to location: %@",location);
     }];
 }
 
@@ -140,7 +141,8 @@
 #pragma mark -
 
 - (void) liKitPromotionsAvailable:(NSArray *)promotions{
-    for (Promotion *promo in promotions) {
+    if ([promotions count] == 0)return;
+    Promotion *promo = [promotions objectAtIndex:0];{
         [promo showOnView:self.view Block:^(LiPromotionAction promoAction, LiPromotionResult result, id info) {
             if (!promoAction)
                 return ;
@@ -164,20 +166,20 @@
 
 - (void)loginViewControllerDidCancel:(LoginViewController *)controller {
     // Handle dismissing LoginViewController when user taps "Login Later"
-    DDLogInfo(@"doing cancel delegate action");
+    LiLogSampleApp(@"doing cancel delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)loginViewControllerDidLogin:(LoginViewController *)controller {
     // Handle post-login actions & dismissal
-    DDLogInfo(@"doing loggedIn delegate action");
+    LiLogSampleApp(@"doing loggedIn delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
     [AlertShower showAlertWithMessage:@"Logged In" onViewController:self];
     
 }
 
 - (void)loginViewControllerDidRegister:(LoginViewController *)controller{
-    DDLogInfo(@"doing register delegate action");
+    LiLogSampleApp(@"doing register delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
     [AlertShower showAlertWithMessage:@"Registered Successfully" onViewController:self];
     [self updateCurrentUserLocation];
@@ -189,7 +191,7 @@
 
 - (void)storeViewControllerDidGoBack:(StoreViewController *)controller {
     // Handle dismissing StoreViewController when user taps back button
-    DDLogInfo(@"doing goBack delegate action");
+    LiLogSampleApp(@"doing goBack delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -199,7 +201,7 @@
 
 - (void)nearbyFriendsViewControllerDidGoBack:(NearbyFriendsViewController *)controller{
     // Handle dismissing StoreViewController when user taps back button
-    DDLogInfo(@"doing goBack delegate action");
+    LiLogSampleApp(@"doing goBack delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -209,7 +211,7 @@
 
 - (void)facebookFeatureViewControllerViewControllerDidGoBack:(FacebookFeatureViewController *)controller{
     // Handle dismissing StoreViewController when user taps back button
-    DDLogInfo(@"doing goBack delegate action");
+    LiLogSampleApp(@"doing goBack delegate action");
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -220,24 +222,38 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
 	if ([segue.identifier isEqualToString:@"loginSegue"]) {
-		DDLogInfo(@"doing login segue");
+		LiLogSampleApp(@"doing login segue");
         LoginViewController *loginModal = segue.destinationViewController;
         loginModal.delegate = self;
 	}
     else if ([segue.identifier isEqualToString:@"storeSegue"]) {
-        DDLogInfo(@"doing store segue");
+        LiLogSampleApp(@"doing store segue");
         StoreViewController *storeModal = segue.destinationViewController;
         storeModal.delegate = self;
     }
     else if ([segue.identifier isEqualToString:@"nearByFriendsSegueue"]){
-        DDLogInfo(@"doing findFriends segue");
+        LiLogSampleApp(@"doing findFriends segue");
         NearbyFriendsViewController *nearbyFriendsViewController = segue.destinationViewController;
         nearbyFriendsViewController.delegate = self;
     } else if ([segue.identifier isEqualToString:@"facebookFeatureSegue"]){
-        DDLogInfo(@"doing facebookFeature segue");
+        LiLogSampleApp(@"doing facebookFeature segue");
         FacebookFeatureViewController *facebookFeatureViewController = segue.destinationViewController;
         facebookFeatureViewController.delegate = self;
     }
 }
 
+
+-(IBAction) onLogout:(id)sender
+{
+    [User logoutWithBlock:^(NSError *error, NSString *itemID, Actions action) {
+       if (error)
+       {
+          LiLogSampleApp(@"Logout failed");
+       }
+       else
+       {
+           LiLogSampleApp(@"Logout succesfully");
+       }
+    }];
+}
 @end
