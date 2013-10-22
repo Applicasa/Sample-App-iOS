@@ -195,6 +195,7 @@
                 case LiPromotionResultSponsorPay:
                 case LiPromotionResultSupersonicAds:
                 case LiPromotionResultTrialPay:
+                    LiLogSampleApp(@"Response %@",info);
                     [LiKitPromotions getThirdPartyActions:^(NSError *error, NSArray *thirdpartyResponse) {
                         if (!error)
                             NSLog(@"Received %i actions from server",[thirdpartyResponse count]);
