@@ -160,10 +160,10 @@
 		84938DA11816A0F70072331F /* SupersonicAdsViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84938D291816A0F60072331F /* SupersonicAdsViewController-iPad.xib */; };
 		84938DA21816A0F70072331F /* SupersonicAdsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84938D2A1816A0F60072331F /* SupersonicAdsViewController.xib */; };
 		84938DA41816A0F70072331F /* SSANoArcUniversal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84938D301816A0F60072331F /* SSANoArcUniversal.a */; };
-		84938DA51816A0F70072331F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84938D311816A0F60072331F /* FacebookSDK.framework */; };
 		84938DA61816A0F70072331F /* Li_AWSiOSSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84938D321816A0F60072331F /* Li_AWSiOSSDK.framework */; };
 		84938DA71816A0F70072331F /* LiCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84938D331816A0F60072331F /* LiCore.framework */; };
 		84938DA91816A67A0072331F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84938DA81816A67A0072331F /* Images.xcassets */; };
+		84938DAB1816CA290072331F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84938DAA1816CA290072331F /* FacebookSDK.framework */; };
 		84B000CA1741169000293768 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84B000C91741169000293768 /* AdSupport.framework */; };
 		84B000CE174117F500293768 /* logout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B000CD174117F500293768 /* logout@2x.png */; };
 		84D6B04D168B3594006FC4BB /* rankGeneral@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84D6B049168B3594006FC4BB /* rankGeneral@2x.png */; };
@@ -490,10 +490,10 @@
 		84938D2C1816A0F60072331F /* SupersonicAdsAdvertiser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupersonicAdsAdvertiser.h; sourceTree = "<group>"; };
 		84938D2D1816A0F60072331F /* SupersonicAdsPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SupersonicAdsPublisher.h; sourceTree = "<group>"; };
 		84938D301816A0F60072331F /* SSANoArcUniversal.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = SSANoArcUniversal.a; sourceTree = "<group>"; };
-		84938D311816A0F60072331F /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		84938D321816A0F60072331F /* Li_AWSiOSSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Li_AWSiOSSDK.framework; sourceTree = "<group>"; };
 		84938D331816A0F60072331F /* LiCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LiCore.framework; sourceTree = "<group>"; };
 		84938DA81816A67A0072331F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		84938DAA1816CA290072331F /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = egg/ApplicasaFramework/FacebookSDK.framework; sourceTree = SOURCE_ROOT; };
 		84B000C91741169000293768 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		84B000CD174117F500293768 /* logout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logout@2x.png"; sourceTree = "<group>"; };
 		84B000D017412CCE00293768 /* LiLog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LiLog.h; sourceTree = "<group>"; };
@@ -594,6 +594,7 @@
 				84938C5E18169C930072331F /* AudioToolbox.framework in Frameworks */,
 				84938C5C18169C740072331F /* MediaPlayer.framework in Frameworks */,
 				84938D391816A0F70072331F /* LiMMedia.framework in Frameworks */,
+				84938DAB1816CA290072331F /* FacebookSDK.framework in Frameworks */,
 				84938C5A18169BE40072331F /* AVFoundation.framework in Frameworks */,
 				84938C5818169BBE0072331F /* CoreTelephony.framework in Frameworks */,
 				84938DA61816A0F70072331F /* Li_AWSiOSSDK.framework in Frameworks */,
@@ -606,7 +607,6 @@
 				84F1E9CE172D572F00943C23 /* GameKit.framework in Frameworks */,
 				84255ADD16F8A6D600A8D7DB /* QuartzCore.framework in Frameworks */,
 				84938D371816A0F70072331F /* LiChartboost.framework in Frameworks */,
-				84938DA51816A0F70072331F /* FacebookSDK.framework in Frameworks */,
 				84134A9716E39737004FB8E9 /* Security.framework in Frameworks */,
 				C416C3911648F976009008BB /* StoreKit.framework in Frameworks */,
 				84938DA41816A0F70072331F /* SSANoArcUniversal.a in Frameworks */,
@@ -864,7 +864,6 @@
 			isa = PBXGroup;
 			children = (
 				84938C601816A0F60072331F /* AdNetworks */,
-				84938D311816A0F60072331F /* FacebookSDK.framework */,
 				84938D321816A0F60072331F /* Li_AWSiOSSDK.framework */,
 				84938D331816A0F60072331F /* LiCore.framework */,
 			);
@@ -874,6 +873,7 @@
 		84938C601816A0F60072331F /* AdNetworks */ = {
 			isa = PBXGroup;
 			children = (
+				84938DAA1816CA290072331F /* FacebookSDK.framework */,
 				84938C611816A0F60072331F /* Appnext */,
 				84938C651816A0F60072331F /* Chartboost */,
 				84938C6A1816A0F60072331F /* MMedia */,
@@ -1984,13 +1984,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/Appnext",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/Chartboost",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/MMedia",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/SponsorPay",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/SupersonicAds",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/Appnext",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/Chartboost",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/MMedia",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/SponsorPay",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/SupersonicAds",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "egg/egg-Prefix.pch";
@@ -1999,10 +1998,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/Appnext",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/Chartboost",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/MMedia/MMediaSDK",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/SupersonicAds/SSASDK/libs",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/Appnext",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/Chartboost",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/MMedia/MMediaSDK",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/SupersonicAds/SSASDK/libs",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -2025,13 +2024,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/Appnext",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/Chartboost",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/MMedia",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/SponsorPay",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/SupersonicAds",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/Appnext",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/Chartboost",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/MMedia",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/SponsorPay",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/SupersonicAds",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "egg/egg-Prefix.pch";
@@ -2040,10 +2038,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/Appnext",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/Chartboost",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/MMedia/MMediaSDK",
-					"/Users/admin/Desktop/Generators/Sample-App-iOS/egg/egg/ApplicasaFramework/AdNetworks/SupersonicAds/SSASDK/libs",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/Appnext",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/Chartboost",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/MMedia/MMediaSDK",
+					"$(PROJECT_DIR)/egg/ApplicasaFramework/AdNetworks/SupersonicAds/SSASDK/libs",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
