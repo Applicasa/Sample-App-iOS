@@ -19,11 +19,13 @@
 #define kFacebookShareDescription   @"The Facebook SDK for iOS makes it easier and faster to develop Facebook integrated iOS apps."
 
 @interface FacebookFeatureViewController ()
+-(void) verifyPermissions;
 
+@property (nonatomic) BOOL canPublish;
 @end
 
 @implementation FacebookFeatureViewController
-@synthesize fbFriends,fbFriendsTableView;
+@synthesize fbFriends,fbFriendsTableView,canPublish;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,6 +39,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    canPublish = FALSE;
+    
 	[User facebookFindFriendsWithBlock:^(NSError *error, NSArray *friends, Actions action) {
         if (error){
             [AlertShower showAlertWithMessage:error.localizedDescription onViewController:self];
@@ -45,6 +49,8 @@
             [fbFriendsTableView reloadData];
         }
     }];
+    
+    [self verifyPermissions];
 }
 
 - (void)didReceiveMemoryWarning
@@ -95,7 +101,13 @@
 
 #pragma mark - UITableView Delegate
 
+
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (!canPublish)
+    {
+        LiLogSampleApp(@"Cant post on wall without Publish permissions");
+        return;
+    }
     [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO animated:YES];
     //Invite the selected friend to join the egg app by posting on his wall
     LiObjFBFriend *friend = [fbFriends objectAtIndex:indexPath.row];
@@ -113,6 +125,23 @@
         [AlertShower showAlertWithMessage:alertText onViewController:self];
     }];
     
+}
+
+-(void) verifyPermissions
+{
+   
+   if( [[FBSession activeSession ] isOpen] )
+   {
+           NSArray *permissions = [NSArray arrayWithObjects:@"publish_actions", nil];
+           [[FBSession activeSession] requestNewPublishPermissions:permissions
+                                                    defaultAudience:FBSessionDefaultAudienceFriends
+                                                  completionHandler:^(FBSession *session, NSError *error) {
+                                                     if (error)
+                                                         NSLog(@"Failed updating permission %@",error);
+                                                      else
+                                                          canPublish = TRUE;
+                                                  }];
+   }
 }
 
 @end

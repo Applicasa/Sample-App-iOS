@@ -152,16 +152,61 @@
 	return SCHEMA_VERISON;
 }
 
++(int)getSessionPauseTime{
+    return SESSION_PAUSE_TIME;
+}
 
++(BOOL)shouldDecodeTags
+{
+    return SHOULD_DECODE_HTML_XML_TAGS;
+}
+
++ (BOOL) isMMediaEnabled{
+    return ENABLE_MMEDIA;
+}
 
 + (BOOL) isChartboostEnabled{
- return ENABLE_CHARTBOOST;
+    return ENABLE_CHARTBOOST;
 }
 + (NSString *) getChartboostId{
- return CHARTBOOST_ID;
+    return CHARTBOOST_ID;
 }
 + (NSString *) getChartboostSignature{
- return CHARTBOOST_SIGNATURE;
+    return CHARTBOOST_SIGNATURE;
 }
+
++ (BOOL) isSponsorPayEnabled
+{
+    return ENABLE_SPONSORPAY;
+}
++ (NSString *) getSponsorPayAppId
+{
+    return SPONSORPAY_APPID;
+}
++ (NSString *) getSponsorPaySecurityToken
+{
+    return SPONSORPAY_SECURITY_TOKEN;
+}
+
+//AppNext
++ (BOOL) isAppnextEnabled
+{
+    return ENABLE_APPNEXT;
+}
+
+
+//SuperSonic
++ (BOOL) isSupersonicAdsEnabled
+{
+    return ENABLE_SUPERSONICADS;
+}
+
++ (NSString *) getSupersonicAdsId
+{
+    return SUPERSONIC_APPID;
+}
+
+
+
 
 @end

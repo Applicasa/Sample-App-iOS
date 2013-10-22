@@ -1,7 +1,7 @@
 //
 // User.h
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 #import <Foundation/Foundation.h>
@@ -35,26 +35,16 @@
 @property (nonatomic, strong, readonly) NSDate *userLastLogin;
 @property (nonatomic, strong, readonly) NSDate *userRegisterDate;
 @property (nonatomic, strong) CLLocation *userLocation;
-@property (nonatomic, assign, readonly) BOOL userIsRegisteredFacebook;
 @property (nonatomic, assign, readonly) BOOL userIsRegistered;
+@property (nonatomic, assign, readonly) BOOL userIsRegisteredFacebook;
 @property (nonatomic, strong, readonly) NSDate *userLastUpdate;
-@property (nonatomic, strong, readonly) NSString *userFacebookID;
 @property (nonatomic, strong) NSURL *userImage;
 @property (nonatomic, assign) int userMainCurrencyBalance;
 @property (nonatomic, assign) int userSecondaryCurrencyBalance;
+@property (nonatomic, strong, readonly) NSString *userFacebookID;
 @property (nonatomic, strong) NSDate *userTempDate;
 
-/*********************************************************************************
- DEPRECATED METHODS WARNING:
- 
- Applicasa is cleaning up its SDK in preparation for upcoming 2.0 release.
- 
- Do not use methods marked with DEPRECATED_ATTRIBUTE.
- These methods are deprecated. They are included for backward-compatibility only.
- They will be removed in the final release. You should update your code immediately.
- 
- Corrected methods are listed first. Use these methods instead.
- **********************************************************************************/
+
  
 // Save Useritem to Applicasa DB
 - (void) saveWithBlock:(LiBlockAction)block;
@@ -73,9 +63,17 @@
 // Get User Array from Local DB
 + (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetUserArrayFinished)block;
 
+// Sync method to get data
 + (NSArray *) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind;
 
+// A-sync method that receive filter and retreive all data from server
+// uses Inner Pager
 + (void) getArrayWithFilter:(LiFilters *)filter withBlock:(UpdateObjectFinished)block;
+
+// Sync method to update Local storage, Returns number of rows that answered the
+// call, Light & Full are limited to 1500, More then that Use pager
++ (int) updateLocalStorage:(LiQuery *)query queryKind:(QueryKind)queryKind;
+
 
 // uploadFile
 - (void) uploadFile:(NSData *)data toField:(LiFields)field withFileType:(AMAZON_FILE_TYPES)fileType extension:(NSString *)ext andBlock:(LiBlockAction)block;
@@ -89,6 +87,8 @@
 + (void) facebookFindFriendsWithBlock:(LiBlockFBFriendsAction)block;
 
 + (void) facebookLogoutWithBlock:(LiBlockAction)block;
+
+
 
 
 #pragma mark - End of Basic SDK

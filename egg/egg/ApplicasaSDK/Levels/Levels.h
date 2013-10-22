@@ -1,7 +1,7 @@
 //
 // Levels.h
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 #import <Foundation/Foundation.h>
@@ -27,19 +27,8 @@
 @property (nonatomic, strong) NSString *levelsID;
 @property (nonatomic, strong, readonly) NSDate *levelsLastUpdate;
 @property (nonatomic, strong) NSString *levelsGtgtg;
+@property (nonatomic, strong) NSString *levelsHTML;
 @property (nonatomic, assign) int levelsTgtggtg;
-
-/*********************************************************************************
- DEPRECATED METHODS WARNING:
- 
- Applicasa is cleaning up its SDK in preparation for upcoming 2.0 release.
- 
- Do not use methods marked with DEPRECATED_ATTRIBUTE.
- These methods are deprecated. They are included for backward-compatibility only.
- They will be removed in the final release. You should update your code immediately.
- 
- Corrected methods are listed first. Use these methods instead.
- **********************************************************************************/
  
 // Save Levelsitem to Applicasa DB
 - (void) saveWithBlock:(LiBlockAction)block;
@@ -61,9 +50,17 @@
 // Get Levels Array from Local DB
 + (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetLevelsArrayFinished)block;
 
+// Sync method to get data
 + (NSArray *) getArrayWithQuery:(LiQuery *)query queryKind:(QueryKind)queryKind;
 
+// A-sync method that receive filter and retreive all data from server
+// uses Inner Pager
 + (void) getArrayWithFilter:(LiFilters *)filter withBlock:(UpdateObjectFinished)block;
+
+// Sync method to update Local storage, Returns number of rows that answered the
+// call, Light & Full are limited to 1500, More then that Use pager
++ (int) updateLocalStorage:(LiQuery *)query queryKind:(QueryKind)queryKind;
+
 
 // uploadFile
 - (void) uploadFile:(NSData *)data toField:(LiFields)field withFileType:(AMAZON_FILE_TYPES)fileType extension:(NSString *)ext andBlock:(LiBlockAction)block;

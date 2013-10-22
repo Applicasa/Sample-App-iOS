@@ -11,13 +11,45 @@ Applicasa is a Mobile Game Management Platform that provides developers a series
 Egg is an imagined game that shows common scenarios and code samples that developers can learn from and emulate in their own applications.
 
 ## New SDK and Framework features:
-1. Direct purchase of virtual good from apple store
-2. Add beta support for Chartboost
-3. Added filter for Promotions (UserReturenSession, BalanceChanged & BalanceChangedBy events)
-4. DAU & MAU analytics report
-5. Performance and stability improvments
-6. Add Bundle version for VirtualGoods, VirtualCurrencies and Promotions
-
+1. Custom events for monetization.
+2. More Add networks to the monetization section.
+	Sample app Introduces the variety of Ad networks, All you need to do is:
+	A. Go to MainViewController to "Raise Custom event method" section.
+	B. Select the Adnetwork you wish to call.
+	C. Build & Run, and press on the "Raise Promotions" button
+3. Send delayed push messages
+4. Bug Fix
+```
+/**
+ 
+ Method to raise custom events.
+ The "Egg" sample app implemented custom events that will raise the different ad network possible (TrialPay, MMedia, SupersonicAds, SponsorPay Appnext and Chartboost)
+ 
+ To raise different AdNetwork just change the name of the customEvent belos.
+ use the the following names to raise the different ad network:
+ 
+ 1. TrialPay:
+ A. MainCurrency ------------------->OfferwallMainCurrency
+ B. SecondaryCurrency -------------->OfferwallSecondaryCurrency
+ 2. Millennial Media ------------------>@"MMedia"
+ 3. SupersonicAds
+ A. SupersonicAds BrandConnect ----->@"SuperSonicBrand"
+ B. SupersonicAds offerwall -------->@"SuperSonic"
+ 3. SponsorPay
+ A. SponsorPay BrandEngage --------->@"SponsorPayBrand"
+ B. SponsorPay offerwall ----------->@"SponsorPay"
+ 4.Appnext ---------------------------->@"Appnext"
+ 5.Chartboost ------------------------->@"Chartboost"
+ 
+ *note, you should also view implementations of "liKitPromotionsAvailable"
+ 
+ 
+ 
+ */
+- (IBAction)raiseCustomPromotion:(id)sender {
+    [LiPromo raiseCustomEventByName:@"MMedia"];
+}
+```
 
 ### What You Will Find in Egg:
 1. Integrating the Applicasa SDK and frameworks for iOS
@@ -55,7 +87,7 @@ Because this is a sandboxed app, you must use a test account to make IAP purchas
 
 ## iOS Version Targeting
 
-Egg is currently built to take advantage of the latest iOS features. For that reason, the sample app targets iOS 6 only, primarily because it uses new ```UICollectionView``` features, such as auto layout.
+Egg is currently built to take advantage of the latest iOS features. For that reason, the sample app targets iOS 6+ only, primarily because it uses new ```UICollectionView``` features, such as auto layout.
 
 **However**, the current Applicasa frameworks and SDK target **iOS 4+**, so don't be worried that you must immediately port your app to iOS 6 to use Applicasa's extensive features. You can still use Egg as a reference for how to implement Applicasa functionality in your game. At some point in the future, Applicasa will continue to move forward, and we'll always let our developers know when this requires moving up in iOS versions.
 

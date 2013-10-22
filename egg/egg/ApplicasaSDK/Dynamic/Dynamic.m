@@ -1,7 +1,7 @@
 //
 // Dynamic.m
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 #import "Dynamic.h"
@@ -162,7 +162,7 @@ enum DynamicIndexes {
     [request addIntValue:queryKind forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
-    request.shouldWorkOffline = YES;
+    request.shouldWorkOffline = (queryKind == LOCAL);
     
     [request startSync:YES];
     
@@ -177,6 +177,30 @@ enum DynamicIndexes {
         return [Dynamic getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer];
     }
     return nil;
+}
+
++ (int) updateLocalStorage:(LiQuery *)query queryKind:(QueryKind)queryKind
+{
+    query = [self setFieldsNameToQuery:query];
+    LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
+    [request addIntValue:queryKind forKey:@"DbGetKind"];
+    [request addValue:query forKey:@"query"];
+    request.shouldWorkOffline = (queryKind == LOCAL);
+    
+    [request startSync:YES];
+    
+    NSInteger responseType = request.response.responseType;
+    
+    if (responseType == 1)
+    {
+        sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+        int i =0;
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            i++;
+        }
+        return i;
+    }
+    return  -1;
 }
 
 + (void) getArrayWithFilter:(LiFilters *)filter withBlock:(UpdateObjectFinished)block
@@ -267,7 +291,9 @@ enum DynamicIndexes {
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 	
     GetDynamicArrayFinished _block = (__bridge GetDynamicArrayFinished)block;
-    _block(error,array);
+    
+    if (_block)
+        _block(error,array);
 }
 
 

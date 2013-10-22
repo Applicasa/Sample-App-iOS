@@ -116,6 +116,9 @@
     [usageProfileImageView setTag:profile];
 }
 
+
+
+
 - (void) refreshProfileIcons{
     LiSpendingProfile spendingProfile = [User getCurrentSpendingProfile];
     LiUsageProfile usageProfile = [User getCurrentUsageProfile];
@@ -137,6 +140,39 @@
 }
 
 #pragma mark -
+#pragma mark Raise Custom event method
+#pragma mark -
+/**
+ 
+ Method to raise custom events.
+ The "Egg" sample app implemented custom events that will raise the different ad network possible (TrialPay, MMedia, SupersonicAds, SponsorPay Appnext and Chartboost)
+ 
+ To raise different AdNetwork just change the name of the customEvent belos.
+ use the the following names to raise the different ad network:
+ 
+ 1. TrialPay:
+ A. MainCurrency ------------------->OfferwallMainCurrency
+ B. SecondaryCurrency -------------->OfferwallSecondaryCurrency
+ 2. Millennial Media ------------------>@"MMedia"
+ 3. SupersonicAds
+ A. SupersonicAds BrandConnect ----->@"SuperSonicBrand"
+ B. SupersonicAds offerwall -------->@"SuperSonic"
+ 3. SponsorPay
+ A. SponsorPay BrandEngage --------->@"SponsorPayBrand"
+ B. SponsorPay offerwall ----------->@"SponsorPay"
+ 4.Appnext ---------------------------->@"Appnext"
+ 5.Chartboost ------------------------->@"Chartboost"
+ 
+ *note, you should also view implementations of "liKitPromotionsAvailable"
+ 
+ 
+ 
+ */
+- (IBAction)raiseCustomPromotion:(id)sender {
+    [LiPromo raiseCustomEventByName:@"MMedia"];
+}
+
+#pragma mark -
 #pragma mark LiKitPromotionsDelegate method
 #pragma mark -
 
@@ -144,8 +180,6 @@
     if ([promotions count] == 0)return;
     Promotion *promo = [promotions objectAtIndex:0];{
         [promo showOnView:self.view Block:^(LiPromotionAction promoAction, LiPromotionResult result, id info) {
-            if (!promoAction)
-                return ;
             
             switch (result) {
                 case LiPromotionResultGiveMainCurrencyVirtualCurrency:{
@@ -153,6 +187,18 @@
                 }
                     break;
                     
+                    /*
+                     In case the promoAction comes from one of this AdNetwork, we check if the result is success, 
+                     If so, We ask for ThirdPartyAction, This call checks if the server received a callback from one of these adnetworks
+                     and return and update the User for any currency he should recieve.
+                     */
+                case LiPromotionResultSponsorPay:
+                case LiPromotionResultSupersonicAds:
+                case LiPromotionResultTrialPay:
+                    [LiKitPromotions getThirdPartyActions:^(NSError *error, NSArray *thirdpartyResponse) {
+                        if (!error)
+                            NSLog(@"Received %i actions from server",[thirdpartyResponse count]);
+                    }];
                 default:
                     break;
             }
@@ -235,7 +281,7 @@
         LiLogSampleApp(@"doing findFriends segue");
         NearbyFriendsViewController *nearbyFriendsViewController = segue.destinationViewController;
         nearbyFriendsViewController.delegate = self;
-    } else if ([segue.identifier isEqualToString:@"facebookFeatureSegue"]){
+    } else if ([segue.identifier isEqualToString:@"facebookFeatureSegue"] && [[User getCurrentUser] userIsRegisteredFacebook]){
         LiLogSampleApp(@"doing facebookFeature segue");
         FacebookFeatureViewController *facebookFeatureViewController = segue.destinationViewController;
         facebookFeatureViewController.delegate = self;

@@ -16,15 +16,18 @@
 @synthesize badge;
 @synthesize pushID;
 @synthesize tag;
+@synthesize timed;
+@synthesize dispatch_time;
+
 
 
 #pragma mark - init Method
 
-+ (LiObjPushNotification *)pushWithMessage:(NSString *)theMessage sound:(NSString *)theSound badge:(NSInteger)theBadge andTag:(NSDictionary *)theTag{
++ (LiObjPushNotification *)pushWithMessage:(NSString *)theMessage sound:(NSString *)theSound badge:(NSInteger)theBadge andTag:(NSMutableDictionary *)theTag{
     return [[LiObjPushNotification alloc]initWithMessage:theMessage sound:theSound badge:theBadge andTag:theTag];
 }
 
--(id)initWithMessage:(NSString *)theMessage sound:(NSString *)theSound badge:(NSInteger)theBadge andTag:(NSDictionary *)theTag{
+-(id)initWithMessage:(NSString *)theMessage sound:(NSString *)theSound badge:(NSInteger)theBadge andTag:(NSMutableDictionary *)theTag{
     if (self=[super init]){
         if (theMessage){
             self.message = theMessage;
@@ -34,9 +37,38 @@
         self.badge = theBadge;
         self.sound = theSound;
         self.tag = theTag;
+        
+        self.timed = FALSE;
     }
     return self;
 }
+
+//methods for timed messages
++ (LiObjPushNotification *) pushWithMessage:(NSString *)theMessage sound:(NSString *)theSound badge:(NSInteger)theBadge andTag:(NSMutableDictionary *)theTag andDispatchInMinutes:(double) theDispatchMinutes{
+    return [[LiObjPushNotification alloc]initWithMessage:theMessage sound:theSound badge:theBadge andTag:theTag andDispatchInMinutes:theDispatchMinutes];
+}
+
+-(id)initWithMessage:(NSString *)theMessage sound:(NSString *)theSound badge:(NSInteger)theBadge andTag:(NSMutableDictionary *)theTag andDispatchInMinutes:(double) dispatchInMinutes{
+    if (self=[super init]){
+        if (theMessage){
+            self.message = theMessage;
+        } else {
+            self.message = @"";
+        }
+        self.badge = theBadge;
+        self.sound = theSound;
+        self.tag = theTag;
+        self.timed = TRUE;
+        NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
+        
+        self.dispatch_time = [NSDate dateWithTimeIntervalSince1970:timeInterval+dispatchInMinutes*60];
+        
+    }
+    return self;
+}
+
+
+
 
 -(id) initWithDictionary:(NSDictionary *)dictionary{
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionaryWithDictionary:dictionary];
@@ -68,22 +100,6 @@
     pushBlock(error,responseMessage,self);
     pushBlock = NULL;
     
-}
-
-#pragma mark - Deprecated Methods
-/*********************************************************************************
- DEPRECATED METHODS:
- 
- These methods are deprecated. They are included for backward-compatibility only.
- They will be removed in the next release. You should update your code immediately.
- **********************************************************************************/
-
-- (id) initWithMessage:(NSString *)theMessage Badge:(NSInteger)theBadge Sound:(NSString *)theSound Tag:(NSDictionary *)theTag {
-    return [self initWithMessage:theMessage sound:theSound badge:theBadge andTag:theTag];
-}
-
-+ (LiObjPushNotification *)pushWithMessage:(NSString *)theMessage Sound:(NSString *)theSound Badge:(NSInteger)theBadge Tag:(NSDictionary *)theTag {
-    return [self pushWithMessage:theMessage sound:theSound badge:theBadge andTag:theTag];
 }
 
 @end

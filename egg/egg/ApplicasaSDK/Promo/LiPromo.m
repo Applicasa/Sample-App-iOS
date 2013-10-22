@@ -8,6 +8,12 @@
 
 #import "LiPromo.h"
 
+#import "LiConfig.h"
+#if (ENABLE_SUPERSONICADS)
+#define SUPERSONICADS
+#import <LiSupersonicAds/LiSupersonicAdsManager.h>
+#endif
+
 @implementation LiPromo
 
 
@@ -15,8 +21,10 @@
     [LiKitPromotions setLiKitPromotionsDelegate:delegate];
 }
 
-+ (void) setLiKitPromotionsDelegate:(id <LiKitPromotionsDelegate>)delegate andCheckForPromotions:(BOOL)shouldCheckPromotions{
++ (void) setLiKitPromotionsDelegate:(id <LiKitPromotionsDelegate>)delegate 	andCheckForPromotions:(BOOL)shouldCheckPromotions{
+
     [LiKitPromotions setLiKitPromotionsDelegate:delegate andCheckForAvailablePromotions:shouldCheckPromotions];
+
 }
 
 + (void) getAvailablePromosWithBlock:(GetPromotionArrayFinished)block{
@@ -25,6 +33,22 @@
 
 + (void) refreshPromotions{
     [LiKitPromotions refreshPromotions];
+}
+
++(void) dismissAllPromotions
+{
+    [LiKitPromotions dismissAllPromotions];
+}
++(void) raiseCustomEventByName:(NSString *)value
+{
+    [LiKitPromotions raiseCustomEventByName:value];
+}
+
++(void) showDemoCampaign
+{
+#ifdef SUPERSONICADS
+    [LiSupersonicAdsManager setShowDemoCampaign];
+#endif
 }
 
 #pragma mark - Deprecated Methods

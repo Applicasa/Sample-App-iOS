@@ -1,7 +1,7 @@
 //
 // VirtualGood.m
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 #import "VirtualGood.h"
@@ -17,11 +17,11 @@
 #define KEY_virtualGoodMainCurrency				@"VirtualGoodMainCurrency"
 #define KEY_virtualGoodSecondaryCurrency				@"VirtualGoodSecondaryCurrency"
 #define KEY_virtualGoodRelatedVirtualGood				@"VirtualGoodRelatedVirtualGood"
-#define KEY_virtualGoodStoreItemPrice				@"VirtualGoodStoreItemPrice"
 #define KEY_virtualGoodIOSBundleMin				@"VirtualGoodIOSBundleMin"
 #define KEY_virtualGoodIOSBundleMax				@"VirtualGoodIOSBundleMax"
 #define KEY_virtualGoodAndroidBundleMin				@"VirtualGoodAndroidBundleMin"
 #define KEY_virtualGoodAndroidBundleMax				@"VirtualGoodAndroidBundleMax"
+#define KEY_virtualGoodStoreItemPrice				@"VirtualGoodStoreItemPrice"
 #define KEY_virtualGoodPos				@"VirtualGoodPos"
 #define KEY_virtualGoodQuantity				@"VirtualGoodQuantity"
 #define KEY_virtualGoodMaxForUser				@"VirtualGoodMaxForUser"
@@ -54,11 +54,11 @@
 @synthesize virtualGoodMainCurrency;
 @synthesize virtualGoodSecondaryCurrency;
 @synthesize virtualGoodRelatedVirtualGood;
-@synthesize virtualGoodStoreItemPrice;
 @synthesize virtualGoodIOSBundleMin;
 @synthesize virtualGoodIOSBundleMax;
 @synthesize virtualGoodAndroidBundleMin;
 @synthesize virtualGoodAndroidBundleMax;
+@synthesize virtualGoodStoreItemPrice;
 @synthesize virtualGoodPos;
 @synthesize virtualGoodQuantity;
 @synthesize virtualGoodMaxForUser;
@@ -83,11 +83,11 @@ enum VirtualGoodIndexes {
 	VirtualGoodMainCurrencyIndex,
 	VirtualGoodSecondaryCurrencyIndex,
 	VirtualGoodRelatedVirtualGoodIndex,
-	VirtualGoodStoreItemPriceIndex,
 	VirtualGoodIOSBundleMinIndex,
 	VirtualGoodIOSBundleMaxIndex,
 	VirtualGoodAndroidBundleMinIndex,
 	VirtualGoodAndroidBundleMaxIndex,
+	VirtualGoodStoreItemPriceIndex,
 	VirtualGoodPosIndex,
 	VirtualGoodQuantityIndex,
 	VirtualGoodMaxForUserIndex,
@@ -144,9 +144,6 @@ enum VirtualGoodCategoryIndexes {
 		case VirtualGoodSecondaryCurrency:
 			virtualGoodSecondaryCurrency += [value intValue];
 			break;
-		case VirtualGoodStoreItemPrice:
-			virtualGoodStoreItemPrice += [value floatValue];
-			break;
 		case VirtualGoodIOSBundleMin:
 			virtualGoodIOSBundleMin += [value floatValue];
 			break;
@@ -158,6 +155,9 @@ enum VirtualGoodCategoryIndexes {
 			break;
 		case VirtualGoodAndroidBundleMax:
 			virtualGoodAndroidBundleMax += [value floatValue];
+			break;
+		case VirtualGoodStoreItemPrice:
+			virtualGoodStoreItemPrice += [value floatValue];
 			break;
 		case VirtualGoodQuantity:
 			virtualGoodQuantity += [value intValue];
@@ -200,9 +200,6 @@ enum VirtualGoodCategoryIndexes {
 	case VirtualGoodRelatedVirtualGood:
 		self.virtualGoodRelatedVirtualGood = value;
 		break;
-	case VirtualGoodStoreItemPrice:
-		self.virtualGoodStoreItemPrice = [value floatValue];
-		break;
 	case VirtualGoodIOSBundleMin:
 		self.virtualGoodIOSBundleMin = [value floatValue];
 		break;
@@ -214,6 +211,9 @@ enum VirtualGoodCategoryIndexes {
 		break;
 	case VirtualGoodAndroidBundleMax:
 		self.virtualGoodAndroidBundleMax = [value floatValue];
+		break;
+	case VirtualGoodStoreItemPrice:
+		self.virtualGoodStoreItemPrice = [value floatValue];
 		break;
 	case VirtualGoodQuantity:
 		self.virtualGoodQuantity = [value intValue];
@@ -273,11 +273,11 @@ enum VirtualGoodCategoryIndexes {
 		self.virtualGoodMainCurrency				= 0;
 		self.virtualGoodSecondaryCurrency				= 0;
 		self.virtualGoodRelatedVirtualGood				= @"";
-		self.virtualGoodStoreItemPrice				= 0;
 		self.virtualGoodIOSBundleMin				= 0;
 		self.virtualGoodIOSBundleMax				= 0;
 		self.virtualGoodAndroidBundleMin				= 0;
 		self.virtualGoodAndroidBundleMax				= 0;
+		self.virtualGoodStoreItemPrice				= 0;
 		virtualGoodPos				= 1;
 		self.virtualGoodQuantity				= 0;
 		self.virtualGoodMaxForUser				= 0;
@@ -313,11 +313,11 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 		self.virtualGoodMainCurrency               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodMainCurrency, header)] integerValue];
 		self.virtualGoodSecondaryCurrency               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodSecondaryCurrency, header)] integerValue];
 		self.virtualGoodRelatedVirtualGood               = [item objectForKey:KeyWithHeader(KEY_virtualGoodRelatedVirtualGood, header)];
-		self.virtualGoodStoreItemPrice               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodStoreItemPrice, header)] floatValue];
 		self.virtualGoodIOSBundleMin               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodIOSBundleMin, header)] floatValue];
 		self.virtualGoodIOSBundleMax               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodIOSBundleMax, header)] floatValue];
 		self.virtualGoodAndroidBundleMin               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodAndroidBundleMin, header)] floatValue];
 		self.virtualGoodAndroidBundleMax               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodAndroidBundleMax, header)] floatValue];
+		self.virtualGoodStoreItemPrice               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodStoreItemPrice, header)] floatValue];
 		virtualGoodPos               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodPos, header)] integerValue];
 		self.virtualGoodQuantity               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodQuantity, header)] integerValue];
 		self.virtualGoodMaxForUser               = [[item objectForKey:KeyWithHeader(KEY_virtualGoodMaxForUser, header)] integerValue];
@@ -352,11 +352,11 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 		self.virtualGoodMainCurrency               = object.virtualGoodMainCurrency;
 		self.virtualGoodSecondaryCurrency               = object.virtualGoodSecondaryCurrency;
 		self.virtualGoodRelatedVirtualGood               = object.virtualGoodRelatedVirtualGood;
-		self.virtualGoodStoreItemPrice               = object.virtualGoodStoreItemPrice;
 		self.virtualGoodIOSBundleMin               = object.virtualGoodIOSBundleMin;
 		self.virtualGoodIOSBundleMax               = object.virtualGoodIOSBundleMax;
 		self.virtualGoodAndroidBundleMin               = object.virtualGoodAndroidBundleMin;
 		self.virtualGoodAndroidBundleMax               = object.virtualGoodAndroidBundleMax;
+		self.virtualGoodStoreItemPrice               = object.virtualGoodStoreItemPrice;
 		virtualGoodPos               = object.virtualGoodPos;
 		self.virtualGoodQuantity               = object.virtualGoodQuantity;
 		self.virtualGoodMaxForUser               = object.virtualGoodMaxForUser;
@@ -387,11 +387,11 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	[dictionary addIntValue:virtualGoodMainCurrency forKey:KEY_virtualGoodMainCurrency];
 	[dictionary addIntValue:virtualGoodSecondaryCurrency forKey:KEY_virtualGoodSecondaryCurrency];
 	[dictionary addValue:virtualGoodRelatedVirtualGood forKey:KEY_virtualGoodRelatedVirtualGood];
-	[dictionary addFloatValue:virtualGoodStoreItemPrice forKey:KEY_virtualGoodStoreItemPrice];
 	[dictionary addFloatValue:virtualGoodIOSBundleMin forKey:KEY_virtualGoodIOSBundleMin];
 	[dictionary addFloatValue:virtualGoodIOSBundleMax forKey:KEY_virtualGoodIOSBundleMax];
 	[dictionary addFloatValue:virtualGoodAndroidBundleMin forKey:KEY_virtualGoodAndroidBundleMin];
 	[dictionary addFloatValue:virtualGoodAndroidBundleMax forKey:KEY_virtualGoodAndroidBundleMax];
+	[dictionary addFloatValue:virtualGoodStoreItemPrice forKey:KEY_virtualGoodStoreItemPrice];
 	[dictionary addIntValue:virtualGoodPos forKey:KEY_virtualGoodPos];
 	[dictionary addIntValue:virtualGoodQuantity forKey:KEY_virtualGoodQuantity];
 	[dictionary addIntValue:virtualGoodMaxForUser forKey:KEY_virtualGoodMaxForUser];
@@ -418,11 +418,11 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_virtualGoodMainCurrency];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_virtualGoodSecondaryCurrency];
 	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_virtualGoodRelatedVirtualGood];
-	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_virtualGoodStoreItemPrice];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_virtualGoodIOSBundleMin];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_virtualGoodIOSBundleMax];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_virtualGoodAndroidBundleMin];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_virtualGoodAndroidBundleMax];
+	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_virtualGoodStoreItemPrice];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"1") forKey:KEY_virtualGoodPos];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_virtualGoodQuantity];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_virtualGoodMaxForUser];
@@ -494,10 +494,6 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 			fieldName = KEY_virtualGoodRelatedVirtualGood;
 			break;
 
-		case VirtualGoodStoreItemPrice:
-			fieldName = KEY_virtualGoodStoreItemPrice;
-			break;
-
 		case VirtualGoodIOSBundleMin:
 			fieldName = KEY_virtualGoodIOSBundleMin;
 			break;
@@ -512,6 +508,10 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 
 		case VirtualGoodAndroidBundleMax:
 			fieldName = KEY_virtualGoodAndroidBundleMax;
+			break;
+
+		case VirtualGoodStoreItemPrice:
+			fieldName = KEY_virtualGoodStoreItemPrice;
 			break;
 
 		case VirtualGoodPos:
@@ -605,11 +605,11 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	[*request addIntValue:virtualGoodMainCurrency forKey:KEY_virtualGoodMainCurrency];
 	[*request addIntValue:virtualGoodSecondaryCurrency forKey:KEY_virtualGoodSecondaryCurrency];
 	[*request addValue:virtualGoodRelatedVirtualGood forKey:KEY_virtualGoodRelatedVirtualGood];
-	[*request addFloatValue:virtualGoodStoreItemPrice forKey:KEY_virtualGoodStoreItemPrice];
 	[*request addFloatValue:virtualGoodIOSBundleMin forKey:KEY_virtualGoodIOSBundleMin];
 	[*request addFloatValue:virtualGoodIOSBundleMax forKey:KEY_virtualGoodIOSBundleMax];
 	[*request addFloatValue:virtualGoodAndroidBundleMin forKey:KEY_virtualGoodAndroidBundleMin];
 	[*request addFloatValue:virtualGoodAndroidBundleMax forKey:KEY_virtualGoodAndroidBundleMax];
+	[*request addFloatValue:virtualGoodStoreItemPrice forKey:KEY_virtualGoodStoreItemPrice];
 	[*request addIntValue:virtualGoodQuantity forKey:KEY_virtualGoodQuantity];
 	[*request addIntValue:virtualGoodMaxForUser forKey:KEY_virtualGoodMaxForUser];
 	[*request addIntValue:virtualGoodUserInventory forKey:KEY_virtualGoodUserInventory];
@@ -636,11 +636,11 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 			self.virtualGoodMainCurrency = sqlite3_column_int(stmt, array[0][VirtualGoodMainCurrencyIndex]);
 			self.virtualGoodSecondaryCurrency = sqlite3_column_int(stmt, array[0][VirtualGoodSecondaryCurrencyIndex]);
 			self.virtualGoodRelatedVirtualGood = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][VirtualGoodRelatedVirtualGoodIndex])];
-			self.virtualGoodStoreItemPrice = sqlite3_column_double(stmt, array[0][VirtualGoodStoreItemPriceIndex]);
 			self.virtualGoodIOSBundleMin = sqlite3_column_double(stmt, array[0][VirtualGoodIOSBundleMinIndex]);
 			self.virtualGoodIOSBundleMax = sqlite3_column_double(stmt, array[0][VirtualGoodIOSBundleMaxIndex]);
 			self.virtualGoodAndroidBundleMin = sqlite3_column_double(stmt, array[0][VirtualGoodAndroidBundleMinIndex]);
 			self.virtualGoodAndroidBundleMax = sqlite3_column_double(stmt, array[0][VirtualGoodAndroidBundleMaxIndex]);
+			self.virtualGoodStoreItemPrice = sqlite3_column_double(stmt, array[0][VirtualGoodStoreItemPriceIndex]);
 			virtualGoodPos = sqlite3_column_int(stmt, array[0][VirtualGoodPosIndex]);
 			self.virtualGoodQuantity = sqlite3_column_int(stmt, array[0][VirtualGoodQuantityIndex]);
 			self.virtualGoodMaxForUser = sqlite3_column_int(stmt, array[0][VirtualGoodMaxForUserIndex]);
@@ -692,11 +692,11 @@ self.virtualGoodMainCategory    = [VirtualGoodCategory instanceWithID:@"0"];
 	indexes[0][VirtualGoodMainCurrencyIndex] = [columnsArray indexOfObject:KEY_virtualGoodMainCurrency];
 	indexes[0][VirtualGoodSecondaryCurrencyIndex] = [columnsArray indexOfObject:KEY_virtualGoodSecondaryCurrency];
 	indexes[0][VirtualGoodRelatedVirtualGoodIndex] = [columnsArray indexOfObject:KEY_virtualGoodRelatedVirtualGood];
-	indexes[0][VirtualGoodStoreItemPriceIndex] = [columnsArray indexOfObject:KEY_virtualGoodStoreItemPrice];
 	indexes[0][VirtualGoodIOSBundleMinIndex] = [columnsArray indexOfObject:KEY_virtualGoodIOSBundleMin];
 	indexes[0][VirtualGoodIOSBundleMaxIndex] = [columnsArray indexOfObject:KEY_virtualGoodIOSBundleMax];
 	indexes[0][VirtualGoodAndroidBundleMinIndex] = [columnsArray indexOfObject:KEY_virtualGoodAndroidBundleMin];
 	indexes[0][VirtualGoodAndroidBundleMaxIndex] = [columnsArray indexOfObject:KEY_virtualGoodAndroidBundleMax];
+	indexes[0][VirtualGoodStoreItemPriceIndex] = [columnsArray indexOfObject:KEY_virtualGoodStoreItemPrice];
 	indexes[0][VirtualGoodPosIndex] = [columnsArray indexOfObject:KEY_virtualGoodPos];
 	indexes[0][VirtualGoodQuantityIndex] = [columnsArray indexOfObject:KEY_virtualGoodQuantity];
 	indexes[0][VirtualGoodMaxForUserIndex] = [columnsArray indexOfObject:KEY_virtualGoodMaxForUser];

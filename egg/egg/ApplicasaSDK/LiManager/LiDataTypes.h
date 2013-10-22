@@ -1,7 +1,7 @@
 //
 // LiDataTypes.h
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 
@@ -25,13 +25,13 @@ typedef enum {
 	UserLastLogin,
 	UserRegisterDate,
 	UserLocation,
-	UserIsRegisteredFacebook,
 	UserIsRegistered,
+	UserIsRegisteredFacebook,
 	UserLastUpdate,
-	UserFacebookID,
 	UserImage,
 	UserMainCurrencyBalance,
 	UserSecondaryCurrencyBalance,
+	UserFacebookID,
 	UserTempDate,
 	//VirtualCurrency
 	VirtualCurrency_None,
@@ -65,11 +65,11 @@ typedef enum {
 	VirtualGoodMainCurrency,
 	VirtualGoodSecondaryCurrency,
 	VirtualGoodRelatedVirtualGood,
-	VirtualGoodStoreItemPrice,
 	VirtualGoodIOSBundleMin,
 	VirtualGoodIOSBundleMax,
 	VirtualGoodAndroidBundleMin,
 	VirtualGoodAndroidBundleMax,
+	VirtualGoodStoreItemPrice,
 	VirtualGoodPos,
 	VirtualGoodQuantity,
 	VirtualGoodMaxForUser,
@@ -159,6 +159,7 @@ typedef enum {
 	LevelsID,
 	LevelsLastUpdate,
 	LevelsGtgtg,
+	LevelsHTML,
 	LevelsTgtggtg,
 	//Colors
 	Colors_None,

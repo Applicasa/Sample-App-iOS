@@ -1,7 +1,7 @@
 //
 // User.m
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 #import "User.h"
@@ -21,13 +21,13 @@
 #define KEY_userLocation				@"UserLocation"
 #define KEY_userLocationLong				@"UserLocationLong"
 #define KEY_userLocationLat				@"UserLocationLat"
-#define KEY_userIsRegisteredFacebook				@"UserIsRegisteredFacebook"
 #define KEY_userIsRegistered				@"UserIsRegistered"
+#define KEY_userIsRegisteredFacebook				@"UserIsRegisteredFacebook"
 #define KEY_userLastUpdate				@"UserLastUpdate"
-#define KEY_userFacebookID				@"UserFacebookID"
 #define KEY_userImage				@"UserImage"
 #define KEY_userMainCurrencyBalance				@"UserMainCurrencyBalance"
 #define KEY_userSecondaryCurrencyBalance				@"UserSecondaryCurrencyBalance"
+#define KEY_userFacebookID				@"UserFacebookID"
 #define KEY_userTempDate				@"UserTempDate"
 
 @interface User (privateMethods)
@@ -49,13 +49,13 @@
 @synthesize userLastLogin;
 @synthesize userRegisterDate;
 @synthesize userLocation;
-@synthesize userIsRegisteredFacebook;
 @synthesize userIsRegistered;
+@synthesize userIsRegisteredFacebook;
 @synthesize userLastUpdate;
-@synthesize userFacebookID;
 @synthesize userImage;
 @synthesize userMainCurrencyBalance;
 @synthesize userSecondaryCurrencyBalance;
+@synthesize userFacebookID;
 @synthesize userTempDate;
 
 enum UserIndexes {
@@ -70,13 +70,13 @@ enum UserIndexes {
 	UserRegisterDateIndex,
 	UserLocationLatIndex,
 	UserLocationLongIndex,
-	UserIsRegisteredFacebookIndex,
 	UserIsRegisteredIndex,
+	UserIsRegisteredFacebookIndex,
 	UserLastUpdateIndex,
-	UserFacebookIDIndex,
 	UserImageIndex,
 	UserMainCurrencyBalanceIndex,
 	UserSecondaryCurrencyBalanceIndex,
+	UserFacebookIDIndex,
 	UserTempDateIndex,};
 #define NUM_OF_USER_FIELDS 19
 
@@ -189,7 +189,7 @@ enum UserIndexes {
     [request addIntValue:queryKind forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
-    request.shouldWorkOffline = YES;
+    request.shouldWorkOffline = (queryKind == LOCAL);
     
     [request startSync:YES];
     
@@ -204,6 +204,30 @@ enum UserIndexes {
         return [User getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer];
     }
     return nil;
+}
+
++ (int) updateLocalStorage:(LiQuery *)query queryKind:(QueryKind)queryKind
+{
+    query = [self setFieldsNameToQuery:query];
+    LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
+    [request addIntValue:queryKind forKey:@"DbGetKind"];
+    [request addValue:query forKey:@"query"];
+    request.shouldWorkOffline = (queryKind == LOCAL);
+    
+    [request startSync:YES];
+    
+    NSInteger responseType = request.response.responseType;
+    
+    if (responseType == 1)
+    {
+        sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+        int i =0;
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            i++;
+        }
+        return i;
+    }
+    return  -1;
 }
 
 + (void) getArrayWithFilter:(LiFilters *)filter withBlock:(UpdateObjectFinished)block
@@ -291,7 +315,8 @@ enum UserIndexes {
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 
     GetUserArrayFinished _block = (__bridge GetUserArrayFinished)block;
-    _block(error,array);
+    if (_block)
+        _block(error,array);
 }
 
 + (User *) getCurrentUser{
@@ -403,13 +428,13 @@ static LiBlockAction actionBlock = NULL;
 		userLastLogin				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 		userRegisterDate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 		self.userLocation				=  [[CLLocation alloc] initWithLatitude:0 longitude:0];
-		userIsRegisteredFacebook				= NO;
 		userIsRegistered				= NO;
+		userIsRegisteredFacebook				= NO;
 		userLastUpdate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
-		userFacebookID				= @"";
 		self.userImage				= [NSURL URLWithString:@""];
 		self.userMainCurrencyBalance				= 0;
 		self.userSecondaryCurrencyBalance				= 0;
+		userFacebookID				= @"";
 		self.userTempDate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 	}
 	return self;
@@ -428,13 +453,13 @@ static LiBlockAction actionBlock = NULL;
 		userLastLogin               = [item objectForKey:KeyWithHeader(KEY_userLastLogin, header)];
 		userRegisterDate               = [item objectForKey:KeyWithHeader(KEY_userRegisterDate, header)];
 		self.userLocation               = [[CLLocation alloc] initWithLatitude:[[item objectForKey:KeyWithHeader(KEY_userLocationLat, header)] floatValue] longitude:[[item objectForKey:KeyWithHeader(KEY_userLocationLong, header)] floatValue]];
-		userIsRegisteredFacebook               = [[item objectForKey:KeyWithHeader(KEY_userIsRegisteredFacebook, header)] boolValue];
 		userIsRegistered               = [[item objectForKey:KeyWithHeader(KEY_userIsRegistered, header)] boolValue];
+		userIsRegisteredFacebook               = [[item objectForKey:KeyWithHeader(KEY_userIsRegisteredFacebook, header)] boolValue];
 		userLastUpdate               = [item objectForKey:KeyWithHeader(KEY_userLastUpdate, header)];
-		userFacebookID               = [item objectForKey:KeyWithHeader(KEY_userFacebookID, header)];
 		self.userImage               = [NSURL URLWithString:[item objectForKey:KeyWithHeader(KEY_userImage, header)]];
 		self.userMainCurrencyBalance               = [[item objectForKey:KeyWithHeader(KEY_userMainCurrencyBalance, header)] integerValue];
 		self.userSecondaryCurrencyBalance               = [[item objectForKey:KeyWithHeader(KEY_userSecondaryCurrencyBalance, header)] integerValue];
+		userFacebookID               = [item objectForKey:KeyWithHeader(KEY_userFacebookID, header)];
 		self.userTempDate               = [item objectForKey:KeyWithHeader(KEY_userTempDate, header)];
 
 	}
@@ -457,13 +482,13 @@ static LiBlockAction actionBlock = NULL;
 		userLastLogin               = object.userLastLogin;
 		userRegisterDate               = object.userRegisterDate;
 		self.userLocation               = object.userLocation;
-		userIsRegisteredFacebook               = object.userIsRegisteredFacebook;
 		userIsRegistered               = object.userIsRegistered;
+		userIsRegisteredFacebook               = object.userIsRegisteredFacebook;
 		userLastUpdate               = object.userLastUpdate;
-		userFacebookID               = object.userFacebookID;
 		self.userImage               = object.userImage;
 		self.userMainCurrencyBalance               = object.userMainCurrencyBalance;
 		self.userSecondaryCurrencyBalance               = object.userSecondaryCurrencyBalance;
+		userFacebookID               = object.userFacebookID;
 		self.userTempDate               = object.userTempDate;
 
 	}
@@ -483,12 +508,12 @@ static LiBlockAction actionBlock = NULL;
 	[dictionary addDateValue:userLastLogin forKey:KEY_userLastLogin];
 	[dictionary addDateValue:userRegisterDate forKey:KEY_userRegisterDate];
 	[dictionary addGeoValue:userLocation forKey:KEY_userLocation];
-	[dictionary addBoolValue:userIsRegisteredFacebook forKey:KEY_userIsRegisteredFacebook];
 	[dictionary addBoolValue:userIsRegistered forKey:KEY_userIsRegistered];
+	[dictionary addBoolValue:userIsRegisteredFacebook forKey:KEY_userIsRegisteredFacebook];
 	[dictionary addDateValue:userLastUpdate forKey:KEY_userLastUpdate];
-	[dictionary addValue:userFacebookID forKey:KEY_userFacebookID];
 	[dictionary addValue:userImage.absoluteString forKey:KEY_userImage];	[dictionary addIntValue:userMainCurrencyBalance forKey:KEY_userMainCurrencyBalance];
 	[dictionary addIntValue:userSecondaryCurrencyBalance forKey:KEY_userSecondaryCurrencyBalance];
+	[dictionary addValue:userFacebookID forKey:KEY_userFacebookID];
 	[dictionary addDateValue:userTempDate forKey:KEY_userTempDate];
 
 	return dictionary;
@@ -508,13 +533,13 @@ static LiBlockAction actionBlock = NULL;
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userRegisterDate];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_userLocationLong];
 	[fieldsDic setValue:TypeAndDefaultValue(kREAL_TYPE,@"0") forKey:KEY_userLocationLat];
-	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userIsRegisteredFacebook];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userIsRegistered];
+	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userIsRegisteredFacebook];
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userLastUpdate];
-	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userFacebookID];
 	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userImage];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userMainCurrencyBalance];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_userSecondaryCurrencyBalance];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_userFacebookID];
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_userTempDate];
 	
 	return fieldsDic;
@@ -571,12 +596,12 @@ static LiBlockAction actionBlock = NULL;
 			fieldName = KEY_userRegisterDate;
 			break;
 
-		case UserIsRegisteredFacebook:
-			fieldName = KEY_userIsRegisteredFacebook;
-			break;
-
 		case UserIsRegistered:
 			fieldName = KEY_userIsRegistered;
+			break;
+
+		case UserIsRegisteredFacebook:
+			fieldName = KEY_userIsRegisteredFacebook;
 			break;
 
 		case UserLastUpdate:
@@ -593,6 +618,10 @@ static LiBlockAction actionBlock = NULL;
 
 		case UserSecondaryCurrencyBalance:
 			fieldName = KEY_userSecondaryCurrencyBalance;
+			break;
+
+		case UserFacebookID:
+			fieldName = KEY_userFacebookID;
 			break;
 
 		case UserTempDate:
@@ -656,13 +685,13 @@ static LiBlockAction actionBlock = NULL;
 			userLastLogin = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastLoginIndex])]];
 			userRegisterDate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserRegisterDateIndex])]];
 			self.userLocation =  [[CLLocation alloc] initWithLatitude:sqlite3_column_double(stmt, array[0][UserLocationLatIndex]) longitude:sqlite3_column_double(stmt, array[0][UserLocationLongIndex])];
-			userIsRegisteredFacebook = sqlite3_column_int(stmt, array[0][UserIsRegisteredFacebookIndex]);
 			userIsRegistered = sqlite3_column_int(stmt, array[0][UserIsRegisteredIndex]);
+			userIsRegisteredFacebook = sqlite3_column_int(stmt, array[0][UserIsRegisteredFacebookIndex]);
 			userLastUpdate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserLastUpdateIndex])]];
-			userFacebookID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserFacebookIDIndex])];
 			self.userImage = [NSURL URLWithString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserImageIndex])]];
 			self.userMainCurrencyBalance = sqlite3_column_int(stmt, array[0][UserMainCurrencyBalanceIndex]);
 			self.userSecondaryCurrencyBalance = sqlite3_column_int(stmt, array[0][UserSecondaryCurrencyBalanceIndex]);
+			userFacebookID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserFacebookIDIndex])];
 			self.userTempDate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][UserTempDateIndex])]];
 		
 		}
@@ -693,13 +722,13 @@ static LiBlockAction actionBlock = NULL;
 	indexes[0][UserRegisterDateIndex] = [columnsArray indexOfObject:KEY_userRegisterDate];
 	indexes[0][UserLocationLatIndex] = [columnsArray indexOfObject:KEY_userLocationLat];
 	indexes[0][UserLocationLongIndex] = [columnsArray indexOfObject:KEY_userLocationLong];
-	indexes[0][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KEY_userIsRegisteredFacebook];
 	indexes[0][UserIsRegisteredIndex] = [columnsArray indexOfObject:KEY_userIsRegistered];
+	indexes[0][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KEY_userIsRegisteredFacebook];
 	indexes[0][UserLastUpdateIndex] = [columnsArray indexOfObject:KEY_userLastUpdate];
-	indexes[0][UserFacebookIDIndex] = [columnsArray indexOfObject:KEY_userFacebookID];
 	indexes[0][UserImageIndex] = [columnsArray indexOfObject:KEY_userImage];
 	indexes[0][UserMainCurrencyBalanceIndex] = [columnsArray indexOfObject:KEY_userMainCurrencyBalance];
 	indexes[0][UserSecondaryCurrencyBalanceIndex] = [columnsArray indexOfObject:KEY_userSecondaryCurrencyBalance];
+	indexes[0][UserFacebookIDIndex] = [columnsArray indexOfObject:KEY_userFacebookID];
 	indexes[0][UserTempDateIndex] = [columnsArray indexOfObject:KEY_userTempDate];
 
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];

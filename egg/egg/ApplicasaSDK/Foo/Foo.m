@@ -1,7 +1,7 @@
 //
 // Foo.m
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 #import "Foo.h"
@@ -74,13 +74,13 @@ enum UserIndexes {
 	UserRegisterDateIndex,
 	UserLocationLatIndex,
 	UserLocationLongIndex,
-	UserIsRegisteredFacebookIndex,
 	UserIsRegisteredIndex,
+	UserIsRegisteredFacebookIndex,
 	UserLastUpdateIndex,
-	UserFacebookIDIndex,
 	UserImageIndex,
 	UserMainCurrencyBalanceIndex,
 	UserSecondaryCurrencyBalanceIndex,
+	UserFacebookIDIndex,
 	UserTempDateIndex,};
 #define NUM_OF_USER_FIELDS 19
 
@@ -196,7 +196,7 @@ enum UserIndexes {
     [request addIntValue:queryKind forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
-    request.shouldWorkOffline = YES;
+    request.shouldWorkOffline = (queryKind == LOCAL);
     
     [request startSync:YES];
     
@@ -211,6 +211,30 @@ enum UserIndexes {
         return [Foo getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer];
     }
     return nil;
+}
+
++ (int) updateLocalStorage:(LiQuery *)query queryKind:(QueryKind)queryKind
+{
+    query = [self setFieldsNameToQuery:query];
+    LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
+    [request addIntValue:queryKind forKey:@"DbGetKind"];
+    [request addValue:query forKey:@"query"];
+    request.shouldWorkOffline = (queryKind == LOCAL);
+    
+    [request startSync:YES];
+    
+    NSInteger responseType = request.response.responseType;
+    
+    if (responseType == 1)
+    {
+        sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+        int i =0;
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            i++;
+        }
+        return i;
+    }
+    return  -1;
 }
 
 + (void) getArrayWithFilter:(LiFilters *)filter withBlock:(UpdateObjectFinished)block
@@ -301,7 +325,9 @@ enum UserIndexes {
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 	
     GetFooArrayFinished _block = (__bridge GetFooArrayFinished)block;
-    _block(error,array);
+    
+    if (_block)
+        _block(error,array);
 }
 
 
@@ -630,13 +656,13 @@ self.fooOwner    = [User instanceWithID:@"0"];
 	indexes[1][UserRegisterDateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserRegisterDate",@"_FooOwner")];
 	indexes[1][UserLocationLatIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserLocationLat",@"_FooOwner")];
 	indexes[1][UserLocationLongIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserLocationLong",@"_FooOwner")];
-	indexes[1][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserIsRegisteredFacebook",@"_FooOwner")];
 	indexes[1][UserIsRegisteredIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserIsRegistered",@"_FooOwner")];
+	indexes[1][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserIsRegisteredFacebook",@"_FooOwner")];
 	indexes[1][UserLastUpdateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserLastUpdate",@"_FooOwner")];
-	indexes[1][UserFacebookIDIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserFacebookID",@"_FooOwner")];
 	indexes[1][UserImageIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserImage",@"_FooOwner")];
 	indexes[1][UserMainCurrencyBalanceIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserMainCurrencyBalance",@"_FooOwner")];
 	indexes[1][UserSecondaryCurrencyBalanceIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserSecondaryCurrencyBalance",@"_FooOwner")];
+	indexes[1][UserFacebookIDIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserFacebookID",@"_FooOwner")];
 	indexes[1][UserTempDateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserTempDate",@"_FooOwner")];
 
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];

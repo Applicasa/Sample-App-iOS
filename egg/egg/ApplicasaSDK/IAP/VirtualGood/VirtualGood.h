@@ -1,7 +1,7 @@
 //
 // VirtualGood.h
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 #import <Foundation/Foundation.h>
@@ -34,11 +34,11 @@
 @property (nonatomic, assign) int virtualGoodMainCurrency;
 @property (nonatomic, assign) int virtualGoodSecondaryCurrency;
 @property (nonatomic, strong) NSString *virtualGoodRelatedVirtualGood;
-@property (nonatomic, assign) float virtualGoodStoreItemPrice;
 @property (nonatomic, assign) float virtualGoodIOSBundleMin;
 @property (nonatomic, assign) float virtualGoodIOSBundleMax;
 @property (nonatomic, assign) float virtualGoodAndroidBundleMin;
 @property (nonatomic, assign) float virtualGoodAndroidBundleMax;
+@property (nonatomic, assign) float virtualGoodStoreItemPrice;
 @property (nonatomic, assign, readonly) int virtualGoodPos;
 @property (nonatomic, assign) int virtualGoodQuantity;
 @property (nonatomic, assign) int virtualGoodMaxForUser;
@@ -71,6 +71,7 @@
  **********************************************************************************/
 
 + (void) getLocalArrayWithQuery:(LiQuery *)query andBlock:(GetVirtualGoodArrayFinished)block;
++ (void) getLocalArrayWithRawSQLQuery:(NSString *)rawQuery andBlock:(GetVirtualGoodArrayFinished)block;
 
 + (void) getVirtualGoodsOfType:(VirtualGoodType)type withBlock:(GetVirtualGoodArrayFinished)block;
 

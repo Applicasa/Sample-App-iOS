@@ -1,7 +1,7 @@
 //
 // Levels.m
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 #import "Levels.h"
@@ -11,6 +11,7 @@
 #define KEY_levelsID				@"LevelsID"
 #define KEY_levelsLastUpdate				@"LevelsLastUpdate"
 #define KEY_levelsGtgtg				@"LevelsGtgtg"
+#define KEY_levelsHTML				@"LevelsHTML"
 #define KEY_levelsTgtggtg				@"LevelsTgtggtg"
 
 @interface Levels (privateMethods)
@@ -25,14 +26,16 @@
 @synthesize levelsID;
 @synthesize levelsLastUpdate;
 @synthesize levelsGtgtg;
+@synthesize levelsHTML;
 @synthesize levelsTgtggtg;
 
 enum LevelsIndexes {
 	LevelsIDIndex = 0,
 	LevelsLastUpdateIndex,
 	LevelsGtgtgIndex,
+	LevelsHTMLIndex,
 	LevelsTgtggtgIndex,};
-#define NUM_OF_LEVELS_FIELDS 4
+#define NUM_OF_LEVELS_FIELDS 5
 
 
 
@@ -144,7 +147,7 @@ enum LevelsIndexes {
     [request addIntValue:queryKind forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
-    request.shouldWorkOffline = YES;
+    request.shouldWorkOffline = (queryKind == LOCAL);
     
     [request startSync:YES];
     
@@ -159,6 +162,30 @@ enum LevelsIndexes {
         return [Levels getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer];
     }
     return nil;
+}
+
++ (int) updateLocalStorage:(LiQuery *)query queryKind:(QueryKind)queryKind
+{
+    query = [self setFieldsNameToQuery:query];
+    LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
+    [request addIntValue:queryKind forKey:@"DbGetKind"];
+    [request addValue:query forKey:@"query"];
+    request.shouldWorkOffline = (queryKind == LOCAL);
+    
+    [request startSync:YES];
+    
+    NSInteger responseType = request.response.responseType;
+    
+    if (responseType == 1)
+    {
+        sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+        int i =0;
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            i++;
+        }
+        return i;
+    }
+    return  -1;
 }
 
 + (void) getArrayWithFilter:(LiFilters *)filter withBlock:(UpdateObjectFinished)block
@@ -249,7 +276,9 @@ enum LevelsIndexes {
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 	
     GetLevelsArrayFinished _block = (__bridge GetLevelsArrayFinished)block;
-    _block(error,array);
+    
+    if (_block)
+        _block(error,array);
 }
 
 
@@ -261,6 +290,9 @@ enum LevelsIndexes {
 		break;
 	case LevelsGtgtg:
 		self.levelsGtgtg = value;
+		break;
+	case LevelsHTML:
+		self.levelsHTML = value;
 		break;
 	case LevelsTgtggtg:
 		self.levelsTgtggtg = [value intValue];
@@ -282,6 +314,7 @@ enum LevelsIndexes {
 		self.levelsID				= @"0";
 		levelsLastUpdate				= [[NSDate alloc] initWithTimeIntervalSince1970:0];
 		self.levelsGtgtg				= @"";
+		self.levelsHTML				= @"www.yahoo.com";
 		self.levelsTgtggtg				= 0;
 	}
 	return self;
@@ -293,6 +326,7 @@ enum LevelsIndexes {
 		self.levelsID               = [item objectForKey:KeyWithHeader(KEY_levelsID, header)];
 		levelsLastUpdate               = [item objectForKey:KeyWithHeader(KEY_levelsLastUpdate, header)];
 		self.levelsGtgtg               = [item objectForKey:KeyWithHeader(KEY_levelsGtgtg, header)];
+		self.levelsHTML               = [item objectForKey:KeyWithHeader(KEY_levelsHTML, header)];
 		self.levelsTgtggtg               = [[item objectForKey:KeyWithHeader(KEY_levelsTgtggtg, header)] integerValue];
 
 	}
@@ -308,6 +342,7 @@ enum LevelsIndexes {
 		self.levelsID               = object.levelsID;
 		levelsLastUpdate               = object.levelsLastUpdate;
 		self.levelsGtgtg               = object.levelsGtgtg;
+		self.levelsHTML               = object.levelsHTML;
 		self.levelsTgtggtg               = object.levelsTgtggtg;
 
 	}
@@ -320,6 +355,7 @@ enum LevelsIndexes {
 	[dictionary addValue:levelsID forKey:KEY_levelsID];
 	[dictionary addDateValue:levelsLastUpdate forKey:KEY_levelsLastUpdate];
 	[dictionary addValue:levelsGtgtg forKey:KEY_levelsGtgtg];
+	[dictionary addValue:levelsHTML forKey:KEY_levelsHTML];
 	[dictionary addIntValue:levelsTgtggtg forKey:KEY_levelsTgtggtg];
 
 	return dictionary;
@@ -331,6 +367,7 @@ enum LevelsIndexes {
 	[fieldsDic setValue:[NSString stringWithFormat:@"%@ %@",kTEXT_TYPE,kPRIMARY_KEY] forKey:KEY_levelsID];
 	[fieldsDic setValue:TypeAndDefaultValue(kDATETIME_TYPE,@"'1970-01-01 00:00:00'") forKey:KEY_levelsLastUpdate];
 	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"''") forKey:KEY_levelsGtgtg];
+	[fieldsDic setValue:TypeAndDefaultValue(kTEXT_TYPE,@"'www.yahoo.com'") forKey:KEY_levelsHTML];
 	[fieldsDic setValue:TypeAndDefaultValue(kINTEGER_TYPE,@"0") forKey:KEY_levelsTgtggtg];
 	
 	return fieldsDic;
@@ -367,6 +404,10 @@ enum LevelsIndexes {
 			fieldName = KEY_levelsGtgtg;
 			break;
 
+		case LevelsHTML:
+			fieldName = KEY_levelsHTML;
+			break;
+
 		case LevelsTgtggtg:
 			fieldName = KEY_levelsTgtggtg;
 			break;
@@ -400,6 +441,7 @@ enum LevelsIndexes {
 
 - (void) addValuesToRequest:(LiObjRequest **)request{
 	[*request addValue:levelsGtgtg forKey:KEY_levelsGtgtg];
+	[*request addValue:levelsHTML forKey:KEY_levelsHTML];
 	[*request addIntValue:levelsTgtggtg forKey:KEY_levelsTgtggtg];
 }
 
@@ -410,6 +452,7 @@ enum LevelsIndexes {
 			self.levelsID = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][LevelsIDIndex])];
 			levelsLastUpdate = [[LiCore liSqliteDateFormatter] dateFromString:[NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][LevelsLastUpdateIndex])]];
 			self.levelsGtgtg = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][LevelsGtgtgIndex])];
+			self.levelsHTML = [NSString stringWithUTF8String:(char *)sqlite3_column_text(stmt, array[0][LevelsHTMLIndex])];
 			self.levelsTgtggtg = sqlite3_column_int(stmt, array[0][LevelsTgtggtgIndex]);
 		
 		}
@@ -432,6 +475,7 @@ enum LevelsIndexes {
 	indexes[0][LevelsIDIndex] = [columnsArray indexOfObject:KEY_levelsID];
 	indexes[0][LevelsLastUpdateIndex] = [columnsArray indexOfObject:KEY_levelsLastUpdate];
 	indexes[0][LevelsGtgtgIndex] = [columnsArray indexOfObject:KEY_levelsGtgtg];
+	indexes[0][LevelsHTMLIndex] = [columnsArray indexOfObject:KEY_levelsHTML];
 	indexes[0][LevelsTgtggtgIndex] = [columnsArray indexOfObject:KEY_levelsTgtggtg];
 
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];

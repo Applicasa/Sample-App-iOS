@@ -1,7 +1,7 @@
 //
 // Chat.m
 // Created by Applicasa 
-// 5/13/2013
+// 10/22/2013
 //
 
 #import "Chat.h"
@@ -57,13 +57,13 @@ enum UserIndexes {
 	UserRegisterDateIndex,
 	UserLocationLatIndex,
 	UserLocationLongIndex,
-	UserIsRegisteredFacebookIndex,
 	UserIsRegisteredIndex,
+	UserIsRegisteredFacebookIndex,
 	UserLastUpdateIndex,
-	UserFacebookIDIndex,
 	UserImageIndex,
 	UserMainCurrencyBalanceIndex,
 	UserSecondaryCurrencyBalanceIndex,
+	UserFacebookIDIndex,
 	UserTempDateIndex,};
 #define NUM_OF_USER_FIELDS 19
 
@@ -173,7 +173,7 @@ enum UserIndexes {
     [request addIntValue:queryKind forKey:@"DbGetKind"];
     [request setDelegate:item];
     [request addValue:query forKey:@"query"];
-    request.shouldWorkOffline = YES;
+    request.shouldWorkOffline = (queryKind == LOCAL);
     
     [request startSync:YES];
     
@@ -188,6 +188,30 @@ enum UserIndexes {
         return [Chat getArrayFromStatement:stmt IDsList:idsList resultFromServer:request.resultFromServer];
     }
     return nil;
+}
+
++ (int) updateLocalStorage:(LiQuery *)query queryKind:(QueryKind)queryKind
+{
+    query = [self setFieldsNameToQuery:query];
+    LiObjRequest *request = [LiObjRequest requestWithAction:GetArray ClassName:kClassName];
+    [request addIntValue:queryKind forKey:@"DbGetKind"];
+    [request addValue:query forKey:@"query"];
+    request.shouldWorkOffline = (queryKind == LOCAL);
+    
+    [request startSync:YES];
+    
+    NSInteger responseType = request.response.responseType;
+    
+    if (responseType == 1)
+    {
+        sqlite3_stmt *stmt = (sqlite3_stmt *)[request.response getStatement];
+        int i =0;
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            i++;
+        }
+        return i;
+    }
+    return  -1;
 }
 
 + (void) getArrayWithFilter:(LiFilters *)filter withBlock:(UpdateObjectFinished)block
@@ -278,7 +302,9 @@ enum UserIndexes {
     [LiObjRequest handleError:&error ResponseType:responseType ResponseMessage:responseMessage];
 	
     GetChatArrayFinished _block = (__bridge GetChatArrayFinished)block;
-    _block(error,array);
+    
+    if (_block)
+        _block(error,array);
 }
 
 
@@ -544,13 +570,13 @@ self.chatReciepent    = [User instanceWithID:@"0"];
 	indexes[1][UserRegisterDateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserRegisterDate",@"_ChatSender")];
 	indexes[1][UserLocationLatIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserLocationLat",@"_ChatSender")];
 	indexes[1][UserLocationLongIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserLocationLong",@"_ChatSender")];
-	indexes[1][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserIsRegisteredFacebook",@"_ChatSender")];
 	indexes[1][UserIsRegisteredIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserIsRegistered",@"_ChatSender")];
+	indexes[1][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserIsRegisteredFacebook",@"_ChatSender")];
 	indexes[1][UserLastUpdateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserLastUpdate",@"_ChatSender")];
-	indexes[1][UserFacebookIDIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserFacebookID",@"_ChatSender")];
 	indexes[1][UserImageIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserImage",@"_ChatSender")];
 	indexes[1][UserMainCurrencyBalanceIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserMainCurrencyBalance",@"_ChatSender")];
 	indexes[1][UserSecondaryCurrencyBalanceIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserSecondaryCurrencyBalance",@"_ChatSender")];
+	indexes[1][UserFacebookIDIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserFacebookID",@"_ChatSender")];
 	indexes[1][UserTempDateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserTempDate",@"_ChatSender")];
 
 	indexes[2][UserIDIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserID",@"_ChatReciepent")];
@@ -564,13 +590,13 @@ self.chatReciepent    = [User instanceWithID:@"0"];
 	indexes[2][UserRegisterDateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserRegisterDate",@"_ChatReciepent")];
 	indexes[2][UserLocationLatIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserLocationLat",@"_ChatReciepent")];
 	indexes[2][UserLocationLongIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserLocationLong",@"_ChatReciepent")];
-	indexes[2][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserIsRegisteredFacebook",@"_ChatReciepent")];
 	indexes[2][UserIsRegisteredIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserIsRegistered",@"_ChatReciepent")];
+	indexes[2][UserIsRegisteredFacebookIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserIsRegisteredFacebook",@"_ChatReciepent")];
 	indexes[2][UserLastUpdateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserLastUpdate",@"_ChatReciepent")];
-	indexes[2][UserFacebookIDIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserFacebookID",@"_ChatReciepent")];
 	indexes[2][UserImageIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserImage",@"_ChatReciepent")];
 	indexes[2][UserMainCurrencyBalanceIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserMainCurrencyBalance",@"_ChatReciepent")];
 	indexes[2][UserSecondaryCurrencyBalanceIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserSecondaryCurrencyBalance",@"_ChatReciepent")];
+	indexes[2][UserFacebookIDIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserFacebookID",@"_ChatReciepent")];
 	indexes[2][UserTempDateIndex] = [columnsArray indexOfObject:KeyWithHeader(@"UserTempDate",@"_ChatReciepent")];
 
 	NSMutableArray *blackList = [[NSMutableArray alloc] init];

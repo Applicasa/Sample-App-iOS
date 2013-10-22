@@ -27,12 +27,9 @@
 }
 
 - (void) applicationDidEnterBackground:(UIApplication *)application{
-    [LiSession sessionPause];
 }
 
 - (void) applicationWillEnterForeground:(UIApplication *)application{
-//    [LiKitIAP refreshStore];
-    [LiSession sessionResume];
     
 }
 
@@ -74,7 +71,6 @@
 - (void)finishedInitializeLiCoreFrameworkWithUser:(User*)user isFirstLoad:(BOOL)isFirst {
     // Lets us know that the Applicasa core framework has finished loading
     LiLogSampleApp(@"We initialized Applicasa ... wahooo");
-    [LiKitFacebook setPermissions:[NSArray arrayWithObject:@"publish_stream"] AllowLoginUI:YES];
     
 }
 
