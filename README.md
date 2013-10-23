@@ -12,13 +12,23 @@ Egg is an imagined game that shows common scenarios and code samples that develo
 
 ## New SDK and Framework features:
 1. Custom events for monetization.
-2. More Add networks to the monetization section.
-	Sample app Introduces the variety of Ad networks, All you need to do is:
-	A. Go to MainViewController to "Raise Custom event method" section.
-	B. Select the Adnetwork you wish to call.
-	C. Build & Run, and press on the "Raise Promotions" button
+2. More Ad networks to the monetization section.
 3. Send delayed push messages
 4. Bug Fix
+
+
+## Raise Custom events
+
+	
+	Sample app Introduces the variety of Ad networks, All you need to do is:
+	
+	A. Go to MainViewController to "Raise Custom event method" section.
+	
+	B. Select the AdNetwork you wish to call.
+	
+	C. Build & Run, and press on the "Raise Promotions" button
+
+
 ```
 /**
  
